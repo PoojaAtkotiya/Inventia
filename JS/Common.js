@@ -103,7 +103,12 @@ function onloadConstantsSuccess(sender, args) {
     else {
         GetGlobalApprovalMatrix(listItemId);
     }
-
+    if (listItemId == 0) {
+        $("#ProposedBy").html(currentUser.Title);
+        var today = new Date().format("dd-MM-yyyy");
+        $("#RequestDate").html(today);
+        $("#WorkflowStatus").html("New");
+    }
     //setCustomApprovers();
 }
 
@@ -897,6 +902,11 @@ function GetFormControlsValueAndType(id, elementType, elementProperty, listActiv
             var parenType = $(obj).attr('cParent');
             listActivityLogDataArray.push({ id: id, value: $(obj)[0].id, type: 'radiogroup' });
             break;
+        case "label":
+            if (!IsStrNullOrEmpty($(obj).html())) {
+                listActivityLogDataArray.push({ id: id, value: $(obj).html(), type: 'label' });
+            }
+                break;
     }
     return listActivityLogDataArray;
 }
