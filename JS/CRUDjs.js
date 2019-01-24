@@ -14,10 +14,10 @@ $(document).ready(function () {
         DeleteVendorDetails(jQuery(this));
     });
 
-    $('#tblVendor').DataTable({        
+    $('#tblVendor').DataTable({
         "columnDefs": [{
             "targets": 'no-sort',
-            "orderable": false            
+            "orderable": false
         }]
     });
 });
@@ -53,7 +53,7 @@ function GetVendorDetailsById(id) {
     var VendorDetailresult;
     $.ajax
         ({
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('demoVendors')/items(" + id + ")",
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.CAPEXVENDORLIST + "')/items(" + id + ")",
             type: "GET",
             async: false,
             datatype: 'json',
@@ -219,7 +219,7 @@ function GetFormControlsValues(id, elementType, listDataArray) {
 
 function SaveVendorDetails() {
     var saveDataArray = {}
-    var mainListName = "demoVendors";
+    var mainListName = ListNames.CAPEXVENDORLIST;
     $('#CRUDVendorModal').find('input[listtype=main],select[listtype=main],radio[listtype=main],textarea[listtype=main],label[listtype=main]').each(function () {
         var elementId = $(this).attr('id');
         var elementType = $(this).attr('controlType');
@@ -231,7 +231,7 @@ function SaveVendorDetails() {
 function DeleteVendorDetails(obj) {
     ConfirmationDailog({
         title: "Remove", message: "Are you sure to delete this vendor details?", id: jQuery(obj).attr('id').split('_')[1].trim(),
-        url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('demoVendors')/items(" + jQuery(obj).attr('id').split('_')[1].trim() + ")",
+        url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.CAPEXVENDORLIST + "')/items(" + jQuery(obj).attr('id').split('_')[1].trim() + ")",
         okCallback: function (id, data) {
             var tr = jQuery(obj).parents('tr:first');
             tr.remove();
@@ -244,7 +244,7 @@ function DeleteVendorDetails(obj) {
 function GetVendorDetails() {
     $.ajax
         ({
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('demoVendors')/items",
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.CAPEXVENDORLIST + "')/items",
             type: "GET",
             async: false,
             datatype: 'json',
@@ -282,7 +282,7 @@ function GetVendorDetails() {
                 }
             },
             error: function (data) {
-                console.log($("#" + elementId).html(data.responseJSON.error));
+                console.log(data);
             }
         });
 }

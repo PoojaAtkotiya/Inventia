@@ -1,4 +1,4 @@
-<html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="utf-8">
@@ -283,258 +283,258 @@
                                         <i class="fa fa-chevron-down"></i>
                                     </div>
                                 </div>
-                                <div class="card-body disabled" id="InitiatorSection" section="Initiator Section" sectionOwner="" FillByRole="">
-                                    <div class="form-horizontal">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="form-element form-input">
-                                                    <input id="CapexRequisitionSrNo" class="form-element-field dynamic-control" placeholder="Capex Requisition Sr No" type="input"
-                                                        required="required" controlType="text" listtype="main" maxlength="255"
-                                                    />
-                                                    <div class="form-element-bar"></div>
-                                                    <label class="form-element-label" for="">Capex Requisition Sr No</label>
+                                <myform enctype="multipart/form-data" id="form_InitiatorSection" method="post" novalidate="novalidate" autocomplete="off">
+                                    <div class="card-body disabled" id="InitiatorSection" section="Initiator Section" sectionOwner="" FillByRole="">
+                                        <div class="form-horizontal">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-element form-input">
+                                                        <input id="CapexRequisitionSrNo" class="form-element-field dynamic-control" placeholder="Capex Requisition Sr No" type="input"
+                                                            required="required" controlType="text" listtype="main" maxlength="255" />
+                                                        <div class="form-element-bar"></div>
+                                                        <label class="form-element-label" for="">Capex Requisition Sr No</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-element form-input">
+                                                        <input id="UserRequirementSpecificationNo" class="form-element-field dynamic-control" placeholder="User Requirement Specification No"
+                                                            type="input" required="required" controlType="text" listtype="main" />
+                                                        <div class="form-element-bar"></div>
+                                                        <label class="form-element-label" for="">User Requirement Specification No
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6">
-                                                <div class="form-element form-input">
-                                                    <input id="UserRequirementSpecificationNo" class="form-element-field dynamic-control" placeholder="User Requirement Specification No"
-                                                        type="input" required="required" controlType="text" listtype="main" />
-                                                    <div class="form-element-bar"></div>
-                                                    <label class="form-element-label" for="">User Requirement Specification No
-                                                    </label>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-element form-input">
+                                                        <label id="ProposedBy" class="col-md-8 form-element-label dynamic-control" placeholder="Name of Originator" controlType="text"
+                                                            listtype="main"></label>
+                                                        <!-- <div class="form-element-bar"></div> -->
+                                                        <label class="form-element-label col-md-4" for="">Name of Originator</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-element form-input date datepicker pastDisabled">
+                                                        <label id="RequestDate" class="form-element-label dynamic-control" placeholder="Date" controlType="date" listtype="main"></label>
+                                                        <!-- <div class="form-element-bar"></div> -->
+                                                        <label class="form-element-label" for="">Date</label>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="form-element form-input">
-                                                    <label id="ProposedBy" class="col-md-8 form-element-label dynamic-control" placeholder="Name of Originator" controlType="text"
-                                                        listtype="main"></label>
-                                                    <!-- <div class="form-element-bar"></div> -->
-                                                    <label class="form-element-label col-md-4" for="">Name of Originator</label>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-element form-select">
+                                                        <select id="Department" class="form-element-field dynamic-control" controlType="combo" listtype="master" reflisttype="main"
+                                                            listname="DepartmentMaster" data-selected="Department" valuebindingcolumn="Title"
+                                                            textbindingcolumnn="Title"></select>
+                                                        <div class="form-element-bar"></div>
+                                                        <label class="form-element-label" for="">Department</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-element form-select">
+                                                        <select id="Function" class="form-element-field dynamic-control" controlType="combo" listtype="master" reflisttype="main"
+                                                            listname="FunctionMaster" data-selected="Function" valuebindingcolumn="Title"
+                                                            textbindingcolumnn="Title"></select>
+                                                        <div class="form-element-bar"></div>
+                                                        <label class="form-element-label" for="">Function</label>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6">
-                                                <div class="form-element form-input date datepicker pastDisabled">
-                                                    <label id="RequestDate" class="form-element-label dynamic-control" placeholder="Date" controlType="date" listtype="main"></label>
-                                                    <!-- <div class="form-element-bar"></div> -->
-                                                    <label class="form-element-label" for="">Date</label>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-element mar-top form-select">
+                                                        <select id="Location" class="form-element-field dynamic-control" controlType="combo" listtype="master" reflisttype="main"
+                                                            listname="LocationMaster" data-selected="Location" valuebindingcolumn="Title"
+                                                            textbindingcolumnn="Title"></select>
+                                                        <div class="form-element-bar"></div>
+                                                        <label class="form-element-label" for="">Location</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-element  form-textarea">
+                                                        <textarea id="NameOfAssets" class="form-element-field dynamic-control" placeholder=" " controlType="multitext" listtype="main"
+                                                            maxlength="1000"></textarea>
+                                                        <div class="form-element-bar"></div>
+                                                        <label class="form-element-label" for="">Name of Assets</label>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="form-element form-select">
-                                                    <select id="Department" class="form-element-field dynamic-control" controlType="combo" listtype="master" reflisttype="main"
-                                                        listname="DepartmentMaster" data-selected="Department" valuebindingcolumn="Title"
-                                                        textbindingcolumnn="Title"></select>
-                                                    <div class="form-element-bar"></div>
-                                                    <label class="form-element-label" for="">Department</label>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-element form-input">
+                                                        <input id="NumberofUnits" class="form-element-field dynamic-control" placeholder="Number of Units" type="input" data="digit"
+                                                            required="required" controlType="text" listtype="main" maxlength="15" />
+                                                        <div class="form-element-bar"></div>
+                                                        <label class="form-element-label" for="">Number of Units</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-element form-input">
+                                                        <input id="LifeofAsset" class="form-element-field dynamic-control" placeholder="Life of Asset" type="input" required="required" controlType="text"
+                                                            maxlength="255" listtype="main" />
+                                                        <div class="form-element-bar"></div>
+                                                        <label class="form-element-label" for="">Life of Asset</label>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6">
-                                                <div class="form-element form-select">
-                                                    <select id="Function" class="form-element-field dynamic-control" controlType="combo" listtype="master" reflisttype="main"
-                                                        listname="FunctionMaster" data-selected="Function" valuebindingcolumn="Title"
-                                                        textbindingcolumnn="Title"></select>
-                                                    <div class="form-element-bar"></div>
-                                                    <label class="form-element-label" for="">Function</label>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-element form-select">
+                                                        <select id="AssetClassification" class="form-element-field dynamic-control" controlType="combo" listtype="master" name="AssetClassification"
+                                                            required="required" data-selected="AssetClassification" valuebindingcolumn="Title"
+                                                            textbindingcolumnn="Title" listname="AssetClassificationMaster"></select>
+                                                        <div class="form-element-bar"></div>
+                                                        <label class="form-element-label" for="">Asset Classification</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-element form-input">
+                                                        <input id="AssetCode" class="form-element-field dynamic-control" placeholder="Asset Code" type="input" required="required" controlType="text"
+                                                            maxlength="255" listtype="main" />
+                                                        <div class="form-element-bar"></div>
+                                                        <label class="form-element-label" for="">Asset Code</label>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="form-element mar-top form-select">
-                                                    <select id="Location" class="form-element-field dynamic-control" controlType="combo" listtype="master" reflisttype="main"
-                                                        listname="LocationMaster" data-selected="Location" valuebindingcolumn="Title"
-                                                        textbindingcolumnn="Title"></select>
-                                                    <div class="form-element-bar"></div>
-                                                    <label class="form-element-label" for="">Location</label>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-element form-input">
+                                                        <input id="CostCenter" class="form-element-field dynamic-control" placeholder="Cost Center" type="input" required="required" controlType="text"
+                                                            maxlength="255" listtype="main" />
+                                                        <div class="form-element-bar"></div>
+                                                        <label class="form-element-label" for="">Cost Center</label>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6">
-                                                <div class="form-element  form-textarea">
-                                                    <textarea id="NameOfAssets" class="form-element-field dynamic-control" placeholder=" " controlType="multitext" listtype="main"
-                                                        maxlength="1000"></textarea>
-                                                    <div class="form-element-bar"></div>
-                                                    <label class="form-element-label" for="">Name of Assets</label>
+                                            <div class="card">
+                                                <div class="card-head sub" data-toggle="collapse" data-target="#JustificationSection">
+                                                    <h4 class="justify"> Justification for Purchase</h4>
+                                                    <div class="btn collapse-btn">
+                                                        <i class="fa fa-chevron-down"></i>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="form-element form-input">
-                                                    <input id="NumberofUnits" class="form-element-field dynamic-control" placeholder="Number of Units" type="input" data="digit"
-                                                        required="required" controlType="text" listtype="main" maxlength="15"
-                                                    />
-                                                    <div class="form-element-bar"></div>
-                                                    <label class="form-element-label" for="">Number of Units</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="form-element form-input">
-                                                    <input id="LifeofAsset" class="form-element-field dynamic-control" placeholder="Life of Asset" type="input" required="required"
-                                                        controlType="text" maxlength="255" listtype="main" />
-                                                    <div class="form-element-bar"></div>
-                                                    <label class="form-element-label" for="">Life of Asset</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="form-element form-select">
-                                                    <select id="AssetClassification" class="form-element-field dynamic-control" controlType="combo" listtype="master" name="AssetClassification"
-                                                        required="required" data-selected="AssetClassification" valuebindingcolumn="Title"
-                                                        textbindingcolumnn="Title" listname="AssetClassificationMaster"></select>
-                                                    <div class="form-element-bar"></div>
-                                                    <label class="form-element-label" for="">Asset Classification</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="form-element form-input">
-                                                    <input id="AssetCode" class="form-element-field dynamic-control" placeholder="Asset Code" type="input" required="required"
-                                                        controlType="text" maxlength="255" listtype="main" />
-                                                    <div class="form-element-bar"></div>
-                                                    <label class="form-element-label" for="">Asset Code</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="form-element form-input">
-                                                    <input id="CostCenter" class="form-element-field dynamic-control" placeholder="Cost Center" type="input" required="required"
-                                                        controlType="text" maxlength="255" listtype="main" />
-                                                    <div class="form-element-bar"></div>
-                                                    <label class="form-element-label" for="">Cost Center</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card">
-                                            <div class="card-head sub" data-toggle="collapse" data-target="#JustificationSection">
-                                                <h4 class="justify"> Justification for Purchase</h4>
-                                                <div class="btn collapse-btn">
-                                                    <i class="fa fa-chevron-down"></i>
-                                                </div>
-                                            </div>
-                                            <div class="card-body" id="JustificationSection">
-                                                <div class="form-horizontal">
-                                                    <div class="row">
-                                                        <div class="col-lg-6">
-                                                            <div class="form-element form-select">
-                                                                <select id="Justification" class="form-element-field dynamic-control" controlType="combo" listtype="master" name="Justification"
-                                                                    required="required" data-selected="Justification" valuebindingcolumn="Title"
-                                                                    textbindingcolumnn="Title" listname="JustificationMaster"></select>
-                                                                <div class="form-element-bar"></div>
-                                                                <label class="form-element-label" for="">Justification</label>
+                                                <div class="card-body" id="JustificationSection">
+                                                    <div class="form-horizontal">
+                                                        <div class="row">
+                                                            <div class="col-lg-6">
+                                                                <div class="form-element form-select">
+                                                                    <select id="Justification" class="form-element-field dynamic-control" controlType="combo" listtype="master" name="Justification"
+                                                                        required="required" data-selected="Justification" valuebindingcolumn="Title"
+                                                                        textbindingcolumnn="Title" listname="JustificationMaster"></select>
+                                                                    <div class="form-element-bar"></div>
+                                                                    <label class="form-element-label" for="">Justification</label>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <div class="form-element form-input">
-                                                                <input id="JustificationComment" class="form-element-field dynamic-control" placeholder="Justification Comment" type="input"
-                                                                    required="required" controlType="multitext" maxlength="1000"
-                                                                    listtype="main" />
-                                                                <div class="form-element-bar"></div>
-                                                                <label class="form-element-label" for="">Justification Comment</label>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-element form-input">
+                                                                    <input id="JustificationComment" class="form-element-field dynamic-control" placeholder="Justification Comment" type="input"
+                                                                        required="required" controlType="multitext" maxlength="1000" listtype="main"
+                                                                    />
+                                                                    <div class="form-element-bar"></div>
+                                                                    <label class="form-element-label" for="">Justification Comment</label>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div data-include="VendorGrid"></div>
+                                            <div data-include="VendorGrid"></div>
 
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="form-element form-textarea">
-                                                    <textarea id="Note" class="form-element-field dynamic-control" placeholder=" " maxlength="1000" listtype="main" controlType="multitext"></textarea>
-                                                    <div class="form-element-bar"></div>
-                                                    <label class="form-element-label" for="">Please enter Notes</label>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="form-element form-textarea">
+                                                        <textarea id="Note" class="form-element-field dynamic-control" placeholder=" " maxlength="1000" listtype="main" controlType="multitext"></textarea>
+                                                        <div class="form-element-bar"></div>
+                                                        <label class="form-element-label" for="">Please enter Notes</label>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="card">
-                                            <div class="card-head sub" data-toggle="collapse" data-target="#selectionVendorSection">
-                                                <h4 class="justify"> Selection of Vendor</h4>
-                                                <div class="btn collapse-btn">
-                                                    <i class="fa fa-chevron-down"></i>
+                                            <div class="card">
+                                                <div class="card-head sub" data-toggle="collapse" data-target="#selectionVendorSection">
+                                                    <h4 class="justify"> Selection of Vendor</h4>
+                                                    <div class="btn collapse-btn">
+                                                        <i class="fa fa-chevron-down"></i>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="card-body" id="selectionVendorSection">
-                                                <div class="form-horizontal">
-                                                    <div class="row">
-                                                        <div class="col-lg-6">
-                                                            <div class="form-element  mar-top form-input">
-                                                                <input id="NameoftheVendorSelected" class="form-element-field dynamic-control" placeholder=" Name of the Vendor Selected"
-                                                                    type="input" required="required" controlType="text" listtype="main"
+                                                <div class="card-body" id="selectionVendorSection">
+                                                    <div class="form-horizontal">
+                                                        <div class="row">
+                                                            <div class="col-lg-6">
+                                                                <div class="form-element  mar-top form-input">
+                                                                    <input id="NameoftheVendorSelected" class="form-element-field dynamic-control" placeholder=" Name of the Vendor Selected"
+                                                                        type="input" required="required" controlType="text" listtype="main"
+                                                                    />
+                                                                    <div class="form-element-bar"></div>
+                                                                    <label class="form-element-label" for="">Name of the Vendor Selected</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-element form-textarea">
+                                                                    <textarea id="Reasons" class="form-element-field dynamic-control" placeholder=" " controlType="multitext" listtype="main"
+                                                                        maxlength="1000"></textarea>
+                                                                    <div class="form-element-bar"></div>
+                                                                    <label class="form-element-label" for="">Reasons</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-1"></div>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-radio form-radio-inline">
+                                                                    <label class="form-radio-label">
+                                                                        <input class="form-radio-field dynamic-control" type="radio" required="required" value="Negotiated" id="Negotiated" name="VendorNegotiatedflag"
+                                                                            controlType="radiogroup" cParent="VendorNegotiatedflag"
+                                                                            listtype="main" />
+                                                                        <i class="form-radio-button"></i>
+                                                                        <span>Negotiated</span>
+                                                                    </label>
+                                                                    <label class="form-radio-label">
+                                                                        <input class="form-radio-field dynamic-control" type="radio" required="required" value="NotNegotiated" id="NotNegotiated" name="VendorNegotiatedflag"
+                                                                            controlType="radiogroup" cParent="VendorNegotiatedflag"
+                                                                            listtype="main" />
+                                                                        <i class="form-radio-button"></i>
+                                                                        <span>Not Negotiated
+                                                                        </span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th colspan="3">Signature</th>
+                                                        </tr>
+
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="col-lg-4" id="InitiatorSignature">
+                                                                <img class="col-md-12" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/images/download.jpg" width="100" height="100"
                                                                 />
-                                                                <div class="form-element-bar"></div>
-                                                                <label class="form-element-label" for="">Name of the Vendor Selected</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <div class="form-element form-textarea">
-                                                                <textarea id="Reasons" class="form-element-field dynamic-control" placeholder=" " controlType="multitext" listtype="main"
-                                                                    maxlength="1000"></textarea>
-                                                                <div class="form-element-bar"></div>
-                                                                <label class="form-element-label" for="">Reasons</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-lg-1"></div>
-                                                        <div class="col-lg-6">
-                                                            <div class="form-radio form-radio-inline">
-                                                                <label class="form-radio-label">
-                                                                    <input class="form-radio-field dynamic-control" type="radio" required="required" value="Negotiated" id="Negotiated" name="VendorNegotiatedflag"
-                                                                        controlType="radiogroup" cParent="VendorNegotiatedflag"
-                                                                        listtype="main" />
-                                                                    <i class="form-radio-button"></i>
-                                                                    <span>Negotiated</span>
-                                                                </label>
-                                                                <label class="form-radio-label">
-                                                                    <input class="form-radio-field dynamic-control" type="radio" required="required" value="NotNegotiated" id="NotNegotiated"
-                                                                        name="VendorNegotiatedflag" controlType="radiogroup"
-                                                                        cParent="VendorNegotiatedflag" listtype="main" />
-                                                                    <i class="form-radio-button"></i>
-                                                                    <span>Not Negotiated
-                                                                    </span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                            </td>
+                                                            <td class="col-md-4">
+                                                                <div class="form-element form-select">
+                                                                    <input id="" type="input" class="form-element-field dynamic-control" placeholder=" " controlType="multitext" listtype="main"></input>
+                                                                    <div class="form-element-bar"></div>
+                                                                    <label class="form-element-label" for="">Initiator</label>
+                                                                </div>
+
+
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
-                                            <br />
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th colspan="3">Signature</th>
-                                                    </tr>
 
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td class="col-lg-4" id="InitiatorSignature">
-                                                            <img class="col-md-12" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/images/download.jpg" width="100" height="100"
-                                                            />
-                                                        </td>
-                                                        <td class="col-md-4">
-                                                            <div class="form-element form-select">
-                                                                <input id="" type="input" class="form-element-field dynamic-control" placeholder=" " controlType="multitext" listtype="main"></input>
-                                                                <div class="form-element-bar"></div>
-                                                                <label class="form-element-label" for="">Initiator</label>
-                                                            </div>
-
-
-                                                    </tr>
-                                                </tbody>
-                                            </table>
                                         </div>
-
+                                        <div class="clearfix"></div>
                                     </div>
-                                    <div class="clearfix"></div>
-                                </div>
+                                </myform>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="card">
@@ -544,36 +544,38 @@
                                         <i class="fa fa-chevron-down"></i>
                                     </div>
                                 </div>
-                                <div class="card-body disabled" id="HodSection" section="HOD Section" sectionOwner="" FillByRole="">
-                                    <div class="form-horizontal">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="form-element mar-top form-select">
-                                                    <select id="HeadOfDepartment" class="form-element-field dynamic-control">
-                                                    </select>
-                                                    <div class="form-element-bar"></div>
-                                                    <label class="form-element-label" for="">Head Of Department / Functional Head</label>
-                                                </div>
+                                <myform enctype="multipart/form-data" id="form_HodSection" method="post" novalidate="novalidate" autocomplete="off">
+                                    <div class="card-body disabled" id="HodSection" section="HOD Section" sectionOwner="" FillByRole="">
+                                        <div class="form-horizontal">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-element mar-top form-select">
+                                                        <select id="HeadOfDepartment" class="form-element-field dynamic-control">
+                                                        </select>
+                                                        <div class="form-element-bar"></div>
+                                                        <label class="form-element-label" for="">Head Of Department / Functional Head</label>
+                                                    </div>
 
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-element form-textarea">
+                                                        <textarea class="form-element-field approver-control" maxlength="1000" required="required" placeholder=" " controlType="multitext" listname=""
+                                                            name="Comments" id="HodSection_Comments"></textarea>
+                                                        <div class="form-element-bar"></div>
+                                                        <label class="form-element-label" for="">Comments</label>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-lg-6">
-                                                <div class="form-element form-textarea">
-                                                    <textarea class="form-element-field approver-control" maxlength="1000" required="true" placeholder=" " controlType="multitext"
-                                                        listname="" name="Comments" id="HodSection_Comments"></textarea>
-                                                    <div class="form-element-bar"></div>
-                                                    <label class="form-element-label" for="">Comments</label>
+                                            <div class="row">
+                                                <div class="col-lg-6" id="HODSignature">
+                                                    <img class="col-md-12" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/images/images.jpg" width="100" height="100"
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-lg-6" id="HODSignature">
-                                                <img class="col-md-12" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/images/images.jpg" width="100" height="100"
-                                                />
-                                            </div>
-                                        </div>
+                                        <div class="clearfix"></div>
                                     </div>
-                                    <div class="clearfix"></div>
-                                </div>
+                                </myform>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="card">
@@ -583,212 +585,209 @@
                                         <i class="fa fa-chevron-down"></i>
                                     </div>
                                 </div>
-                                <div class="card-body disabled" id="CapexCommittee" section="Capex Committee Section" sectionOwner="" FillByRole="">
-                                    <div class="form-horizontal">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="form-element form-input">
-                                                    <input id="PayBackPeriodROI" class="form-element-field dynamic-control" placeholder="Pay Back Period / ROI" type="input"
-                                                        required="required" maxlength="255" controlType="text" listtype="main"
-                                                    />
-                                                    <div class="form-element-bar"></div>
-                                                    <label class="form-element-label" for="">Pay Back Period / ROI</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-1"></div>
-                                            <div class="col-lg-5">
-                                                <div class="form-radio form-radio-inline">
-                                                    <label class="form-radio-label">
-                                                        <input class="form-radio-field dynamic-control" type="radio" required="required" value="Applicable" id="Applicable" name="ApplicableOrNot"
-                                                            controlType="radiogroup" cParent="ApplicableOrNot" listtype="main"
-                                                        />
-                                                        <i class="form-radio-button"></i>
-                                                        <span>Applicable</span>
-                                                    </label>
-                                                    <label class="form-radio-label">
-                                                        <input class="form-radio-field dynamic-control" type="radio" required="required" value="NotApplicable" id="NotApplicable"
-                                                            name="ApplicableOrNot" controlType="radiogroup" cParent="ApplicableOrNot"
-                                                            listtype="main" />
-                                                        <i class="form-radio-button"></i>
-                                                        <span>Not Applicable</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th colspan="2">
-                                                            <b>Budget v/s Actual</b>
-                                                        </th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="col-md-3">
-                                                            <div class="form-element form-select">
-                                                                <select class="form-element-field dynamic-control" name="BudgetedCurrency" required="true" data-selected="BudgetedCurrency"
-                                                                    reflisttype="main" valuebindingcolumn="Title" textbindingcolumnn="Title"
-                                                                    listtype="master" listname="CurrencyMaster" id="BudgetedCurrency"
-                                                                    controlType="combo"></select>
-                                                                <div class="form-element-bar"></div>
-                                                                <label class="form-element-label" for="">Budgeted Currency</label>
-                                                            </div>
-                                                        </td>
-                                                        <td class="col-md-3">
-                                                            <div class="form-element form-input">
-                                                                <input id="BudgetValue" class="form-element-field dynamic-control" placeholder="Budgeted Value" type="input" required="required"
-                                                                    data="digit" maxlength="15" controlType="text" listtype="main"
-                                                                />
-                                                                <div class="form-element-bar"></div>
-                                                                <label class="form-element-label" for="">Budgeted Value</label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
 
-                                                        <td class="col-md-3">
-                                                            <div class="form-element form-select">
-                                                                <select class="form-element-field dynamic-control" name="UtilisedCurrency" required="true" data-selected="UtilisedCurrency"
-                                                                    reflisttype="main" valuebindingcolumn="Title" textbindingcolumnn="Title"
-                                                                    listtype="master" listname="CurrencyMaster" id="UtilisedCurrency"
-                                                                    controlType="combo"></select>
-                                                                <div class="form-element-bar"></div>
-                                                                <label class="form-element-label" for="">Utilised Currency</label>
-                                                            </div>
-                                                        </td>
-                                                        <td class="col-md-3">
-                                                            <div class="form-element form-input">
-                                                                <input id="UtiliseValue" class="form-element-field dynamic-control" placeholder="Utilised Value" type="input" required="required"
-                                                                    controlType="text" data="digit" maxlength="15" listtype="main"
-                                                                />
-                                                                <div class="form-element-bar"></div>
-                                                                <label class="form-element-label" for="">Utilised Value</label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="col-md-3">
-                                                            <div class="form-element form-select">
-                                                                <select class="form-element-field dynamic-control" name="CurrentCurrency" required="true" data-selected="CurrentCurrency"
-                                                                    reflisttype="main" valuebindingcolumn="Title" textbindingcolumnn="Title"
-                                                                    listtype="master" listname="CurrencyMaster" id="CurrentCurrency"
-                                                                    controlType="combo"></select>
-                                                                <div class="form-element-bar"></div>
-                                                                <label class="form-element-label" for="">Current Currency</label>
-                                                            </div>
-                                                        </td>
-                                                        <td class="col-md-3">
-                                                            <div class="form-element form-input">
-                                                                <input id="CurrentValues" class="form-element-field dynamic-control" placeholder="Current Value" type="input" required="required"
-                                                                    controlType="combo" data="digit" maxlength="15" listtype="main"
-                                                                />
-                                                                <div class="form-element-bar"></div>
-                                                                <label class="form-element-label" for="">Current Value</label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="col-md-3">
-                                                            <div class="form-element form-select">
-                                                                <select class="form-element-field dynamic-control" name="TotalUtilisedCurrency" required="true" data-selected="TotalUtilisedCurrency"
-                                                                    reflisttype="main" valuebindingcolumn="Title" textbindingcolumnn="Title"
-                                                                    listtype="master" listname="CurrencyMaster" id="TotalUtilisedCurrency"
-                                                                    controlType="combo"></select>
-                                                                <div class="form-element-bar"></div>
-                                                                <label class="form-element-label" for="">Total Utilised Currency
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                        <td class="col-md-3">
-                                                            <div class="form-element form-input">
-                                                                <input id="TotalUtiliseValue" class="form-element-field dynamic-control" placeholder="Total Utilised Value" type="input"
-                                                                    required="required" controlType="text" listtype="main" data="digit"
-                                                                    maxlength="15" />
-                                                                <div class="form-element-bar"></div>
-                                                                <label class="form-element-label" for="">Total Utilised Value
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="col-md-3">
-                                                            <div class="form-element form-select">
-                                                                <select class="form-element-field dynamic-control" name="BalanceCurrency" required="true" data-selected="BalanceCurrency"
-                                                                    reflisttype="main" valuebindingcolumn="Title" textbindingcolumnn="Title"
-                                                                    listtype="master" listname="CurrencyMaster" id="BalanceCurrency"
-                                                                    controlType="combo"></select>
-                                                                <div class="form-element-bar"></div>
-                                                                <label class="form-element-label" for="">Balance Currency</label>
-                                                            </div>
-                                                        </td>
-                                                        <td class="col-md-3">
-                                                            <div class="form-element form-input">
-                                                                <input id="BalanceValue" class="form-element-field dynamic-control" placeholder="Balance Value" type="input" required="required"
-                                                                    controlType="text" listtype="main" data="digit" maxlength="15"
-                                                                />
-                                                                <div class="form-element-bar"></div>
-                                                                <label class="form-element-label" for="">Balance Value</label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </thead>
-                                            </table>
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th colspan="3">Signature</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td class="col-md-5">
-                                                            <img class="col-md-12" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/images/images.png" width="100" height="100"
+                                <myform enctype="multipart/form-data" id="form_CapexCommittee" method="post" novalidate="novalidate" autocomplete="off">
+                                    <div class="card-body disabled" id="CapexCommittee" section="Capex Committee Section" sectionOwner="" FillByRole="">
+                                        <div class="form-horizontal">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-element form-input">
+                                                        <input id="PayBackPeriodROI" class="form-element-field dynamic-control" placeholder="Pay Back Period / ROI" type="input"
+                                                            required="required" maxlength="255" controlType="text" listtype="main" />
+                                                        <div class="form-element-bar"></div>
+                                                        <label class="form-element-label" for="">Pay Back Period / ROI</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-1"></div>
+                                                <div class="col-lg-5">
+                                                    <div class="form-radio form-radio-inline">
+                                                        <label class="form-radio-label">
+                                                            <input class="form-radio-field dynamic-control" type="radio" required="required" value="Applicable" id="Applicable" name="ApplicableOrNot"
+                                                                controlType="radiogroup" cParent="ApplicableOrNot" listtype="main"
                                                             />
-                                                        </td>
-                                                        <td class="col-md-5">
-                                                            <div class="form-element form-select">
-                                                                <select id="" class="form-element-field dynamic-control">
-                                                                    <option value="Sunil Bhansali">Sunil Bhansali</option>
-                                                                </select>
-                                                                <div class="form-element-bar"></div>
-                                                                <label class="form-element-label" for="">CAPEX Committee
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-element form-textarea">
-                                                                <textarea class="form-element-field approver-control" placeholder=" " maxlength="1000" required="required" controlType="multitext"
-                                                                    listname="" name="Comments" id="CapexCommittee_Comments"></textarea>
-                                                                <div class="form-element-bar"></div>
-                                                                <label class="form-element-label" for="">Comments</label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="col-md-5">
-                                                            <img class="col-md-12" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/images/Image1.jpg" width="100" height="100"
+                                                            <i class="form-radio-button"></i>
+                                                            <span>Applicable</span>
+                                                        </label>
+                                                        <label class="form-radio-label">
+                                                            <input class="form-radio-field dynamic-control" type="radio" required="required" value="NotApplicable" id="NotApplicable" name="ApplicableOrNot"
+                                                                controlType="radiogroup" cParent="ApplicableOrNot" listtype="main"
                                                             />
-                                                        </td>
-                                                        <td class="col-md-5">
-                                                            <div class="form-element form-select">
-                                                                <select id="" class="form-element-field dynamic-control" controlType="combo" listtype="master">
-                                                                    <option value="Hitesh Dave">Hitesh Dave</option>
-                                                                </select>
-                                                                <div class="form-element-bar"></div>
-                                                                <label class="form-element-label" for="">CAPEX Committee
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-element form-textarea">
-                                                                <textarea class="form-element-field approver-control" placeholder=" " maxlength="1000" required="required" controlType="multitext"
-                                                                    listname="" name="Comments" id="CapexCommittee_Comments"></textarea>
-                                                                <div class="form-element-bar"></div>
-                                                                <label class="form-element-label" for="">Comments</label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                                            <i class="form-radio-button"></i>
+                                                            <span>Not Applicable</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th colspan="2">
+                                                                <b>Budget v/s Actual</b>
+                                                            </th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="col-md-3">
+                                                                <div class="form-element form-select">
+                                                                    <select class="form-element-field dynamic-control" name="BudgetedCurrency" required="required" data-selected="BudgetedCurrency" reflisttype="main"
+                                                                        valuebindingcolumn="Title" textbindingcolumnn="Title"
+                                                                        listtype="master" listname="CurrencyMaster" id="BudgetedCurrency"
+                                                                        controlType="combo"></select>
+                                                                    <div class="form-element-bar"></div>
+                                                                    <label class="form-element-label" for="">Budgeted Currency</label>
+                                                                </div>
+                                                            </td>
+                                                            <td class="col-md-3">
+                                                                <div class="form-element form-input">
+                                                                    <input id="BudgetValue" class="form-element-field dynamic-control" placeholder="Budgeted Value" type="input" required="required" data="digit"
+                                                                        maxlength="15" controlType="text" listtype="main" />
+                                                                    <div class="form-element-bar"></div>
+                                                                    <label class="form-element-label" for="">Budgeted Value</label>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+
+                                                            <td class="col-md-3">
+                                                                <div class="form-element form-select">
+                                                                    <select class="form-element-field dynamic-control" name="UtilisedCurrency" required="required" data-selected="UtilisedCurrency" reflisttype="main"
+                                                                        valuebindingcolumn="Title" textbindingcolumnn="Title"
+                                                                        listtype="master" listname="CurrencyMaster" id="UtilisedCurrency"
+                                                                        controlType="combo"></select>
+                                                                    <div class="form-element-bar"></div>
+                                                                    <label class="form-element-label" for="">Utilised Currency</label>
+                                                                </div>
+                                                            </td>
+                                                            <td class="col-md-3">
+                                                                <div class="form-element form-input">
+                                                                    <input id="UtiliseValue" class="form-element-field dynamic-control" placeholder="Utilised Value" type="input" required="required" controlType="text"
+                                                                        data="digit" maxlength="15" listtype="main" />
+                                                                    <div class="form-element-bar"></div>
+                                                                    <label class="form-element-label" for="">Utilised Value</label>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="col-md-3">
+                                                                <div class="form-element form-select">
+                                                                    <select class="form-element-field dynamic-control" name="CurrentCurrency" required="required" data-selected="CurrentCurrency" reflisttype="main"
+                                                                        valuebindingcolumn="Title" textbindingcolumnn="Title"
+                                                                        listtype="master" listname="CurrencyMaster" id="CurrentCurrency"
+                                                                        controlType="combo"></select>
+                                                                    <div class="form-element-bar"></div>
+                                                                    <label class="form-element-label" for="">Current Currency</label>
+                                                                </div>
+                                                            </td>
+                                                            <td class="col-md-3">
+                                                                <div class="form-element form-input">
+                                                                    <input id="CurrentValues" class="form-element-field dynamic-control" placeholder="Current Value" type="input" required="required" controlType="combo"
+                                                                        data="digit" maxlength="15" listtype="main" />
+                                                                    <div class="form-element-bar"></div>
+                                                                    <label class="form-element-label" for="">Current Value</label>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="col-md-3">
+                                                                <div class="form-element form-select">
+                                                                    <select class="form-element-field dynamic-control" name="TotalUtilisedCurrency" required="required" data-selected="TotalUtilisedCurrency"
+                                                                        reflisttype="main" valuebindingcolumn="Title" textbindingcolumnn="Title"
+                                                                        listtype="master" listname="CurrencyMaster" id="TotalUtilisedCurrency"
+                                                                        controlType="combo"></select>
+                                                                    <div class="form-element-bar"></div>
+                                                                    <label class="form-element-label" for="">Total Utilised Currency
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                            <td class="col-md-3">
+                                                                <div class="form-element form-input">
+                                                                    <input id="TotalUtiliseValue" class="form-element-field dynamic-control" placeholder="Total Utilised Value" type="input"
+                                                                        required="required" controlType="text" listtype="main" data="digit"
+                                                                        maxlength="15" />
+                                                                    <div class="form-element-bar"></div>
+                                                                    <label class="form-element-label" for="">Total Utilised Value
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="col-md-3">
+                                                                <div class="form-element form-select">
+                                                                    <select class="form-element-field dynamic-control" name="BalanceCurrency" required="required" data-selected="BalanceCurrency" reflisttype="main"
+                                                                        valuebindingcolumn="Title" textbindingcolumnn="Title"
+                                                                        listtype="master" listname="CurrencyMaster" id="BalanceCurrency"
+                                                                        controlType="combo"></select>
+                                                                    <div class="form-element-bar"></div>
+                                                                    <label class="form-element-label" for="">Balance Currency</label>
+                                                                </div>
+                                                            </td>
+                                                            <td class="col-md-3">
+                                                                <div class="form-element form-input">
+                                                                    <input id="BalanceValue" class="form-element-field dynamic-control" placeholder="Balance Value" type="input" required="required" controlType="text"
+                                                                        listtype="main" data="digit" maxlength="15" />
+                                                                    <div class="form-element-bar"></div>
+                                                                    <label class="form-element-label" for="">Balance Value</label>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th colspan="3">Signature</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="col-md-5">
+                                                                <img class="col-md-12" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/images/images.png" width="100" height="100"
+                                                                />
+                                                            </td>
+                                                            <td class="col-md-5">
+                                                                <div class="form-element form-select">
+                                                                    <select id="" class="form-element-field dynamic-control">
+                                                                        <option value="Sunil Bhansali">Sunil Bhansali</option>
+                                                                    </select>
+                                                                    <div class="form-element-bar"></div>
+                                                                    <label class="form-element-label" for="">CAPEX Committee
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-element form-textarea">
+                                                                    <textarea class="form-element-field approver-control" placeholder=" " maxlength="1000" required="required" controlType="multitext" listname=""
+                                                                        name="Comments" id="CapexCommittee_Comments"></textarea>
+                                                                    <div class="form-element-bar"></div>
+                                                                    <label class="form-element-label" for="">Comments</label>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="col-md-5">
+                                                                <img class="col-md-12" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/images/Image1.jpg" width="100" height="100"
+                                                                />
+                                                            </td>
+                                                            <td class="col-md-5">
+                                                                <div class="form-element form-select">
+                                                                    <select id="" class="form-element-field dynamic-control" controlType="combo" listtype="master">
+                                                                        <option value="Hitesh Dave">Hitesh Dave</option>
+                                                                    </select>
+                                                                    <div class="form-element-bar"></div>
+                                                                    <label class="form-element-label" for="">CAPEX Committee
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-element form-textarea">
+                                                                    <textarea class="form-element-field approver-control" placeholder=" " maxlength="1000" required="required" controlType="multitext" listname=""
+                                                                        name="Comments" id="CapexCommittee_Comments"></textarea>
+                                                                    <div class="form-element-bar"></div>
+                                                                    <label class="form-element-label" for="">Comments</label>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
                                         </div>
-
-                                    </div>
-
-                                    <div class="clearfix"></div>
+                                </myform>
+                                <div class="clearfix"></div>
                             </div>
                             <div class="card">
                                 <div class="card-head" data-toggle="collapse" data-target="#ManagementSection">
@@ -797,40 +796,42 @@
                                         <i class="fa fa-chevron-down"></i>
                                     </div>
                                 </div>
-                                <div class="card-body disabled" id="ManagementSection" section="Management Section" sectionOwner="" FillByRole="">
-                                    <div class="form-horizontal">
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th colspan="3">Signature</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td class="col-md-5" id="ManagementSignature">
-                                                        <img class="col-md-12" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/images/images.jpg" width="100" height="100"
-                                                        />
-                                                    </td>
-                                                    <td class="col-md-5">
-                                                        <div class="form-element form-select">
-                                                            <select id="Management" class="form-element-field dynamic-control">
-                                                            </select>
-                                                            <div class="form-element-bar"></div>
-                                                            <label class="form-element-label" for="">Management Approval
-                                                            </label>
-                                                        </div>
-                                                        <div class="form-element form-textarea">
-                                                            <textarea class="form-element-field approver-control" placeholder=" " maxlength="1000" required="required" controlType="multitext"
-                                                                listname="" name="Comments" id="ManagementSection_Comments"></textarea>
-                                                            <div class="form-element-bar"></div>
-                                                            <label class="form-element-label" for="">Comments</label>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                <myform enctype="multipart/form-data" id="form_ManagementSection" method="post" novalidate="novalidate" autocomplete="off">
+                                    <div class="card-body disabled" id="ManagementSection" section="Management Section" sectionOwner="" FillByRole="">
+                                        <div class="form-horizontal">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th colspan="3">Signature</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="col-md-5" id="ManagementSignature">
+                                                            <img class="col-md-12" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/images/images.jpg" width="100" height="100"
+                                                            />
+                                                        </td>
+                                                        <td class="col-md-5">
+                                                            <div class="form-element form-select">
+                                                                <select id="Management" class="form-element-field dynamic-control">
+                                                                </select>
+                                                                <div class="form-element-bar"></div>
+                                                                <label class="form-element-label" for="">Management Approval
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-element form-textarea">
+                                                                <textarea class="form-element-field approver-control" placeholder=" " maxlength="1000" required="required" controlType="multitext" listname=""
+                                                                    name="Comments" id="ManagementSection_Comments"></textarea>
+                                                                <div class="form-element-bar"></div>
+                                                                <label class="form-element-label" for="">Comments</label>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
-                                </div>
+                                </myform>
                             </div>
                             <div data-include="ApplicationStatus"></div>
                             <div data-include="ActivityLog"></div>

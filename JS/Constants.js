@@ -16,7 +16,8 @@ const ListNames = {
     APPROVALMATRIXLIST: "ApprovalMatrix",
     APPROVERMASTERLIST: "ApproverMaster",
     GLOBALAPPROVALMATRIXLIST: "ApprovalMatrix",
-    BUTTONLIST: "Buttons"
+    BUTTONLIST: "Buttons",
+    CAPEXVENDORLIST : "CapexVendor"
 }
 Object.freeze(ListNames);
 

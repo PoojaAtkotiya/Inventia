@@ -194,7 +194,6 @@ function GetEnableSectionNames(id) {
     if (id == 0) {
         //get active section name
         var activeSectionItem = globalApprovalMatrix.filter(function (i) {
-            debugger
             return (i.ApplicationName.Label == CommonConstant.APPLICATIONNAME && i.FormName.Label == CommonConstant.FORMNAME && i.Role == currentUserRole);
         })[0];
         activeSectionName = getTermFromManagedColumn(activeSectionItem.SectionName);
@@ -1151,9 +1150,9 @@ function SetSectionWiseRoles(id) {
         if (!IsNullOrUndefined(globalApprovalMatrix) && globalApprovalMatrix.length > 0) {
             ////Compare by Section Name
             globalApprovalMatrix.filter(function (g) {
-                $('#' + formNames).find('div').each(function () {
+                $('#' + formNames).find('div.card-body').each(function () {
                     var divSection = $(this).attr('section');
-                    var sectionName = getTermFromManagedColumn(g.sectionName);
+                    var sectionName = getTermFromManagedColumn(g.SectionName);
                     if (!IsNullOrUndefined(divSection) && sectionName == divSection) {
                         //// if section name are same, get Role and FillByRole
                         $(this).attr('sectionOwner', g.Role);
@@ -1167,7 +1166,7 @@ function SetSectionWiseRoles(id) {
         if (!IsNullOrUndefined(localApprovalMatrixdata) && localApprovalMatrixdata.length > 0) {
             ////Compare by Section Name
             localApprovalMatrixdata.filter(function (l) {
-                $('#' + formNames).find('div').each(function () {
+                $('#' + formNames).find('div.card-body').each(function () {
                     var divSection = $(this).attr('section');
                     if (!IsNullOrUndefined(divSection) && !IsNullOrUndefined(l.SectionName) && l.SectionName == divSection) {
                         //// if section name are same, get Role and FillByRole

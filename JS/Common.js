@@ -13,15 +13,16 @@ var fileIdCounter = 0;
 var currentApproverDetails = {};
 jQuery(document).ready(function () {
 
+    jQuery.noConflict();
+
     var includes = $('[data-include]');
     jQuery.each(includes, function () {
         var file = CommonConstant.HTMLFILSEPATH + $(this).data('include') + '.html';
         $(this).load(file);
     });
-    $('myform').renameTag('form');
+    if ($('myform').length > 0)
+        $('myform').renameTag('form');
     KeyPressNumericValidation();
-    // LoadWaitDialog();
-    // hostweburl =  CommonConstant.hostWebURL ;
     var scriptbase = CommonConstant.HOSTWEBURL + "/_layouts/15/";
     // Load the js files and continue to
     // the execOperation function.
@@ -626,6 +627,20 @@ function resetFormValidator(formId) {
     $(formId).data('validator');
     $(formId).data('unobtrusiveValidation');
     $.validator.unobtrusive.parse(formId);
+}
+
+//Replace '<myform>' tag to '<form>'
+$.fn.renameTag = function (replaceWithTag) {
+    this.each(function () {
+        var outerHtml = this.outerHTML;
+        var tagName = $(this).prop("tagName");
+        var regexStart = new RegExp("^<" + tagName, "i");
+        var regexEnd = new RegExp("</" + tagName + ">$", "i")
+        outerHtml = outerHtml.replace(regexStart, "<" + replaceWithTag)
+        outerHtml = outerHtml.replace(regexEnd, "</" + replaceWithTag + ">");
+        $(this).replaceWith(outerHtml);
+    });
+    return this;
 }
 
 function ValidateForm(ele, saveCallBack) {
