@@ -15,11 +15,10 @@ jQuery(document).ready(function () {
 
     var includes = $('[data-include]');
     jQuery.each(includes, function () {
-        var file = _spPageContextInfo.webAbsoluteUrl + "/SiteAssets/Inventia/HtmlFiles/" + $(this).data('include') + '.html';
+        var file = CommonConstant.HTMLFILSEPATH + $(this).data('include') + '.html';
         $(this).load(file);
     });
-
-    // BindDatePicker("");
+    $('myform').renameTag('form');
     KeyPressNumericValidation();
     // LoadWaitDialog();
     // hostweburl =  CommonConstant.hostWebURL ;
@@ -637,8 +636,7 @@ function resetFormValidator(formId) {
 function ValidateForm(ele, saveCallBack) {
     //Get Active Section
     var activeSection = $('div[section]').not(".disabled");
-    //  var formList = $(activeSection).parent();
-    var formList = $(activeSection);
+    var formList = $('div[section]').not(".disabled").parent();
     var isValid = true;
     var dataAction = $(ele).attr("data-action");
     var isPageRedirect = true;
@@ -683,6 +681,11 @@ function ValidateForm(ele, saveCallBack) {
 
             if (dataAction == "2" || dataAction == "34") {
                 $(this).validate().settings.ignore = "*";
+                if (dataAction == "2" || dataAction == "34") {
+                    $(".error").addClass("valid");
+                    $(".valid").removeClass("error");
+                    $(this).validate().settings.ignore = ":not(.requiredOnDraft)";
+                }
                 if (buttonCaption == "submit" || buttonCaption == "complete") {
                     $(".error").addClass("valid");
                     $(".valid").removeClass("error");
@@ -713,32 +716,22 @@ function ValidateForm(ele, saveCallBack) {
                     $(".valid").removeClass("error");
                 }
             }
-            // if (buttonCaption == "save as draft" || buttonCaption == "resume") {
-            //     $(this).attr("data-ajax-success", "OnSuccessNoRedirect");
-            // }
-            // else if (buttonCaption == "complete" && !isPageRedirect) {
-            //     $(this).attr("data-ajax-success", "ConfirmSubmitNoRedirect");
-            // }
-            // else {
-            //     $(this).attr("data-ajax-success", $(this).attr("data-ajax-old-success"));
-            // }
-
-            // if (!$(this).valid()) {
-            //     isValid = false;
-            //     try {
-            //         var validator = $(this).validate();
-            //         $(validator.errorList).each(function (i, errorItem) {
-            //             //  AlertModal("Validation", errorItem.element.id + "' : '" + errorItem.message);
-            //             $("#" + errorItem.element.id).addClass("error");
-            //             $("#" + errorItem.element.id).removeClass("valid");
-            //             $("#" + errorItem.element.id).next().remove();
-            //             console.log("{ '" + errorItem.element.id + "' : '" + errorItem.message + "'}");
-            //         });
-            //     }
-            //     catch (e1) {
-            //         console.log(e1.message);
-            //     }
-            // }
+            if (!$(this).valid()) {
+                isValid = false;
+                try {
+                    var validator = $(this).validate();
+                    $(validator.errorList).each(function (i, errorItem) {
+                        //  AlertModal("Validation", errorItem.element.id + "' : '" + errorItem.message);
+                        $("#" + errorItem.element.id).addClass("error");
+                        $("#" + errorItem.element.id).removeClass("valid");
+                        $("#" + errorItem.element.id).next().remove();
+                        console.log("{ '" + errorItem.element.id + "' : '" + errorItem.message + "'}");
+                    });
+                }
+                catch (e1) {
+                    console.log(e1.message);
+                }
+            }
         });
     }
     if (isValid) {
@@ -773,7 +766,7 @@ function onQueryFailed(sender, args) {
     console.log('Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
 }
 
-function GetFormControlsValue(id, elementType, listDataArray) {
+function GetFormControlsValue(id, elementType, listDataArray, elementvaluetype = undefined) {
     var obj = '#' + id;
     switch (elementType) {
         case "text":
@@ -794,6 +787,11 @@ function GetFormControlsValue(id, elementType, listDataArray) {
             listDataArray[id] = metaObject;
             break;
         case "combo":
+            if (elementvaluetype == "int") {
+                if (IsNullOrUndefined($(obj).val()) || IsStrNullOrEmpty($(obj).val())) {
+                    $(obj).val(0);
+                }
+            }
             listDataArray[id] = $(obj).val();
             break;
         case "multitext":
@@ -1058,7 +1056,9 @@ function SaveFormData(activeSection, ele) {
             var elementId = $(this).attr('id');
             var elementType = $(this).attr('controlType');
             var elementProperty = $(this).attr('controlProperty');
-            listDataArray = GetFormControlsValue(elementId, elementType, listDataArray);
+            var elementvaluetype = $(this).attr('controlvaluetype');
+
+            listDataArray = GetFormControlsValue(elementId, elementType, listDataArray, elementvaluetype);
             listActivityLogDataArray = GetFormControlsValueAndType(elementId, elementType, elementProperty, listActivityLogDataArray);
         });
         $(activeSection).find('.approver-control').each(function () {
@@ -1085,7 +1085,7 @@ function SaveData(listname, listDataArray, sectionName, ele) {
     var itemType = GetItemTypeForListName(listname);
     var isNewItem = true;
     var callbackfunction;
-    var buttonCaption = $(ele).text().toLowerCase().trim();
+    var buttonCaption = $(ele).text().trim();
 
     if (listDataArray != null) {
         listDataArray["__metadata"] = {
@@ -1127,7 +1127,7 @@ function SaveData(listname, listDataArray, sectionName, ele) {
                     clientContext.load(web);
                     clientContext.executeQueryAsync(function () {
                         SaveLocalApprovalMatrix(sectionName, itemID, listname, isNewItem, oListItem, ListNames.APPROVALMATRIXLIST);
-                        SaveActivityLog(sectionName, itemID, ListNames.ACTIVITYLOGLIST, listDataArray, isNewItem);
+                        SaveActivityLog(sectionName, itemID, ListNames.ACTIVITYLOGLIST, listDataArray, isNewItem, buttonCaption);
                         if (data != undefined && data != null && data.d != null) {
                             SaveTranListData(itemID);
                         }
@@ -1135,19 +1135,28 @@ function SaveData(listname, listDataArray, sectionName, ele) {
                             SaveTranListData(itemID);
                         }
                         HideWaitDialog();
-                        data.ItemID = itemID;
-                        data.IsSucceed = true;
-                        data.Messages = "Data saved successfully";
-                        if (buttonCaption == "save as draft" || buttonCaption == "resume") {
+                        if (IsNullOrUndefined(data)) {
+                            data = {};
+                            data = {
+                                ItemID: itemID,
+                                IsSucceed: true,
+                                Messages: "Data saved successfully"
+                            }
+                        }
+                        else {
+                            data.ItemID = itemID;
+                            data.IsSucceed = true;
+                            data.Messages = "Data saved successfully";
+                        }
+                        if (buttonCaption.toLowerCase() == "save as draft" || buttonCaption.toLowerCase() == "resume") {
                             OnSuccessNoRedirect(data);
                         }
-                        else if (buttonCaption == "complete" && !isPageRedirect) {
+                        else if (buttonCaption.toLowerCase() == "complete" && !isPageRedirect) {
                             OnSuccessConfirmSubmitNoRedirect(data);
                         }
                         else {
                             OnSuccess(data);
                         }
-
                     }, function (sender, args) {
                         HideWaitDialog();
                         console.log('request failed ' + args.get_message() + '\n' + args.get_stackTrace());
@@ -1305,11 +1314,11 @@ function OnSuccessNoRedirect(data) {
     catch (e) { window.location.reload(); }
 }
 
-function SaveActivityLog(sectionName, itemID, ActivityLogListName, listDataArray, isNewItem) {
+function SaveActivityLog(sectionName, itemID, ActivityLogListName, listDataArray, isNewItem, buttonCaption) {
     var stringActivity;
     var itemType = GetItemTypeForListName(ActivityLogListName);
     var today = new Date().format("yyyy-MM-ddTHH:mm:ssZ");
-    var actionPerformed = Object.keys(ButtonActionStatus).filter(k => ButtonActionStatus[k] == $("#ActionStatus").val()).toString();
+    //var actionPerformed = Object.keys(ButtonActionStatus).filter(k => ButtonActionStatus[k] == $("#ActionStatus").val()).toString();
     stringActivity = GetActivityString(listActivityLogDataArray, isNewItem);
     url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ActivityLogListName + "')/items";
     headers = {
@@ -1318,27 +1327,6 @@ function SaveActivityLog(sectionName, itemID, ActivityLogListName, listDataArray
         "X-RequestDigest": $("#__REQUESTDIGEST").val(),
         "X-HTTP-Method": "POST"
     };
-    // AjaxCall(
-    //     {
-    //         url: url,
-    //         httpmethod: 'POST',
-    //         calldatatype: 'JSON',
-    //         isAsync: false,
-    //         headers: headers,
-    //         data: JSON.stringify
-    //             ({
-    //                 __metadata: {
-    //                     "type": itemType
-    //                 },
-    //                 Activity: actionPerformed,
-    //                 Changes: stringActivity,
-    //                 ActivityDate: today,
-    //                 ActivityById: currentUser.Id,
-    //                 RequestIDId: itemID,
-    //                 SectionName: sectionName
-    //             }),
-    //         sucesscallbackfunction: function (data) { console.log("SaveActivityLogInList - Item saved Successfully"); },
-    //     });
 
     $.ajax({
         url: url,
@@ -1350,7 +1338,8 @@ function SaveActivityLog(sectionName, itemID, ActivityLogListName, listDataArray
                 __metadata: {
                     "type": itemType
                 },
-                Activity: actionPerformed,
+                //Activity: actionPerformed,
+                Activity: buttonCaption,
                 Changes: stringActivity,
                 ActivityDate: today,
                 ActivityById: currentUser.Id,
@@ -1391,7 +1380,7 @@ function GetActivityString(listActivityLogDataArray, isCurrentApproverField) {
         approverActivityLog += "\nApproved/Updated date" + "" + today;
         approverActivityLog += "\n" + "Approver Comment" + "" + currentApproverDetails.COMMENTS;
         if (stringActivity != null && stringActivity != '') {
-            stringActivity = stringActivity + '\n';
+            stringActivity = stringActivity + '~';
             stringActivity = stringActivity + approverActivityLog;
         }
         else {
@@ -1573,16 +1562,15 @@ function removeDuplicateFromArray(arr) {
     return unique_array;
 }
 
-function getSectionFromGlobal(sectionColumn) {
-    var sectionName = '';
-    if (!IsNullOrUndefined(sectionColumn)) {
-        if (!IsNullOrUndefined(sectionColumn.Label)) {
-            sectionName = sectionColumn.Label;
+function getTermFromManagedColumn(managedColumn) {
+    var resultValue = '';
+    if (!IsNullOrUndefined(managedColumn)) {
+        if (!IsNullOrUndefined(managedColumn.Label)) {
+            resultValue = managedColumn.Label;
         }
-        else if (!IsNullOrUndefined(sectionColumn.results) && !IsNullOrUndefined(sectionColumn.results.length > 0) && !IsNullOrUndefined(sectionColumn.results[0]) && !IsNullOrUndefined(sectionColumn.results[0].Label)) {
-            sectionName = sectionColumn.results[0].Label;
+        else if (!IsNullOrUndefined(managedColumn.results) && !IsNullOrUndefined(managedColumn.results.length > 0) && !IsNullOrUndefined(managedColumn.results[0]) && !IsNullOrUndefined(managedColumn.results[0].Label)) {
+            resultValue = managedColumn.results[0].Label;
         }
     }
-    return sectionName;
-
+    return resultValue;
 }

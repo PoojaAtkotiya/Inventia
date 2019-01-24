@@ -5,7 +5,8 @@ const CommonConstant = {
     HOSTWEBURL : "https://synoverge.sharepoint.com/sites/dev",
     APPLICATIONSHORTNAME : "Capex",
     APPLICATIONNAME : "Capex",
-    FORMNAME : "Capex Requisition Form"
+    FORMNAME : "Capex Requisition Form",
+    HTMLFILSEPATH:_spPageContextInfo.webAbsoluteUrl + "/SiteAssets/Inventia/HtmlFiles/"
 }
 Object.freeze(CommonConstant);
 
