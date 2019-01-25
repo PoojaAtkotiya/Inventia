@@ -197,7 +197,7 @@ function GetEnableSectionNames(id) {
             return (i.ApplicationName.Label == CommonConstant.APPLICATIONNAME && i.FormName.Label == CommonConstant.FORMNAME && i.Role == currentUserRole);
         })[0];
         activeSectionName = getTermFromManagedColumn(activeSectionItem.SectionName);
-      
+
         $(formNames).find('div.card-body').filter(function () {
             var sectionName = $(this).attr('section');
             if (sectionName == activeSectionName) {
@@ -207,10 +207,10 @@ function GetEnableSectionNames(id) {
                 $("#" + sectionId).find('input,select,textarea').removeAttr("disabled");
             }
         });
-       // $("div.disabled.form-control").attr("disabled", "disabled");
-       
-       $("div.card-body.disabled .form-element-field").attr("disabled", "disabled");
-       $("div.card-body.disabled .form-radio-field").attr("disabled", "disabled");
+        // $("div.disabled.form-control").attr("disabled", "disabled");
+
+        $("div.card-body.disabled .form-element-field").attr("disabled", "disabled");
+        $("div.card-body.disabled .form-radio-field").attr("disabled", "disabled");
     }
     else if (id > 0) {
         //get active section name
@@ -226,21 +226,14 @@ function GetEnableSectionNames(id) {
                     var sectionId = $(this).attr('id');
                     $("#" + sectionId).removeClass("disabled");
                     $("#" + sectionId).find('input,select,textarea').removeAttr("disabled");
-
-                    // var parentDiv = $("#" + sectionId).parent();
-                    // var form = '<form data-ajax="true" enctype="multipart/form-data" id="form_' + sectionId + '" method="post" autocomplete="off"/>';
-                    // var formList = $(form).append($("#" + sectionId)[0].outerHTML);
-                    // $('#' + sectionId).remove();
-                    // $(document.body).find($(parentDiv)).append($(formList)[0].outerHTML);
-                    // DatePickerControl(formNames);
                 }
             });
         }
         // $("div.disabled.form-control").attr("disabled", "disabled");
         $("div.card-body.disabled .form-element-field").attr("disabled", "disabled");
         $("div.card-body.disabled .form-radio-field").attr("disabled", "disabled");
-        
-       
+
+
     }
 }
 
