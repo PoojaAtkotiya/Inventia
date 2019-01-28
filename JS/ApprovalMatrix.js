@@ -201,7 +201,6 @@ function GetEnableSectionNames(id) {
         $(formNames).find('div.card-body').filter(function () {
             var sectionName = $(this).attr('section');
             if (sectionName == activeSectionName) {
-                debugger;
                 var sectionId = $(this).attr('id');
                 $("#" + sectionId).removeClass("disabled");
                 $("#" + sectionId).find('input,select,textarea').removeAttr("disabled");
