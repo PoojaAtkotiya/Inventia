@@ -15,13 +15,12 @@ jQuery(document).ready(function () {
 
     jQuery.noConflict();
 
-    var includes = $('[data-include]');
-    jQuery.each(includes, function () {
-        var file = CommonConstant.HTMLFILSEPATH + $(this).data('include') + '.html';
-        $(this).load(file);
-    });
-    if ($('myform').length > 0)
-        $('myform').renameTag('form');
+    // var includes = $('[data-include]');
+    // jQuery.each(includes, function () {
+    //     var file = CommonConstant.HTMLFILSEPATH + $(this).data('include') + '.html';
+    //     $(this).load(file);
+    // });
+
     KeyPressNumericValidation();
     var scriptbase = CommonConstant.HOSTWEBURL + "/_layouts/15/";
     // Load the js files and continue to
@@ -31,6 +30,9 @@ jQuery(document).ready(function () {
             $.getScript(scriptbase + "SP.js", loadConstants);
         }
     );
+    
+    if ($('myform').length > 0)
+        $('myform').renameTag('form');
 });
 function BindAttachmentFiles() {
     var output = [];
@@ -906,7 +908,7 @@ function GetFormControlsValueAndType(id, elementType, elementProperty, listActiv
             if (!IsStrNullOrEmpty($(obj).html())) {
                 listActivityLogDataArray.push({ id: id, value: $(obj).html(), type: 'label' });
             }
-                break;
+            break;
     }
     return listActivityLogDataArray;
 }

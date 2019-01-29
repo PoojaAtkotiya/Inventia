@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Content/datatable.css"
     />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Content/bootstrap-datetimepicker.css"
@@ -15,6 +16,7 @@
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Script/moment.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Script/bootstrap-datetimepicker.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
@@ -316,7 +318,7 @@
                                                     <div class="form-element form-input">
                                                         <input id="UserRequirementSpecificationNo" class="form-element-field dynamic-control" placeholder="User Requirement Specification No"
                                                             type="input" required="required" controlType="text" listtype="main"
-                                                        />
+                                                            maxlength="255" />
                                                         <div class="form-element-bar"></div>
                                                         <label class="form-element-label" for="">User Requirement Specification No
                                                         </label>
@@ -341,8 +343,8 @@
                                                         </div>
                                                         <div class="form-element-bar"></div>
                                                         <label class="form-element-label col-md-4" for="">Date</label> -->
-                                                      
-                                                        <label class="col-md-4" for="">Date</label> 
+
+                                                        <label class="col-md-4" for="">Date</label>
                                                         <label id="RequestDate" class="form-element-label col-md-8 dynamic-control" placeholder="Date" controlType="date" listtype="main"></label>
                                                     </div>
                                                 </div>
@@ -408,9 +410,9 @@
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <div class="form-element form-select">
-                                                        <select id="AssetClassification" class="form-element-field dynamic-control -hasvalue" controlType="combo" listtype="master" name="AssetClassification"
-                                                            required="required" data-selected="AssetClassification" valuebindingcolumn="Title"
-                                                            textbindingcolumnn="Title" listname="AssetClassificationMaster"></select>
+                                                        <select id="AssetClassification" class="form-element-field dynamic-control -hasvalue" controlType="combo" listtype="master"
+                                                            name="AssetClassification" required="required" data-selected="AssetClassification"
+                                                            valuebindingcolumn="Title" textbindingcolumnn="Title" listname="AssetClassificationMaster"></select>
                                                         <div class="form-element-bar"></div>
                                                         <label class="form-element-label" for="">Asset Classification</label>
                                                     </div>
@@ -490,7 +492,7 @@
                                                         <div class="row">
                                                             <div class="col-lg-6">
                                                                 <div class="form-element  mar-top form-input">
-                                                                    <input id="NameoftheVendorSelected" class="form-element-field dynamic-control" placeholder=" Name of the Vendor Selected"
+                                                                    <input id="NameoftheVendorSelected" class="form-element-field dynamic-control" placeholder="Name of the Vendor Selected"
                                                                         type="input" required="required" controlType="text" listtype="main"
                                                                     />
                                                                     <div class="form-element-bar"></div>
