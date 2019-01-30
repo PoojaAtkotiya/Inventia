@@ -208,8 +208,8 @@ function GetEnableSectionNames(id) {
         });
         // $("div.disabled.form-control").attr("disabled", "disabled");
 
-        $("div.card-body.disabled .form-element-field").attr("disabled", "disabled");
-        $("div.card-body.disabled .form-radio-field").attr("disabled", "disabled");
+        $("div.card-body.disabled.form-control").attr("disabled", "disabled");
+        $("div.card-body.disabled.form-control").attr("disabled", "disabled");
     }
     else if (id > 0) {
         //get active section name
