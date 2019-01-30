@@ -663,7 +663,9 @@ hr {
     box-shadow: none !important;
     position: fixed;
     width: 100%;
-    z-index: 999;
+    /* z-index: 999; */
+    z-index: 0!important;
+    overflow: hidden;
 }
 
     .page-title-breadcrumb .page-header {
@@ -4428,7 +4430,8 @@ body.sidebar-icons #wrapper #page-wrapper {
 
     .ui-widget-content .ui-state-default {
         border: 0;
-        background: #dc6767;
+        /* background: #dc6767; */
+        background: white;
         color: #ffffff;
         cursor: pointer;
     }
@@ -8674,7 +8677,8 @@ ul.submenu {
 
 .page-header-topbar {
     box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
-    z-index: 1000000;
+    /* z-index: 1000000; */
+    z-index: 0!important;
     position: relative;
 }
 
@@ -9446,5 +9450,111 @@ label > label {
     input[type="week"], input[type="number"], input[type="email"],
     input[type="url"]{ font-size: 16px; }
 }
-      
- 
+/* Added from Registration.html page styles */
+.radio label {
+    min-height: 20px;
+    padding-left: 20px;
+    margin-bottom: 40px;
+    font-weight: 400;
+    cursor: pointer;
+}
+.custom-control-label {
+    font-size: 15px;
+    color: black;
+}
+.table tbody tr td {
+    background-color: white;
+}
+.table tr {
+    background-color: white;
+    color: #000000;
+}
+.headerwordwrap {
+    white-space: nowrap;
+}
+.control-label {
+    color: #000
+}
+h2 {
+    margin-top: 0px!important;
+}
+.view-icon {
+    color: #0a819c;
+    font-size: 20px;
+}
+.edit-icon {
+    color: #FFC107;
+    font-size: 20px;
+}
+.delete-icon {
+    color: red;
+    font-size: 20px;
+}
+@media screen and (min-width: 768px) {
+    .modal-dialog {
+        left: 0%!important;
+        padding-top: 6px!important;
+        width: 950px!important;
+    }
+}
+.modal .modal-header,
+.modal .modal-body,
+.modal .modal-footer {
+     padding: 20px 30px;
+}
+.modal .modal-content {
+            border-radius: 3px;
+}
+.modal .modal-footer {
+            background: #ecf0f1;
+            border-radius: 0 0 3px 3px;
+}
+.modal .modal-title {
+            display: inline-block;
+}
+.modal .form-control {
+    border-radius: 2px;
+    box-shadow: none;
+    border-color: #dddddd;
+}
+.modal textarea.form-control {
+    resize: vertical;
+}
+.modal .btn {
+    border-radius: 2px;
+    min-width: 100px;
+}
+.modal form label {
+    font-weight: normal;
+}
+.ui-datepicker-title {
+    color: black;
+}
+
+.ui-datepicker .ui-datepicker-prev span,
+.ui-datepicker .ui-datepicker-next span {
+
+    /* background-color: palevioletred; */
+    background-color: wheat;
+}
+.bgcolor {
+    background-color: bisque;
+    height: 33px;
+    text-align: center;
+}
+
+.left {
+    background-color: bisque;
+    text-align: center;
+}
+.radioalign {
+    text-align: right;
+}
+.radio {
+    padding-right: 50px;
+}
+.justify {
+    /* font-family: Georgia, 'Times New Roman', Times, serif; */
+    font-weight: 1500;
+    color: #0072C6 !important;
+}
