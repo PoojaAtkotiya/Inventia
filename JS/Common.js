@@ -1133,7 +1133,7 @@ function SaveData(listname, listDataArray, sectionName, ele) {
                     itemID = data.d.ID;
                 }
                 ////AddAttachments(itemID);
-                AddAllAttachments(listname, itemID);
+              //  AddAllAttachments(listname, itemID);
                 var web, clientContext;
                 SP.SOD.executeFunc('sp.js', 'SP.ClientContext', function () {
                     clientContext = new SP.ClientContext.get_current();
@@ -1144,6 +1144,7 @@ function SaveData(listname, listDataArray, sectionName, ele) {
                     clientContext.load(web);
                     clientContext.executeQueryAsync(function () {
                         SaveLocalApprovalMatrix(sectionName, itemID, listname, isNewItem, oListItem, ListNames.APPROVALMATRIXLIST);
+                        SaveImageSignaturePath(sectionName,itemID);
                         SaveActivityLog(sectionName, itemID, ListNames.ACTIVITYLOGLIST, listDataArray, isNewItem, buttonCaption);
                         if (data != undefined && data != null && data.d != null) {
                             SaveTranListData(itemID);
@@ -1187,7 +1188,39 @@ function SaveData(listname, listDataArray, sectionName, ele) {
         });
     }
 }
-
+function SaveImageSignaturePath(sectionName,itemID)
+{
+    var formFieldValues = [];
+    currentUser.Email="priya.rane@synoverge.com";
+    $.ajax({ 
+        url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('EmployeeSignature')/Items?$select=FileRef/FileRef&$filter=EmployeeEmail eq '"+currentUser.Email+"'",
+        type: "GET", 
+        async:false,
+        headers: {"accept": "application/json;odata=verbose"}, 
+        success: function (data) { 
+           if (data.d.results) { 
+            switch (sectionName) {
+                case SectionNames.INITIATORSECTION:
+                formFieldValues['InitiatorSignature']=_spPageContextInfo.webAbsoluteUrl + data.d.results[0].FileRef;
+                break;
+                case SectionNames.HODSECTION:
+                formFieldValues['HODSignature']=_spPageContextInfo.webAbsoluteUrl + data.d.results[0].FileRef;
+                break;
+                case SectionNames.CAPEXCOMMITTEESECTION:
+                formFieldValues['SignatureCapexMemberOne']=_spPageContextInfo.webAbsoluteUrl + data.d.results[0].FileRef;
+                break;
+                case SectionNames.INITIATORSECTION:
+                formFieldValues['ManagementSignature']=_spPageContextInfo.webAbsoluteUrl + data.d.results[0].FileRef;
+                break;
+            }
+            SaveFormFields(formFieldValues, itemID);
+            } 
+        }, 
+        error: function (xhr) { 
+        } 
+     }); 
+    
+}
 function ParseMessage(msg) {
     if (msg.length == 1) {
         return msg[0];
