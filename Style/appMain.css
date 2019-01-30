@@ -5435,10 +5435,10 @@ a.list-group-item.active > .badge,
         border-color: #e5e5e5;
     }
 
-.btn-primary {
+/* .btn-primary {
     color: #ffffff;
     border: 1px solid #1f68b1;
-}
+} */
 
     .btn-primary:hover,
     .btn-primary:focus,
@@ -9327,6 +9327,7 @@ label > label {
 
     .navbar-right li a {
         padding: 6px 12px !important;
+        margin-right: 5px;
     }
 /*newadd*/
 .multiselect-two .btn-group, .multiselect-two .btn-group .multiselect {
@@ -9558,8 +9559,15 @@ h2 {
     font-weight: 1500;
     color: #0072C6 !important;
 }
-.disabled { 
-    cursor: not-allowed; 
-    background-color: #eeeeee; 
+.disabled {
+    cursor:not-allowed;
+    background-color: #eee;
 }
-    
+.btn-primary {
+    color: black;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+
+
