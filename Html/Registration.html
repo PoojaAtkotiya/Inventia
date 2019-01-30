@@ -193,15 +193,6 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <!-- <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                            <span class="text-danger text-default-light">*</span>
-                                                            Department:
-                                                        </label>
-                                                        <label id="Department" class="col-md-8 dynamic-control" controlType="text" listtype="main"></label>
-                                                    </div>
-                                                </div> -->
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
                                                         <label class="col-md-4 control-label">
@@ -228,7 +219,7 @@
                                                             <select class="form-control m-b-n-sm dynamic-control" id="Location"
                                                                 controlType="combo" listtype="master" reflisttype="main"
                                                                 listname="LocationMaster" data-selected="Location"
-                                                                valuebindingcolumn="Title" textbindingcolumnn="Title"
+                                                                valuebindingcolumn="Title" textbindingcolumnn="Title" name="Location"
                                                                 required="required">
                                                             </select>
                                                         </div>
@@ -246,7 +237,7 @@
                                                         <div class="col-md-8">
                                                             <textarea class="form-control dynamic-control" rows="3" id="NameOfAssets"
                                                                 placeholder="Please enter Assets" controlType="multitext"
-                                                                listtype="main" maxlength="1000" required="required"></textarea>
+                                                                listtype="main" maxlength="1000" name="NameOfAssets" required="required"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -259,7 +250,7 @@
                                                         <div class="col-md-8">
                                                             <input type="text" id="NumberofUnits" class="form-control dynamic-control"
                                                                 placeholder="Number of Units" data="digit" controlType="text"
-                                                                listtype="main" maxlength="15" required="required" />
+                                                                listtype="main" maxlength="15" name="NumberofUnits" required="required" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -273,7 +264,7 @@
                                                         </label>
                                                         <div class="col-md-8">
                                                             <input type="text" id="LifeofAsset" class="form-control dynamic-control"
-                                                                placeholder="Life of Asset" controlType="text"
+                                                                placeholder="Life of Asset" controlType="text" name="LifeofAsset"
                                                                 maxlength="255" listtype="main" required="required" />
                                                         </div>
                                                     </div>
@@ -304,7 +295,7 @@
                                                         </label>
                                                         <div class="col-md-8">
                                                             <input type="text" id="AssetCode" class="form-control dynamic-control"
-                                                                placeholder="Asset Code" controlType="text" maxlength="255"
+                                                                placeholder="Asset Code" controlType="text" maxlength="255" name="AssetCode"
                                                                 listtype="main" required="required" />
                                                         </div>
                                                     </div>
@@ -317,7 +308,7 @@
                                                         </label>
                                                         <div class="col-md-8">
                                                             <input type="text" id="CostCenter" class="form-control dynamic-control"
-                                                                placeholder="Cost Center" controlType="text" maxlength="255"
+                                                                placeholder="Cost Center" controlType="text" maxlength="255" name="CostCenter"
                                                                 listtype="main" required="required" />
                                                         </div>
                                                     </div>
@@ -393,7 +384,7 @@
                                                                     Vendor Selected</label>
                                                                 <div class="col-md-8">
                                                                     <input id="NameoftheVendorSelected" class="form-control dynamic-control"
-                                                                        placeholder=" Name of the Vendor Selected" type="text"
+                                                                        placeholder=" Name of the Vendor Selected" type="text" name="NameoftheVendorSelected"
                                                                         controlType="text" listtype="main" required="required" />
                                                                 </div>
                                                             </div>
@@ -519,7 +510,7 @@
                                                     <div class="col-md-8">
                                                         <textarea class="form-control approver-control" maxlength="1000"
                                                             required="required" placeholder=" " controlType="multitext"
-                                                            listname="" name="Comments" id="HodSection_Comments"></textarea>
+                                                            listname="" name="Comments" id="HodSection_Comments" name="HodSection_Comments"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -551,7 +542,7 @@
                                                         Pay Back Period / ROI:
                                                     </label>
                                                     <div class="col-md-7">
-                                                        <input id="PayBackPeriodROI" class="form-control dynamic-control"
+                                                        <input id="PayBackPeriodROI" class="form-control dynamic-control" name="PayBackPeriodROI"
                                                             placeholder="Pay Back Period / ROI" type="text" required="required"
                                                             maxlength="255" controlType="text" listtype="main" />
                                                     </div>
@@ -606,7 +597,7 @@
                                                 <div class="form-group">
                                                     <label class="col-md-4 control-label">Budgeted Value</label>
                                                     <div class="col-md-8">
-                                                        <input id="BudgetValue" class="form-control dynamic-control"
+                                                        <input id="BudgetValue" class="form-control dynamic-control" name="BudgetValue"
                                                             placeholder="Budgeted Value" type="text" required="required"
                                                             data="digit" maxlength="15" controlType="text" listtype="main" />
                                                     </div>
@@ -630,7 +621,7 @@
                                                 <div class="form-group">
                                                     <label class="col-md-4 control-label">Utilised Value</label>
                                                     <div class="col-md-8">
-                                                        <input id="UtiliseValue" class="form-control dynamic-control"
+                                                        <input id="UtiliseValue" class="form-control dynamic-control" name="UtiliseValue"
                                                             placeholder="Utilised Value" type="text" required="required"
                                                             controlType="text" data="digit" maxlength="15" listtype="main" />
                                                     </div>
@@ -654,7 +645,7 @@
                                                 <div class="form-group">
                                                     <label class="col-md-4 control-label">Current Value</label>
                                                     <div class="col-md-8">
-                                                        <input id="CurrentValues" class="form-control dynamic-control"
+                                                        <input id="CurrentValues" class="form-control dynamic-control" name="CurrentValues"
                                                             placeholder="Current Value" type="text" required="required"
                                                             controlType="combo" data="digit" maxlength="15" listtype="main" />
                                                     </div>
@@ -679,7 +670,7 @@
                                                     <label class="col-md-4 control-label">Total Utilised Value
                                                     </label>
                                                     <div class="col-md-8">
-                                                        <input id="TotalUtiliseValue" class="form-control dynamic-control"
+                                                        <input id="TotalUtiliseValue" class="form-control dynamic-control" name="TotalUtiliseValue"
                                                             placeholder="Total Utilised Value" type="text" required="required"
                                                             controlType="text" listtype="main" data="digit" maxlength="15" />
                                                     </div>
@@ -703,7 +694,7 @@
                                                 <div class="form-group">
                                                     <label class="col-md-4 control-label">Balance Value</label>
                                                     <div class="col-md-8">
-                                                        <input id="BalanceValue" class="form-control dynamic-control"
+                                                        <input id="BalanceValue" class="form-control dynamic-control" name="BalanceValue"
                                                             placeholder="Balance Value" type="text" required="required"
                                                             controlType="text" listtype="main" data="digit" maxlength="15" />
                                                     </div>
@@ -791,7 +782,7 @@
                                                     <div class="col-md-8">
                                                         <textarea class="form-control approver-control" placeholder=" "
                                                             maxlength="1000" required="required" controlType="multitext"
-                                                            listname="" name="Comments" id="ManagementSection_Comments"></textarea>
+                                                            listname="" name="ManagementSection_Comments" id="ManagementSection_Comments"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
