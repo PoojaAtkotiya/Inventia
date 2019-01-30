@@ -272,8 +272,6 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
         });
     }
 
-
-
     ////Update status of all approvers in tempapprovalmatrix
     UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previousLevel, actionPerformed, param);
 
@@ -605,11 +603,12 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
     ////save approval matrix in list
     SaveApprovalMatrixInList(tempApproverMatrix, approvalMatrixListName, isNewItem);
 
-
-
     ////save activity log
 
     ////send mail
+     /*Send Mail Start*/
+     //SendMail(actionPerformed,currentUser.Id,itemID,tempApproverMatrix,ListNames.MAINLIST,nextLevel,currentLevel,param,isNewItem);
+     /*Send Email End*/
 
 }
 

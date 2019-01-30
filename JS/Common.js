@@ -1548,8 +1548,8 @@ function AjaxCall(options) {
                 //     window.location = UnAuthorizationUrl;
                 // }
                 // else {
-                    
-                debugger                    
+
+                debugger
                 AlertModal("Error", "Oops! Something went wrong");
                 //}
 
@@ -1591,4 +1591,22 @@ function getTermFromManagedColumn(managedColumn) {
         }
     }
     return resultValue;
+}
+
+function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, mainListName, nextLevel, currentLevel, param,isNewItem) {
+
+    var strAllUsers = GetEmailUsers(tempApproverMatrix,nextLevel,isNewItem)
+}
+
+function GetEmailUsers(tempApproverMatrix,nextLevel,isNewItem) {
+    var userWithRoles = GetPermissionDictionary(tempApproverMatrix, nextLevel, true, isNewItem);
+    var userIdString = '';
+    userWithRoles.forEach(element => {
+        if (element.permission == SharePointPermission.CONTRIBUTOR || element.permission == SharePointPermission.READER) {
+            if (!IsNullOrUndefined(element.user)) {
+                userIdString = userIdString + element.user.toString();
+            }
+        }
+    });
+    return userIdString;
 }
