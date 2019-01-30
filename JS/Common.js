@@ -15,13 +15,6 @@ jQuery(document).ready(function () {
 
     jQuery.noConflict();
 
-    // var includes = $('[data-include]');
-    // jQuery.each(includes, function () {
-    //     var file = CommonConstant.HTMLFILSEPATH + $(this).data('include') + '.html';
-    //     $(this).load(file);
-    // });
-
-    KeyPressNumericValidation();
     var scriptbase = CommonConstant.HOSTWEBURL + "/_layouts/15/";
     // Load the js files and continue to
     // the execOperation function.
@@ -30,9 +23,10 @@ jQuery(document).ready(function () {
             $.getScript(scriptbase + "SP.js", loadConstants);
         }
     );
-    
     if ($('myform').length > 0)
         $('myform').renameTag('form');
+    KeyPressNumericValidation();
+
 });
 function BindAttachmentFiles() {
     var output = [];
@@ -1262,6 +1256,7 @@ function OnSuccess(data) {
                 AlertModal('Success', msg, true);
             }
         } else {
+            debugger
             AlertModal('Error', data.Messages);
         }
     }
@@ -1329,6 +1324,7 @@ function OnSuccessConfirmSubmitNoRedirect(data) {
             }
         }
         else {
+            debugger
             AlertModal('Error', data.Messages);
         }
     }
@@ -1358,6 +1354,7 @@ function OnSuccessNoRedirect(data) {
             }
         }
         else {
+            debugger
             AlertModal('Error', data.Messages);
         }
     }
@@ -1564,6 +1561,7 @@ function AjaxCall(options) {
         async: isAsync,
         success: function (data) {
             if (data && data.Status != undefined && data.Status == "VALIDATION_ERROR") {
+                debugger
                 ShowError(data.Data);
             }
             else {
@@ -1583,6 +1581,8 @@ function AjaxCall(options) {
                 //     window.location = UnAuthorizationUrl;
                 // }
                 // else {
+
+                debugger
                 AlertModal("Error", "Oops! Something went wrong");
                 //}
 
@@ -1604,6 +1604,7 @@ function ShowError(ModelStateErrors) {
         messages += "<li>" + e.Value[0] + "</li>";
     });
     messages = "<div><h5>" + getMessage("errorTitle") + "</h5><ul>" + messages + "</ul></div>";
+    debugger
     AlertModal("error", messages, function () { })
 }
 
@@ -1623,4 +1624,22 @@ function getTermFromManagedColumn(managedColumn) {
         }
     }
     return resultValue;
+}
+
+function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, mainListName, nextLevel, currentLevel, param,isNewItem) {
+
+    var strAllUsers = GetEmailUsers(tempApproverMatrix,nextLevel,isNewItem)
+}
+
+function GetEmailUsers(tempApproverMatrix,nextLevel,isNewItem) {
+    var userWithRoles = GetPermissionDictionary(tempApproverMatrix, nextLevel, true, isNewItem);
+    var userIdString = '';
+    userWithRoles.forEach(element => {
+        if (element.permission == SharePointPermission.CONTRIBUTOR || element.permission == SharePointPermission.READER) {
+            if (!IsNullOrUndefined(element.user)) {
+                userIdString = userIdString + element.user.toString();
+            }
+        }
+    });
+    return userIdString;
 }

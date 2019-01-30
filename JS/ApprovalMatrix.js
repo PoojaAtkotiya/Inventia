@@ -272,8 +272,6 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
         });
     }
 
-
-
     ////Update status of all approvers in tempapprovalmatrix
     UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previousLevel, actionPerformed, param);
 
@@ -605,11 +603,12 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
     ////save approval matrix in list
     SaveApprovalMatrixInList(tempApproverMatrix, approvalMatrixListName, isNewItem);
 
-
-
     ////save activity log
 
     ////send mail
+     /*Send Mail Start*/
+     //SendMail(actionPerformed,currentUser.Id,itemID,tempApproverMatrix,ListNames.MAINLIST,nextLevel,currentLevel,param,isNewItem);
+     /*Send Email End*/
 
 }
 
@@ -682,8 +681,9 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
     var breakRoleUrl = '/_api/web/lists/getbytitle(\'' + listName + '\')/items(' + requestId + ')/breakroleinheritance(copyRoleAssignments=false, clearsubscopes=false)';
     var digest = jQuery("#__REQUESTDIGEST").val();
     var resetDataTemplate = { "resetUrl": resetUrl, "breakRoleUrl": breakRoleUrl, "digest": digest.toString() };
+
     $.ajax({
-        url: "https://prod-01.centralindia.logic.azure.com:443/workflows/bd5c7b59e0a245a5866865a147ce48f1/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=DQwBHAeVbuK9CUlGJNABP7iG2ZSOE3ApijO8S0gWZM8",//_spPageContextInfo.webAbsoluteUrl + '/_api/web/lists/getbytitle(\'' + listName + '\')/items(' + requestId + ')/breakroleinheritance(copyRoleAssignments=false, clearsubscopes=true)',
+        url: CommonConstant.BREAKROLEINHERITANCEWF,
         type: 'POST',
         headers: {
             "content-type": "application/json",
@@ -692,7 +692,6 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
         data: JSON.stringify(resetDataTemplate),
         async: false,
         success: function (data) {
-
             console.log("Inheritance Broken Successfully!");
             var roleDefBindingColl = null;
             console.log(userWithRoles);
@@ -712,14 +711,13 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
                 var userIds = element.user;
                 var permission = element.permission;
                 var permId;
-                if (permission == "Contribute") {
+                if (permission == SharePointPermission.CONTRIBUTOR) {
                     permId = 1073741827;
                 }
-                else if (permission == "Read") {
+                else if (permission == SharePointPermission.READER) {
                     permId = 1073741826;
                 }
                 if (!IsNullOrUndefined(userIds) && !IsStrNullOrEmpty(userIds) && !IsNullOrUndefined(permission) && !IsStrNullOrEmpty(permission)) {
-
                     var users = [];
                     //split users and remove ,
                     if (userIds.toString().indexOf(',') == 0) {
@@ -744,13 +742,12 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
                     ////remove duplicates from array
                     users = removeDuplicateFromArray(users);
 
-
                     users.forEach(user => {
                         if (!isNaN(user)) {
                             var endPointUrlRoleAssignment = "/_api/web/lists/getByTitle('" + listName + "')/items(" + requestId + ")/roleassignments/addroleassignment(principalid=" + user + ",roleDefId=" + permId + ")";
                             var dataTemplate = { "url": endPointUrlRoleAssignment, "digest": digest.toString() };
-                            var httpPostUrl = "https://prod-05.centralindia.logic.azure.com:443/workflows/94440494d1bc4839b196891de76d4d5f/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=-uan_RC5TIGT5AYnvbqT3CcjsJ2gapWn-KSQrUIE60E";
-                            var call = jQuery.ajax(
+                            var httpPostUrl = CommonConstant.SETPERMISSIONWF;
+                            jQuery.ajax(
                                 {
                                     url: httpPostUrl,   ///endPointUrlRoleAssignment
                                     type: "POST",
@@ -764,7 +761,6 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
                                         console.log('Role Permission Added successfully!');
                                     },
                                     error: function (error) {
-                                        debugger
                                         console.log(JSON.stringify(error));
                                     }
                                 });
@@ -774,7 +770,6 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
             });
         },
         error: function (error) {
-            debugger
             console.log(error);
         }
     });
@@ -822,7 +817,7 @@ function SetCustomPermission(userWithRoles, requestId, listName) {
                 console.log('Role Permission Added successfully!');
             },
             error: function (error) {
-                alert(JSON.stringify(error));
+                console.log(JSON.stringify(error));
             }
         });
 
