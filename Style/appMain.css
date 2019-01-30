@@ -9576,4 +9576,15 @@ h2 {
     border: 1px solid #1f68b1;
 }
 
+label.error{	
+    display: none!important;
+}	
 
+.error{
+    display: block;  
+    border: 1px solid #dc6767!important;
+    font-size: 14px;
+}
+.emptycells{
+    empty-cells:show!important;
+}
