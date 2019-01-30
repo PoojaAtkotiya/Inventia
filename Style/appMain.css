@@ -9559,7 +9559,7 @@ h2 {
     font-weight: 1500;
     color: #0072C6 !important;
 }
-.disabled {
+.disabled{
     cursor:not-allowed;
     background-color: #eee;
 }
