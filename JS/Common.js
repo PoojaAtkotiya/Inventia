@@ -594,6 +594,7 @@ function AlertModal(title, msg, isExit, callback) {
         }
     });
 }
+
 function Exit() {
     try {
         parent.postMessage(CommonConstant.HOSTWEBURL, CommonConstant.SPHOST);
@@ -606,6 +607,7 @@ function Exit() {
 function UserAborted(xhr) {
     return !xhr.getAllResponseHeaders();
 }
+
 function onAjaxError(xhr) {
     if (!UserAborted(xhr)) {
         if (xhr.status.toString().substr(0, 1) == "4" || xhr.status == 504) {
@@ -622,6 +624,7 @@ function onAjaxError(xhr) {
         }
     }
 }
+
 function resetFormValidator(formId) {
     $(formId).removeData('validator');
     $(formId).removeData('unobtrusiveValidation');
@@ -1242,7 +1245,6 @@ function OnFailure(xhr, status, error) {
     catch (e) { window.location.reload(); }
 }
 
-
 function OnDelete(ele) {
     var Id = $('#ListDetails_0__ItemId').val();
     console.log("Id = " + Id);
@@ -1455,6 +1457,7 @@ function GetUserNamesbyUserID(allUsersIDs) {
     }
     return userNames;
 }
+
 function GetUserEmailbyUserID(userid) {
     var userEmail = "";
     if (!IsNullOrUndefined(userid)) {
@@ -1506,6 +1509,7 @@ function GetUserEmailsbyUserID(allUsersIDs) {
     }
     return userEmails;
 }
+
 function AjaxCall(options) {
     var url = options.url;
     var postData = options.postData;
@@ -1593,12 +1597,12 @@ function getTermFromManagedColumn(managedColumn) {
     return resultValue;
 }
 
-function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, mainListName, nextLevel, currentLevel, param,isNewItem) {
+function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, mainListName, nextLevel, currentLevel, param, isNewItem) {
 
-    var strAllUsers = GetEmailUsers(tempApproverMatrix,nextLevel,isNewItem)
+    var strAllUsers = GetEmailUsers(tempApproverMatrix, nextLevel, isNewItem)
 }
 
-function GetEmailUsers(tempApproverMatrix,nextLevel,isNewItem) {
+function GetEmailUsers(tempApproverMatrix, nextLevel, isNewItem) {
     var userWithRoles = GetPermissionDictionary(tempApproverMatrix, nextLevel, true, isNewItem);
     var userIdString = '';
     userWithRoles.forEach(element => {
@@ -1609,4 +1613,23 @@ function GetEmailUsers(tempApproverMatrix,nextLevel,isNewItem) {
         }
     });
     return userIdString;
+}
+
+function IsValidDate(dateObj) {
+    var isValid = false;
+    debugger
+    if (Object.prototype.toString.call(dateObj) === "[object Date]") {
+        // it is a date
+        if (isNaN(dateObj.getTime())) {  // d.valueOf() could also work
+            // date is not valid
+            isValid = false;
+        } else {
+            // date is valid
+            isValid = true;
+        }
+    } else {
+        // not a date
+        isValid = false;
+    }
+    return isValid;
 }

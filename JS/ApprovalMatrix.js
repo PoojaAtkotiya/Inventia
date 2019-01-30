@@ -606,9 +606,9 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
     ////save activity log
 
     ////send mail
-     /*Send Mail Start*/
-     //SendMail(actionPerformed,currentUser.Id,itemID,tempApproverMatrix,ListNames.MAINLIST,nextLevel,currentLevel,param,isNewItem);
-     /*Send Email End*/
+    /*Send Mail Start*/
+    //SendMail(actionPerformed,currentUser.Id,itemID,tempApproverMatrix,ListNames.MAINLIST,nextLevel,currentLevel,param,isNewItem);
+    /*Send Email End*/
 
 }
 
@@ -845,7 +845,6 @@ function BreakRoleInheritance(requestId, listName) {
 }
 
 function onSetItemPermissionFailed(sender, args) {
-    debugger
     console.log('onSetItemPermissionSucceeded : Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
 }
 
@@ -1201,7 +1200,10 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
                         tempApproverMatrix.filter(function (temp) {
                             if (temp.Levels == currentLevel && temp.Status == ApproverStatus.NOTASSIGNED) {
                                 temp.Status = ApproverStatus.PENDING;
-                                temp.DueDate = GetDueDate(new Date(), parseInt(temp.Days));
+                                var dueDate = (!isNaN(parseInt(temp.Days))) ? GetDueDate(new Date(), parseInt(temp.Days)) : null;
+                                if (!IsNullOrUndefined(dueDate)) {
+                                    temp.DueDate = dueDate;
+                                }
                                 temp.AssignDate = new Date().format("yyyy-MM-ddTHH:mm:ssZ");
                             }
                         });
@@ -1220,7 +1222,7 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
                         return (temp.Status != "Not Required" && !IsNullOrUndefined(temp.ApproverId) && temp.Levels > currentLevel);
                     })[0];
                     nextLevel = (!IsNullOrUndefined(nextLevelRow)) ? nextLevelRow.Levels : nextLevel;
-                    var dueDate = null;
+                    //var dueDate = null;
                     tempApproverMatrix.forEach(temp => {
                         if (!IsNullOrUndefined(temp.ApproverId) && temp.Levels == currentLevel && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1))) {
                             temp.ApproveById = currentUserId;
@@ -1228,7 +1230,10 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
                             temp.Status = ApproverStatus.APPROVED; ////"Approved";
                         }
                         else if (temp.Levels == nextLevel && (temp.Status != "Approved" && temp.Status != "Not Required")) {
-                            temp.DueDate = GetDueDate(new Date(), parseInt(temp.Days));
+                            var dueDate = (!isNaN(parseInt(temp.Days))) ? GetDueDate(new Date(), parseInt(temp.Days)) : null;
+                            if (!IsNullOrUndefined(dueDate)) {
+                                temp.DueDate = dueDate;
+                            }
                             temp.AssignDate = new Date().format("yyyy-MM-ddTHH:mm:ssZ");
                             temp.Status = ApproverStatus.PENDING; //"Pending";
                         }
@@ -1258,7 +1263,10 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
                         }
                         else if (temp.Levels == nextLevel) {
                             if (IsStrNullOrEmpty(sendtoRole) || (!IsStrNullOrEmpty(sendtoRole) && temp.Role == sendtoRole)) {
-                                temp.DueDate = GetDueDate(new Date(), parseInt(temp.Days));
+                                var dueDate = (!isNaN(parseInt(temp.Days))) ? GetDueDate(new Date(), parseInt(temp.Days)) : null;
+                                if (!IsNullOrUndefined(dueDate)) {
+                                    temp.DueDate = dueDate;
+                                }
                                 temp.AssignDate = new Date().format("yyyy-MM-ddTHH:mm:ssZ");
                                 temp.Status = ApproverStatus.PENDING;
                             }
@@ -1285,7 +1293,10 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
                             temp.Status = ApproverStatus.SENDFORWARD;
                         }
                         else if (temp.Levels == nextLevel) {
-                            temp.DueDate = GetDueDate(new Date(), parseInt(temp.Days));
+                            var dueDate = (!isNaN(parseInt(temp.Days))) ? GetDueDate(new Date(), parseInt(temp.Days)) : null;
+                            if (!IsNullOrUndefined(dueDate)) {
+                                temp.DueDate = dueDate;
+                            }
                             temp.AssignDate = new Date().format("yyyy-MM-ddTHH:mm:ssZ");
                             temp.Status = ApproverStatus.PENDING;
                         }
@@ -1337,10 +1348,8 @@ function GetDueDate(startDate, days) {
         var date = new Date(startDate.getTime() + (i * 24 * 60 * 60 * 1000));
         var day = date.getDay();
         switch (day) {
-            //case DayOfWeek.Saturday:
-            //case DayOfWeek.Sunday:
-            case 6:
-            case 0:
+            case DayOfWeek.Saturday:
+            case DayOfWeek.Sunday:
                 days++;
                 break;
             default:
@@ -1352,5 +1361,10 @@ function GetDueDate(startDate, days) {
         }
     }
     dueDate = new Date(startDate.getTime() + ((days - 1) * 24 * 60 * 60 * 1000)).format("yyyy-MM-ddTHH:mm:ssZ");
-    return dueDate;
+    if (IsValidDate(dueDate)) {
+        return dueDate;
+    }
+    else {
+        return null;
+    }
 }
