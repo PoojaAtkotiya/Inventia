@@ -8748,8 +8748,11 @@ ul.submenu {
 }
 
 .table thead th, .table tbody th {
-    background-color: #0a819c !important;
+    
+    background-color: #0a819c !important; 
     color: #fff !important;
+    /* color: #000 !important; */
+    /* font-weight: normal; */
 }
 
 .text-center {
@@ -9563,11 +9566,14 @@ h2 {
     cursor:not-allowed;
     background-color: #eee;
 }
-.btn-primary {
+/* .btn-primary {
     color: black;
     background-color: #fff;
     border-color: #ccc;
+} */
+.btn-primary {
+    color: #ffffff;
+    border: 1px solid #1f68b1;
 }
-
 
 
