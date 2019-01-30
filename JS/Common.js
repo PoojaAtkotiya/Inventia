@@ -1617,7 +1617,6 @@ function GetEmailUsers(tempApproverMatrix, nextLevel, isNewItem) {
 
 function IsValidDate(dateObj) {
     var isValid = false;
-    debugger
     if (Object.prototype.toString.call(dateObj) === "[object Date]") {
         // it is a date
         if (isNaN(dateObj.getTime())) {  // d.valueOf() could also work
