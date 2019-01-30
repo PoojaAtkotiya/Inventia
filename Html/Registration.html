@@ -358,8 +358,8 @@
                                                             User Requirement Specification No.:
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <input type="text" id="UserRequirementSpecificationNo" class="form-control dynamic-control" placeholder=" User Requirement  No"
-                                                                controlType="text" listtype="main" maxlength="255" />
+                                                            <input type="text" id="UserRequirementSpecificationNo"  class="form-control dynamic-control" placeholder=" User Requirement  No"
+                                                                controlType="text" listtype="main" maxlength="255" required="required" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -389,7 +389,7 @@
                                                         <div class="col-md-8">
                                                             <select class="form-control m-b-n-sm dynamic-control" id="Function" controlType="combo" listtype="master" reflisttype="main"
                                                                 listname="FunctionMaster" data-selected="Function" valuebindingcolumn="Title"
-                                                                textbindingcolumnn="Title">
+                                                                textbindingcolumnn="Title" required="required">
                                                             </select>
                                                         </div>
                                                     </div>
@@ -405,7 +405,7 @@
                                                         <div class="col-md-8">
                                                             <select class="form-control m-b-n-sm dynamic-control" id="Location" controlType="combo" listtype="master" reflisttype="main"
                                                                 listname="LocationMaster" data-selected="Location" valuebindingcolumn="Title"
-                                                                textbindingcolumnn="Title">
+                                                                textbindingcolumnn="Title" required="required">
                                                             </select>
                                                         </div>
                                                     </div>
@@ -418,7 +418,7 @@
                                                         </label>
                                                         <div class="col-md-8">
                                                             <textarea class="form-control dynamic-control" rows="3" id="NameOfAssets" placeholder="Please enter Assets" controlType="multitext"
-                                                                listtype="main" maxlength="1000"></textarea>
+                                                                listtype="main" maxlength="1000" required="required"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -432,7 +432,7 @@
                                                         </label>
                                                         <div class="col-md-8">
                                                             <input type="text" id="NumberofUnits" class="form-control dynamic-control" placeholder="Number of Units" data="digit" controlType="text"
-                                                                listtype="main" maxlength="15" />
+                                                                listtype="main" maxlength="15" required="required"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -444,7 +444,7 @@
                                                         </label>
                                                         <div class="col-md-8">
                                                             <input type="text" id="LifeofAsset" class="form-control dynamic-control" placeholder="Life of Asset" controlType="text" maxlength="255"
-                                                                listtype="main" />
+                                                                listtype="main" required="required"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -459,7 +459,7 @@
                                                         <div class="col-md-8">
                                                             <select class="form-control m-b-n-sm dynamic-control" id="AssetClassification" controlType="combo" listtype="master" name="AssetClassification"
                                                                 data-selected="AssetClassification" valuebindingcolumn="Title"
-                                                                textbindingcolumnn="Title" listname="AssetClassificationMaster">
+                                                                textbindingcolumnn="Title" listname="AssetClassificationMaster" required="required">
                                                             </select>
                                                         </div>
                                                     </div>
@@ -472,7 +472,7 @@
                                                         </label>
                                                         <div class="col-md-8">
                                                             <input type="text" id="AssetCode" class="form-control dynamic-control" placeholder="Asset Code" controlType="text" maxlength="255"
-                                                                listtype="main" />
+                                                                listtype="main" required="required"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -486,7 +486,7 @@
                                                         </label>
                                                         <div class="col-md-8">
                                                             <input type="text" id="CostCenter" class="form-control dynamic-control" placeholder="Cost Center" controlType="text" maxlength="255"
-                                                                listtype="main" />
+                                                                listtype="main" required="required"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -552,7 +552,7 @@
                                                                 <label class="col-md-4 control-label">Name of the Vendor Selected</label>
                                                                 <div class="col-md-8">
                                                                     <input id="NameoftheVendorSelected" class="form-control dynamic-control" placeholder=" Name of the Vendor Selected" type="text"
-                                                                        controlType="text" listtype="main" />
+                                                                        controlType="text" listtype="main" required="required"/>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -895,7 +895,9 @@
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label class="col-md-4 control-label">Comments</label>
+                                                    <label class="col-md-4 control-label"> 
+                                                        <span class="text-danger text-default-light">*</span>
+                                                        Comments</label>
                                                     <div class="col-md-8">
                                                         <textarea class="form-control approver-control" placeholder=" " maxlength="1000" required="required" controlType="multitext"
                                                             listname="" name="Comments" id="ManagementSection_Comments"></textarea>
