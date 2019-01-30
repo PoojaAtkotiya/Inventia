@@ -9581,3 +9581,15 @@ h2 {
 }
 /*End */
 
+label.error{	
+    display: none!important;
+}	
+
+.error{
+    display: block;  
+    border: 1px solid #dc6767!important;
+    font-size: 14px;
+}
+.emptycells{
+    empty-cells:show!important;
+}
