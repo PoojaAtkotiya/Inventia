@@ -105,9 +105,40 @@ function onloadConstantsSuccess(sender, args) {
         $("#RequestDate").html(today);
         $("#WorkflowStatus").html("New");
     }
+    if (listItemId != null && listItemId > 0){
+    setImageSignature();
+    }
     //setCustomApprovers();
 }
-
+function setImageSignature()
+{
+   var item = mainListData;
+   if(item["InitiatorSignature"] !=null){
+    var img = new Image();
+   img.src=item["InitiatorSignature"];
+   img_Intiator.appendChild(img);
+   }
+   if(item["HODSignature"] !=null){
+    var img = new Image();
+    img.src=item["HODSignature"];
+    img_HOD.appendChild(img);
+    }
+    if(item["SignatureCapexMemberOne"] !=null){
+        var img = new Image();
+        img.src=item["SignatureCapexMemberOne"];
+        img_CapexMemberOne.appendChild(img);
+    }
+    if(item["SignatureCapexMemberTwo"] !=null){
+        var img = new Image();
+            img.src=item["SignatureCapexMemberTwo"];
+            img_CapexMemberTwo.appendChild(img);
+    }
+    if(item["ManagementSignature"] !=null){
+        var img = new Image();
+        img.src=item["ManagementSignature"];
+        img_Management.appendChild(img);
+}
+}
 function onloadConstantsFail(sender, args) {
     console.log(args.get_message());
 }
@@ -1185,7 +1216,6 @@ function SaveData(listname, listDataArray, sectionName, ele) {
 function SaveImageSignaturePath(sectionName,itemID)
 {
     var formFieldValues = [];
-    currentUser.Email="priya.rane@synoverge.com";
     $.ajax({ 
         url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('EmployeeSignature')/Items?$select=FileRef/FileRef&$filter=EmployeeEmail eq '"+currentUser.Email+"'",
         type: "GET", 
