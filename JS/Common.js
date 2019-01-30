@@ -101,6 +101,7 @@ function onloadConstantsSuccess(sender, args) {
     }
     if (listItemId == 0) {
         $("#ProposedBy").html(currentUser.Title);
+        $("#InitiatorName").html(currentUser.Title);
         var today = new Date().format("dd-MM-yyyy");
         $("#RequestDate").html(today);
         $("#WorkflowStatus").html("New");
@@ -1217,6 +1218,9 @@ function SaveData(listname, listDataArray, sectionName, ele) {
 }
 function SaveImageSignaturePath(sectionName, itemID) {
     var formFieldValues = [];
+    if (currentUser.Email == "" || currentUser.Email == null) {
+        currentUser.Email = currentUser.LoginName.split('|')[2];
+    }
     $.ajax({
         url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('EmployeeSignature')/Items?$select=FileRef/FileRef&$filter=EmployeeEmail eq '" + currentUser.Email + "'",
         type: "GET",
@@ -1238,10 +1242,10 @@ function SaveImageSignaturePath(sectionName, itemID) {
                         formFieldValues['ManagementSignature'] = _spPageContextInfo.webAbsoluteUrl + data.d.results[0].FileRef;
                         break;
                 }
-                SaveFormFields(formFieldValues, itemID);
             }
         },
         error: function (xhr) {
+            console.log(xhr);
         }
     });
 
