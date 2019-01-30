@@ -1093,6 +1093,10 @@ function SaveFormFields(formFieldValues, requestId) {
     if (!IsNullOrUndefined(formFieldValues["WorkflowStatus"])) {
         mainlistDataArray['WorkflowStatus'] = formFieldValues["WorkflowStatus"].toString();
     }
+
+    if (!IsNullOrUndefined(formFieldValues["InitiatorSignature"])) {
+        mainlistDataArray['InitiatorSignature'] = formFieldValues["InitiatorSignature"].toString();
+    }
     //ApprovalStatus : formFieldValues["ApprovalStatus"],
     //LastactionPerformed : formFieldValues["LastactionPerformed"],
     //IsReschedule: formFieldValues["IsReschedule"],
