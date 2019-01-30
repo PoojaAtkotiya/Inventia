@@ -1626,10 +1626,6 @@ function AjaxCall(options) {
     });
 }
 
-function UserAborted(xhr) {
-    return !xhr.getAllResponseHeaders();
-}
-
 function ShowError(ModelStateErrors) {
     jQuery('input').removeClass("input-validation-error")
     var messages = "";
