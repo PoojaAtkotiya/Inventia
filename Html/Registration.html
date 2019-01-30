@@ -15,6 +15,8 @@
     />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Content/style-responsive.css"
     />
+    <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/CSSFiles/appMain.css"
+    />
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Script/moment.js"></script>
@@ -34,193 +36,7 @@
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/AppForm.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script>
 
-    <style>
-        label {
-            font-weight: normal;
-        }
 
-        .error {
-            display: block;
-            border: 1px solid #dc6767!important;
-            font-size: 14px;
-        }
-
-        .radio label {
-            min-height: 20px;
-            padding-left: 20px;
-            margin-bottom: 40px;
-            font-weight: 400;
-            cursor: pointer;
-        }
-
-        #txtunits {
-            margin-bottom: 8px;
-        }
-
-        #txtproductivity {
-            margin-bottom: 8px;
-        }
-
-        #txtutility {
-            margin-bottom: 8px;
-        }
-
-        #txtregulatory {
-            margin-bottom: 8px;
-        }
-
-        .custom-control-label {
-            font-size: 15px;
-            color: black;
-        }
-
-        .table tbody tr td {
-            background-color: white;
-        }
-
-        .table tr {
-            background-color: white;
-            color: #000000;
-        }
-
-        .headerwordwrap {
-            white-space: nowrap;
-        }
-
-        .control-label {
-            color: #000
-        }
-
-        h2 {
-            margin-top: 0px!important;
-        }
-
-        .view-icon {
-            color: #0a819c;
-            font-size: 20px;
-        }
-
-        .edit-icon {
-            color: #FFC107;
-            font-size: 20px;
-        }
-
-        .delete-icon {
-            color: red;
-            font-size: 20px;
-        }
-
-        @media screen and (min-width: 768px) {
-            .modal-dialog {
-                left: 0%!important;
-                padding-top: 6px!important;
-                width: 950px!important;
-            }
-        }
-
-        .page-header-topbar {
-            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
-            /* z-index: 1000000; */
-            z-index: 0!important;
-            position: relative;
-        }
-
-        .modal .modal-header,
-        .modal .modal-body,
-        .modal .modal-footer {
-            padding: 20px 30px;
-        }
-
-
-        .modal .modal-content {
-            border-radius: 3px;
-        }
-
-        .modal .modal-footer {
-            background: #ecf0f1;
-            border-radius: 0 0 3px 3px;
-        }
-
-        .modal .modal-title {
-            display: inline-block;
-        }
-
-        .modal .form-control {
-            border-radius: 2px;
-            box-shadow: none;
-            border-color: #dddddd;
-        }
-
-        .modal textarea.form-control {
-            resize: vertical;
-        }
-
-        .modal .btn {
-            border-radius: 2px;
-            min-width: 100px;
-        }
-
-        .modal form label {
-            font-weight: normal;
-        }
-
-        .ui-widget-content .ui-state-default {
-            border: 0;
-            background: white;
-            color: black;
-            cursor: pointer;
-        }
-
-        .page-title-breadcrumb {
-
-            z-index: 0!important;
-
-            overflow: hidden;
-
-        }
-
-        .ui-datepicker-title {
-            color: black;
-        }
-
-        .ui-datepicker .ui-datepicker-prev span,
-        .ui-datepicker .ui-datepicker-next span {
-
-            /* background-color: palevioletred; */
-            background-color: wheat;
-        }
-
-        .bgcolor {
-            background-color: bisque;
-            height: 33px;
-            text-align: center;
-        }
-
-        .left {
-            background-color: bisque;
-            text-align: center;
-        }
-
-        .radioalign {
-            text-align: right;
-        }
-
-        .radio {
-            padding-right: 50px;
-        }
-
-        .justify {
-            /* font-family: Georgia, 'Times New Roman', Times, serif; */
-            font-weight: 1500;
-            color: #0072C6 !important;
-        }
-
-        /* .note {
-
-            width: 900px;
-            height: 75px;
-        } */
-    </style>
     <script type="text/javascript">
         var formData = {};
         $(document).ready(function () {
@@ -358,8 +174,9 @@
                                                             User Requirement Specification No.:
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <input type="text" id="UserRequirementSpecificationNo"  class="form-control dynamic-control" placeholder=" User Requirement  No"
-                                                                controlType="text" listtype="main" maxlength="255" required="required" />
+                                                            <input type="text" id="UserRequirementSpecificationNo" class="form-control dynamic-control" placeholder=" User Requirement  No"
+                                                                controlType="text" listtype="main" maxlength="255" required="required"
+                                                            />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -432,7 +249,7 @@
                                                         </label>
                                                         <div class="col-md-8">
                                                             <input type="text" id="NumberofUnits" class="form-control dynamic-control" placeholder="Number of Units" data="digit" controlType="text"
-                                                                listtype="main" maxlength="15" required="required"/>
+                                                                listtype="main" maxlength="15" required="required" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -444,7 +261,7 @@
                                                         </label>
                                                         <div class="col-md-8">
                                                             <input type="text" id="LifeofAsset" class="form-control dynamic-control" placeholder="Life of Asset" controlType="text" maxlength="255"
-                                                                listtype="main" required="required"/>
+                                                                listtype="main" required="required" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -459,7 +276,8 @@
                                                         <div class="col-md-8">
                                                             <select class="form-control m-b-n-sm dynamic-control" id="AssetClassification" controlType="combo" listtype="master" name="AssetClassification"
                                                                 data-selected="AssetClassification" valuebindingcolumn="Title"
-                                                                textbindingcolumnn="Title" listname="AssetClassificationMaster" required="required">
+                                                                textbindingcolumnn="Title" listname="AssetClassificationMaster"
+                                                                required="required">
                                                             </select>
                                                         </div>
                                                     </div>
@@ -472,7 +290,7 @@
                                                         </label>
                                                         <div class="col-md-8">
                                                             <input type="text" id="AssetCode" class="form-control dynamic-control" placeholder="Asset Code" controlType="text" maxlength="255"
-                                                                listtype="main" required="required"/>
+                                                                listtype="main" required="required" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -486,7 +304,7 @@
                                                         </label>
                                                         <div class="col-md-8">
                                                             <input type="text" id="CostCenter" class="form-control dynamic-control" placeholder="Cost Center" controlType="text" maxlength="255"
-                                                                listtype="main" required="required"/>
+                                                                listtype="main" required="required" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -552,7 +370,8 @@
                                                                 <label class="col-md-4 control-label">Name of the Vendor Selected</label>
                                                                 <div class="col-md-8">
                                                                     <input id="NameoftheVendorSelected" class="form-control dynamic-control" placeholder=" Name of the Vendor Selected" type="text"
-                                                                        controlType="text" listtype="main" required="required"/>
+                                                                        controlType="text" listtype="main" required="required"
+                                                                    />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -578,7 +397,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="row"></div>
+                                                    <!-- <div class="row"></div>
                                                     <div class="row">
 
                                                         <div class="col-lg-6">
@@ -589,10 +408,34 @@
                                                             <label class="col-md-4 control-label">Signature</label>
                                                             <div id="img_Intiator" class="col-md-8" width="100" height="100"></div>
                                                         </div>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                             </div>
                                         </div>
+                                        
+                                                <div class="card-section">
+                                                    <div class="card-head">
+                                                        <h4 class="justify"> Signature</h4>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-horizontal">
+                                                            <div class="row">
+                                                                    <div class="col-lg-6">
+                                                                            <label class="col-md-4 control-label">Initiator</label>
+                                                                            <label id="ProposedBy" class="col-md-8 dynamic-control" controlType="text" listtype="main"></label>
+                                                                            <!-- <label class="col-md-4 control-label dynamic-control" controlType="text" listtype="main">Initiator Name</label> -->
+                                                                        </div>
+                                                                        <div class="col-lg-6">
+                                                                            
+                                                                            <img class="col-md-8" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/images/download.jpg" width="100" height="100"
+                                                                            />
+                                                                        </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            
                                     </div>
                                 </myform>
                             </div>
@@ -890,7 +733,7 @@
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label class="col-md-4 control-label"> 
+                                                    <label class="col-md-4 control-label">
                                                         <span class="text-danger text-default-light">*</span>
                                                         Comments</label>
                                                     <div class="col-md-8">
