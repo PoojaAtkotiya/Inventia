@@ -607,7 +607,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
 
     ////send mail
     /*Send Mail Start*/
-    //SendMail(actionPerformed,currentUser.Id,itemID,tempApproverMatrix,ListNames.MAINLIST,nextLevel,currentLevel,param,isNewItem);
+     SendMail(actionPerformed,currentUser.Id,itemID,tempApproverMatrix,ListNames.MAINLIST,nextLevel,currentLevel,param,isNewItem);
     /*Send Email End*/
 
 }

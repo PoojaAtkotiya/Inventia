@@ -19,7 +19,8 @@ const ListNames = {
     APPROVERMASTERLIST: "ApproverMaster",
     GLOBALAPPROVALMATRIXLIST: "ApprovalMatrix",
     BUTTONLIST: "Buttons",
-    CAPEXVENDORLIST: "CapexVendor"
+    CAPEXVENDORLIST: "CapexVendor",
+    EMAILTEMPLATELIST:"EmailTemplate"
 }
 Object.freeze(ListNames);
 
@@ -174,3 +175,11 @@ const SectionNames =
         MANAGEMENTSECTION: "Management Section"
     }
 Object.freeze(SectionNames);
+
+
+const EmailTemplateName =
+    {
+        APPROVALMAIL: "ApprovalMail",
+        SENDBACKMAIL: "SendBackMail",
+    }
+Object.freeze(EmailTemplateName);

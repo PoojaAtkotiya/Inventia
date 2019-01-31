@@ -1661,10 +1661,86 @@ function getTermFromManagedColumn(managedColumn) {
 }
 
 function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, mainListName, nextLevel, currentLevel, param, isNewItem) {
-
-    var strAllUsers = GetEmailUsers(tempApproverMatrix, nextLevel, isNewItem)
+    var nextApproverIds="";
+    var from = "", to = "", cc = "", role = "", tmplName = "", strAllusers = "", email = [],mailCustomValues=[];
+    try {
+        if (currentLevel < 0)
+                {
+                    currentLevel = 0;
+                }
+        tempApproverMatrix.forEach(temp => {
+            if (temp.Levels == nextLevel && !IsNullOrUndefined(temp.ApproverId)) {
+                nextApproverIds= nextApproverIds.Trim(',') + "," + temp.ApproverId;
+            }
+        });
+        var strAllUsers = GetEmailUsers(tempApproverMatrix, nextLevel, isNewItem)
+        nextApproverIds = nextApproverIds.Trim(',');
+        mailCustomValues.push("CurrentApproverName",currentUser.Title);
+        mailCustomValues.push("NextApproverName",GetUserNamesbyUserID(nextApproverIds));
+        switch (actionPerformed) {
+            case ButtonActionStatus.NextApproval:
+            if (approversDataFromList != null && approversDataFromList.Count != 0)
+            {
+                from = currentUser.Email;
+                var allToUsers ="";
+                tempApproverMatrix.forEach(temp => {
+                    if (temp.Levels == nextLevel && !IsNullOrUndefined(temp.ApproverId)) {
+                        allToUsers= allToUsers.Trim(',') + "," + temp.ApproverId;
+                    }
+                });
+                to = allToUsers.Trim(',');
+                cc = tempApproverMatrix.filter(temp => {
+                if(temp.Role == Roles.CREATOR)
+                   {
+                       return temp.Approver
+                   };
+               })[0];
+                role = tempApproverMatrix.filter(temp => {
+                     if(temp.Levels == currentLevel)
+                    {
+                        return temp.Role
+                    };
+                })[0];
+              
+                tmplName = EmailTemplateName.APPROVALMAIL;
+                email = GetEmailBody(EmailTemplateName.APPROVALMAIL, itemID,mainListName, mailCustomValues, role, CommonConstant.APPLICATIONNAME,CommonConstant.FORMNAME);
+            }
+            break;
+         
+            }
+    }
+    catch (ex) {
+        // blank catch to handle ie issue in case of CK editor
+    }
+   
 }
-
+function GetEmailBody(templateName,itemID,mainListName,mailCustomValues, role,applicationName,formName){
+   var emailTemplate = [];
+   var emailTemplateListData;
+   GetFormDigest().then(function (data) {
+    AjaxCall(
+        {
+            url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And><Eq><FieldRef Name='Title' /><Value Type='Text'>" + templateName + "</Value></Eq></And></Where></Query></View>\"}",
+            httpmethod: 'POST',
+            calldatatype: 'JSON',
+            async: false,
+            headers:
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json; odata=verbose",
+                    "X-RequestDigest": data.d.GetContextWebInformation.FormDigestValue
+                },
+            sucesscallbackfunction: function (data) {
+                emailTemplateListData = data.d.results;
+                emailTemplateListData.forEach(t => {
+                    emailTemplate.push("Subject",t.Subject);
+                    emailTemplate.push("Body",t.Body);
+                });
+            }
+        });
+});
+   return emailTemplate;
+}
 function GetEmailUsers(tempApproverMatrix, nextLevel, isNewItem) {
     var userWithRoles = GetPermissionDictionary(tempApproverMatrix, nextLevel, true, isNewItem);
     var userIdString = '';
