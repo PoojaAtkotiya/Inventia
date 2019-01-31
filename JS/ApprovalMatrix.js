@@ -754,7 +754,7 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
                                     data: JSON.stringify(dataTemplate),
                                     headers: {
                                         "content-type": "application/json",
-                                        "cache-control": "no-cache"
+                                        // "cache-control": "no-cache"
                                     },
                                     async: false,
                                     success: function (data) {
@@ -1096,6 +1096,15 @@ function SaveFormFields(formFieldValues, requestId) {
 
     if (!IsNullOrUndefined(formFieldValues["InitiatorSignature"])) {
         mainlistDataArray['InitiatorSignature'] = formFieldValues["InitiatorSignature"].toString();
+    }
+    if (!IsNullOrUndefined(formFieldValues["HODSignature"])) {
+        mainlistDataArray['HODSignature'] = formFieldValues["HODSignature"].toString();
+    }
+    if (!IsNullOrUndefined(formFieldValues["SignatureCapexMemberOne"])) {
+        mainlistDataArray['SignatureCapexMemberOne'] = formFieldValues["SignatureCapexMemberOne"].toString();
+    }
+    if (!IsNullOrUndefined(formFieldValues["ManagementSignature"])) {
+        mainlistDataArray['ManagementSignature'] = formFieldValues["ManagementSignature"].toString();
     }
     //ApprovalStatus : formFieldValues["ApprovalStatus"],
     //LastactionPerformed : formFieldValues["LastactionPerformed"],

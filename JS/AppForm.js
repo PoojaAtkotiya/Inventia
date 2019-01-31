@@ -8,9 +8,9 @@ var sendToLevel = 0;
 var collListItem = null;
 
 $(document).ready(function () {
-    
-   // GetUsersForDDL(Roles.HOD, "LUMMarketingDelegateId");
-   // GetUsersForDDL(Roles.CAPEXCOMMITTEE, "SCMLUMDesignDelegateId");
+
+    // GetUsersForDDL(Roles.HOD, "LUMMarketingDelegateId");
+    // GetUsersForDDL(Roles.CAPEXCOMMITTEE, "SCMLUMDesignDelegateId");
     // $(document).on("change", "#UploadArtworkAttachment", function () {
     //     BindAttachmentFiles();
     // });
@@ -44,9 +44,15 @@ function onGetSetFormDataSuccess(data) {
             var listType = $(this).attr('listtype');
             var reflisttype = $(this).attr('reflisttype');
             var elementId = $(this).attr('id');
+            var fieldName = $(this).attr('id');
             var elementType = $(this).attr('controlType');
+            if (elementType == 'multicheckbox')
+                fieldName = $(this).attr("cParent");
+            else if (elementType == 'radiogroup')
+                fieldName = $(this).attr("cParent");
+
             if (listType == 'main' || reflisttype == 'main') {
-                setFieldValue(elementId, item, elementType, elementId);
+                setFieldValue(elementId, item, elementType, fieldName);
             }
         });
     }

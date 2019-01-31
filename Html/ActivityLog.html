@@ -1,75 +1,63 @@
-<div class="card">
-    <div class="card-head" data-toggle="collapse" data-target="#ActivityLog">
-        <b>ACTIVITY LOG </b>
-        <div class="btn collapse-btn">
+<div id="divActivityLogs" activityloglistname="ItemCodeActivityLog" class="card">
+    <div class="card-head">
+        <b>
+            Activity Log
+        </b>
+        <div class="btn collapse-btn collapsed" data-toggle="collapse" data-target="#activitylogbody">
             <i class="fa fa-chevron-down"></i>
         </div>
     </div>
-    <div class="card-body in" id="ActivityLog">
-        <table class="table table-bordered" id="tblActivityLog">
-            <thead>
-                <tr>
-                    <th colspan="2">
-                        <b>Activity Action</b>
-                    </th>
-                    <th colspan="2">
-                        <b>Section</b>
-                    </th>
-                    <th colspan="2">
-                        <b>Activity Date</b>
-                    </th>
-                    <th colspan="2">
-                        <b>Updated Time</b>
-                    </th>
-                    <th colspan="2">
-                        <b>Performed By</b>
-                    </th>
-                    <th colspan="2">
-                        <b>Changes</b>
-                    </th>
-
-                </tr>
-                <tr>
-                    <td colspan="14" class="text-center text-danger">
-                        No data found.
-                    </td>
-                </tr>
-            </thead>
-        </table>
-        <div id="ActivityLogChanges">
-            <div class="modal fade" id="activityLogDetail" tabindex="-1" role="dialog" aria-labelledby="activityLogDetailLabel">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <h4 class="modal-title" id="activityLogDetailLabel">
-                                Activity Log Details
-                            </h4>
-                        </div>
-                        <div class="modal-body">
-                            <table class="table table-hover table-bordered someTable" id="tblActivityChanges">
-                                <thead>
-                                    <tr>
-                                        <th>Field</th>
-                                        <th>Description</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">
-                                Close
-                            </button>
+    <div id="activitylogbody" class="card-body in">
+        <div class="panel-body grid-view">
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered someTable" id="tblActivityLog">
+                    <thead>
+                        <tr>
+                            <th width='20%'>Activity Action</th>
+                            <th width='25%'>Section</th>
+                            <th width='15%'>Activity Date Time</th>
+                            <th width='25%'>Performed By</th>
+                            <th width='15%'>Changes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div id="ActivityLogChanges">
+                    <div class="modal fade" id="activityLogDetail" tabindex="-1" role="dialog" aria-labelledby="activityLogDetailLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title" id="activityLogDetailLabel">
+                                        Activity Log Details
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table table-hover table-bordered someTable" id="tblActivityChanges">
+                                        <thead>
+                                            <tr>
+                                                <th>Field</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="clearfix"></div>
     </div>
     <div class="clearfix"></div>
 </div>

@@ -494,8 +494,9 @@ function BindDatePicker(selector) {
 }
 
 function setFieldValue(controlId, item, fieldType, fieldName) {
-    if (!fieldName || fieldName == "")
+    if (!fieldName || fieldName == "") {
         fieldName = controlId;
+    }
 
     switch (fieldType) {
         case "text":
@@ -527,6 +528,26 @@ function setFieldValue(controlId, item, fieldType, fieldName) {
             break;
         case "hidden":
             $("#" + controlId).val(item[fieldName]);
+            break;
+        case "multicheckbox":
+            if (item[fieldName] != null && item[fieldName].results != null && item[fieldName].results.length > 0) {
+                item[fieldName].results.forEach(function (thisItem) {
+                    if (thisItem == controlId) {
+                        $("#" + controlId)[0].checked = true;
+                        debugger;
+                        if (listDataArray[fieldName] == undefined)
+                            listDataArray[fieldName] = { "__metadata": { "type": "Collection(Edm.String)" }, "results": [] };
+                        listDataArray[fieldName].results.push(thisItem);
+                    }
+                });
+            }
+            break;
+        case "radiogroup":
+            debugger;
+            if (controlId == item[fieldName])
+                $("#" + controlId).prop('checked', true);
+            else
+                $("#" + controlId).prop('checked', false);
             break;
     }
 }
@@ -1242,6 +1263,7 @@ function SaveImageSignaturePath(sectionName, itemID) {
                         formFieldValues['ManagementSignature'] = _spPageContextInfo.webAbsoluteUrl + data.d.results[0].FileRef;
                         break;
                 }
+                SaveFormFields(formFieldValues, itemID);
             }
         },
         error: function (xhr) {
