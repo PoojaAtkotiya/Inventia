@@ -37,8 +37,14 @@ function ViewVendorDetails(obj) {
         $("#spanTitle").html('Vendor Detail');
         $('.dynamic-control').each(function () {
             var elementId = $(this).attr('id');
+            var fieldName = $(this).attr('id');
             var elementType = $(this).attr('controlType');
-            setFieldValues(elementId, item, elementType, elementId);
+            if (elementType == 'multicheckbox')
+                fieldName = $(this).attr("cParent");
+            else if (elementType == 'radiogroup')
+                fieldName = $(this).attr("cParent");
+
+            setFieldValues(elementId, item, elementType, fieldName);
         });
         $("#CRUDVendorModal *").attr("disabled", "disabled");
         $("#CRUDVendorModal").find(".modal-footer").find("button").remove("onclick");
@@ -79,8 +85,13 @@ function EditVendorDetails(obj) {
         $("#spanTitle").html('Edit Vendor Detail');
         $('.dynamic-control').each(function () {
             var elementId = $(this).attr('id');
+            var fieldName = $(this).attr('id');
             var elementType = $(this).attr('controlType');
-            setFieldValues(elementId, item, elementType, elementId);
+            if (elementType == 'multicheckbox')
+                fieldName = $(this).attr("cParent");
+            else if (elementType == 'radiogroup')
+                fieldName = $(this).attr("cParent");
+            setFieldValues(elementId, item, elementType, fieldName);
         });
     }
     else {
@@ -119,6 +130,26 @@ function setFieldValues(controlId, item, fieldType, fieldName) {
                 dt = new Date(item[fieldName]).format("dd-MM-yyyy");
                 $("#" + controlId).val(dt).change();
             }
+            break;
+        case "multicheckbox":
+            if (item[fieldName] != null && item[fieldName].results != null && item[fieldName].results.length > 0) {
+                item[fieldName].results.forEach(function (thisItem) {
+                    if (thisItem == controlId) {
+                        $("#" + controlId)[0].checked = true;
+                        debugger;
+                        if (listDataArray[fieldName] == undefined)
+                            listDataArray[fieldName] = { "__metadata": { "type": "Collection(Edm.String)" }, "results": [] };
+                        listDataArray[fieldName].results.push(thisItem);
+                    }
+                });
+            }
+            break;
+        case "radiogroup":
+            debugger;
+            if (controlId == item[fieldName])
+                $("#" + controlId).prop('checked', true);
+            else
+                $("#" + controlId).prop('checked', false);
             break;
     }
 }
