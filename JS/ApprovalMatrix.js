@@ -754,7 +754,7 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
                                     data: JSON.stringify(dataTemplate),
                                     headers: {
                                         "content-type": "application/json",
-                                        "cache-control": "no-cache"
+                                        // "cache-control": "no-cache"
                                     },
                                     async: false,
                                     success: function (data) {
