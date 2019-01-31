@@ -662,7 +662,7 @@ hr {
     border-bottom: 5px solid #e5e5e5 !important;
     box-shadow: none !important;
     position: fixed;
-    width: 100%;
+    width: 79% !important;
     /* z-index: 999; */
     z-index: 0!important;
     overflow: hidden;
@@ -9575,6 +9575,11 @@ h2 {
     color: #ffffff;
     border: 1px solid #1f68b1;
 }
+/* This padding is for label at top for orginator,date,department*/
+.labeltop{
+    padding-top: 7px;
+}
+/*End */
 
 label.error{	
     display: none!important;
