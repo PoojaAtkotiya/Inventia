@@ -604,7 +604,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
     SaveApprovalMatrixInList(tempApproverMatrix, approvalMatrixListName, isNewItem);
 
     ////save activity log
-    SendMail(actionPerformed,currentUser.Id,itemID,tempApproverMatrix,ListNames.MAINLIST,nextLevel,currentLevel,param,isNewItem);
+    SendMail(actionPerformed,currentUser.Id,requestId,tempApproverMatrix,ListNames.MAINLIST,nextLevel,currentLevel,param,isNewItem);
  }
 
 function SetItemPermission(requestId, listName, userWithRoles) {

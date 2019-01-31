@@ -1251,16 +1251,16 @@ function SaveImageSignaturePath(sectionName, itemID) {
             if (data.d.results) {
                 switch (sectionName) {
                     case SectionNames.INITIATORSECTION:
-                        formFieldValues['InitiatorSignature'] = _spPageContextInfo.webAbsoluteUrl + data.d.results[0].FileRef;
+                        formFieldValues['InitiatorSignature'] =  + data.d.results[0].FileRef;
                         break;
                     case SectionNames.HODSECTION:
-                        formFieldValues['HODSignature'] = _spPageContextInfo.webAbsoluteUrl + data.d.results[0].FileRef;
+                        formFieldValues['HODSignature'] = data.d.results[0].FileRef;
                         break;
                     case SectionNames.CAPEXCOMMITTEESECTION:
-                        formFieldValues['SignatureCapexMemberOne'] = _spPageContextInfo.webAbsoluteUrl + data.d.results[0].FileRef;
+                        formFieldValues['SignatureCapexMemberOne'] =  data.d.results[0].FileRef;
                         break;
                     case SectionNames.INITIATORSECTION:
-                        formFieldValues['ManagementSignature'] = _spPageContextInfo.webAbsoluteUrl + data.d.results[0].FileRef;
+                        formFieldValues['ManagementSignature'] = data.d.results[0].FileRef;
                         break;
                 }
                 SaveFormFields(formFieldValues, itemID);
@@ -1522,6 +1522,7 @@ function GetUserNamesbyUserID(allUsersIDs) {
     var userNames = '';
     if (!IsNullOrUndefined(allUsersIDs) && allUsersIDs.length > 0) {
         allUsersIDs.forEach(user => {
+            if(user != ""){
             url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + user + ")";
             headers = {
                 "Accept": "application/json;odata=verbose",
@@ -1539,6 +1540,7 @@ function GetUserNamesbyUserID(allUsersIDs) {
                     headers: headers,
                     sucesscallbackfunction: function (data) { userNames = userNames + data.d.Title + ","; }
                 });
+            }
         });
         userNames = userNames.substr(0, userNames.lastIndexOf(',')).replace(/\,/g, ', ');
     }
@@ -1692,40 +1694,54 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                 }
         tempApproverMatrix.forEach(temp => {
             if (temp.Levels == nextLevel && !IsNullOrUndefined(temp.ApproverId)) {
-                nextApproverIds= nextApproverIds.Trim(',') + "," + temp.ApproverId;
+                nextApproverIds= nextApproverIds + "," + temp.ApproverId;
             }
         });
+    
         var strAllUsers = GetEmailUsers(tempApproverMatrix, nextLevel, isNewItem)
-        nextApproverIds = nextApproverIds.Trim(',');
+        nextApproverIds = nextApproverIds.trim(',');
         mailCustomValues.push("CurrentApproverName",currentUser.Title);
-        mailCustomValues.push("NextApproverName",GetUserNamesbyUserID(nextApproverIds));
+      //  mailCustomValues.push("NextApproverName",GetUserNamesbyUserID(nextApproverIds));
+        debugger;
         switch (actionPerformed) {
             case ButtonActionStatus.NextApproval:
-            if (approversDataFromList != null && approversDataFromList.Count != 0)
+            debugger;
+            if (tempApproverMatrix != null && tempApproverMatrix.Count != 0)
             {
                 from = currentUser.Email;
                 var allToUsers ="";
                 tempApproverMatrix.forEach(temp => {
                     if (temp.Levels == nextLevel && !IsNullOrUndefined(temp.ApproverId)) {
-                        allToUsers= allToUsers.Trim(',') + "," + temp.ApproverId;
+                        allToUsers= allToUsers.trim(',') + "," + temp.ApproverId;
                     }
                 });
-                to = allToUsers.Trim(',');
-                cc = tempApproverMatrix.filter(temp => {
+                to = allToUsers.trim(',');
+                tempApproverMatrix.forEach(temp => {
+                    if (temp.Role == Roles.CREATOR) {
+                        cc=temp.ApproverId;
+                    }
+                });
+                tempApproverMatrix.forEach(temp => {
+                    if (temp.Levels == currentLevel) {
+                        role=temp.Role;
+                    }
+                });
+              /*  cc = tempApproverMatrix.filter(temp => {
                 if(temp.Role == Roles.CREATOR)
                    {
                        return temp.Approver
                    };
-               })[0];
-                role = tempApproverMatrix.filter(temp => {
+               })[0];*/
+              /*  role = tempApproverMatrix.filter(temp => {
                      if(temp.Levels == currentLevel)
                     {
                         return temp.Role
                     };
-                })[0];
+                })[0];*/
               
                 tmplName = EmailTemplateName.APPROVALMAIL;
-                email = GetEmailBody(EmailTemplateName.APPROVALMAIL, itemID,mainListName, mailCustomValues, role, CommonConstant.APPLICATIONNAME,CommonConstant.FORMNAME);
+                email = GetEmailBody(tmplName,itemID,mainListName,mailCustomValues,role,CommonConstant.APPLICATIONNAME,CommonConstant.FORMNAME);
+                      
             }
             break;
          
@@ -1739,10 +1755,11 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
 function GetEmailBody(templateName,itemID,mainListName,mailCustomValues, role,applicationName,formName){
    var emailTemplate = [];
    var emailTemplateListData;
+   debugger;
    GetFormDigest().then(function (data) {
     AjaxCall(
         {
-            url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And><Eq><FieldRef Name='Title' /><Value Type='Text'>" + templateName + "</Value></Eq></And></Where></Query></View>\"}",
+            url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + applicationName + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + formName + "</Value></Eq></And></Where></Query></View>\"}",
             httpmethod: 'POST',
             calldatatype: 'JSON',
             async: false,
@@ -1764,6 +1781,7 @@ function GetEmailBody(templateName,itemID,mainListName,mailCustomValues, role,ap
    return emailTemplate;
 }
 function GetEmailUsers(tempApproverMatrix, nextLevel, isNewItem) {
+    
     var userWithRoles = GetPermissionDictionary(tempApproverMatrix, nextLevel, true, isNewItem);
     var userIdString = '';
     userWithRoles.forEach(element => {

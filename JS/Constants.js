@@ -180,6 +180,6 @@ Object.freeze(SectionNames);
 const EmailTemplateName =
     {
         APPROVALMAIL: "ApprovalMail",
-        SENDBACKMAIL: "SendBackMail",
+        SENDBACKMAIL: "SendBackMail"
     }
 Object.freeze(EmailTemplateName);
