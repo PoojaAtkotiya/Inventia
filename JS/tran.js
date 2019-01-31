@@ -42,9 +42,13 @@ function GetTranData(tranlistname, lookupId) {
                     if (item != null && item != '' & item != undefined) {
                         $('input[listname*=' + tranlistname + '],select[listname*=' + tranlistname + '],radio[listname*=' + tranlistname + '],textarea[listname*=' + tranlistname + ']').each(function () {
                             var elementId = $(this).attr('id');
+                            var fieldName = $(this).attr('id');
                             var elementType = $(this).attr('controlType');
-
-                            setFieldValue(elementId, item, elementType, elementId);
+                            if (elementType == 'multicheckbox')
+                                fieldName = $(this).attr("cParent");
+                            else if (elementType == 'radiogroup')
+                                fieldName = $(this).attr("cParent");
+                            setFieldValue(elementId, item, elementType, fieldName);
                         });
                     }
                 }

@@ -494,8 +494,9 @@ function BindDatePicker(selector) {
 }
 
 function setFieldValue(controlId, item, fieldType, fieldName) {
-    if (!fieldName || fieldName == "")
+    if (!fieldName || fieldName == "") {
         fieldName = controlId;
+    }
 
     switch (fieldType) {
         case "text":
@@ -1262,6 +1263,7 @@ function SaveImageSignaturePath(sectionName, itemID) {
                         formFieldValues['ManagementSignature'] = _spPageContextInfo.webAbsoluteUrl + data.d.results[0].FileRef;
                         break;
                 }
+                SaveFormFields(formFieldValues, itemID);
             }
         },
         error: function (xhr) {
