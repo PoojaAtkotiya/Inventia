@@ -1,8 +1,8 @@
 var data = null;
 $(document).ready(function () {
     GetVendorDetails();
-    $(document).on('click', 'a[id="btnAddVendor"]', function () {
-        AddVendorDetails();
+    $(document).on('click', 'a[id="btnAddVendor"]', function () {        
+       AddVendorDetails();
     });
     $(document).on('click', 'a[id*="EditVendor_"]', function () {
         EditVendorDetails(jQuery(this));
