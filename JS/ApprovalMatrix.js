@@ -145,9 +145,12 @@ function GetCurrentUserRole(id, mainListName) {
     var deferred = $.Deferred();
     web = currentContext.get_web();
     oList = web.get_lists().getByTitle(mainListName);
+    this._currentUser = web.get_currentUser();
+
     var oListItem = oList.getItemById(id);
     currentContext.load(oListItem, 'EffectiveBasePermissions', 'HasUniqueRoleAssignments', 'FormLevel', 'Status');
     currentContext.load(web);
+    currentContext.load(this._currentUser);
     currentContext.executeQueryAsync(function () {
 
         // console.log("Does the user has full permission in the web ? : "+oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.manageWeb))
@@ -157,8 +160,8 @@ function GetCurrentUserRole(id, mainListName) {
         // else if(oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.manageWeb) && oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.editListItems)){
         //     console.log("user has ful control and edit permission");
         // }   
-        if (oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.editListItems)) {
-            console.log("user has edit permission");
+        if (oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.editListItems) && oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.addListItems)) {
+            console.log("user has add+edit permission");
             tcurrentLevel = oListItem.get_item('FormLevel').split("|")[1];
 
             GetRoleFromApprovalMatrix(tcurrentLevel, id, currentUser.Id);
@@ -232,7 +235,7 @@ function GetEnableSectionNames(id) {
         $("div .disabled").attr("disabled", "disabled");
         $("div .disabled .form-control").attr("disabled", "disabled");
         $("div .disabled input").attr("disabled", "disabled"); // for radio buttons 
-        
+
     }
 }
 
@@ -1129,7 +1132,7 @@ function SaveFormFields(formFieldValues, requestId) {
     if (!IsNullOrUndefined(formFieldValues["FormLevel"])) {
         mainlistDataArray['FormLevel'] = formFieldValues["FormLevel"].toString();
     }
-    if (!IsNullOrUndefined(nextResults)) {
+    if (!IsNullOrUndefined(nextResults) && nextResults.length > 0) {
         mainlistDataArray['NextApproverId'] = { "results": nextResults };
     }
     if (!IsNullOrUndefined(formFieldValues["LastActionBy"])) {
@@ -1170,6 +1173,7 @@ function SaveFormFields(formFieldValues, requestId) {
             httpmethod: 'POST',
             calldatatype: 'JSON',
             postData: JSON.stringify(mainlistDataArray),
+            async: false,
             headers:
                 {
                     "Accept": "application/json;odata=verbose",
