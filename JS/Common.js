@@ -543,7 +543,6 @@ function setFieldValue(controlId, item, fieldType, fieldName) {
             }
             break;
         case "radiogroup":
-            debugger;
             if (controlId == item[fieldName])
                 $("#" + controlId).prop('checked', true);
             else
@@ -1699,12 +1698,12 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
 
         var strAllUsers = GetEmailUsers(tempApproverMatrix, nextLevel, isNewItem)
         nextApproverIds = nextApproverIds.trim(',');
-        mailCustomValues.push("CurrentApproverName", currentUser.Title);
+        mailCustomValues.push({ "CurrentApproverName": currentUser.Title });
         //  mailCustomValues.push("NextApproverName",GetUserNamesbyUserID(nextApproverIds));
-       
+
         switch (actionPerformed) {
             case ButtonActionStatus.NextApproval:
-                
+
                 if (tempApproverMatrix != null && tempApproverMatrix.Count != 0) {
                     from = currentUser.Email;
                     var allToUsers = "";
@@ -1724,7 +1723,7 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                             role = temp.Role;
                         }
                     });
-                   
+
                     tmplName = EmailTemplateName.APPROVALMAIL;
                     email = GetEmailBody(tmplName, itemID, mainListName, mailCustomValues, role, CommonConstant.APPLICATIONNAME, CommonConstant.FORMNAME);
 
@@ -1741,11 +1740,11 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
 function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role, applicationName, formName) {
     var emailTemplate = [];
     var emailTemplateListData;
-    
+
     GetFormDigest().then(function (data) {
         AjaxCall(
             {
-                url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And><Eq><FieldRef Name='LinkTitle' /><Value Type='Computed'>"+templateName+"</Value></Eq></And></Where></Query></View>\"}",
+                url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And><Eq><FieldRef Name='LinkTitle' /><Value Type='Computed'>" + templateName + "</Value></Eq></And></Where></Query></View>\"}",
                 httpmethod: 'POST',
                 calldatatype: 'JSON',
                 async: false,
@@ -1757,86 +1756,82 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
                     },
                 sucesscallbackfunction: function (data) {
                     debugger;
-                    
-                    emailTemplate.push({"Subject": data.d.results[0].Subject});
-                    emailTemplate.push({"Body": data.d.results[0].Body});
-                    mailCustomValues.push("ItemLink","#URL" + "https://synoverge.sharepoint.com/sites/dev/Pages/Home.aspx?ID="+itemID);
-                    mailCustomValues.push("ItemLinkClickHere",  "<a href='#URL" + "https://synoverge.sharepoint.com/sites/dev/Pages/Home.aspx?ID=" + itemID + "' >Click Here</a>");
-                    emailTemplate = CreateEmailBody(emailTemplate, itemID,mainListName,mailCustomValues);
+
+                    emailTemplate.push({ "Subject": data.d.results[0].Subject });
+                    emailTemplate.push({ "Body": data.d.results[0].Body });
+                    mailCustomValues.push({ "ItemLink": "#URL" + "https://synoverge.sharepoint.com/sites/dev/Pages/Home.aspx?ID=" + itemID });
+                    mailCustomValues.push({ "ItemLinkClickHere": "<a href='#URL" + "https://synoverge.sharepoint.com/sites/dev/Pages/Home.aspx?ID=" + itemID + "' >Click Here</a>" });
+                    emailTemplate = CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues);
                 }
             });
 
-       
+
     });
-    return emailTemplate;
+    //return emailTemplate;
 }
-function CreateEmailBody(emailTemplate, itemID,mainListName,mailCustomValues)
-{
+function CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues) {
     var emailBodyWithCustomData = [];
     var emailBodyWithAllData = [];
     var matchesSubject = [];
     var matchesBody = [];
-    if (emailTemplate != null)
-    {
-                if (mailCustomValues != null)
-                {
-                    debugger;
-                    emailTemplate.forEach(element => {
-                        var preparedEmail = element["Subject"];
-                        if(preparedEmail != undefined){
-                        var regex = /\[\S+?\]/g;
-                        preparedEmail.replace(regex, function(match) {
-                            matchesSubject.push(match);
-                       });
-                    }
-                       var preparedBody = element["Body"];
-                       if(preparedBody != undefined){
-                       var regex = /\[\S+?\]/g;
-                       preparedBody.replace(regex, function(matchbody) {
-                        matchesBody.push(matchbody);
-                      });
-                    }
+    if (emailTemplate != null) {
+        if (mailCustomValues != null) {
+            debugger;
+            emailTemplate.forEach(element => {
+                var preparedEmail = element["Subject"];
+                if (preparedEmail != undefined) {
+                    var regex = /\[\S+?\]/g;
+                    preparedEmail.replace(regex, function (match) {
+                        matchesSubject.push(match);
                     });
-                    var mainlistData = GetDatafromList(itemID,mainListName,matchesSubject,matchesBody);
-                  //  if(mainlistData!=undefined && matchesSubject !=undefined){
-                   //     GetFieldsValueString(matchesSubject,mainlistData);
-                     //   return emailTemplate;
-                   // }
-                   // 
                 }
+                var preparedBody = element["Body"];
+                if (preparedBody != undefined) {
+                    var regex = /\[\S+?\]/g;
+                    preparedBody.replace(regex, function (matchbody) {
+                        matchesBody.push(matchbody);
+                    });
+                }
+            });
+            var mainlistData = GetDatafromList(itemID, mainListName, matchesSubject, matchesBody);
+            //  if(mainlistData!=undefined && matchesSubject !=undefined){
+            //     GetFieldsValueString(matchesSubject,mainlistData);
+            //   return emailTemplate;
+            // }
+            // 
+        }
     }
-    
+
 }
-function GetFieldsValueString(matchesSubject,mainlistData){
+function GetFieldsValueString(matchesSubject, mainlistData) {
     var replacedValues = [];
     matchesSubject.forEach(temp => {
-        replacedValues.push({temp: mainlistData.temp});
+        replacedValues.push({ temp: mainlistData.temp });
     });
 }
-function GetDatafromList(itemID,mainListName,matchesSubject,matchesBody){
+function GetDatafromList(itemID, mainListName, matchesSubject, matchesBody) {
     var mainlistData;
     var replacedValuesSubject = [];
     AjaxCall(
-            {
-                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + mainListName + "')/items(" + itemID +")",
-                httpmethod: 'GET',
-                calldatatype: 'JSON',
-                async: false,
-                headers:
-                    {
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json; odata=verbose",
-                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                    },
-                sucesscallbackfunction: function (data) {
-                    debugger;
-                    mainlistData = data.d;
-                    if(mainlistData!=undefined && matchesSubject !=undefined){
-                        replacedValuesSubject = GetFieldsValueString(matchesSubject,mainlistData);
-                    }
-                   
+        {
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + mainListName + "')/items(" + itemID + ")",
+            httpmethod: 'GET',
+            calldatatype: 'JSON',
+            async: false,
+            headers:
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json; odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+            sucesscallbackfunction: function (data) {
+                mainlistData = data.d;
+                if (mainlistData != undefined && matchesSubject != undefined) {
+                    replacedValuesSubject = GetFieldsValueString(matchesSubject, mainlistData);
                 }
-            });
+
+            }
+        });
 }
 function GetEmailUsers(tempApproverMatrix, nextLevel, isNewItem) {
 
