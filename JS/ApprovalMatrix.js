@@ -207,9 +207,9 @@ function GetEnableSectionNames(id) {
             }
         });
         // $("div.disabled.form-control").attr("disabled", "disabled");
-
-        $("div.card-body.disabled.form-control").attr("disabled", "disabled");
-        $("div.card-body.disabled.form-control").attr("disabled", "disabled");
+        $("div .disabled").attr("disabled", "disabled");
+        $("div .disabled .form-control").attr("disabled", "disabled");
+        $("div .disabled input").attr("disabled", "disabled"); // for radio buttons
     }
     else if (id > 0) {
         //get active section name
@@ -229,10 +229,10 @@ function GetEnableSectionNames(id) {
             });
         }
         // $("div.disabled.form-control").attr("disabled", "disabled");
-        $("div.card-body.disabled .form-control").attr("disabled", "disabled");
-        $("div.card-body.disabled .form-control").attr("disabled", "disabled");
-
-
+        $("div .disabled").attr("disabled", "disabled");
+        $("div .disabled .form-control").attr("disabled", "disabled");
+        $("div .disabled input").attr("disabled", "disabled"); // for radio buttons 
+        
     }
 }
 
@@ -604,8 +604,8 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
     SaveApprovalMatrixInList(tempApproverMatrix, approvalMatrixListName, isNewItem);
 
     ////save activity log
-    SendMail(actionPerformed,currentUser.Id,requestId,tempApproverMatrix,ListNames.MAINLIST,nextLevel,currentLevel,param,isNewItem);
- }
+    SendMail(actionPerformed, currentUser.Id, requestId, tempApproverMatrix, ListNames.MAINLIST, nextLevel, currentLevel, param, isNewItem);
+}
 
 function SetItemPermission(requestId, listName, userWithRoles) {
     breakRoleInheritanceOfList(listName, requestId, userWithRoles);
@@ -670,75 +670,11 @@ function SetItemPermission(requestId, listName, userWithRoles) {
 
 }
 
-// Break role inheritance on the list.
-function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
-    debugger
-    var finalUserPermDic =[];
-    userWithRoles.forEach((element) => {
 
-        var userIds = element.user;
-        var permission = element.permission;
-        var permId;
-        if (permission == SharePointPermission.CONTRIBUTOR) {
-            permId = 1073741827;
-        }
-        else if (permission == SharePointPermission.READER) {
-            permId = 1073741826;
-        }
-        if (!IsNullOrUndefined(userIds) && !IsStrNullOrEmpty(userIds) && !IsNullOrUndefined(permission) && !IsStrNullOrEmpty(permission)) {
-            var users = [];
-            //split users and remove ,
-            if (userIds.toString().indexOf(',') == 0) {
-                userIds = userIds.substring(1);
-                if (userIds.toString().indexOf(',') != -1 && userIds.toString().lastIndexOf(',') == userIds.toString().length - 1) {
-                    userIds = userIds.substring(userIds.toString().lastIndexOf(','))[0];
-                }
-            }
-            if (!IsNullOrUndefined(userIds) && !IsStrNullOrEmpty(userIds)) {
-                var a = (userIds.toString().indexOf(',') != -1) ? userIds.split(',') : parseInt(userIds);
-                if (!IsNullOrUndefined(a)) {
-                    if (a.length == undefined) {
-                        users.push(a);
-                    } else {
-                        a.forEach(element => {
-                            users.push(parseInt(element));
-                        });
-                    }
-                }
-            }
+//////////////////////////////////////////////////////////////
 
-            ////remove duplicates from array
-            users = removeDuplicateFromArray(users);
-
-            users.forEach(user => {
-                if (!isNaN(user)) {
-                    finalUserPermDic.push({user,permId});
-                }
-            });
-        }
-    });
-
-    console.log(finalUserPermDic);
-
-
-
-
-    var resetUrl = '/_api/web/lists/getbytitle(\'' + listName + '\')/items(' + requestId + ')/resetroleinheritance';
-    var breakRoleUrl = '/_api/web/lists/getbytitle(\'' + listName + '\')/items(' + requestId + ')/breakroleinheritance(copyRoleAssignments=false, clearsubscopes=false)';
-    var digest = jQuery("#__REQUESTDIGEST").val();
-    var resetDataTemplate = { "resetUrl": resetUrl, "breakRoleUrl": breakRoleUrl, "digest": digest.toString() };
-
-    $.ajax({
-        url: CommonConstant.BREAKROLEINHERITANCEWF,
-        type: 'POST',
-        headers: {
-            "content-type": "application/json",
-            "cache-control": "no-cache"
-        },
-        data: JSON.stringify(resetDataTemplate),
-        async: false,
-        success: function (data) {
-            console.log("Inheritance Broken Successfully!");
+/*
+  console.log("Inheritance Broken Successfully!");
             var roleDefBindingColl = null;
             console.log(userWithRoles);
             // var headers = {
@@ -814,6 +750,78 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
                     });
                 }
             });
+*/
+//////////////////////////////////////////////////////////////
+
+// Break role inheritance on the list.
+function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
+    debugger
+    var finalUserPermDic = [];
+    userWithRoles.forEach((element) => {
+
+        var userIds = element.user;
+        var permission = element.permission;
+        var permId;
+        if (permission == SharePointPermission.CONTRIBUTOR) {
+            permId = 1073741827;
+        }
+        else if (permission == SharePointPermission.READER) {
+            permId = 1073741826;
+        }
+        if (!IsNullOrUndefined(userIds) && !IsStrNullOrEmpty(userIds) && !IsNullOrUndefined(permission) && !IsStrNullOrEmpty(permission)) {
+            var users = [];
+            //split users and remove ,
+            if (userIds.toString().indexOf(',') == 0) {
+                userIds = userIds.substring(1);
+                if (userIds.toString().indexOf(',') != -1 && userIds.toString().lastIndexOf(',') == userIds.toString().length - 1) {
+                    userIds = userIds.substring(userIds.toString().lastIndexOf(','))[0];
+                }
+            }
+            if (!IsNullOrUndefined(userIds) && !IsStrNullOrEmpty(userIds)) {
+                var a = (userIds.toString().indexOf(',') != -1) ? userIds.split(',') : parseInt(userIds);
+                if (!IsNullOrUndefined(a)) {
+                    if (a.length == undefined) {
+                        users.push(a);
+                    } else {
+                        a.forEach(element => {
+                            users.push(parseInt(element));
+                        });
+                    }
+                }
+            }
+
+            ////remove duplicates from array
+            users = removeDuplicateFromArray(users);
+
+            users.forEach(user => {
+                if (!isNaN(user)) {
+                    finalUserPermDic.push({ user, permId });
+                }
+            });
+        }
+    });
+
+    console.log(finalUserPermDic);
+
+    var resetUrl = '/_api/web/lists/getbytitle(\'' + listName + '\')/items(' + requestId + ')/resetroleinheritance';
+    var breakRoleUrl = '/_api/web/lists/getbytitle(\'' + listName + '\')/items(' + requestId + ')/breakroleinheritance(copyRoleAssignments=false, clearsubscopes=false)';
+    var digest = jQuery("#__REQUESTDIGEST").val();
+    var setPermUrl = "/_api/web/lists/getByTitle('" + listName + "')/items(" + requestId + ")/roleassignments/addroleassignment";
+    var resetDataTemplate = { "resetUrl": resetUrl, "breakRoleUrl": breakRoleUrl, "setPermUrl": setPermUrl, "digest": digest.toString(), "UserPerm": finalUserPermDic };
+
+    $.ajax({
+        url: "https://prod-05.centralindia.logic.azure.com:443/workflows/068a2cd297de410ab19fc808be3a2735/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=eSrKcDBAxAwGqTouTX6xZ8sUpoQIl--H02rmq8EW3c8",
+        type: 'POST',
+        headers: {
+            "content-type": "application/json",
+            "cache-control": "no-cache"
+        },
+        data: JSON.stringify(resetDataTemplate),
+        async: false,
+        success: function (data) {
+            console.log("Permission Set Successfully");
+            console.log(data);
+
         },
         error: function (error) {
             console.log(error);
