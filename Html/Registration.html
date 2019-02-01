@@ -175,6 +175,7 @@
                                                                     <input type="text" class="form-control dynamic-control" id="CapexRequisitionSrNo"
                                                                         placeholder="CAR / SAP / Asset Code/Cost center / MM-YY/001" required="required"
                                                                         controlType="text" listtype="main" maxlength="255" />
+                                                                        <div class="example">CAR / SAP / Asset Code/Cost center / MM-YY/001</div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -378,7 +379,7 @@
                                                     </div>
                                                     <div class="card-body">
                                                         <div class="form-horizontal">
-                                                                <div class="row">
+                                                               <div class="row">
                                                                         <div class="col-lg-6">
                                                                             <div class="form-group">
                                                                                 <label class="col-md-4 control-label">
@@ -390,27 +391,29 @@
                                                                                         controlType="multitext"></textarea>
                                                                                 </div>
                                                                             </div>
-                                                                        </div>
+                                                                        </div> 
                                                                         <div class="col-lg-6">
                                                                                 <div class="form-group">
-                                                                                    <label class="control-label">
+                                                                                    <label class="col-md-4 control-label">
+                                                                                        Negotiable:
+                                                                                    </label>
+                                                                                    <label class="col-md-3 control-label radio-label">
                                                                                         <input class="dynamic-control" type="radio" value="Negotiated"
                                                                                             id="Negotiated" name="VendorNegotiatedflag"
                                                                                             controlType="radiogroup" cParent="VendorNegotiatedflag"
                                                                                             listtype="main" /> Negotiated
                                                                                     </label>
-                                                                                    <label class="control-label">
+                                                                                    <label class="col-md-4 control-label radio-label">
                                                                                         <input class="dynamic-control" type="radio" value="NotNegotiated"
                                                                                             id="NotNegotiated" name="VendorNegotiatedflag"
                                                                                             controlType="radiogroup" cParent="VendorNegotiatedflag"
                                                                                             listtype="main" /> Not Negotiated
                                                                                     </label>
                                                                                 </div>
-                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                            <div class="row">
-                                                                <div class="col-lg-6">
+                                                                </div>
+                                                              <div class="row">
+                                                                 <div class="col-lg-6">
                                                                     <div class="form-group">
                                                                         <label class="col-md-4 control-label">Name of the
                                                                             Vendor Selected</label>
@@ -420,9 +423,8 @@
                                                                                 controlType="text" listtype="main" required="required" />
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-lg-2"></div>
-                                                                <div class="col-lg-4">
+                                                                 </div>
+                                                                 <div class="col-lg-6">
                                                                     <div class="form-group">
                                                                         <label class="col-md-4 control-label">Reasons</label>
                                                                         <div class="col-md-8">
@@ -431,10 +433,12 @@
                                                                                 listtype="main" maxlength="1000"></textarea>
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                 </div>
+                                                              </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                
         
                                                 <div class="card-section">
                                                     <div class="card-head">
@@ -445,7 +449,7 @@
                                                             <div class="row">
                                                                 <div class="col-lg-6">
                                                                     <label class="col-md-4 control-label">Initiator</label>
-                                                                    <label id="InitiatorName" class="col-md-8 dynamic-control"
+                                                                    <label id="InitiatorName" class="col-md-8 dynamic-control labeltop"
                                                                         controlType="text" listtype="main"></label>
                                                                     <!-- <label class="col-md-4 control-label dynamic-control" controlType="text" listtype="main">Initiator Name</label> -->
                                                                 </div>
@@ -493,11 +497,11 @@
                                                                     <label class="col-md-4 control-label">
                                                                         Head Of Department / Functional Head
                                                                     </label>
-                                                                    <div class="col-md-8">
+                                                                    <!-- <div class="col-md-8">
                                                                         <label class="control-label">
                                                                             Head Of Department Name
                                                                         </label>
-                                                                    </div>
+                                                                    </div> -->
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -552,7 +556,7 @@
                                                             <div class="col-lg-5">
                                                                 <div class="form-group">
                                                                     <div class="row">
-                                                                        <div class="col-md-4">
+                                                                        <div class="col-md-4 radio-label">
                                                                             <div class="row">
                                                                                 <input type="radio" id="Applicable" value="Applicable"
                                                                                     name="ApplicableOrNot" class="dynamic-control"
@@ -560,7 +564,7 @@
                                                                                     listtype="main" /> Applicable
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-md-4">
+                                                                        <div class="col-md-4 radio-label">
                                                                             <div class="row">
                                                                                 <input type="radio" id="NotApplicable" value="NotApplicable"
                                                                                     name="ApplicableOrNot" class="radio-inline dynamic-control"
@@ -708,11 +712,11 @@
                                                                         <span class="text-danger text-default-light">*</span>
                                                                         CAPEX Committee
                                                                     </label>
-                                                                    <div class="col-md-8">
+                                                                    <!-- <div class="col-md-8">
                                                                         <label class="col-md-12 control-label">
                                                                             CAPEX Committee USer1 Name
                                                                         </label>
-                                                                    </div>
+                                                                    </div> -->
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-6">
@@ -726,11 +730,11 @@
                                                                         <span class="text-danger text-default-light">*</span>
                                                                         CAPEX Committee
                                                                     </label>
-                                                                    <div class="col-md-8">
+                                                                    <!-- <div class="col-md-8">
                                                                         <label class="col-md-12 control-label">
                                                                             CAPEX Committee USer2 Name
                                                                         </label>
-                                                                    </div>
+                                                                    </div> -->
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-6">
@@ -761,11 +765,11 @@
                                                                 <div class="form-group">
                                                                     <label class="col-md-4 control-label">Management Approval
                                                                     </label>
-                                                                    <div class="col-md-8">
+                                                                    <!-- <div class="col-md-8">
                                                                         <label class="control-label" controlType="text" listtype="main">Management
                                                                             Approval Name
                                                                         </label>
-                                                                    </div>
+                                                                    </div> -->
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-6">

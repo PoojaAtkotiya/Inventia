@@ -8472,9 +8472,12 @@ ul.chats li.out .message {
     color: #4c4c4c;
     font-weight: 500;
     line-height: 100%;
-    padding: 15px 10px 13px;
+    padding: 10px 10px 10px;
     text-align: left;
     text-transform: uppercase;
+}
+.card-head.sub{
+    padding: 0 10px;
 }
 
 .card-head {
@@ -9595,6 +9598,9 @@ label.error{
 .emptycells{
     empty-cells:show!important;
 }
+#Note{
+    width: 277px !important;
+}
 #header-topbar-option-demo{
     z-index: 1000000 !important;
 }
@@ -9638,6 +9644,9 @@ a:hover .ms-core-menu-label{ color:#fff!important; padding: 5px!important; }
        float: left;
        width: 74%; 
     }
+    .iframe-section div:first-child .table-responsive {
+        overflow-x: scroll !important;
+    }
 }
 @media (max-width: 768px) {
     #page-wrapper{
@@ -9645,6 +9654,9 @@ a:hover .ms-core-menu-label{ color:#fff!important; padding: 5px!important; }
     }
     .page-title-breadcrumb{
         width:100%;
+    }
+    .modal-dialog{
+        width: 98%!important;
     }
 }
 @media (max-width: 767px) {
@@ -9665,6 +9677,7 @@ a:hover .ms-core-menu-label{ color:#fff!important; padding: 5px!important; }
     #topbar .navbar-header{
         text-align: right;
     }
+   
 }
 @media (max-width: 640px) {
     #page-wrapper{
@@ -9691,3 +9704,9 @@ a:hover .ms-core-menu-label{ color:#fff!important; padding: 5px!important; }
 .modal-open .modal {
     z-index: 9999999;
 }
+.example {
+    padding: 5px 0 0 0;
+    font-size: 11px;
+    color: #999;
+}
+.form-horizontal .control-label.radio-label{text-align: left!important;}

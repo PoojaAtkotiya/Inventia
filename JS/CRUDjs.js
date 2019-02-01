@@ -247,6 +247,33 @@ function GetFormControlsValues(id, elementType, listDataArray) {
     }
     return listDataArray;
 }
+function ValidateModalForm(ele) {
+    var modalList= $('#form_VendorSection').attr();
+    var isValid = true;
+
+    modalList.each(function () {
+      if (!$(this).valid()) {
+        isValid = false;
+        try {
+            var validator = $(this).validate();
+            $(validator.errorList).each(function (i, errorItem) {
+                //  AlertModal("Validation", errorItem.element.id + "' : '" + errorItem.message);
+                $("#" + errorItem.element.id).addClass("error");
+                $("#" + errorItem.element.id).removeClass("valid");
+                $("#" + errorItem.element.id).next().remove();
+                console.log("{ '" + errorItem.element.id + "' : '" + errorItem.message + "'}");
+            });
+        }
+        catch (e1) {
+            console.log(e1.message);
+        }
+      }
+    });
+    if (isValid) {
+        SaveVendorData(mainListName, saveDataArray);
+    }
+
+}
 
 function SaveVendorDetails() {
     var saveDataArray = {}
@@ -256,6 +283,11 @@ function SaveVendorDetails() {
         var elementType = $(this).attr('controlType');
         saveDataArray = GetFormControlsValues(elementId, elementType, saveDataArray);
     });
+    
+    //ValidateModalForm(ele, saveCallBack);
+    // var modalList= $('#form_VendorSection').validate();
+    // console.log(modalList);
+    
     SaveVendorData(mainListName, saveDataArray);
 }
 
