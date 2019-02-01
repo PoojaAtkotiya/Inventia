@@ -9598,9 +9598,9 @@ label.error{
 .emptycells{
     empty-cells:show!important;
 }
-#Note{
+/* #Note{
     width: 277px !important;
-}
+} */
 #header-topbar-option-demo{
     z-index: 1000000 !important;
 }
