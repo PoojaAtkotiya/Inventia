@@ -1,8 +1,8 @@
 var data = null;
 $(document).ready(function () {
     GetVendorDetails();
-    $(document).on('click', 'a[id="btnAddVendor"]', function () {
-        AddVendorDetails();
+    $(document).on('click', 'a[id="btnAddVendor"]', function () {        
+       AddVendorDetails();
     });
     $(document).on('click', 'a[id*="EditVendor_"]', function () {
         EditVendorDetails(jQuery(this));
@@ -188,7 +188,7 @@ function SaveVendorData(listname, listDataArray) {
             success: function (data) {
                 $('#CRUDVendorModal').modal('hide');
                 AlertModal("Success", "Vendor Details Saved Successfully.", false, GetVendorDetails());
-                window.location = window.location.href;
+                //window.location = window.location.href;
             },
             error: function (data) {
                 console.log(data);
