@@ -188,7 +188,7 @@ function SaveVendorData(listname, listDataArray) {
             success: function (data) {
                 $('#CRUDVendorModal').modal('hide');
                 AlertModal("Success", "Vendor Details Saved Successfully.", false, GetVendorDetails());
-                window.location = window.location.href;
+                //window.location = window.location.href;
             },
             error: function (data) {
                 console.log(data);
