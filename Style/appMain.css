@@ -9688,3 +9688,6 @@ a:hover .ms-core-menu-label{ color:#fff!important; padding: 5px!important; }
     }
     
 }
+.modal-open .modal {
+    z-index: 9999999;
+}
