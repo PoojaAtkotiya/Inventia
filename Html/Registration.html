@@ -319,7 +319,7 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <div class="card">
+                                                            <div class="card-sec">
                                                                 <div class="card-head sub">
                                                                     <h4 class="justify"> Justification for Purchase</h4>
                                                                 </div>
@@ -328,7 +328,7 @@
                                                                         <div class="row">
                                                                             <div class="col-lg-6">
                                                                                 <div class="form-group">
-                                                                                    <label class="col-md-4 control-label">Justification</label>
+                                                                                    <label class="col-md-4 control-label">Justification:</label>
                                                                                     <div class="col-md-8">
                                                                                         <select id="Justification" class="form-control m-b-n-sm dynamic-control"
                                                                                             controlType="combo" listtype="master" reflisttype="main"
@@ -341,13 +341,12 @@
                                                                             <div class="col-lg-6">
                                                                                 <div class="form-group">
                                                                                     <label class="col-md-4 control-label">Justification
-                                                                                        Comment
+                                                                                        Comment:
                                                                                     </label>
                                                                                     <div class="col-md-8">
-                                                                                        <input id="JustificationComment" class="form-control dynamic-control"
-                                                                                            placeholder="Justification Comment"
-                                                                                            type="text" controlType="multitext"
-                                                                                            maxlength="1000" listtype="main" />
+                                                                                        <textarea id="JustificationComment" class="form-control dynamic-control"
+                                                                                            placeholder="Justification Comment" controlType="multitext"
+                                                                                            listtype="main" maxlength="1000"></textarea>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -402,7 +401,7 @@
                                                                  <div class="col-lg-6">
                                                                     <div class="form-group">
                                                                         <label class="col-md-4 control-label">Name of the
-                                                                            Vendor Selected</label>
+                                                                            Vendor Selected:</label>
                                                                         <div class="col-md-8">
                                                                             <input id="NameoftheVendorSelected" class="form-control dynamic-control"
                                                                                 placeholder=" Name of the Vendor Selected" type="text" name="NameoftheVendorSelected"
@@ -412,7 +411,7 @@
                                                                  </div>
                                                                  <div class="col-lg-6">
                                                                     <div class="form-group">
-                                                                        <label class="col-md-4 control-label">Reasons</label>
+                                                                        <label class="col-md-4 control-label">Reasons:</label>
                                                                         <div class="col-md-8">
                                                                             <textarea id="Reasons" class="form-control dynamic-control"
                                                                                 placeholder="Reasons" controlType="multitext"
@@ -434,7 +433,7 @@
                                                         <div class="form-horizontal">
                                                             <div class="row">
                                                                 <div class="col-lg-6">
-                                                                    <label class="col-md-4 control-label">Initiator</label>
+                                                                    <label class="col-md-4 control-label">Initiator:</label>
                                                                     <label id="InitiatorName" class="col-md-8 dynamic-control labeltop"
                                                                         controlType="text" listtype="main"></label>
                                                                     <!-- <label class="col-md-4 control-label dynamic-control" controlType="text" listtype="main">Initiator Name</label> -->
@@ -481,7 +480,7 @@
                                                             <div class="col-lg-6">
                                                                 <div class="form-group">
                                                                     <label class="col-md-4 control-label">
-                                                                        Head Of Department / Functional Head
+                                                                        Head Of Department / Functional Head:
                                                                     </label>
                                                                     <!-- <div class="col-md-8">
                                                                         <label class="control-label">
@@ -573,7 +572,7 @@
                                                             <!-- <div class="col-lg-12"><b>Budget v/s Actual</b></div> -->
                                                             <div class="col-lg-6">
                                                                 <div class="form-group">
-                                                                    <label class="col-md-4 control-label">Budgeted Currency</label>
+                                                                    <label class="col-md-4 control-label">Budgeted Currency:</label>
                                                                     <div class="col-md-8">
                                                                         <select class="form-control dynamic-control" name="BudgetedCurrency"
                                                                             required="required" data-selected="BudgetedCurrency"
@@ -585,7 +584,7 @@
                                                             </div>
                                                             <div class="col-lg-6">
                                                                 <div class="form-group">
-                                                                    <label class="col-md-4 control-label">Budgeted Value</label>
+                                                                    <label class="col-md-4 control-label">Budgeted Value:</label>
                                                                     <div class="col-md-8">
                                                                         <input id="BudgetValue" class="form-control dynamic-control" name="BudgetValue"
                                                                             placeholder="Budgeted Value" type="text" required="required"
@@ -597,7 +596,7 @@
                                                         <div class="row">
                                                             <div class="col-lg-6">
                                                                 <div class="form-group">
-                                                                    <label class="col-md-4 control-label">Utilised Currency</label>
+                                                                    <label class="col-md-4 control-label">Utilised Currency:</label>
                                                                     <div class="col-md-8">
                                                                         <select class="form-control dynamic-control" name="UtilisedCurrency"
                                                                             required="required" data-selected="UtilisedCurrency"
@@ -609,7 +608,7 @@
                                                             </div>
                                                             <div class="col-lg-6">
                                                                 <div class="form-group">
-                                                                    <label class="col-md-4 control-label">Utilised Value</label>
+                                                                    <label class="col-md-4 control-label">Utilised Value:</label>
                                                                     <div class="col-md-8">
                                                                         <input id="UtiliseValue" class="form-control dynamic-control" name="UtiliseValue"
                                                                             placeholder="Utilised Value" type="text" required="required"
@@ -621,7 +620,7 @@
                                                         <div class="row">
                                                             <div class="col-lg-6">
                                                                 <div class="form-group">
-                                                                    <label class="col-md-4 control-label">Current Currency</label>
+                                                                    <label class="col-md-4 control-label">Current Currency:</label>
                                                                     <div class="col-md-8">
                                                                         <select class="form-control dynamic-control" name="CurrentCurrency"
                                                                             required="required" data-selected="CurrentCurrency"
@@ -633,7 +632,7 @@
                                                             </div>
                                                             <div class="col-lg-6">
                                                                 <div class="form-group">
-                                                                    <label class="col-md-4 control-label">Current Value</label>
+                                                                    <label class="col-md-4 control-label">Current Value:</label>
                                                                     <div class="col-md-8">
                                                                         <input id="CurrentValues" class="form-control dynamic-control" name="CurrentValues"
                                                                             placeholder="Current Value" type="text" required="required"
@@ -645,7 +644,7 @@
                                                         <div class="row">
                                                             <div class="col-lg-6">
                                                                 <div class="form-group">
-                                                                    <label class="col-md-4 control-label">Total Utilised Currency</label>
+                                                                    <label class="col-md-4 control-label">Total Utilised Currency:</label>
                                                                     <div class="col-md-8">
                                                                         <select class="form-control dynamic-control" name="TotalUtilisedCurrency"
                                                                             required="required" data-selected="TotalUtilisedCurrency"
@@ -657,7 +656,7 @@
                                                             </div>
                                                             <div class="col-lg-6">
                                                                 <div class="form-group">
-                                                                    <label class="col-md-4 control-label">Total Utilised Value
+                                                                    <label class="col-md-4 control-label">Total Utilised Value:
                                                                     </label>
                                                                     <div class="col-md-8">
                                                                         <input id="TotalUtiliseValue" class="form-control dynamic-control" name="TotalUtiliseValue"
@@ -670,7 +669,7 @@
                                                         <div class="row">
                                                             <div class="col-lg-6">
                                                                 <div class="form-group">
-                                                                    <label class="col-md-4 control-label">Balance Currency</label>
+                                                                    <label class="col-md-4 control-label">Balance Currency:</label>
                                                                     <div class="col-md-8">
                                                                         <select class="form-control dynamic-control" name="BalanceCurrency"
                                                                             required="required" data-selected="BalanceCurrency"
@@ -682,7 +681,7 @@
                                                             </div>
                                                             <div class="col-lg-6">
                                                                 <div class="form-group">
-                                                                    <label class="col-md-4 control-label">Balance Value</label>
+                                                                    <label class="col-md-4 control-label">Balance Value:</label>
                                                                     <div class="col-md-8">
                                                                         <input id="BalanceValue" class="form-control dynamic-control" name="BalanceValue"
                                                                             placeholder="Balance Value" type="text" required="required"
@@ -696,7 +695,7 @@
                                                                 <div class="form-group">
                                                                     <label class="col-md-4 control-label">
                                                                         <span class="text-danger text-default-light">*</span>
-                                                                        CAPEX Committee
+                                                                        CAPEX Committee:
                                                                     </label>
                                                                     <!-- <div class="col-md-8">
                                                                         <label class="col-md-12 control-label">
@@ -714,7 +713,7 @@
                                                                 <div class="form-group">
                                                                     <label class="col-md-4 control-label">
                                                                         <span class="text-danger text-default-light">*</span>
-                                                                        CAPEX Committee
+                                                                        CAPEX Committee:
                                                                     </label>
                                                                     <!-- <div class="col-md-8">
                                                                         <label class="col-md-12 control-label">
@@ -749,7 +748,7 @@
                                                         <div class="row">
                                                             <div class="col-lg-6">
                                                                 <div class="form-group">
-                                                                    <label class="col-md-4 control-label">Management Approval
+                                                                    <label class="col-md-4 control-label">Management Approval:
                                                                     </label>
                                                                     <!-- <div class="col-md-8">
                                                                         <label class="control-label" controlType="text" listtype="main">Management
@@ -767,7 +766,7 @@
                                                                 <div class="form-group">
                                                                     <label class="col-md-4 control-label">
                                                                         <span class="text-danger text-default-light">*</span>
-                                                                        Comments</label>
+                                                                        Comments:</label>
                                                                     <div class="col-md-8">
                                                                         <textarea class="form-control approver-control" placeholder=" "
                                                                             maxlength="1000" required="required" controlType="multitext"
