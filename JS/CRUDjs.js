@@ -20,7 +20,11 @@ $(document).ready(function () {
             "orderable": false
         }]
     });
+    if ($('myform').length > 0)
+    $('myform').renameTag('form');
+    
 });
+
 
 function AddVendorDetails() {
     $("#CRUDVendorModal *").removeAttr("disabled");

@@ -203,7 +203,7 @@ hr {
     #topbar .topbar-main {
         display: block;
         height: 100%;
-        background: #2196f3;
+        background: #4b2465;
     }
 
         #topbar .topbar-main #menu-toggle {
@@ -974,7 +974,7 @@ hr {
 }
 
 #sidebar {
-    background: #2196f3;
+    background: #4b2465;
 }
 
 .navbar-static-side {
@@ -982,7 +982,7 @@ hr {
 }
 
     .navbar-static-side ul li {
-        border-bottom: 1px solid #484848;
+        border-bottom: 1px solid #4b2465;
     }
          
         /* .navbar-static-side ul li:first-child a {
@@ -990,13 +990,13 @@ hr {
         } */
 
     .navbar-static-side ul li {
-        background: #2196f3; /* Old browsers */
+        background: #4b2465; /* Old browsers */
         outline: none;
         color: #fff;
     }
 
         .navbar-static-side ul li.active a {
-            background: #3e77ab; /* Old browsers */
+            background: #e8ac28; /* Old browsers */
             transition: 0.2s all ease-in-out;
             outline: none;
             color: #FFF;
@@ -8468,7 +8468,7 @@ ul.chats li.out .message {
 }
 
 .card-head, lv-header {
-    border-bottom: 3px solid #00aff0;
+    border-bottom: 3px solid #e8ac2a;
     color: #4c4c4c;
     font-weight: 500;
     line-height: 100%;
@@ -8754,7 +8754,7 @@ ul.submenu {
 
 .table thead th, .table tbody th {
     
-    background-color: #0a819c !important; 
+    background-color: #5c6769 !important; 
     color: #fff !important;
     /* color: #000 !important; */
     /* font-weight: normal; */
@@ -9565,7 +9565,7 @@ h2 {
 .justify {
     /* font-family: Georgia, 'Times New Roman', Times, serif; */
     font-weight: 1500;
-    color: #0072C6 !important;
+    color: rgb(160, 163, 165) !important;
 }
 .disabled{
     cursor:not-allowed;
@@ -9598,9 +9598,9 @@ label.error{
 .emptycells{
     empty-cells:show!important;
 }
-#Note{
+/* #Note{
     width: 277px !important;
-}
+} */
 #header-topbar-option-demo{
     z-index: 1000000 !important;
 }
@@ -9710,3 +9710,8 @@ a:hover .ms-core-menu-label{ color:#fff!important; padding: 5px!important; }
     color: #999;
 }
 .form-horizontal .control-label.radio-label{text-align: left!important;}
+.card-sec {
+    background: #f1f1f1;
+    border: 1px solid #d5d5d5;
+    border-radius: 3px;
+}
