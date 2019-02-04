@@ -1690,43 +1690,48 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
         if (currentLevel < 0) {
             currentLevel = 0;
         }
+        var strAllUsers = GetEmailUsers(tempApproverMatrix, nextLevel, isNewItem);
         tempApproverMatrix.forEach(temp => {
-            if (temp.Levels == nextLevel && !IsNullOrUndefined(temp.ApproverId)) {
+            if (temp.Levels == nextLevel && !IsNullOrUndefined(temp.ApproverId) && temp.Status != "Not Required") {
                 nextApproverIds = nextApproverIds + "," + temp.ApproverId;
             }
         });
-
-        var strAllUsers = GetEmailUsers(tempApproverMatrix, nextLevel, isNewItem)
-        nextApproverIds = nextApproverIds.trim(',');
+        debugger
+        nextApproverIds = TrimComma(nextApproverIds);
         mailCustomValues.push({ "CurrentApproverName": currentUser.Title });
         //  mailCustomValues.push("NextApproverName",GetUserNamesbyUserID(nextApproverIds));
 
         switch (actionPerformed) {
+            case ButtonActionStatus.Delegate:
             case ButtonActionStatus.NextApproval:
-
                 if (tempApproverMatrix != null && tempApproverMatrix.Count != 0) {
                     from = currentUser.Email;
                     var allToUsers = "";
                     tempApproverMatrix.forEach(temp => {
-                        if (temp.Levels == nextLevel && !IsNullOrUndefined(temp.ApproverId)) {
-                            allToUsers = allToUsers.trim(',') + "," + temp.ApproverId;
+                        if (temp.Levels == nextLevel && !IsNullOrUndefined(temp.ApproverId) && temp.Status == ApproverStatus.PENDING) {
+                            allToUsers = allToUsers.trim() + "," + temp.ApproverId;
                         }
                     });
-                    to = allToUsers.trim(',');
+                    to = TrimComma(allToUsers);
                     tempApproverMatrix.forEach(temp => {
                         if (temp.Role == Roles.CREATOR) {
                             cc = temp.ApproverId;
                         }
-                    });
-                    tempApproverMatrix.forEach(temp => {
                         if (temp.Levels == currentLevel) {
                             role = temp.Role;
                         }
                     });
+                    // tempApproverMatrix.forEach(temp => {
+                    //     if (temp.Levels == currentLevel) {
+                    //         role = temp.Role;
+                    //     }
+                    // });
 
                     tmplName = EmailTemplateName.APPROVALMAIL;
-                    email = GetEmailBody(tmplName, itemID, mainListName, mailCustomValues, role, CommonConstant.APPLICATIONNAME, CommonConstant.FORMNAME);
-
+                    debugger
+                    if (!tempApproverMatrix.some(t => t.Levels == nextLevel && !IsNullOrUndefined(t.ApproverId) && !IsNullOrUndefined(t.Status) && t.Status == ApproverStatus.APPROVED)) {
+                        email = GetEmailBody(tmplName, itemID, mainListName, mailCustomValues, role);
+                    }
                 }
                 break;
 
@@ -1735,9 +1740,9 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
     catch (ex) {
         // blank catch to handle ie issue in case of CK editor
     }
-
 }
-function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role, applicationName, formName) {
+
+function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role) {
     var emailTemplate = [];
     var emailTemplateListData;
 
@@ -1756,7 +1761,6 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
                     },
                 sucesscallbackfunction: function (data) {
                     debugger;
-
                     emailTemplate.push({ "Subject": data.d.results[0].Subject });
                     emailTemplate.push({ "Body": data.d.results[0].Body });
                     mailCustomValues.push({ "ItemLink": "#URL" + "https://synoverge.sharepoint.com/sites/dev/Pages/Home.aspx?ID=" + itemID });
@@ -1769,13 +1773,14 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
     });
     //return emailTemplate;
 }
+
 function CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues) {
     var emailBodyWithCustomData = [];
     var emailBodyWithAllData = [];
     var matchesSubject = [];
     var matchesBody = [];
-    if (emailTemplate != null) {
-        if (mailCustomValues != null) {
+    if (!IsNullOrUndefined(emailTemplate)) {
+        if (!IsNullOrUndefined(mailCustomValues) && mailCustomValues.length > 0) {
             debugger;
             emailTemplate.forEach(element => {
                 var preparedEmail = element["Subject"];
@@ -1806,7 +1811,7 @@ function CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues) 
 function GetFieldsValueString(matchesSubject, mainlistData) {
     var replacedValues = [];
     matchesSubject.forEach(temp => {
-        replacedValues.push({ temp: mainlistData.temp });
+        replacedValues.push({ temp: mainlistData[temp] });
     });
 }
 function GetDatafromList(itemID, mainListName, matchesSubject, matchesBody) {
@@ -1863,4 +1868,12 @@ function IsValidDate(dateObj) {
         isValid = false;
     }
     return isValid;
+}
+
+function TrimComma(yourString) {
+    var result = yourString;
+    if (!IsStrNullOrEmpty(yourString)) {
+        result = yourString.trim().replace(/^\,|\,$/g, '');
+    }
+    return result;
 }
