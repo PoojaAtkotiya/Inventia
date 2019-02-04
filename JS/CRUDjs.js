@@ -1,8 +1,8 @@
 var data = null;
 $(document).ready(function () {
     GetVendorDetails();
-    $(document).on('click', 'a[id="btnAddVendor"]', function () {        
-       AddVendorDetails();
+    $(document).on('click', 'a[id="btnAddVendor"]', function () {
+        AddVendorDetails();
     });
     $(document).on('click', 'a[id*="EditVendor_"]', function () {
         EditVendorDetails(jQuery(this));
@@ -20,9 +20,8 @@ $(document).ready(function () {
             "orderable": false
         }]
     });
-    if ($('myform').length > 0)
-    $('myform').renameTag('form');
-    
+
+
 });
 
 
@@ -31,6 +30,8 @@ function AddVendorDetails() {
     $("#CRUDVendorModal").find('input,textarea,select').val('');
     $("#CRUDVendorModal").modal('show');
     $("#spanTitle").html('Add Vendor Detail');
+    if ($('myform').length > 0)
+        $('myform').renameTag('form');
 }
 
 function ViewVendorDetails(obj) {
@@ -68,11 +69,11 @@ function GetVendorDetailsById(id) {
             async: false,
             datatype: 'json',
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             success: function (data) {
                 VendorDetailresult = data.d;
             }
@@ -83,6 +84,8 @@ function GetVendorDetailsById(id) {
 function EditVendorDetails(obj) {
     var id = jQuery(obj).attr('id').split('_')[1].trim();
     var item = GetVendorDetailsById(id);
+    if ($('myform').length > 0)
+        $('myform').renameTag('form');
     if (!IsNullOrUndefined(item)) {
         $("#CRUDVendorModal *").removeAttr("disabled");
         $("#CRUDVendorModal").modal('show');
@@ -251,12 +254,11 @@ function GetFormControlsValues(id, elementType, listDataArray) {
     }
     return listDataArray;
 }
-function ValidateModalForm(ele) {
-    var modalList= $('#form_VendorSection').attr();
-    var isValid = true;
 
-    modalList.each(function () {
-      if (!$(this).valid()) {
+function ValidateModalForm() {
+    var isValid = true;
+    $('#form_VendorSection').valid();
+    if (!$(this).valid()) {
         isValid = false;
         try {
             var validator = $(this).validate();
@@ -271,11 +273,8 @@ function ValidateModalForm(ele) {
         catch (e1) {
             console.log(e1.message);
         }
-      }
-    });
-    if (isValid) {
-        SaveVendorData(mainListName, saveDataArray);
     }
+    return isValid;
 
 }
 
@@ -287,12 +286,12 @@ function SaveVendorDetails() {
         var elementType = $(this).attr('controlType');
         saveDataArray = GetFormControlsValues(elementId, elementType, saveDataArray);
     });
-    
-    //ValidateModalForm(ele, saveCallBack);
-    // var modalList= $('#form_VendorSection').validate();
-    // console.log(modalList);
-    
-    SaveVendorData(mainListName, saveDataArray);
+
+
+    var isValid = ValidateModalForm();
+    if (isValid) {
+        SaveVendorData(mainListName, saveDataArray);
+    }
 }
 
 function DeleteVendorDetails(obj) {
@@ -316,11 +315,11 @@ function GetVendorDetails() {
             async: false,
             datatype: 'json',
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             success: function (data) {
                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
                     var result = data.d.results;

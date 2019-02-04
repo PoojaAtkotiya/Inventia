@@ -674,9 +674,10 @@ hr {
     }
 
         .page-title-breadcrumb .page-header .page-title {
-            font-size: 25px;
+            font-size: 21px;
             font-weight: 300;
             display: inline-block;
+            color:#666;
         }
 
         .page-title-breadcrumb .page-header .page-subtitle {
@@ -9578,7 +9579,11 @@ h2 {
 } */
 .btn-primary {
     color: #ffffff;
-    border: 1px solid #1f68b1;
+    border: 1px solid #e8ac2a;
+    background-color: #e8ac28!important;
+}
+.btn-primary:hover{
+    border-color: #e8ac2a!important;
 }
 /* This padding is for label at top for orginator,date,department*/
 .labeltop{
@@ -9711,7 +9716,17 @@ a:hover .ms-core-menu-label{ color:#fff!important; padding: 5px!important; }
 }
 .form-horizontal .control-label.radio-label{text-align: left!important;}
 .card-sec {
-    background: #f1f1f1;
-    border: 1px solid #d5d5d5;
-    border-radius: 3px;
+    border-top: 1px solid #d5d5d5;
+    border-bottom:1px solid #d5d5d5;
+    border-radius: 0;
+    margin-bottom: 20px;
+}
+.card-sec .card-head, .card-sec .lv-header{
+    border-bottom:0 solid #d5d5d5;
+}
+.card-sec h4.justify {
+    text-transform: initial;
+    color: #000!important;
+    font-size: 13px;
+    font-weight: bold;
 }

@@ -318,14 +318,11 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-12">
+                                                        
+                                                           <div class="col-md-12">
                                                             <div class="card-sec">
-                                                                <div class="card-head sub">
-                                                                    <h4 class="justify"> Justification for Purchase</h4>
-                                                                </div>
-                                                                <div class="card-body">
-                                                                    <div class="form-horizontal">
-                                                                        <div class="row">
+                                                               <h4 class="justify"> Justification for Purchase</h4>
+                                                                <div class="row">
                                                                             <div class="col-lg-6">
                                                                                 <div class="form-group">
                                                                                     <label class="col-md-4 control-label">Justification:</label>
@@ -351,102 +348,102 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
+                                                                 
+                                                                
                                                                 </div>
                                                             </div>
-                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div data-include="Vendor"></div>
-                                                <div class="card">
-                                                    <div class="card-head sub">
-                                                        <h4 class="justify"> Selection of Vendor</h4>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="form-horizontal">
-                                                               <div class="row">
+                                                 <div data-include="Vendor"></div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="card-sec">
+                                                            <h4 class="justify"> Selection of Vendor</h4>
+                                                                <div class="form-horizontal"> 
+                                                                    <div class="row">
+                                                                                <div class="col-lg-6">
+                                                                                    <div class="form-group">
+                                                                                        <label class="col-md-4 control-label">
+                                                                                            Note(If any):
+                                                                                        </label>
+                                                                                        <div class="col-md-8">
+                                                                                            <textarea class="form-control dynamic-control" rows="4" id="Note"
+                                                                                                placeholder="Please enter Note" maxlength="1000" listtype="main"
+                                                                                                controlType="multitext"></textarea>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div> 
+                                                                                <div class="col-lg-6">
+                                                                                        <div class="form-group">
+                                                                                            <label class="col-md-4 control-label">
+                                                                                                Negotiable:
+                                                                                            </label>
+                                                                                            <label class="col-md-3 control-label radio-label">
+                                                                                                <input class="dynamic-control" type="radio" value="Negotiated"
+                                                                                                    id="Negotiated" name="VendorNegotiatedflag"
+                                                                                                    controlType="radiogroup" cParent="VendorNegotiatedflag"
+                                                                                                    listtype="main" /> Negotiated
+                                                                                            </label>
+                                                                                            <label class="col-md-4 control-label radio-label">
+                                                                                                <input class="dynamic-control" type="radio" value="NotNegotiated"
+                                                                                                    id="NotNegotiated" name="VendorNegotiatedflag"
+                                                                                                    controlType="radiogroup" cParent="VendorNegotiatedflag"
+                                                                                                    listtype="main" /> Not Negotiated
+                                                                                            </label>
+                                                                                        </div>
+                                                                                </div>
+                                                                        </div>
+                                                                    <div class="row">
                                                                         <div class="col-lg-6">
                                                                             <div class="form-group">
-                                                                                <label class="col-md-4 control-label">
-                                                                                    Note(If any):
-                                                                                </label>
+                                                                                <label class="col-md-4 control-label">Name of the
+                                                                                    Vendor Selected:</label>
                                                                                 <div class="col-md-8">
-                                                                                    <textarea class="form-control dynamic-control" rows="4" id="Note"
-                                                                                        placeholder="Please enter Note" maxlength="1000" listtype="main"
-                                                                                        controlType="multitext"></textarea>
+                                                                                    <input id="NameoftheVendorSelected" class="form-control dynamic-control"
+                                                                                        placeholder=" Name of the Vendor Selected" type="text" name="NameoftheVendorSelected"
+                                                                                        controlType="text" listtype="main" required="required" />
                                                                                 </div>
                                                                             </div>
-                                                                        </div> 
+                                                                        </div>
                                                                         <div class="col-lg-6">
-                                                                                <div class="form-group">
-                                                                                    <label class="col-md-4 control-label">
-                                                                                        Negotiable:
-                                                                                    </label>
-                                                                                    <label class="col-md-3 control-label radio-label">
-                                                                                        <input class="dynamic-control" type="radio" value="Negotiated"
-                                                                                            id="Negotiated" name="VendorNegotiatedflag"
-                                                                                            controlType="radiogroup" cParent="VendorNegotiatedflag"
-                                                                                            listtype="main" /> Negotiated
-                                                                                    </label>
-                                                                                    <label class="col-md-4 control-label radio-label">
-                                                                                        <input class="dynamic-control" type="radio" value="NotNegotiated"
-                                                                                            id="NotNegotiated" name="VendorNegotiatedflag"
-                                                                                            controlType="radiogroup" cParent="VendorNegotiatedflag"
-                                                                                            listtype="main" /> Not Negotiated
-                                                                                    </label>
+                                                                            <div class="form-group">
+                                                                                <label class="col-md-4 control-label">Reasons:</label>
+                                                                                <div class="col-md-8">
+                                                                                    <textarea id="Reasons" class="form-control dynamic-control"
+                                                                                        placeholder="Reasons" controlType="multitext"
+                                                                                        listtype="main" maxlength="1000"></textarea>
                                                                                 </div>
+                                                                            </div>
                                                                         </div>
+                                                                    </div>
                                                                 </div>
-                                                              <div class="row">
-                                                                 <div class="col-lg-6">
-                                                                    <div class="form-group">
-                                                                        <label class="col-md-4 control-label">Name of the
-                                                                            Vendor Selected:</label>
-                                                                        <div class="col-md-8">
-                                                                            <input id="NameoftheVendorSelected" class="form-control dynamic-control"
-                                                                                placeholder=" Name of the Vendor Selected" type="text" name="NameoftheVendorSelected"
-                                                                                controlType="text" listtype="main" required="required" />
-                                                                        </div>
-                                                                    </div>
-                                                                 </div>
-                                                                 <div class="col-lg-6">
-                                                                    <div class="form-group">
-                                                                        <label class="col-md-4 control-label">Reasons:</label>
-                                                                        <div class="col-md-8">
-                                                                            <textarea id="Reasons" class="form-control dynamic-control"
-                                                                                placeholder="Reasons" controlType="multitext"
-                                                                                listtype="main" maxlength="1000"></textarea>
-                                                                        </div>
-                                                                    </div>
-                                                                 </div>
-                                                              </div>
+                                                   
                                                         </div>
                                                     </div>
                                                 </div>
                                                 
-        
-                                                <div class="card">
-                                                    <div class="card-head sub">
-                                                        <h4 class="justify"> Signature</h4>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="form-horizontal">
-                                                            <div class="row">
-                                                                <div class="col-lg-6">
-                                                                    <label class="col-md-4 control-label">Initiator:</label>
-                                                                    <label id="InitiatorName" class="col-md-8 dynamic-control labeltop"
-                                                                        controlType="text" listtype="main"></label>
-                                                                    <!-- <label class="col-md-4 control-label dynamic-control" controlType="text" listtype="main">Initiator Name</label> -->
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="card-sec">
+                                                            <h4 class="justify"> Signature</h4>
+                                                            <div class="form-horizontal">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6">
+                                                                        <label class="col-md-4 control-label">Initiator:</label>
+                                                                        <label id="InitiatorName" class="col-md-8 dynamic-control labeltop"
+                                                                            controlType="text" listtype="main"></label>
+                                                                        <!-- <label class="col-md-4 control-label dynamic-control" controlType="text" listtype="main">Initiator Name</label> -->
+                                                                    </div>
+                                                                    <div class="col-lg-6">
+            
+                                                                        <div id="img_Intiator" class="col-md-8" width="100" height="100"></div>
+                                                                    </div>
+            
                                                                 </div>
-                                                                <div class="col-lg-6">
-        
-                                                                    <div id="img_Intiator" class="col-md-8" width="100" height="100"></div>
-                                                                </div>
-        
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> 
         
                                             </div>
                                             <div class="clearfix"></div>
@@ -695,7 +692,7 @@
                                                                 <div class="form-group">
                                                                     <label class="col-md-4 control-label">
                                                                         <span class="text-danger text-default-light">*</span>
-                                                                        CAPEX Committee:
+                                                                        CAPEX Committee  User 1:
                                                                     </label>
                                                                     <!-- <div class="col-md-8">
                                                                         <label class="col-md-12 control-label">
@@ -713,7 +710,7 @@
                                                                 <div class="form-group">
                                                                     <label class="col-md-4 control-label">
                                                                         <span class="text-danger text-default-light">*</span>
-                                                                        CAPEX Committee:
+                                                                        CAPEX Committee User 2:
                                                                     </label>
                                                                     <!-- <div class="col-md-8">
                                                                         <label class="col-md-12 control-label">
