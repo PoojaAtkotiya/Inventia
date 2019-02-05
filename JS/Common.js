@@ -1935,7 +1935,7 @@ function GetDatafromList(itemID, mainListName, subject, matchesSubject, body, ma
                     }
                 }
                 ////replacement with list item values end
-                
+
                 if (!IsStrNullOrEmpty(subject) && !IsStrNullOrEmpty(body) && !IsNullOrUndefined(emailParam)) {
                     SaveEmail(subject, body, emailParam);
                 }
@@ -1945,6 +1945,18 @@ function GetDatafromList(itemID, mainListName, subject, matchesSubject, body, ma
 
 function SaveEmail(subject, body, emailParam) {
 
+    AjaxCall(
+        {
+            url: url,
+            httpmethod: 'POST',
+            calldatatype: 'JSON',
+            headers: headers,
+            isAsync: false,
+            postData: JSON.stringify(),
+            sucesscallbackfunction: function (data) {
+                console.log("SaveApprovalMatrixInList - Item saved Successfully");
+            }
+        });
 }
 
 
