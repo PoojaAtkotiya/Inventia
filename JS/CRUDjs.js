@@ -192,9 +192,9 @@ function SaveVendorData(listname, listDataArray) {
             contentType: "application/json;odata=verbose",
             data: JSON.stringify(listDataArray),
             headers: headers,
-            success: function (data) {
-                $('#CRUDVendorModal').modal('hide');
-                AlertModal("Success", "Vendor Details Saved Successfully.", false, GetVendorDetails());
+            success: function (data) {               
+                AlertModal("Success", "Vendor Details Saved Successfully.", true, GetVendorDetails());
+               // $('#CRUDVendorModal').modal('hide');
                 //window.location = window.location.href;
             },
             error: function (data) {

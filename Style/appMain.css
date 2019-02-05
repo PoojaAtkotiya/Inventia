@@ -173,7 +173,7 @@ hr {
     }
 
     #topbar .navbar-header {
-        width: 250px;
+        width: 13%;
         height: 100%;
         background: #fff;
         text-align: center;
@@ -204,6 +204,7 @@ hr {
         display: block;
         height: 100%;
         background: #4b2465;
+        
     }
 
         #topbar .topbar-main #menu-toggle {
@@ -661,10 +662,10 @@ hr {
     clear: both;
     border-bottom: 5px solid #e5e5e5!important;
     box-shadow: none!important;
-    position: fixed;
-    width: 79%;
+    position: absolute;
+    width: 100%;
     z-index: 999 !important;
-    top: 136px;
+    top: 0;
 }
 
     .page-title-breadcrumb .page-header {
@@ -1235,7 +1236,7 @@ hr {
     .navbar-static-side {
         z-index: 1;
         position: absolute;
-        width: 250px;
+        width: 13%;
     }
 }
 
@@ -1254,6 +1255,7 @@ hr {
 
 .right-sidebar #page-wrapper {
     margin: 0 250px 0 0;
+    width:2.8%;
 }
 /* Begin Horizontal menu */
 /* Begin Left Sidebar Collapsed */
@@ -1324,6 +1326,7 @@ hr {
 
 .left-side-collapsed #page-wrapper {
     margin: 0 0 0 55px;
+    width: 97%!important;
 }
 /* End Left Sidebar Collapsed */
 /* Begin Right Sidebar Collapsed */
@@ -9472,9 +9475,9 @@ label > label {
     font-size: 15px;
     color: black;
 }
-.table tbody tr td {
+/* .table tbody tr td {
     background-color: white;
-}
+} */
 .table tr {
     background-color: white;
     color: #000000;
@@ -9619,35 +9622,17 @@ a:hover .ms-core-menu-label{ color:#fff!important; padding: 5px!important; }
 }
 .ms-welcome-root{width: inherit!important;}
 .ms-siteicon-img{width: 160px; margin-top:5px;}
+#page-wrapper{
+    float: left;
+    width: 87%; 
+ }
 
-@media (max-width: 1920px) {
-    .page-title-breadcrumb{
-        width: 86%;
-    }
-}
-@media (max-width: 1680px) {
-    .page-title-breadcrumb{
-        width: 85%;
-    }
-}
-@media (max-width: 1440px) {
-    .page-title-breadcrumb{
-        width: 82%;
-    }
-}
-@media (max-width: 1280px) {
-    .page-title-breadcrumb{
-        width: 80%;
-    }
-}
 
 @media (max-width: 1024px) {
-    .page-title-breadcrumb{
-        width: 75%;
-    }
+    
     #page-wrapper{
        float: left;
-       width: 74%; 
+    
     }
     .iframe-section div:first-child .table-responsive {
         overflow-x: scroll !important;
@@ -9655,11 +9640,9 @@ a:hover .ms-core-menu-label{ color:#fff!important; padding: 5px!important; }
 }
 @media (max-width: 768px) {
     #page-wrapper{
-       width: 66%; 
+    
     }
-    .page-title-breadcrumb{
-        width:100%;
-    }
+   
     .modal-dialog{
         width: 98%!important;
     }
@@ -9673,7 +9656,7 @@ a:hover .ms-core-menu-label{ color:#fff!important; padding: 5px!important; }
         padding-bottom: 15px;
     }
     #page-wrapper{
-       width: 91%; 
+    
     }
     #ctl00_welcome {
         float: right;
