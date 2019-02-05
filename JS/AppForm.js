@@ -29,7 +29,7 @@ function GetSetFormData() {
             url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + mainListName + "')/items(" + listItemId + ")?$select=Author/Title,*&$expand=Author",
             httpmethod: 'GET',
             calldatatype: 'JSON',
-            isAsync: false,
+            async: false,
             sucesscallbackfunction: function (data) { onGetSetFormDataSuccess(data) }
         });
 }
