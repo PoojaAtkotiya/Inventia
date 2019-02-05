@@ -29,6 +29,8 @@ jQuery(document).ready(function () {
     KeyPressNumericValidation();
 
 });
+
+/*Priya Rane */
 function BindAttachmentFiles() {
     var output = [];
 
@@ -64,6 +66,7 @@ function BindAttachmentFiles() {
     //End of for loop
 }
 
+/*Priya Rane */
 function removeFiles(fileId) {
 
     for (var i = 0; i < fileInfos.length; ++i) {
@@ -75,6 +78,8 @@ function removeFiles(fileId) {
     item.children[fileId].remove();
 
 }
+
+/*Priya Rane */
 function loadConstants() {
     var clientContext = new SP.ClientContext(CommonConstant.HOSTWEBURL);
     this.oWebsite = clientContext.get_web();
@@ -85,6 +90,7 @@ function loadConstants() {
     );
 }
 
+/*Priya Rane */
 function onloadConstantsSuccess(sender, args) {
 
     currentContext = SP.ClientContext.get_current();
@@ -112,6 +118,8 @@ function onloadConstantsSuccess(sender, args) {
     }
     //setCustomApprovers();
 }
+
+/*Priya Rane */
 function setImageSignature() {
     var item = mainListData;
     if (item["InitiatorSignature"] != null) {
@@ -140,10 +148,13 @@ function setImageSignature() {
         img_Management.appendChild(img);
     }
 }
+
+/*Priya Rane */
 function onloadConstantsFail(sender, args) {
     console.log(args.get_message());
 }
 
+/*Monal Shah */
 function ShowWaitDialog() {
     try {
         jQuery("#loading").show();
@@ -153,6 +164,7 @@ function ShowWaitDialog() {
     }
 }
 
+/*Monal Shah */
 function HideWaitDialog() {
     jQuery("#loading").hide();
 }
@@ -167,6 +179,7 @@ function DatePickerControl(ele) {
     });
 }
 
+/*Pooja Atkotiya */
 function GetUsersForDDL(roleName, eleID) {
     //sync call to avoid conflicts in deriving role wise users
     AjaxCall(
@@ -174,13 +187,14 @@ function GetUsersForDDL(roleName, eleID) {
             url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('ApproverMaster')/items?$select=Role,UserSelection,UserName/Id,UserName/Title&$expand=UserName/Id&$expand=UserName/Id&$filter= (Role eq '" + roleName + "') and (UserSelection eq 1)",
             httpmethod: 'GET',
             calldatatype: 'JSON',
-            isAsync: false,
+            async: false,
             sucesscallbackfunction: function (data) {
                 OnGetUsersForDDLSuccess(data, eleID);
             }
         });
 }
 
+/*Pooja Atkotiya */
 function OnGetUsersForDDLSuccess(data, eleID) {
     var dataResults = data.value[0].UserName;
     var allUsers = [];
@@ -192,6 +206,7 @@ function OnGetUsersForDDLSuccess(data, eleID) {
     setUsersInDDL(allUsers, eleID);
 }
 
+/*Pooja Atkotiya */
 function setUsersInDDL(allUsers, eleID) {
     $("#" + eleID).html('');
     $("#" + eleID).html("<option value=''>Select</option>");
@@ -205,6 +220,7 @@ function setUsersInDDL(allUsers, eleID) {
     }
 }
 
+//#region Validation /*Monal Shah */
 function KeyPressNumericValidation() {
     jQuery('input[data="integer"]').keypress(function (event) {
         return Integer(this, event);
@@ -248,7 +264,6 @@ function KeyPressNumericValidation() {
         return true;
     });
 }
-
 function Digit(objTextbox, event) {
     var keyCode = (event.which) ? event.which : (window.event) ? window.event.keyCode : -1;
     if (keyCode >= 48 && keyCode <= 57) {
@@ -261,7 +276,6 @@ function Digit(objTextbox, event) {
         return false;
     }
 }
-
 function Integer(objTextbox, event) {
     var keyCode = (event.which) ? event.which : (window.event) ? window.event.keyCode : -1;
     if (keyCode >= 48 && keyCode <= 57 || keyCode == 45) {
@@ -281,7 +295,6 @@ function Integer(objTextbox, event) {
         return false;
     }
 }
-
 function Numeric(objTextbox, event) {
     var keyCode = (event.which) ? event.which : (window.event) ? window.event.keyCode : -1;
     if (keyCode >= 48 && keyCode <= 57 || keyCode == 46 || keyCode == 45) {
@@ -307,7 +320,6 @@ function Numeric(objTextbox, event) {
         return false;
     }
 }
-
 function AlphaNumericSpecial(objTextbox, event) {
     if (event.charCode != 0) {
         var regex = new RegExp("[^']+");
@@ -319,7 +331,6 @@ function AlphaNumericSpecial(objTextbox, event) {
     }
     var key = event.which || event.keyCode;
 }
-
 function AlphaNumeric(objTextbox, event) {
 
     if (event.charCode != 0) {
@@ -364,6 +375,9 @@ function PositiveNumeric(objTextbox, event) {
         return false;
     }
 }
+//#endregion
+
+/*Monal Shah */
 function ValidateFormControls(divObjectId, IgnoreBlankValues) {
     if (IgnoreBlankValues == undefined)
         IgnoreBlankValues = true;
@@ -428,13 +442,14 @@ function ValidateFormControls(divObjectId, IgnoreBlankValues) {
     return noerror;
 }
 
+/*Himil Jani */
 function GetCurrentUserDetails() {
     AjaxCall(
         {
             url: CommonConstant.HOSTWEBURL + "/_api/web/currentuser",
             httpmethod: 'GET',
             calldatatype: 'JSON',
-            isAsync: false,
+            async: false,
             headers: {
                 Accept: "application/json;odata=verbose"
             },
@@ -444,6 +459,7 @@ function GetCurrentUserDetails() {
         });
 }
 
+/*Pooja Atkotiya */
 function getUrlParameter(name) {
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
@@ -451,16 +467,19 @@ function getUrlParameter(name) {
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 };
 
+/*Pooja Atkotiya */
 function cancel() {
     if (returnUrl == "")
         returnUrl = location.pathname.substring(0, location.pathname.lastIndexOf("/"));
     location.href = decodeURIComponent(returnUrl);
 }
 
+/*Himil Jani */
 function GetFormDigest() {
     return $.ajax({
         url: CommonConstant.ROOTURL + "/_api/contextinfo",
         method: "POST",
+        async: false,
         headers: { "Accept": "application/json; odata=verbose" }
     });
 }
@@ -494,6 +513,7 @@ function BindDatePicker(selector) {
     });
 }
 
+/*Pooja Atkotiya */
 function setFieldValue(controlId, item, fieldType, fieldName) {
     if (!fieldName || fieldName == "") {
         fieldName = controlId;
@@ -552,10 +572,12 @@ function setFieldValue(controlId, item, fieldType, fieldName) {
     }
 }
 
+/*Pooja Atkotiya */
 function GetItemTypeForListName(name) {
     return "SP.Data." + name.charAt(0).toUpperCase() + name.split(" ").join("").slice(1) + "ListItem";
 }
 
+/*Monal Shah */
 function ConfirmationDailog(options) {
     $("#ConfirmDialog").remove();
     var confirmDlg = "<div class='modal fade bs-example-modal-sm' tabindex='-1' role='dialog' id='ConfirmDialog' aria-labelledby='mySmallModalLabel'><div class='modal-dialog modal-sm'><div class='modal-content'><div class='modal-header'>" +
@@ -583,6 +605,7 @@ function ConfirmationDailog(options) {
     });
 }
 
+/*Monal Shah */
 function ConfirmPopupYes(url, id, okCallback) {
     ShowWaitDialog();
     if (typeof (url) !== "undefined" && url != null) {
@@ -592,7 +615,7 @@ function ConfirmPopupYes(url, id, okCallback) {
                 url: url,
                 httpmethod: 'DELETE',
                 calldatatype: 'JSON',
-                isAsync: false,
+                async: false,
                 headers: {
                     "accept": "application/json;odata=verbose",
                     "X-RequestDigest": $("#__REQUESTDIGEST").val(),
@@ -614,6 +637,7 @@ function ConfirmPopupYes(url, id, okCallback) {
     }
 }
 
+/*Monal Shah */
 function AlertModal(title, msg, isExit, callback) {
     $("div[id='PopupDialog']").remove();
     var popupDlg = '<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" id="PopupDialog" aria-labelledby="mySmallModalLabel"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="ModalTitle">Modal title</h4></div><div class="modal-body" id="ModalContent"></div><div class="modal-footer"><button type="button" id="ClosePopup" isdialogclose="false" class="btn btn-default" data-dismiss="modal">Close</button> </div></div></div></div>';
@@ -645,32 +669,9 @@ function AlertModal(title, msg, isExit, callback) {
 
         }
     });
-    // $("div[id='PopupDialog']").remove();
-    // var popupDlg = '<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" id="PopupDialog" aria-labelledby="mySmallModalLabel"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="ModalTitle">Modal title</h4></div><div class="modal-body" id="ModalContent"></div><div class="modal-footer"><button type="button" id="ClosePopup" isdialogclose="false" class="btn btn-default" data-dismiss="modal">Close</button> </div></div></div></div>';
-    // $(popupDlg).appendTo("body");
-    // $("#PopupDialog #ModalTitle").text(title);
-    // $("#PopupDialog #ModalContent").html(msg);
-    // if (title == "Success") {
-    //     $("#PopupDialog .modal-header").addClass("bg-success text-white");
-    // }
-    // else if (title == "Error") {
-    //     $("#PopupDialog .modal-header").addClass("bg-danger text-white");
-    // }
-    // else if (title == "SessionTimeout") {
-    //     $("#PopupDialog .modal-header").addClass("bg-warning text-white");
-    // }
-    // $("#PopupDialog").modal('show').on('hidden.bs.modal', function () {
-    //     if (typeof (isExit) !== 'undefined' && isExit == true) {
-    //         if (typeof (callback) !== 'undefined' && callback != null) {
-    //             callback();
-    //         }
-    //         else {
-    //             Exit();
-    //         }
-    //     }
-    // });
 }
 
+/*Monal Shah */
 function Exit() {
     try {
         parent.postMessage(CommonConstant.HOSTWEBURL, CommonConstant.SPHOST);
@@ -680,10 +681,12 @@ function Exit() {
     }
 }
 
+/*Monal Shah */
 function UserAborted(xhr) {
     return !xhr.getAllResponseHeaders();
 }
 
+/*Monal Shah */
 function onAjaxError(xhr) {
     if (!UserAborted(xhr)) {
         if (xhr.status.toString().substr(0, 1) == "4" || xhr.status == 504) {
@@ -701,6 +704,7 @@ function onAjaxError(xhr) {
     }
 }
 
+/*Monal Shah */
 function resetFormValidator(formId) {
     $(formId).removeData('validator');
     $(formId).removeData('unobtrusiveValidation');
@@ -709,6 +713,7 @@ function resetFormValidator(formId) {
     $.validator.unobtrusive.parse(formId);
 }
 
+/*Monal Shah */
 //Replace '<myform>' tag to '<form>'
 $.fn.renameTag = function (replaceWithTag) {
     this.each(function () {
@@ -723,6 +728,7 @@ $.fn.renameTag = function (replaceWithTag) {
     return this;
 }
 
+/*Monal Shah */
 function ValidateForm(ele, saveCallBack) {
     //Get Active Section
     var activeSection = $('div[section]').not(".disabled");
@@ -848,14 +854,17 @@ function ValidateForm(ele, saveCallBack) {
     }
 }
 
+/*Monal Shah */
 function onQuerySucceeded(sender, args) {
     console.log("Success");
 }
 
+/*Monal Shah */
 function onQueryFailed(sender, args) {
     console.log('Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
 }
 
+/*Pooja Atkotiya */
 function GetFormControlsValue(id, elementType, listDataArray, elementvaluetype = undefined) {
     var obj = '#' + id;
     switch (elementType) {
@@ -920,6 +929,7 @@ function GetFormControlsValue(id, elementType, listDataArray, elementvaluetype =
     return listDataArray;
 }
 
+/*Priya Rane */
 function GetFormControlsValueAndType(id, elementType, elementProperty, listActivityLogDataArray) {
     var obj = '#' + id;
     switch (elementType) {
@@ -986,13 +996,14 @@ function GetFormControlsValueAndType(id, elementType, elementProperty, listActiv
     return listActivityLogDataArray;
 }
 
+/*Pooja Atkotiya */
 function GetApproverMaster() {
     AjaxCall(
         {
             url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.APPROVERMASTERLIST + "')/items",
             httpmethod: 'GET',
             calldatatype: 'JSON',
-            isAsync: false,
+            async: false,
             headers: {
                 "Accept": "application/json;odata=verbose",
                 "Content-Type": "application/json;odata=verbose",
@@ -1010,7 +1021,7 @@ function GetActivityLog(activityLogListName, lookupId, tableId) {
             url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + activityLogListName + "')/items?$select=Author/Title,*&$expand=Author&$filter=RequestID eq '" + lookupId + "'",
             httpmethod: 'GET',
             calldatatype: 'JSON',
-            isAsync: false,
+            async: false,
             headers: {
                 "Accept": "application/json;odata=verbose",
                 "Content-Type": "application/json;odata=verbose",
@@ -1085,6 +1096,7 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
     }
 }
 
+/*Monal Shah */
 function DisplayApplicationStatus(approverMatrix) {
     var tr;
     var result = [];
@@ -1127,6 +1139,7 @@ function DisplayApplicationStatus(approverMatrix) {
     }
 }
 
+/*Pooja Atkotiya */
 function formatDate(input) {
     var datePart = input.match(/\d+/g);
     var day = (datePart[1].length > 1) ? datePart[1] : "0" + datePart[1];
@@ -1135,6 +1148,7 @@ function formatDate(input) {
     return day + '/' + month + '/' + year;
 }
 
+/*Pooja Atkotiya */
 function SaveFormData(activeSection, ele) {
     var mainListName = $($('div').find('[mainlistname]')).attr('mainlistname');
     if (mainListName != undefined && mainListName != '' && mainListName != null) {
@@ -1171,6 +1185,7 @@ function SaveFormData(activeSection, ele) {
     }
 }
 
+/*Pooja Atkotiya */
 function SaveData(listname, listDataArray, sectionName, ele) {
     var itemType = GetItemTypeForListName(listname);
     var isNewItem = true;
@@ -1200,6 +1215,7 @@ function SaveData(listname, listDataArray, sectionName, ele) {
             calldatatype: 'JSON',
             headers: headers,
             contentType: 'application/json; charset=utf-8',
+            async: false,
             sucesscallbackfunction: function (data) {
                 var itemID = listItemId;
                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d)) {
@@ -1261,6 +1277,8 @@ function SaveData(listname, listDataArray, sectionName, ele) {
         });
     }
 }
+
+/*Priya Rane */
 function SaveImageSignaturePath(sectionName, itemID) {
     var formFieldValues = [];
     if (currentUser.Email == "" || currentUser.Email == null) {
@@ -1296,6 +1314,8 @@ function SaveImageSignaturePath(sectionName, itemID) {
     });
 
 }
+
+/*Monal Shah */
 function ParseMessage(msg) {
     if (msg.length == 1) {
         return msg[0];
@@ -1309,6 +1329,7 @@ function ParseMessage(msg) {
     }
 }
 
+/*Monal Shah */
 function OnSuccess(data) {
     try {
         if (data.IsSucceed) {
@@ -1344,6 +1365,7 @@ function OnSuccess(data) {
     catch (e) { window.location.reload(); }
 }
 
+/*Monal Shah */
 function OnFailure(xhr, status, error) {
     try {
         if (xhr.status.toString().substr(0, 1) == "4" || xhr.status == 504) {
@@ -1356,6 +1378,7 @@ function OnFailure(xhr, status, error) {
     catch (e) { window.location.reload(); }
 }
 
+/*Monal Shah */
 function OnDelete(ele) {
     var Id = $('#ListDetails_0__ItemId').val();
     console.log("Id = " + Id);
@@ -1374,6 +1397,7 @@ function OnDelete(ele) {
     });
 }
 
+/*Monal Shah */
 function OnSuccessConfirmSubmitNoRedirect(data) {
     try {
         if (data.IsSucceed) {
@@ -1411,6 +1435,7 @@ function OnSuccessConfirmSubmitNoRedirect(data) {
     catch (e) { window.location.reload(); }
 }
 
+/*Monal Shah */
 function OnSuccessNoRedirect(data) {
     try {
         if (data.IsSucceed) {
@@ -1517,6 +1542,7 @@ function GetActivityString(listActivityLogDataArray, isCurrentApproverField) {
     return stringActivity;
 }
 
+/*Priya Rane */
 function GetUserNamebyUserID(userid) {
     var userName = "";
     if (!IsNullOrUndefined(userid)) {
@@ -1533,7 +1559,7 @@ function GetUserNamebyUserID(userid) {
                 url: url,
                 httpmethod: 'GET',
                 calldatatype: 'JSON',
-                isAsync: false,
+                async: false,
                 headers: headers,
                 sucesscallbackfunction: function (data) { userName = data.d.Title; }
             });
@@ -1541,6 +1567,7 @@ function GetUserNamebyUserID(userid) {
     return userName;
 }
 
+/*Priya Rane */
 //  Get array of User Names from user ids
 function GetUserNamesbyUserID(allUsersIDs) {
     var userNames = '';
@@ -1560,7 +1587,7 @@ function GetUserNamesbyUserID(allUsersIDs) {
                         url: url,
                         httpmethod: 'GET',
                         calldatatype: 'JSON',
-                        isAsync: false,
+                        async: false,
                         headers: headers,
                         sucesscallbackfunction: function (data) { userNames = userNames + data.d.Title + ","; }
                     });
@@ -1571,6 +1598,7 @@ function GetUserNamesbyUserID(allUsersIDs) {
     return userNames;
 }
 
+/*Priya Rane */
 function GetUserEmailbyUserID(userid) {
     var userEmail = "";
     if (!IsNullOrUndefined(userid)) {
@@ -1587,7 +1615,7 @@ function GetUserEmailbyUserID(userid) {
                 url: url,
                 httpmethod: 'GET',
                 calldatatype: 'JSON',
-                isAsync: false,
+                async: false,
                 headers: headers,
                 sucesscallbackfunction: function (data) {
                     userEmail = data.d.Email;
@@ -1597,6 +1625,7 @@ function GetUserEmailbyUserID(userid) {
     return userEmail;
 }
 
+/*Priya Rane */
 //  Get array of User Email from user ids
 function GetUserEmailsbyUserID(allUsersIDs) {
     var userEmails = "";
@@ -1615,7 +1644,7 @@ function GetUserEmailsbyUserID(allUsersIDs) {
                     url: url,
                     httpmethod: 'GET',
                     calldatatype: 'JSON',
-                    isAsync: false,
+                    async: false,
                     headers: headers,
                     sucesscallbackfunction: function (data) { userEmails = userEmails + data.d.Email + ","; }
                 });
@@ -1625,6 +1654,7 @@ function GetUserEmailsbyUserID(allUsersIDs) {
     return userEmails;
 }
 
+/*Monal Shah */
 function AjaxCall(options) {
     var url = options.url;
     var postData = options.postData;
@@ -1634,7 +1664,7 @@ function AjaxCall(options) {
     var sucesscallbackfunction = options.sucesscallbackfunction;
     var contentType = options.contentType == undefined ? "application/x-www-form-urlencoded;charset=UTF-8" : options.contentType;
     var showLoading = options.showLoading == undefined ? true : options.showLoading;
-    var isAsync = options.isAsync == undefined ? true : options.isAsync;
+    var async = options.async == undefined ? true : options.async;
 
     jQuery.ajax({
         type: httpmethod,
@@ -1644,7 +1674,7 @@ function AjaxCall(options) {
         global: showLoading,
         dataType: calldatatype,
         contentType: contentType,
-        async: isAsync,
+        async: async,
         success: function (data) {
             if (data && data.Status != undefined && data.Status == "VALIDATION_ERROR") {
                 debugger
@@ -1678,6 +1708,7 @@ function AjaxCall(options) {
     });
 }
 
+/*Monal Shah */
 function ShowError(ModelStateErrors) {
     jQuery('input').removeClass("input-validation-error")
     var messages = "";
@@ -1690,11 +1721,13 @@ function ShowError(ModelStateErrors) {
     AlertModal("error", messages, function () { })
 }
 
+/*Pooja Atkotiya */
 function removeDuplicateFromArray(arr) {
     let unique_array = Array.from(new Set(arr))
     return unique_array;
 }
 
+/*Pooja Atkotiya */
 function getTermFromManagedColumn(managedColumn) {
     var resultValue = '';
     if (!IsNullOrUndefined(managedColumn)) {
@@ -1708,10 +1741,11 @@ function getTermFromManagedColumn(managedColumn) {
     return resultValue;
 }
 
+/*Pooja Atkotiya */
 function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, mainListName, nextLevel, currentLevel, param, isNewItem) {
     var nextApproverIds = "";
     var from = "", to = "", cc = "", role = "", tmplName = "", strAllusers = "", email = [], mailCustomValues = [];
-    var emailParam = [];
+    var emailParam = {};
     try {
         if (currentLevel < 0) {
             currentLevel = 0;
@@ -1737,6 +1771,8 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                             allToUsers = allToUsers.trim() + "," + temp.ApproverId;
                         }
                     });
+                    debugger
+                    to = GetUserEmailsbyUserID(allToUsers);
                     to = TrimComma(allToUsers);
                     tempApproverMatrix.forEach(temp => {
                         if (temp.Role == Roles.CREATOR) {
@@ -1753,11 +1789,12 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                     // });
 
                     tmplName = EmailTemplateName.APPROVALMAIL;
-                    emailParam.push({ "TEMPLATENAME": tmplName });
-                    emailParam.push({ "FROM": from });
-                    emailParam.push({ "TO": to });
-                    emailParam.push({ "CC": cc });
-                    emailParam.push({ "ROLE": role });
+                    emailParam["TEMPLATENAME"] = tmplName;
+                    emailParam["FROM"] = from;
+                    emailParam["TO"] = to;
+                    emailParam["CC"] = cc;
+                    emailParam["ROLE"] = role;
+                    emailParam["BCC"] = "";
                     if (!tempApproverMatrix.some(t => t.Levels == nextLevel && !IsNullOrUndefined(t.ApproverId) && !IsNullOrUndefined(t.Status) && t.Status == ApproverStatus.APPROVED)) {
                         email = GetEmailBody(tmplName, itemID, mainListName, mailCustomValues, role, emailParam);
                     }
@@ -1771,6 +1808,7 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
     }
 }
 
+/*Pooja Atkotiya */
 function GetEmailUsers(tempApproverMatrix, nextLevel, isNewItem) {
 
     var userWithRoles = GetPermissionDictionary(tempApproverMatrix, nextLevel, true, isNewItem);
@@ -1785,6 +1823,7 @@ function GetEmailUsers(tempApproverMatrix, nextLevel, isNewItem) {
     return userIdString;
 }
 
+/*Priya Rane */
 function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role, emailParam) {
     var emailTemplate = [];
     var emailTemplateListData;
@@ -1816,6 +1855,7 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
     //return emailTemplate;
 }
 
+/*Pooja Atkotiya */
 function CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, emailParam) {
     var emailBodyWithCustomData = [];
     var emailBodyWithAllData = [];
@@ -1896,15 +1936,17 @@ function CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, 
 
 }
 
+/*Priya Rane */
 function GetFieldsValueString(matches, mainlistData) {
     var replacedValues = [];
     matches.forEach(temp => {
         var columnName = temp.slice(1, -1);
-        replacedValues.push({ [columnName]: mainlistData[columnName] });
+        replacedValues.push({ [columnName]: mainlistData[columnName] });/*Pooja Atkotiya */
     });
     return replacedValues;
 }
 
+/*Pooja Atkotiya */
 function GetDatafromList(itemID, mainListName, subject, matchesSubject, body, matchesBody, emailParam) {
     var mainlistData;
     var replacedValuesSubject = [];
@@ -1967,24 +2009,79 @@ function GetDatafromList(itemID, mainListName, subject, matchesSubject, body, ma
         });
 }
 
+/*Pooja Atkotiya */
 function SaveEmail(subject, body, emailParam) {
+    var emailSaved = false;
+    debugger
+    if (!IsStrNullOrEmpty(subject) && !IsStrNullOrEmpty(body) && !IsNullOrUndefined(emailParam) && emailParam.length > 0 && !IsStrNullOrEmpty(emailParam.TEMPLATENAME) && !IsStrNullOrEmpty(emailParam.FROM) && !IsStrNullOrEmpty(emailParam.TO) || !IsStrNullOrEmpty(emailParam.CC) || !IsStrNullOrEmpty(emailParam.BCC)) {
 
-    AjaxCall(
-        {
-            url: url,
-            httpmethod: 'POST',
-            calldatatype: 'JSON',
-            headers: headers,
-            isAsync: false,
-            postData: JSON.stringify(),
-            sucesscallbackfunction: function (data) {
-                console.log("SaveApprovalMatrixInList - Item saved Successfully");
-            }
-        });
+        var to = emailParam.TO;
+        if (!IsStrNullOrEmpty(to)) {
+            var strTo = TrimComma(to).split(",");
+            to = removeDuplicateFromArray(strTo).toString();
+        }
+
+        var cc = emailParam.CC;
+        if (!IsStrNullOrEmpty(cc)) {
+            var strCC = TrimComma(cc).split(",");
+            cc = removeDuplicateFromArray(strCC).toString();
+        }
+
+        var bcc = emailParam.BCC;
+        if (!IsStrNullOrEmpty(bcc)) {
+            var strBCC = TrimComma(bcc).split(",");
+            bcc = removeDuplicateFromArray(strBCC).toString();
+        }
+
+        var emailListArray = {};
+        emailListArray["__metadata"] = {
+            "type": GetItemTypeForListName(ListNames.EMAILNOTIFICATION)
+        };
+        emailListArray["To"] = to;
+        emailListArray["From"] = TrimComma(emailParam.FROM);
+        if (!IsStrNullOrEmpty(cc)) {
+            emailListArray["CC"] = cc;
+        }
+        if (!IsStrNullOrEmpty(bcc)) {
+            emailListArray["BCC"] = bcc;
+        }
+        emailListArray["Title"] = emailParam.TEMPLATENAME;
+        emailListArray["ApplicationName"] = CommonConstant.APPLICATIONNAME;
+        emailListArray["FormName"] = CommonConstant.FORMNAME;
+        emailListArray["Subject"] = subject;
+        emailListArray["Body"] = body;
+        //emailListArray["IsRepeat"] = isRepeat;
+
+        var url = CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILNOTIFICATION + "')/items";
+        var headers = {
+            "Accept": "application/json;odata=verbose",
+            "Content-Type": "application/json;odata=verbose",
+            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+            "X-HTTP-Method": "POST"
+        };
+
+        AjaxCall(
+            {
+                url: url,
+                httpmethod: 'POST',
+                calldatatype: 'JSON',
+                headers: headers,
+                async: false,
+                postData: JSON.stringify(emailListArray),
+                sucesscallbackfunction: function (data) {
+                    debugger;
+                    emailSaved = true;
+                    console.log("Data saved successfully in email template for Template = " + emailParam.TEMPLATENAME);
+                },
+                error: function (data) {
+                    debugger;
+                }
+            });
+    }
+    return emailSaved;
 }
 
-
-
+/*Pooja Atkotiya */
 function IsValidDate(dateObj) {
     var isValid = false;
     if (Object.prototype.toString.call(dateObj) === "[object Date]") {
@@ -2003,10 +2100,11 @@ function IsValidDate(dateObj) {
     return isValid;
 }
 
+/*Pooja Atkotiya */
 function TrimComma(yourString) {
     var result = yourString;
     if (!IsStrNullOrEmpty(yourString)) {
-        result = yourString.trim().replace(/^\,|\,$/g, '');
+        result = yourString.toString().trim().replace(/^\,|\,$/g, '');
     }
     return result;
 }

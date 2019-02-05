@@ -8,6 +8,7 @@ var tempApproverMatrix;
 var tcurrentLevel;
 var permItem = null;
 
+/*Himil Jani */
 function GetGlobalApprovalMatrix(id) {
     GetFormDigest().then(function (data) {
         AjaxCall(
@@ -24,44 +25,24 @@ function GetGlobalApprovalMatrix(id) {
                     },
                 sucesscallbackfunction: function (data) {
                     globalApprovalMatrix = data.d.results;
+                    /*Pooja Atkotiya */
                     SetSectionWiseRoles(id = 0);
                     SetApprovalMatrix(id, '');
                     //setCustomApprovers(tempApproverMatrix);
                     GetButtons(id, currentUserRole, 'New');
                 }
             });
-
-        // $.ajax({
-        //     url: "https://bajajelect.sharepoint.com/sites/WFRootDev" + "/_api/web/lists/getbytitle('" + ListNames.GLOBALAPPROVALMATRIXLIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" +  CommonConstant.FORMNAME + "</Value></Eq></And></Where></Query></View>\"}",
-        //     type: "POST",
-        //     headers:
-        //         {
-        //             "Accept": "application/json;odata=verbose",
-        //             "Content-Type": "application/json; odata=verbose",
-        //             "X-RequestDigest": data.d.GetContextWebInformation.FormDigestValue
-        //         },
-        //     success: function (data) {
-        //         globalApprovalMatrix = data.d.results;
-        //         SetSectionWiseRoles(id = 0);
-        //         SetApprovalMatrix(id, '');
-        //         //setCustomApprovers(tempApproverMatrix);
-        //         GetButtons(id, currentUserRole, 'New');
-        //     },
-        //     error: function (data) {
-        //         console.log(data.responseJSON.error);
-        //     }
-        // });
     });
 }
 
+/*Himil Jani*/
 function GetLocalApprovalMatrixData(id, mainListName) {
-
     AjaxCall(
         {
             url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.APPROVALMATRIXLIST + "')/Items?$select=*,Approver/UserName&$expand=Approver&$filter=RequestID eq '" + id + "'&$orderby= Levels asc",
             httpmethod: 'GET',
             calldatatype: 'JSON',
-            isAsync: false,
+            async: false,
             headers:
                 {
                     "Accept": "application/json;odata=verbose",
@@ -69,19 +50,15 @@ function GetLocalApprovalMatrixData(id, mainListName) {
                     "X-RequestDigest": $("#__REQUESTDIGEST").val()
                 },
             sucesscallbackfunction: function (data) {
+                /*Pooja Atkotiya */
                 localApprovalMatrixdata = data.d.results;
                 SetSectionWiseRoles(id);
                 SetApprovalMatrix(id, mainListName);
-
-                // ////set approver's values in html controls
-                // if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length > 0) {
-
-                // }
-
             }
         });
 }
 
+/*Pooja Atkotiya */
 function SetApprovalMatrix(id, mainListName) {
     if (id > 0) {
         //set role name from local approval matrix
@@ -115,6 +92,7 @@ function SetApprovalMatrix(id, mainListName) {
     }
 }
 
+/*Pooja Atkotiya */
 function SetApproversInApprovalMatrix(id) {
     GetMasterData(ListNames.APPROVERMASTERLIST);
     var approverMaster = masterDataArray;
@@ -141,6 +119,7 @@ function SetApproversInApprovalMatrix(id) {
     }
 }
 
+/*Pooja Atkotiya */
 function GetCurrentUserRole(id, mainListName) {
     var deferred = $.Deferred();
     web = currentContext.get_web();
@@ -160,8 +139,8 @@ function GetCurrentUserRole(id, mainListName) {
         // else if(oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.manageWeb) && oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.editListItems)){
         //     console.log("user has ful control and edit permission");
         // }
-        
-       // SP.PermissionKind.manageWeb  == Full Control
+
+        // SP.PermissionKind.manageWeb  == Full Control
         if (oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.editListItems) && oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.addListItems)) {
             console.log("user has add+edit permission");
             tcurrentLevel = oListItem.get_item('FormLevel').split("|")[1];
@@ -186,6 +165,7 @@ function GetCurrentUserRole(id, mainListName) {
     return deferred.promise();
 }
 
+/*Pooja Atkotiya */
 function GetRoleFromApprovalMatrix(tcurrentLevel, requestId, currUserId) {
     localApprovalMatrixdata.filter(function (i) {
         if (i.ApplicationName == CommonConstant.APPLICATIONNAME && i.FormName == CommonConstant.FORMNAME && i.Levels == tcurrentLevel && i.RequestIDId == requestId && (!IsNullOrUndefined(i.ApproverId) && !IsNullOrUndefined(i.ApproverId.results) && i.ApproverId.results.some(item => item == currUserId))) {
@@ -194,6 +174,7 @@ function GetRoleFromApprovalMatrix(tcurrentLevel, requestId, currUserId) {
     });
 }
 
+/*Pooja Atkotiya */
 function GetEnableSectionNames(id) {
     var formNames = '#' + $($('div').find('[mainlistname]')).attr('id');
     if (id == 0) {
@@ -241,6 +222,7 @@ function GetEnableSectionNames(id) {
     }
 }
 
+/*Pooja Atkotiya */
 function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem, mainListItem, approvalMatrixListName) {
     var nextApprover = [], nextApproverRole = '';
     var previousLevel = mainListItem.get_item('FormLevel').split("|")[0];
@@ -612,6 +594,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
     SendMail(actionPerformed, currentUser.Id, requestId, tempApproverMatrix, ListNames.MAINLIST, nextLevel, currentLevel, param, isNewItem);
 }
 
+/*Pooja Atkotiya */
 function SetItemPermission(requestId, listName, userWithRoles) {
     breakRoleInheritanceOfList(listName, requestId, userWithRoles);
     // BreakRoleInheritance(requestId, listName).done(function () {
@@ -758,6 +741,7 @@ function SetItemPermission(requestId, listName, userWithRoles) {
 */
 //////////////////////////////////////////////////////////////
 
+/*Pooja Atkotiya */
 // Break role inheritance on the list.
 function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
     var finalUserPermDic = [];
@@ -833,8 +817,7 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
     });
 }
 
-//String.prototype.FormatRow = 
-
+/*Pooja Atkotiya */
 function FormatRow() {
     try {
         var content = this;
@@ -849,6 +832,7 @@ function FormatRow() {
     }
 }
 
+/*Pooja Atkotiya */
 function SetCustomPermission(userWithRoles, requestId, listName) {
     console.log("Inheritance Broken Successfully!");
     console.log(userWithRoles);
@@ -881,10 +865,12 @@ function SetCustomPermission(userWithRoles, requestId, listName) {
 
 }
 
+/*Pooja Atkotiya */
 function onFailbreakRoleInheritance(sender, args) {
     console.log('onFailbreakRoleInheritance : Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
 }
 
+/*Pooja Atkotiya */
 function BreakRoleInheritance(requestId, listName) {
     var deferred = $.Deferred();
     web = currentContext.get_web();
@@ -902,10 +888,12 @@ function BreakRoleInheritance(requestId, listName) {
     return deferred.promise();
 }
 
+/*Pooja Atkotiya */
 function onSetItemPermissionFailed(sender, args) {
     console.log('onSetItemPermissionSucceeded : Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
 }
 
+/*Pooja Atkotiya */
 function GetPermissionDictionary(tempApproverMatrix, nextLevel, isAllUserViewer, isNewItem) {
     var permissions = [];
     if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length > 0) {
@@ -1049,6 +1037,7 @@ var stringifyData = function (isNewItem, approvalMatrixListName, temp, approverR
 
 }
 
+/*Pooja Atkotiya */
 function SaveApprovalMatrixInList(tempApproverMatrix, approvalMatrixListName, isNewItem) {
     var url = '';
     var headers;
@@ -1076,7 +1065,7 @@ function SaveApprovalMatrixInList(tempApproverMatrix, approvalMatrixListName, is
                 httpmethod: 'POST',
                 calldatatype: 'JSON',
                 headers: headers,
-                isAsync: false,
+                async: false,
                 postData: stringifyData(isNewItem, approvalMatrixListName, temp, approverResults),
                 sucesscallbackfunction: function (data) {
                     console.log("SaveApprovalMatrixInList - Item saved Successfully");
@@ -1107,7 +1096,7 @@ function SaveApprovalMatrixInList(tempApproverMatrix, approvalMatrixListName, is
                     httpmethod: 'POST',
                     calldatatype: 'JSON',
                     headers: headers,
-                    isAsync: false,
+                    async: false,
                     postData: stringifyData(isNewItem, approvalMatrixListName, temp, approverResults),
                     sucesscallbackfunction: function (data) {
                         console.log("SaveApprovalMatrixInList - Item saved Successfully");
@@ -1117,6 +1106,7 @@ function SaveApprovalMatrixInList(tempApproverMatrix, approvalMatrixListName, is
     });
 }
 
+/*Pooja Atkotiya */
 function SaveFormFields(formFieldValues, requestId) {
     //For multiUser field of sharepoint list
     var nextResults = [];
@@ -1189,6 +1179,7 @@ function SaveFormFields(formFieldValues, requestId) {
         });
 }
 
+/*Pooja Atkotiya */
 function UpdateWorkflowStatus(formFieldValues) {
     var wfStatus = '';
     var formStatus = formFieldValues["Status"];
@@ -1210,6 +1201,7 @@ function UpdateWorkflowStatus(formFieldValues) {
     formFieldValues['WorkflowStatus'] = wfStatus;
 }
 
+/*Pooja Atkotiya */
 function SetSectionWiseRoles(id) {
     var formNames = $($('div').find('[mainlistname]')).attr('id');
     if (id == 0) {
@@ -1250,6 +1242,7 @@ function SetSectionWiseRoles(id) {
     }
 }
 
+/*Pooja Atkotiya */
 function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previousLevel, actionPerformed, param) {
     if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length > 0 && !IsNullOrUndefined(currentUser.Id)) {
         if (currentLevel != previousLevel) {
@@ -1413,6 +1406,7 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
     }
 }
 
+/*Pooja Atkotiya */
 function GetDueDate(startDate, days) {
     ////Count from Next Day
     startDate = new Date(startDate.getTime() + 24 * 60 * 60 * 1000);
