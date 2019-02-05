@@ -3,6 +3,10 @@ var listTempGridDataArray = [];
 
 $(document).ready(function () {
     GetVendorDetails();
+    $(document).on('shown.bs.modal', "#CRUDVendorModal", function () {
+        if ($('myform').length > 0)
+            $('myform').renameTag('form');
+    });
     $(document).on('click', 'a[id="btnAddVendor"]', function () {
         AddVendorDetails();
     });
@@ -22,8 +26,6 @@ $(document).ready(function () {
             "orderable": false
         }]
     });
-
-
 });
 
 
@@ -32,8 +34,6 @@ function AddVendorDetails() {
     $("#CRUDVendorModal").find('input,textarea,select').val('');
     $("#CRUDVendorModal").modal('show');
     $("#spanTitle").html('Add Vendor Detail');
-    if ($('myform').length > 0)
-        $('myform').renameTag('form');
 }
 
 function ViewVendorDetails(obj) {
@@ -172,9 +172,10 @@ function GetItemTypeForListName(name) {
 function SaveVendorData(listname, listDataArray) {
     console.log(listDataArray);
     listTempGridDataArray.push(listDataArray);
+    // $("#form_VendorSection").submit();
 
-    $('#CRUDVendorModal').modal('hide');
     AlertModal("Success", "Vendor Details Saved Successfully");
+
     //  GetVendorDetails();
 
     /*  var itemType = GetItemTypeForListName(listname);
@@ -299,6 +300,7 @@ function SaveVendorDetails() {
 
     var isValid = ValidateModalForm();
     if (isValid) {
+
         SaveVendorData(mainListName, saveDataArray);
     }
 }

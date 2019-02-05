@@ -615,36 +615,6 @@ function ConfirmPopupYes(url, id, okCallback) {
 }
 
 function AlertModal(title, msg, isExit, callback) {
-    // $("div[id='PopupDialog']").remove();
-    // var popupDlg = '<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" id="PopupDialog" aria-labelledby="mySmallModalLabel"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="ModalTitle">Modal title</h4></div><div class="modal-body" id="ModalContent"></div><div class="modal-footer"><button type="button" id="ClosePopup" isdialogclose="false" class="btn btn-default" data-dismiss="modal">Close</button> </div></div></div></div>';
-    // $(popupDlg).appendTo("body");
-    // $("#PopupDialog #ModalTitle").text(title);
-    // $("#PopupDialog #ModalContent").html(msg);
-    // if (title == "Success") {
-    //     $("#PopupDialog .modal-header").addClass("bg-success text-white");
-    // }
-    // else if (title == "Error") {
-    //     $("#PopupDialog .modal-header").addClass("bg-danger text-white");
-    // }
-    // else if (title == "Validation") {
-    //     $("#PopupDialog .modal-header").addClass("bg-yellow text-white");
-    // }
-    // else if (title == "SessionTimeout") {
-    //     $("#PopupDialog .modal-header").addClass("bg-warning text-white");
-    // }
-    // $("#PopupDialog").modal('show').on('hidden.bs.modal', function () {
-    //     if (typeof (callback) !== 'undefined' && callback != null) {
-    //         callback();
-    //     }
-    //     if (typeof (isExit) !== 'undefined' && isExit == true) {
-    //         Exit();
-    //     }
-    //     if (callback == null) {
-    //         $("div[id='PopupDialog']").hide();
-    //         $("div[id='PopupDialog']").remove();
-
-    //     }
-    // });
     $("div[id='PopupDialog']").remove();
     var popupDlg = '<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" id="PopupDialog" aria-labelledby="mySmallModalLabel"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="ModalTitle">Modal title</h4></div><div class="modal-body" id="ModalContent"></div><div class="modal-footer"><button type="button" id="ClosePopup" isdialogclose="false" class="btn btn-default" data-dismiss="modal">Close</button> </div></div></div></div>';
     $(popupDlg).appendTo("body");
@@ -656,19 +626,49 @@ function AlertModal(title, msg, isExit, callback) {
     else if (title == "Error") {
         $("#PopupDialog .modal-header").addClass("bg-danger text-white");
     }
+    else if (title == "Validation") {
+        $("#PopupDialog .modal-header").addClass("bg-yellow text-white");
+    }
     else if (title == "SessionTimeout") {
         $("#PopupDialog .modal-header").addClass("bg-warning text-white");
     }
     $("#PopupDialog").modal('show').on('hidden.bs.modal', function () {
+        if (typeof (callback) !== 'undefined' && callback != null) {
+            callback();
+        }
         if (typeof (isExit) !== 'undefined' && isExit == true) {
-            if (typeof (callback) !== 'undefined' && callback != null) {
-                callback();
-            }
-            else {
-                Exit();
-            }
+            Exit();
+        }
+        if (callback == null) {
+            $("div[id='PopupDialog']").hide();
+            $("div[id='PopupDialog']").remove();
+
         }
     });
+    // $("div[id='PopupDialog']").remove();
+    // var popupDlg = '<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" id="PopupDialog" aria-labelledby="mySmallModalLabel"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="ModalTitle">Modal title</h4></div><div class="modal-body" id="ModalContent"></div><div class="modal-footer"><button type="button" id="ClosePopup" isdialogclose="false" class="btn btn-default" data-dismiss="modal">Close</button> </div></div></div></div>';
+    // $(popupDlg).appendTo("body");
+    // $("#PopupDialog #ModalTitle").text(title);
+    // $("#PopupDialog #ModalContent").html(msg);
+    // if (title == "Success") {
+    //     $("#PopupDialog .modal-header").addClass("bg-success text-white");
+    // }
+    // else if (title == "Error") {
+    //     $("#PopupDialog .modal-header").addClass("bg-danger text-white");
+    // }
+    // else if (title == "SessionTimeout") {
+    //     $("#PopupDialog .modal-header").addClass("bg-warning text-white");
+    // }
+    // $("#PopupDialog").modal('show').on('hidden.bs.modal', function () {
+    //     if (typeof (isExit) !== 'undefined' && isExit == true) {
+    //         if (typeof (callback) !== 'undefined' && callback != null) {
+    //             callback();
+    //         }
+    //         else {
+    //             Exit();
+    //         }
+    //     }
+    // });
 }
 
 function Exit() {

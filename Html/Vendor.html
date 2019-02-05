@@ -22,34 +22,23 @@
                 </div>
                 <br />
                 <div class="table-responsive">
-                        <table class="table table-hover table-bordered someTable" id="tblVendor">
-                            <thead>
-                                <tr>
-                                    <th width='15%'>Name</th>
-                                    <th width='15%'class="no-sort">Address</th>
-                                    <th width='7%'>Make</th>
-                                    <th width='10%'>Gross Value</th>
-                                    <th width='10%'>Discount</th>
-                                    <th width='10%' class="headerwordwrap">Net Value</th>
-                                    <th width='10%' class="headerwordwrap">Delivery Period</th>
-                                    <th width='13%' class="no-sort">Actions</th>
-                                </tr>
-                                <tr>
-                                    <td>Vendor 1</td>
-                                    <td>GSB</td>
-                                    <td>1</td>
-                                    <td>100</td>
-                                    <td>5</td>
-                                    <td>10000</td>
-                                    <td>50620</td>
-                                    
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
+                    <table class="table table-hover table-bordered someTable" id="tblVendor">
+                        <thead>
+                            <tr>
+                                <th width='15%'>Name</th>
+                                <th width='15%' class="no-sort">Address</th>
+                                <th width='7%'>Make</th>
+                                <th width='10%'>Gross Value</th>
+                                <th width='10%'>Discount</th>
+                                <th width='10%' class="headerwordwrap">Net Value</th>
+                                <th width='10%' class="headerwordwrap">Delivery Period</th>
+                                <th width='13%' class="no-sort">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
                 <div class="clearfix">
                 </div>
             </div>
@@ -58,240 +47,199 @@
 </div>
 
 <div class="modal fade" id="CRUDVendorModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
-        <myform enctype="multipart/form-data" id="form_VendorSection" method="post" novalidate="novalidate"
-        autocomplete="off"> 
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title">
-                    <span id="spanTitle">
-                        Vendor Details
-                    </span>
-                </h4>
-            </div>
-            <div class="modal-body form-horizontal">
-                <input type="hidden" class="dynamic-control" listtype="main" controlType="hidden" id="ID" value="" />
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">
-                                <span class="text-danger text-default-light">*</span>
-                                Name :
-                            </label>
-                            <div class="col-md-8 ">
-                                <input type="text" id="Name" name="Name" class="form-control dynamic-control" required="required" listtype="trans" controlType="text"
-                                />
+    <myform enctype="multipart/form-data" id="form_VendorSection" method="post" novalidate="novalidate" autocomplete="off">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">
+                        <span id="spanTitle">
+                            Vendor Details
+                        </span>
+                    </h4>
+                </div>
+                <div class="modal-body form-horizontal">
+                    <input type="hidden" class="dynamic-control" listtype="main" controlType="hidden" id="ID" value="" />
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">
+                                    <span class="text-danger text-default-light">*</span>
+                                    Name :
+                                </label>
+                                <div class="col-md-8 ">
+                                    <input type="text" id="Name" name="Name" class="form-control dynamic-control" required="required" listtype="trans" controlType="text"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">
+                                    <span class="text-danger text-default-light">*</span>
+                                    Address :
+                                </label>
+                                <div class="col-md-8 ">
+                                    <textarea id="Address" controlType="multitext" class="form-control dynamic-control" name="Address" required="required" listtype="trans"
+                                        controlType="text" maxlength="1000" /></textarea>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">
-                                <span class="text-danger text-default-light">*</span>
-                                Address :
-                            </label>
-                            <div class="col-md-8 ">
-                                <textarea id="Address" controlType="multitext" class="form-control dynamic-control" name="Address" required="required" listtype="trans" controlType="text"
-                                    maxlength="1000" /></textarea>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">
+                                    <span class="text-danger text-default-light">*</span>Make :
+                                </label>
+                                <div class="col-md-8 ">
+                                    <input type="text" id="Make" name="Make" controlType="text" class="form-control dynamic-control" listtype="trans" required="required"
+                                        controlType="text" />
+                                </div>
                             </div>
                         </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">
+                                    <span class="text-danger text-default-light">*</span>
+                                    Gross Value :
+                                </label>
+                                <div class="col-md-8 ">
+                                    <input type="text" id="GrossValue" name="GrossValue" controlType="text" class="form-control dynamic-control" listtype="trans"
+                                        data="digit" required="required" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">
+                                    <span class="text-danger text-default-light">*</span>
+                                    Less Discount :
+                                </label>
+                                <div class="col-md-8 ">
+                                    <input type="text" id="LessDiscount" name="LessDiscount" controlType="text" class="form-control dynamic-control" data="digit"
+                                        required="required" listtype="trans" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">
+                                    <span class="text-danger text-default-light">*</span>
+                                    Net Value :
+                                </label>
+                                <div class="col-md-8 ">
+                                    <input type="text" id="NetValue" name="NetValue" controlType="text" class="form-control dynamic-control" data="digit" required="required"
+                                        listtype="trans" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">
+                                    <span class="text-danger text-default-light">*</span>Custom Duty :
+                                </label>
+                                <div class="col-md-8 ">
+                                    <input type="text" id="CustomDuty" name="CustomDuty" controlType="text" class="form-control dynamic-control" required="required"
+                                        listtype="trans" data="digit" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">
+                                    <span class="text-danger text-default-light">*</span>
+                                    State GST :
+                                </label>
+                                <div class="col-md-8 ">
+                                    <input type="text" id="StateGST" name="StateGST" controlType="text" class="form-control dynamic-control" required="required"
+                                        listtype="trans" data="digit" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">
+                                    <span class="text-danger text-default-light">*</span>Central GST :
+                                </label>
+                                <div class="col-md-8 ">
+                                    <input type="text" id="CentralGST" name="CentralGST" controlType="text" class="form-control dynamic-control" required="required"
+                                        listtype="trans" data="digit" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">
+                                    <span class="text-danger text-default-light">*</span>
+                                    Interstate GST :
+                                </label>
+                                <div class="col-md-8 ">
+                                    <input type="text" id="InterStateGST" name="InterStateGST" controlType="text" class="form-control dynamic-control" required="required"
+                                        listtype="trans" data="digit" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">
+                                    <span class="text-danger text-default-light">*</span>Add Additional Charges :
+                                </label>
+                                <div class="col-md-8 ">
+                                    <input type="text" id="AddInstallationCharges" name="AddInstallationCharges" controlType="text" class="form-control dynamic-control"
+                                        required="required" data="digit" listtype="trans" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">
+                                    <span class="text-danger text-default-light">*</span>
+                                    Delivery Period :
+                                </label>
+                                <div class="col-md-8 ">
+                                    <input type="text" id="DeliveryPeriod" name="DeliveryPeriod" controlType="text" class="form-control dynamic-control" required="required"
+                                        listtype="trans" controlType="text" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">
+                                    <span class="text-danger text-default-light">*</span>Terms of Payment :
+                                </label>
+                                <div class="col-md-8">
+                                    <textarea type="text" controlType="multitext" id="TermsOfPayment" name="TermsOfPayment" class="form-control dynamic-control"
+                                        required="required" controlType="text" listtype="trans" maxlength="1000"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6"></div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">
-                                <span class="text-danger text-default-light">*</span>Make :
-                            </label>
-                            <div class="col-md-8 ">
-                                <input type="text" id="Make" name="Make" controlType="text" class="form-control dynamic-control" listtype="trans" required="required" controlType="text"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">
-                                <span class="text-danger text-default-light">*</span>
-                                Gross Value :
-                            </label>
-                            <div class="col-md-8 ">
-<<<<<<< HEAD
-                                <input type="text" id="GrossValue"  name="GrossValue" controlType="text" class="form-control dynamic-control" listtype="trans" required="required" controlType="text"
-                                />
-=======
-                                <input type="text" id="GrossValue"  name="GrossValue" controlType="text" class="form-control dynamic-control" 
-                                    listtype="trans" data="digit" required="required" />
->>>>>>> e0949675f7569f09a055e9e47442c5cf2642027c
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">
-                                <span class="text-danger text-default-light">*</span>
-                                Less Discount :
-                            </label>
-                            <div class="col-md-8 ">
-<<<<<<< HEAD
-                                <input type="text" id="LessDiscount" name="LessDiscount" controlType="text" class="form-control dynamic-control" required="required" listtype="trans" controlType="text"
-                                />
-=======
-                                <input type="text" id="LessDiscount" name="LessDiscount" controlType="text" class="form-control dynamic-control" 
-                                  data="digit" required="required" listtype="trans"  />
->>>>>>> e0949675f7569f09a055e9e47442c5cf2642027c
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">
-                                <span class="text-danger text-default-light">*</span>
-                                Net Value :
-                            </label>
-                            <div class="col-md-8 ">
-<<<<<<< HEAD
-                                <input type="text" id="NetValue" name="NetValue" controlType="text" class="form-control dynamic-control" required="required" listtype="trans" controlType="text"
-                                />
-=======
-                                <input type="text" id="NetValue" name="NetValue" controlType="text" class="form-control dynamic-control" 
-                                  data="digit" required="required" listtype="trans" />
->>>>>>> e0949675f7569f09a055e9e47442c5cf2642027c
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">
-                                <span class="text-danger text-default-light">*</span>Custom Duty :
-                            </label>
-                            <div class="col-md-8 ">
-<<<<<<< HEAD
-                                <input type="text" id="CustomDuty" name="CustomDuty" controlType="text" class="form-control dynamic-control" required="required" listtype="trans" controlType="text"
-                                />
-=======
-                                <input type="text" id="CustomDuty" name="CustomDuty" controlType="text" class="form-control dynamic-control" 
-                                   required="required" listtype="trans" data="digit" />
->>>>>>> e0949675f7569f09a055e9e47442c5cf2642027c
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">
-                                <span class="text-danger text-default-light">*</span>
-                                State GST :
-                            </label>
-                            <div class="col-md-8 ">
-<<<<<<< HEAD
-                                <input type="text" id="StateGST"  name="StateGST" controlType="text" class="form-control dynamic-control" required="required" listtype="trans" controlType="text"
-                                />
-=======
-                                <input type="text" id="StateGST"  name="StateGST" controlType="text" class="form-control dynamic-control" 
-                                   required="required" listtype="trans" data="digit" />
->>>>>>> e0949675f7569f09a055e9e47442c5cf2642027c
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">
-                                <span class="text-danger text-default-light">*</span>Central GST :
-                            </label>
-                            <div class="col-md-8 ">
-<<<<<<< HEAD
-                                <input type="text" id="CentralGST" name="CentralGST" controlType="text" class="form-control dynamic-control" required="required" listtype="trans" controlType="text"
-                                />
-=======
-                                <input type="text" id="CentralGST" name="CentralGST" controlType="text" class="form-control dynamic-control" 
-                                   required="required" listtype="trans" data="digit"/>
->>>>>>> e0949675f7569f09a055e9e47442c5cf2642027c
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">
-                                <span class="text-danger text-default-light">*</span>
-                                Interstate GST :
-                            </label>
-                            <div class="col-md-8 ">
-<<<<<<< HEAD
-                                <input type="text" id="InterStateGST" name="InterStateGST" controlType="text" class="form-control dynamic-control" required="required" listtype="trans" controlType="text"
-                                /> 
-=======
-                                <input type="text" id="InterStateGST" name="InterStateGST" controlType="text" class="form-control dynamic-control" 
-                                    required="required" listtype="trans" data="digit"/>
->>>>>>> e0949675f7569f09a055e9e47442c5cf2642027c
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">
-                                <span class="text-danger text-default-light">*</span>Add Additional Charges :
-                            </label>
-                            <div class="col-md-8 ">
-<<<<<<< HEAD
-                                <input type="text" id="AddInstallationCharges" name="AddInstallationCharges" controlType="text" class="form-control dynamic-control" required="required" controlType="text"
-                                    listtype="trans" />
-=======
-                                <input type="text" id="AddInstallationCharges" name="AddInstallationCharges" controlType="text" class="form-control dynamic-control" required="required"
-                                data="digit" listtype="trans" />
->>>>>>> e0949675f7569f09a055e9e47442c5cf2642027c
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">
-                                <span class="text-danger text-default-light">*</span>
-                                Delivery Period :
-                            </label>
-                            <div class="col-md-8 ">
-                                <input type="text" id="DeliveryPeriod"  name="DeliveryPeriod" controlType="text" class="form-control dynamic-control" required="required" listtype="trans" controlType="text"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">
-                                <span class="text-danger text-default-light">*</span>Terms of Payment :
-                            </label>
-                            <div class="col-md-8">
-                                <textarea type="text" controlType="multitext" id="TermsOfPayment" name="TermsOfPayment" class="form-control dynamic-control" required="required" controlType="text"
-                                    listtype="trans" maxlength="1000"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6"></div>
-                </div>
-            </div>
-            <form>
+
                 <div class="modal-footer">
-                    <button class="btn btn-default pull-right" data-dismiss="modal" value="Cancel">Cancel</button>
-                    <button class="btn btn-primary pull-right" value="Save" onclick="SaveVendorDetails()">Save</button>
+                    <a class="btn btn-default pull-right" data-dismiss="modal" value="Cancel">Cancel</a>
+                    <a class="btn btn-primary pull-right" value="Save" onclick="SaveVendorDetails()">Save</a>
                 </div>
-            </form>
+
+
+            </div>
 
         </div>
-
-    </div>
-</myform>
+    </myform>
 </div>
 
 
