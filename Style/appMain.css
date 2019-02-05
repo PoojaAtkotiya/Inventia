@@ -173,7 +173,7 @@ hr {
     }
 
     #topbar .navbar-header {
-        width: 250px;
+        width: 13%;
         height: 100%;
         background: #fff;
         text-align: center;
@@ -204,6 +204,7 @@ hr {
         display: block;
         height: 100%;
         background: #4b2465;
+        
     }
 
         #topbar .topbar-main #menu-toggle {
@@ -661,10 +662,10 @@ hr {
     clear: both;
     border-bottom: 5px solid #e5e5e5!important;
     box-shadow: none!important;
-    position: fixed;
-    width: 79%;
+    position: absolute;
+    width: 100%;
     z-index: 999 !important;
-    top: 136px;
+    top: 0;
 }
 
     .page-title-breadcrumb .page-header {
@@ -674,9 +675,10 @@ hr {
     }
 
         .page-title-breadcrumb .page-header .page-title {
-            font-size: 25px;
+            font-size: 21px;
             font-weight: 300;
             display: inline-block;
+            color:#666;
         }
 
         .page-title-breadcrumb .page-header .page-subtitle {
@@ -1234,7 +1236,7 @@ hr {
     .navbar-static-side {
         z-index: 1;
         position: absolute;
-        width: 250px;
+        width: 13%;
     }
 }
 
@@ -1253,6 +1255,7 @@ hr {
 
 .right-sidebar #page-wrapper {
     margin: 0 250px 0 0;
+    width:2.8%;
 }
 /* Begin Horizontal menu */
 /* Begin Left Sidebar Collapsed */
@@ -1323,6 +1326,7 @@ hr {
 
 .left-side-collapsed #page-wrapper {
     margin: 0 0 0 55px;
+    width: 97%!important;
 }
 /* End Left Sidebar Collapsed */
 /* Begin Right Sidebar Collapsed */
@@ -9471,9 +9475,9 @@ label > label {
     font-size: 15px;
     color: black;
 }
-.table tbody tr td {
+/* .table tbody tr td {
     background-color: white;
-}
+} */
 .table tr {
     background-color: white;
     color: #000000;
@@ -9578,7 +9582,11 @@ h2 {
 } */
 .btn-primary {
     color: #ffffff;
-    border: 1px solid #1f68b1;
+    border: 1px solid #e8ac2a;
+    background-color: #e8ac28!important;
+}
+.btn-primary:hover{
+    border-color: #e8ac2a!important;
 }
 /* This padding is for label at top for orginator,date,department*/
 .labeltop{
@@ -9614,35 +9622,17 @@ a:hover .ms-core-menu-label{ color:#fff!important; padding: 5px!important; }
 }
 .ms-welcome-root{width: inherit!important;}
 .ms-siteicon-img{width: 160px; margin-top:5px;}
+#page-wrapper{
+    float: left;
+    width: 87%; 
+ }
 
-@media (max-width: 1920px) {
-    .page-title-breadcrumb{
-        width: 86%;
-    }
-}
-@media (max-width: 1680px) {
-    .page-title-breadcrumb{
-        width: 85%;
-    }
-}
-@media (max-width: 1440px) {
-    .page-title-breadcrumb{
-        width: 82%;
-    }
-}
-@media (max-width: 1280px) {
-    .page-title-breadcrumb{
-        width: 80%;
-    }
-}
 
 @media (max-width: 1024px) {
-    .page-title-breadcrumb{
-        width: 75%;
-    }
+    
     #page-wrapper{
        float: left;
-       width: 74%; 
+    
     }
     .iframe-section div:first-child .table-responsive {
         overflow-x: scroll !important;
@@ -9650,11 +9640,9 @@ a:hover .ms-core-menu-label{ color:#fff!important; padding: 5px!important; }
 }
 @media (max-width: 768px) {
     #page-wrapper{
-       width: 66%; 
+    
     }
-    .page-title-breadcrumb{
-        width:100%;
-    }
+   
     .modal-dialog{
         width: 98%!important;
     }
@@ -9668,7 +9656,7 @@ a:hover .ms-core-menu-label{ color:#fff!important; padding: 5px!important; }
         padding-bottom: 15px;
     }
     #page-wrapper{
-       width: 91%; 
+    
     }
     #ctl00_welcome {
         float: right;
@@ -9711,7 +9699,17 @@ a:hover .ms-core-menu-label{ color:#fff!important; padding: 5px!important; }
 }
 .form-horizontal .control-label.radio-label{text-align: left!important;}
 .card-sec {
-    background: #f1f1f1;
-    border: 1px solid #d5d5d5;
-    border-radius: 3px;
+    border-top: 1px solid #d5d5d5;
+    border-bottom:1px solid #d5d5d5;
+    border-radius: 0;
+    margin-bottom: 20px;
+}
+.card-sec .card-head, .card-sec .lv-header{
+    border-bottom:0 solid #d5d5d5;
+}
+.card-sec h4.justify {
+    text-transform: initial;
+    color: #000!important;
+    font-size: 13px;
+    font-weight: bold;
 }
