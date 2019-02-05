@@ -21,6 +21,7 @@ $(document).ready(function () {
     });
 });
 
+/*Monal Shah */
 function GetSetFormData() {
     GetTranListData(listItemId);
     var mainListName = $($('div').find('[mainlistname]')).attr('mainlistname');
@@ -34,6 +35,7 @@ function GetSetFormData() {
         });
 }
 
+/*Pooja Atkotiya */
 function onGetSetFormDataSuccess(data) {
     var mainListName = $($('div').find('[mainlistname]')).attr('mainlistname');
     var activitylogTableId = 'tblActivityLog';
@@ -61,6 +63,7 @@ function onGetSetFormDataSuccess(data) {
     GetActivityLog(ListNames.ACTIVITYLOGLIST, listItemId, activitylogTableId);
 }
 
+/*Pooja Atkotiya */
 function setCustomApprovers(tempApproverMatrix) {
     if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != -1) {
         var smsIncharge = null;
@@ -90,6 +93,7 @@ function setCustomApprovers(tempApproverMatrix) {
     }
 }
 
+/*Monal Shah */
 function Capex_SaveData(ele) {
     ValidateForm(ele, SaveDataCallBack);
     function SaveDataCallBack(activeSection) {
@@ -99,6 +103,7 @@ function Capex_SaveData(ele) {
         }
     }
 }
+
 
 function FormBusinessLogic(activeSection) {
     // var isError = false;
@@ -118,6 +123,7 @@ function FormBusinessLogic(activeSection) {
     // return isError;
 }
 
+/*Monal Shah */
 function SaveForm(activeSection, ele) {
     try {
         SaveFormData(activeSection, ele);
@@ -127,6 +133,7 @@ function SaveForm(activeSection, ele) {
     }
 }
 
+/*Priya Rane */
 function AddAllAttachments(listname, itemID) {
     $('#divItemCodeForm').find('div[section]').not(".disabled").each(function (i, e) {
 
@@ -145,6 +152,7 @@ function AddAllAttachments(listname, itemID) {
     });
 }
 
+/*Priya Rane */
 function GetAttachmentValue(elementId, fileListArray) {
     var input = document.getElementById("UploadArtworkAttachment")
     var fileCount = input.files.length;
@@ -164,6 +172,7 @@ function GetAttachmentValue(elementId, fileListArray) {
     }
 }
 
+/*Priya Rane */
 function SaveItemWiseAttachments(listname, itemID) {
     var item = $pnp.sp.web.lists.getByTitle(listname).items.getById(itemID);
     item.attachmentFiles.addMultiple(fileInfos).then(v => {
