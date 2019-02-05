@@ -37,8 +37,18 @@ function AddVendorDetails() {
 }
 
 function ViewVendorDetails(obj) {
-    var id = jQuery(obj).attr('id').split('_')[1].trim();
-    var item = GetVendorDetailsById(id);
+    var item;
+    var id = jQuery(obj).attr('id').split('_')[2].trim();
+    var index = jQuery(obj).attr('id').split('_')[1].trim();
+    listTempGridDataArray.forEach(function (arrayItem) {
+         console.log(arrayItem);
+         if(arrayItem.Index==index)
+         {
+            item = arrayItem;
+         }
+    });
+   // var id = jQuery(obj).attr('id').split('_')[1].trim();
+  //  var item = GetVendorDetailsById(id);
     if (!IsNullOrUndefined(item)) {
         $("#CRUDVendorModal").modal('show');
         $("#spanTitle").html('Vendor Detail');
@@ -84,8 +94,17 @@ function GetVendorDetailsById(id) {
 }
 
 function EditVendorDetails(obj) {
-    var id = jQuery(obj).attr('id').split('_')[1].trim();
-    var item = GetVendorDetailsById(id);
+    var item;
+    var id = jQuery(obj).attr('id').split('_')[2].trim();
+    var index = jQuery(obj).attr('id').split('_')[1].trim();
+    listTempGridDataArray.forEach(function (arrayItem) {
+         console.log(arrayItem);
+         if(arrayItem.Index==index)
+         {
+            item = arrayItem;
+         }
+    });
+   // var item = GetVendorDetailsById(id);
     if ($('myform').length > 0)
         $('myform').renameTag('form');
     if (!IsNullOrUndefined(item)) {
@@ -175,7 +194,9 @@ function SaveVendorData(listname, listDataArray) {
     if(listDataArray.ID == "")
     {
         listDataArray.ID="0";
+        if(listDataArray.Index ==""){
         listDataArray.Index=count+1;
+        }
         listDataArray.Status="New";
     }
     listTempGridDataArray.push(listDataArray);
@@ -315,12 +336,19 @@ function SaveVendorDetails() {
 function DeleteVendorDetails(obj) {
     ConfirmationDailog({
         title: "Remove", message: "Are you sure to delete this vendor details?", id: jQuery(obj).attr('id').split('_')[1].trim(),
-        url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.CAPEXVENDORLIST + "')/items(" + jQuery(obj).attr('id').split('_')[1].trim() + ")",
+       // url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.CAPEXVENDORLIST + "')/items(" + jQuery(obj).attr('id').split('_')[1].trim() + ")",
         okCallback: function (id, data) {
-            var tr = jQuery(obj).parents('tr:first');
-            tr.remove();
-            AlertModal("Success", "Vendor Details deleted Successfully.", false, GetVendorDetails());
-            window.location = window.location.href;
+           // var tr = jQuery(obj).parents('tr:first');
+           // tr.remove();
+           var id = jQuery(obj).attr('id').split('_')[2].trim();
+           var index = jQuery(obj).attr('id').split('_')[1].trim();
+           var item;
+           
+    
+   if (index !== -1 && index !== 0 ) listTempGridDataArray= listTempGridDataArray.splice(index, 1);
+            GetVendorDetails(listTempGridDataArray);
+            AlertModal("Success", "Vendor Details deleted Successfully");
+          //  window.location = window.location.href;
         }
     });
 }
@@ -340,9 +368,9 @@ function GetVendorDetails(listTempGridDataArray) {
                     tr.append("<td width='17%'>" + arrayItem.NetValue + "</td>");
                     tr.append("<td width='16%'>" + arrayItem.DeliveryPeriod + "</td>");
                     tr.append("<td width='12%'>" +
-                        "<a href='#' class='view' id='ViewVendor_" + arrayItem.ID + "' title='View' data-toggle='tooltip'><i class='material-icons'>&#xE417;</i></a>" +
-                        "<a href='#' id='EditVendor_" + arrayItem.ID + "' class='edit' title='Edit' data-toggle='modal'><i class='material-icons'>&#xE254;</i></a>" +
-                        "<a href='#' id='DeleteVendor_" + arrayItem.ID + "' class='delete' title='Delete' data-toggle='modal'><i class='material-icons'>&#xE872;</i></a></td>");
+                        "<a class='view' id='ViewVendor_" + arrayItem.Index + '_'+ arrayItem.ID + "' title='View' data-toggle='tooltip'><i class='material-icons'>&#xE417;</i></a>" +
+                        "<a id='EditVendor_" + arrayItem.Index + '_'+ arrayItem.ID + "' class='edit' title='Edit' data-toggle='modal'><i class='material-icons'>&#xE254;</i></a>" +
+                        "<a id='DeleteVendor_" + arrayItem.Index + '_'+ arrayItem.ID + "' class='delete' title='Delete' data-toggle='modal'><i class='material-icons'>&#xE872;</i></a></td>");
                     $('#tblVendor').append(tr);
         });
     }
