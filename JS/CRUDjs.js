@@ -202,18 +202,9 @@ function SaveVendorData(listname, listDataArray) {
             contentType: "application/json;odata=verbose",
             data: JSON.stringify(listDataArray),
             headers: headers,
-<<<<<<< HEAD
-            success: function (data) {
-                $('#CRUDVendorModal').modal('hide');
-                GetVendorDetails();
-               // AlertModal("Success", "Vendor Details Saved Successfully.", false, GetVendorDetails());
-               Alert("Vendor Details Saved Successfully");
-               
-=======
             success: function (data) {               
                 AlertModal("Success", "Vendor Details Saved Successfully.", true, GetVendorDetails());
                // $('#CRUDVendorModal').modal('hide');
->>>>>>> e0949675f7569f09a055e9e47442c5cf2642027c
                 //window.location = window.location.href;
             },
             error: function (data) {
