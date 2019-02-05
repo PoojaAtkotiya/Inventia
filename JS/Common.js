@@ -632,17 +632,27 @@ function AlertModal(title, msg, isExit, callback) {
     else if (title == "SessionTimeout") {
         $("#PopupDialog .modal-header").addClass("bg-warning text-white");
     }
-    $("#PopupDialog").modal('show').on('hidden.bs.modal', function () {
-        if (typeof (callback) !== 'undefined' && callback != null) {
-            callback();
-        }
-        if (typeof (isExit) !== 'undefined' && isExit == true) {
-            Exit();
-        }
-        if (callback == null) {
-            $("div[id='PopupDialog']").hide();
-            $("div[id='PopupDialog']").remove();
+    // $("#PopupDialog").modal('show').on('hidden.bs.modal', function () {
+    //     if (typeof (callback) !== 'undefined' && callback != null) {
+    //         callback();
+    //     }
+    //     if (typeof (isExit) !== 'undefined' && isExit == true) {
+    //         Exit();
+    //     }
+    //     if (callback == null) {
+    //         $("div[id='PopupDialog']").hide();
+    //         $("div[id='PopupDialog']").remove();
 
+    //     }
+    // });
+    $("#PopupDialog").modal('show').on('hidden.bs.modal', function () {
+        if (typeof (isExit) !== 'undefined' && isExit == true) {
+            if (typeof (callback) !== 'undefined' && callback != null) {
+                callback();
+            }
+            else {
+                Exit();
+            }
         }
     });
 }

@@ -1,8 +1,10 @@
 var data = null;
+var listTempGridDataArray = [];
+
 $(document).ready(function () {
     GetVendorDetails();
-    $(document).on('click', 'a[id="btnAddVendor"]', function () {        
-       AddVendorDetails();
+    $(document).on('click', 'a[id="btnAddVendor"]', function () {
+        AddVendorDetails();
     });
     $(document).on('click', 'a[id*="EditVendor_"]', function () {
         EditVendorDetails(jQuery(this));
@@ -20,9 +22,8 @@ $(document).ready(function () {
             "orderable": false
         }]
     });
-    if ($('myform').length > 0)
-    $('myform').renameTag('form');
-    
+
+
 });
 
 
@@ -31,6 +32,8 @@ function AddVendorDetails() {
     $("#CRUDVendorModal").find('input,textarea,select').val('');
     $("#CRUDVendorModal").modal('show');
     $("#spanTitle").html('Add Vendor Detail');
+    if ($('myform').length > 0)
+        $('myform').renameTag('form');
 }
 
 function ViewVendorDetails(obj) {
@@ -68,11 +71,11 @@ function GetVendorDetailsById(id) {
             async: false,
             datatype: 'json',
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             success: function (data) {
                 VendorDetailresult = data.d;
             }
@@ -83,6 +86,8 @@ function GetVendorDetailsById(id) {
 function EditVendorDetails(obj) {
     var id = jQuery(obj).attr('id').split('_')[1].trim();
     var item = GetVendorDetailsById(id);
+    if ($('myform').length > 0)
+        $('myform').renameTag('form');
     if (!IsNullOrUndefined(item)) {
         $("#CRUDVendorModal *").removeAttr("disabled");
         $("#CRUDVendorModal").modal('show');
@@ -165,7 +170,15 @@ function GetItemTypeForListName(name) {
 }
 
 function SaveVendorData(listname, listDataArray) {
-    var itemType = GetItemTypeForListName(listname);
+    console.log(listDataArray);
+    listTempGridDataArray.push(listDataArray);
+  //  $('#CRUDVendorModal').modal('hide');
+ //  alert("Vendor Details Saved Successfully");
+              //  GetVendorDetails();
+  // AlertModal("Success", "Vendor Details Saved Successfully.", false,null);
+  AlertModal("Success", "Vendor Details Saved Successfully");
+   $('#CRUDVendorModal').modal('hide');
+  /*  var itemType = GetItemTypeForListName(listname);
     if (listDataArray != null) {
         listDataArray["__metadata"] = {
             "type": itemType
@@ -189,16 +202,25 @@ function SaveVendorData(listname, listDataArray) {
             contentType: "application/json;odata=verbose",
             data: JSON.stringify(listDataArray),
             headers: headers,
+<<<<<<< HEAD
             success: function (data) {
                 $('#CRUDVendorModal').modal('hide');
-                AlertModal("Success", "Vendor Details Saved Successfully.", false, GetVendorDetails());
+                GetVendorDetails();
+               // AlertModal("Success", "Vendor Details Saved Successfully.", false, GetVendorDetails());
+               Alert("Vendor Details Saved Successfully");
+               
+=======
+            success: function (data) {               
+                AlertModal("Success", "Vendor Details Saved Successfully.", true, GetVendorDetails());
+               // $('#CRUDVendorModal').modal('hide');
+>>>>>>> e0949675f7569f09a055e9e47442c5cf2642027c
                 //window.location = window.location.href;
             },
             error: function (data) {
                 console.log(data);
             }
         });
-    }
+    }*/
 }
 
 function GetFormControlsValues(id, elementType, listDataArray) {
@@ -251,12 +273,11 @@ function GetFormControlsValues(id, elementType, listDataArray) {
     }
     return listDataArray;
 }
-function ValidateModalForm(ele) {
-    var modalList= $('#form_VendorSection').attr();
-    var isValid = true;
 
-    modalList.each(function () {
-      if (!$(this).valid()) {
+function ValidateModalForm() {
+    var isValid = true;
+    $('#form_VendorSection').valid();
+    if (!$(this).valid()) {
         isValid = false;
         try {
             var validator = $(this).validate();
@@ -271,28 +292,25 @@ function ValidateModalForm(ele) {
         catch (e1) {
             console.log(e1.message);
         }
-      }
-    });
-    if (isValid) {
-        SaveVendorData(mainListName, saveDataArray);
     }
+    return isValid;
 
 }
 
 function SaveVendorDetails() {
     var saveDataArray = {}
     var mainListName = ListNames.CAPEXVENDORLIST;
-    $('#CRUDVendorModal').find('input[listtype=main],select[listtype=main],radio[listtype=main],textarea[listtype=main],label[listtype=main]').each(function () {
+    $('#CRUDVendorModal').find('input[listtype=trans],select[listtype=trans],radio[listtype=trans],textarea[listtype=trans],label[listtype=trans]').each(function () {
         var elementId = $(this).attr('id');
         var elementType = $(this).attr('controlType');
         saveDataArray = GetFormControlsValues(elementId, elementType, saveDataArray);
     });
-    
-    //ValidateModalForm(ele, saveCallBack);
-    // var modalList= $('#form_VendorSection').validate();
-    // console.log(modalList);
-    
-    SaveVendorData(mainListName, saveDataArray);
+
+
+    var isValid = ValidateModalForm();
+    if (isValid) {
+        SaveVendorData(mainListName, saveDataArray);
+    }
 }
 
 function DeleteVendorDetails(obj) {
@@ -316,11 +334,11 @@ function GetVendorDetails() {
             async: false,
             datatype: 'json',
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             success: function (data) {
                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
                     var result = data.d.results;
