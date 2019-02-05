@@ -159,7 +159,9 @@ function GetCurrentUserRole(id, mainListName) {
         // }
         // else if(oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.manageWeb) && oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.editListItems)){
         //     console.log("user has ful control and edit permission");
-        // }   
+        // }
+        
+       // SP.PermissionKind.manageWeb  == Full Control
         if (oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.editListItems) && oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.addListItems)) {
             console.log("user has add+edit permission");
             tcurrentLevel = oListItem.get_item('FormLevel').split("|")[1];
@@ -758,7 +760,6 @@ function SetItemPermission(requestId, listName, userWithRoles) {
 
 // Break role inheritance on the list.
 function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
-    debugger
     var finalUserPermDic = [];
     userWithRoles.forEach((element) => {
 

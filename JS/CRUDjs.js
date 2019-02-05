@@ -3,6 +3,10 @@ var listTempGridDataArray = [];
 
 $(document).ready(function () {
     GetVendorDetails();
+    $(document).on('shown.bs.modal', "#CRUDVendorModal", function () {
+        if ($('myform').length > 0)
+            $('myform').renameTag('form');
+    });
     $(document).on('click', 'a[id="btnAddVendor"]', function () {
         AddVendorDetails();
     });
@@ -22,8 +26,6 @@ $(document).ready(function () {
             "orderable": false
         }]
     });
-
-
 });
 
 
@@ -32,8 +34,6 @@ function AddVendorDetails() {
     $("#CRUDVendorModal").find('input,textarea,select').val('');
     $("#CRUDVendorModal").modal('show');
     $("#spanTitle").html('Add Vendor Detail');
-    if ($('myform').length > 0)
-        $('myform').renameTag('form');
 }
 
 function ViewVendorDetails(obj) {
@@ -71,11 +71,11 @@ function GetVendorDetailsById(id) {
             async: false,
             datatype: 'json',
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val()
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
             success: function (data) {
                 VendorDetailresult = data.d;
             }
@@ -172,46 +172,46 @@ function GetItemTypeForListName(name) {
 function SaveVendorData(listname, listDataArray) {
     console.log(listDataArray);
     listTempGridDataArray.push(listDataArray);
-  //  $('#CRUDVendorModal').modal('hide');
- //  alert("Vendor Details Saved Successfully");
-              //  GetVendorDetails();
-  // AlertModal("Success", "Vendor Details Saved Successfully.", false,null);
-  AlertModal("Success", "Vendor Details Saved Successfully");
-   $('#CRUDVendorModal').modal('hide');
-  /*  var itemType = GetItemTypeForListName(listname);
-    if (listDataArray != null) {
-        listDataArray["__metadata"] = {
-            "type": itemType
-        };
+    // $("#form_VendorSection").submit();
 
-        var url = '', headers = '';
-        if (listDataArray.ID != null && listDataArray.ID > 0 && listDataArray.ID != "") {
-            // listDataArray.ID = listItemId;
-            url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + listname + "')/items(" + listDataArray.ID + ")";
-            headers = { "Accept": "application/json;odata=verbose", "X-RequestDigest": $("#__REQUESTDIGEST").val(), "IF-MATCH": "*", "X-HTTP-Method": "MERGE" };
-        }
-        else {
-            listDataArray.ID = isNaN(parseInt(listDataArray.ID)) == true ? 0 : parseInt(listDataArray.ID);
-            url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + listname + "')/items";
-            headers = { "Accept": "application/json;odata=verbose", "X-RequestDigest": $("#__REQUESTDIGEST").val() };
-        }
+    AlertModal("Success", "Vendor Details Saved Successfully");
 
-        $.ajax({
-            url: url,
-            type: "POST",
-            contentType: "application/json;odata=verbose",
-            data: JSON.stringify(listDataArray),
-            headers: headers,
-            success: function (data) {               
-                AlertModal("Success", "Vendor Details Saved Successfully.", true, GetVendorDetails());
-               // $('#CRUDVendorModal').modal('hide');
-                //window.location = window.location.href;
-            },
-            error: function (data) {
-                console.log(data);
-            }
-        });
-    }*/
+    //  GetVendorDetails();
+
+    /*  var itemType = GetItemTypeForListName(listname);
+      if (listDataArray != null) {
+          listDataArray["__metadata"] = {
+              "type": itemType
+          };
+  
+          var url = '', headers = '';
+          if (listDataArray.ID != null && listDataArray.ID > 0 && listDataArray.ID != "") {
+              // listDataArray.ID = listItemId;
+              url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + listname + "')/items(" + listDataArray.ID + ")";
+              headers = { "Accept": "application/json;odata=verbose", "X-RequestDigest": $("#__REQUESTDIGEST").val(), "IF-MATCH": "*", "X-HTTP-Method": "MERGE" };
+          }
+          else {
+              listDataArray.ID = isNaN(parseInt(listDataArray.ID)) == true ? 0 : parseInt(listDataArray.ID);
+              url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + listname + "')/items";
+              headers = { "Accept": "application/json;odata=verbose", "X-RequestDigest": $("#__REQUESTDIGEST").val() };
+          }
+  
+          $.ajax({
+              url: url,
+              type: "POST",
+              contentType: "application/json;odata=verbose",
+              data: JSON.stringify(listDataArray),
+              headers: headers,
+              success: function (data) {               
+                  AlertModal("Success", "Vendor Details Saved Successfully.", true, GetVendorDetails());
+                 // $('#CRUDVendorModal').modal('hide');
+                  //window.location = window.location.href;
+              },
+              error: function (data) {
+                  console.log(data);
+              }
+          });
+      }*/
 }
 
 function GetFormControlsValues(id, elementType, listDataArray) {
@@ -267,23 +267,23 @@ function GetFormControlsValues(id, elementType, listDataArray) {
 
 function ValidateModalForm() {
     var isValid = true;
-    $('#form_VendorSection').valid();
-    if (!$(this).valid()) {
-        isValid = false;
-        try {
-            var validator = $(this).validate();
-            $(validator.errorList).each(function (i, errorItem) {
-                //  AlertModal("Validation", errorItem.element.id + "' : '" + errorItem.message);
-                $("#" + errorItem.element.id).addClass("error");
-                $("#" + errorItem.element.id).removeClass("valid");
-                $("#" + errorItem.element.id).next().remove();
-                console.log("{ '" + errorItem.element.id + "' : '" + errorItem.message + "'}");
-            });
-        }
-        catch (e1) {
-            console.log(e1.message);
-        }
-    }
+    // $('#form_VendorSection').valid();
+    // if (!$(this).valid()) {
+    //     isValid = false;
+    //     try {
+    //         var validator = $(this).validate();
+    //         $(validator.errorList).each(function (i, errorItem) {
+    //             //  AlertModal("Validation", errorItem.element.id + "' : '" + errorItem.message);
+    //             $("#" + errorItem.element.id).addClass("error");
+    //             $("#" + errorItem.element.id).removeClass("valid");
+    //             $("#" + errorItem.element.id).next().remove();
+    //             console.log("{ '" + errorItem.element.id + "' : '" + errorItem.message + "'}");
+    //         });
+    //     }
+    //     catch (e1) {
+    //         console.log(e1.message);
+    //     }
+    // }
     return isValid;
 
 }
@@ -300,6 +300,7 @@ function SaveVendorDetails() {
 
     var isValid = ValidateModalForm();
     if (isValid) {
+
         SaveVendorData(mainListName, saveDataArray);
     }
 }
@@ -325,11 +326,11 @@ function GetVendorDetails() {
             async: false,
             datatype: 'json',
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val()
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
             success: function (data) {
                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
                     var result = data.d.results;
