@@ -12,6 +12,7 @@ var scriptbase; //= spSiteUrl + "/_layouts/15/";     ////_spPageContextInfo.layo
 var fileIdCounter = 0;
 var currentApproverDetails = {};
 var gTranArray = [];
+var department;
 jQuery(document).ready(function () {
 
     jQuery.noConflict();
@@ -113,12 +114,46 @@ function onloadConstantsSuccess(sender, args) {
         var today = new Date().format("dd-MM-yyyy");
         $("#RequestDate").html(today);
         $("#WorkflowStatus").html("New");
+        GetUserDepartment();
+        $("#Department").html(department);
     }
     if (listItemId != null && listItemId > 0) {
         setImageSignature();
     }
     //setCustomApprovers();
 }
+
+function GetUserDepartment()
+{
+    $.ajax({  
+        url:_spPageContextInfo.webAbsoluteUrl + "/_api/SP.UserProfiles.PeopleManager/GetMyProperties",
+        httpmethod: 'GET',
+        calldatatype: 'JSON',
+        async: false,
+        headers: {
+            Accept: "application/json;odata=verbose"
+        },
+        success: function (data) {  
+            try {  
+                //Get properties from user profile Json response  
+                userDisplayName = data.d.DisplayName;  
+                AccountName = data.d.AccountName;  
+                var properties = data.d.UserProfileProperties.results;  
+                for (var i = 0; i < properties.length; i++) {  
+                if (properties[i].Key  =="Department") {  
+                        department = properties[i].Value;  
+                    }  
+                }  
+            } catch (err2) {  
+                //alert(JSON.stringify(err2));  
+            }  
+        },  
+        error: function (jQxhr, errorCode, errorThrown) {  
+            console.log(errorThrown);  
+        }  
+    });  
+}
+
 
 /*Priya Rane */
 function setImageSignature() {
