@@ -93,6 +93,7 @@ function GetTranData(tranlistname, lookupId) {
 
 
 function SaveTranListData(lookupId) {
+    debugger
     TranListData(lookupId);
     tranListData = {};
     if (tranlistNameArray != null && tranlistNameArray.length > 0) {

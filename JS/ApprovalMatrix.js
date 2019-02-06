@@ -798,7 +798,7 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
     var resetDataTemplate = { "resetUrl": resetUrl, "breakRoleUrl": breakRoleUrl, "setPermUrl": setPermUrl, "digest": digest.toString(), "UserPerm": finalUserPermDic };
 
     $.ajax({
-        url: "https://prod-05.centralindia.logic.azure.com:443/workflows/068a2cd297de410ab19fc808be3a2735/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=eSrKcDBAxAwGqTouTX6xZ8sUpoQIl--H02rmq8EW3c8",
+        url: CommonConstant.SETITEMPERMISSION,
         type: 'POST',
         headers: {
             "content-type": "application/json",
