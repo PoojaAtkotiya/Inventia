@@ -1553,12 +1553,12 @@ function GetActivityString(listActivityLogDataArray, isCurrentApproverField) {
             if (stringActivity != null && stringActivity != '') {
                 stringActivity = stringActivity + '~';
                 stringActivity = stringActivity + element.id;
-                stringActivity = stringActivity + '';
+                stringActivity = stringActivity + ' ';
                 stringActivity = stringActivity + element.value;
             }
             else {
                 stringActivity = element.id;
-                stringActivity = stringActivity + '';
+                stringActivity = stringActivity + ' ';
                 stringActivity = stringActivity + element.value;
             }
         });
