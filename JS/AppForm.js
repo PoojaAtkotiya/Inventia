@@ -106,21 +106,25 @@ function Capex_SaveData(ele) {
 
 
 function FormBusinessLogic(activeSection) {
-    // var isError = false;
-    // try {
-    //     //check if there any delegate user fillby section owner        
-    //     ////Pending to make it dynamic
-    //     if (!IsNullOrUndefined(listDataArray.SCMLUMDesignDelegateId)) {
-    //         var array = [];
-    //         array.push(parseInt(listDataArray.SCMLUMDesignDelegateId));
-    //         listDataArray["SCMLUMDesignDelegateId"] = { "results": array };
-    //     }
-    // }
-    // catch (Exception) {
-    //     isError = true;
-    //     console.log("Error occured in FormBusinessLogic" + Exception);
-    // }
-    // return isError;
+    var isError = false;
+    try {
+
+        /* Add final saved tran array to global tran array to save in list*/
+        gTranArray.push(listTempGridDataArray);  ////Vendor tran added in global tran
+
+        //     //check if there any delegate user fillby section owner        
+        //     ////Pending to make it dynamic
+        //     if (!IsNullOrUndefined(listDataArray.SCMLUMDesignDelegateId)) {
+        //         var array = [];
+        //         array.push(parseInt(listDataArray.SCMLUMDesignDelegateId));
+        //         listDataArray["SCMLUMDesignDelegateId"] = { "results": array };
+        //     }
+    }
+    catch (Exception) {
+        isError = true;
+        console.log("Error occured in FormBusinessLogic" + Exception);
+    }
+    return isError;
 }
 
 /*Monal Shah */

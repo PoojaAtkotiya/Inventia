@@ -215,9 +215,6 @@ function SaveVendorData(listname, listDataArray) {
     // $("#form_VendorSection").submit();
     $("#CRUDVendorModal").modal('hide');
     AlertModal("Success", "Vendor Details Saved Successfully");
-
-    /* Add final saved tran array to global tran array to save in list*/
-    gTranArray.push(listTempGridDataArray);
 }
 
 function GetFormControlsValues(id, elementType, listDataArray) {
