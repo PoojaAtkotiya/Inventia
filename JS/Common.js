@@ -11,6 +11,7 @@ var fileInfos = [];
 var scriptbase; //= spSiteUrl + "/_layouts/15/";     ////_spPageContextInfo.layoutsUrl
 var fileIdCounter = 0;
 var currentApproverDetails = {};
+var gTranArray = [];
 jQuery(document).ready(function () {
 
     jQuery.noConflict();
