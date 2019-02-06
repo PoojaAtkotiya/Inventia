@@ -205,3 +205,20 @@ function SaveTranData(listname, tranListDataArray, lookupId) {
         // });
     }
 }
+
+//#region Save Trans in List
+function SaveAllTrans() {
+    if (!IsNullOrUndefined(gTranArray) && gTranArray.length > 0) {
+        gTranArray.forEach(tranList => {
+
+            if (!IsNullOrUndefined(tranList) && tranList.length > 0) {
+                tranList.forEach(tranItem => {
+
+                    debugger
+                });
+            }
+
+        });
+    }
+}
+//#endregion

@@ -1235,12 +1235,14 @@ function SaveData(listname, listDataArray, sectionName, ele) {
                         SaveLocalApprovalMatrix(sectionName, itemID, listname, isNewItem, oListItem, ListNames.APPROVALMATRIXLIST);
                         SaveImageSignaturePath(sectionName, itemID);
                         SaveActivityLog(sectionName, itemID, ListNames.ACTIVITYLOGLIST, listDataArray, isNewItem, buttonCaption);
-                        if (data != undefined && data != null && data.d != null) {
-                            SaveTranListData(itemID);
+                        if (!isNaN(itemID)) {
+                            debugger
+                           // SaveTranListData(itemID);
+                           SaveAllTrans();
                         }
-                        else {
-                            SaveTranListData(itemID);
-                        }
+                        // else {
+                        //     SaveTranListData(itemID);
+                        // }
                         HideWaitDialog();
                         if (IsNullOrUndefined(data)) {
                             data = {};
@@ -2014,7 +2016,6 @@ function GetDatafromList(itemID, mainListName, subject, matchesSubject, body, ma
 /*Pooja Atkotiya */
 function SaveEmail(subject, body, emailParam) {
     var emailSaved = false;
-    debugger
     if (!IsStrNullOrEmpty(subject) && !IsStrNullOrEmpty(body) && !IsNullOrUndefined(emailParam) && emailParam.length > 0 && !IsStrNullOrEmpty(emailParam.TEMPLATENAME) && !IsStrNullOrEmpty(emailParam.FROM) && !IsStrNullOrEmpty(emailParam.TO) || !IsStrNullOrEmpty(emailParam.CC) || !IsStrNullOrEmpty(emailParam.BCC)) {
 
         var to = emailParam.TO;
