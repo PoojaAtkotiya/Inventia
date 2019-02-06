@@ -119,7 +119,10 @@
     }
     .custom-scroll > ul{
         display: block!important;
+		background: #4b2465!important;
+		top:50px;
     }
+	
 }
 
 @media only screen and (max-width: 700px) {
@@ -193,6 +196,9 @@
 @media only screen and (max-width: 400px) {
     .o365cs-nav-header16, #s4-ribbonrow{
         width:84%;
+    }
+	.page-content {
+    	padding: 170px 20px 50px 20px;
     }
 }
 @media only screen and (max-width: 360px) {
