@@ -6,6 +6,7 @@ $(document).ready(function () {
     $(document).on('shown.bs.modal', "#CRUDVendorModal", function () {
         if ($('myform').length > 0)
             $('myform').renameTag('form');
+            KeyPressNumericValidation();
     });
     $(document).on('click', 'a[id="btnAddVendor"]', function () {
         AddVendorDetails();
