@@ -164,7 +164,6 @@ function setFieldValues(controlId, item, fieldType, fieldName) {
                 item[fieldName].results.forEach(function (thisItem) {
                     if (thisItem == controlId) {
                         $("#" + controlId)[0].checked = true;
-                        debugger;
                         if (listDataArray[fieldName] == undefined)
                             listDataArray[fieldName] = { "__metadata": { "type": "Collection(Edm.String)" }, "results": [] };
                         listDataArray[fieldName].results.push(thisItem);
@@ -173,7 +172,6 @@ function setFieldValues(controlId, item, fieldType, fieldName) {
             }
             break;
         case "radiogroup":
-            debugger;
             if (controlId == item[fieldName])
                 $("#" + controlId).prop('checked', true);
             else
@@ -191,6 +189,12 @@ function GetItemTypeForListName(name) {
 function SaveVendorData(listname, listDataArray) {
     console.log(listDataArray);
     var count=listTempGridDataArray.length;
+    if(listDataArray.Type === "Edit")
+    {
+        var index = listDataArray.index;
+      
+        listTempGridDataArray.splice(index, 1, listDataArray)
+    }
     if(listDataArray.ID == "")
     {
         listDataArray.ID="0";
@@ -198,8 +202,11 @@ function SaveVendorData(listname, listDataArray) {
         listDataArray.Index=count+1;
         }
         listDataArray.Status="New";
+        listDataArray.Type="Edit";
+        listTempGridDataArray.push(listDataArray);
     }
-    listTempGridDataArray.push(listDataArray);
+   
+    
     // $("#form_VendorSection").submit();
     $("#CRUDVendorModal").modal('hide');
     AlertModal("Success", "Vendor Details Saved Successfully");
@@ -369,7 +376,7 @@ function GetVendorDetails(listTempGridDataArray) {
                     tr.append("<td width='16%'>" + arrayItem.DeliveryPeriod + "</td>");
                     tr.append("<td width='12%'>" +
                         "<a class='view' id='ViewVendor_" + arrayItem.Index + '_'+ arrayItem.ID + "' title='View' data-toggle='tooltip'><i class='material-icons'>&#xE417;</i></a>" +
-                        "<a id='EditVendor_" + arrayItem.Index + '_'+ arrayItem.ID + "' class='edit' title='Edit' data-toggle='modal'><i class='material-icons'>&#xE254;</i></a>" +
+                        "<a id='EditVendor_" + arrayItem.Index + '_'+ arrayItem.ID + '_'+ arrayItem.Type + "' class='edit' title='Edit' data-toggle='modal'><i class='material-icons'>&#xE254;</i></a>" +
                         "<a id='DeleteVendor_" + arrayItem.Index + '_'+ arrayItem.ID + "' class='delete' title='Delete' data-toggle='modal'><i class='material-icons'>&#xE872;</i></a></td>");
                     $('#tblVendor').append(tr);
         });
