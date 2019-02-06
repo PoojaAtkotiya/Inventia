@@ -61,9 +61,9 @@
                     </h4>
                 </div>
                 <div class="modal-body form-horizontal">
-                    <input type="hidden" class="dynamic-control" listtype="trans" controlType="hidden" id="ID" value="" />
+                    <input type="hidden" class="dynamic-control" listtype="trans" controlType="hidden" id="ID" value="" listname="CapexVendor" />
                     <input type="hidden" class="dynamic-control" listtype="trans" controlType="hidden" id="Index" value="" />
-                    <input type="hidden" class="dynamic-control" listtype="trans" controlType="hidden" id="Status" value="" />
+                    <input type="hidden" class="dynamic-control" listtype="trans" controlType="hidden" id="Status" value=""  />
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -73,7 +73,7 @@
                                 </label>
                                 <div class="col-md-8 ">
                                     <input type="text" id="Name" name="Name" class="form-control dynamic-control"
-                                        required="required" listtype="trans" controlType="text" />
+                                        required="required" listtype="trans" controlType="text" listname="CapexVendor" />
                                         
                                 </div>
                             </div>
@@ -87,7 +87,7 @@
                                 <div class="col-md-8 ">
                                     <textarea id="Address" controlType="multitext" class="form-control dynamic-control"
                                         name="Address" required="required" listtype="trans" controlType="text"
-                                        maxlength="1000" /></textarea>
+                                        maxlength="1000" listname="CapexVendor" /></textarea>
                                 </div>
                             </div>
                         </div>
@@ -100,7 +100,7 @@
                                 </label>
                                 <div class="col-md-8 ">
                                     <input type="text" id="Make" name="Make" controlType="text" class="form-control dynamic-control"
-                                        listtype="trans" required="required" controlType="text" />
+                                        listtype="trans" required="required" controlType="text" listname="CapexVendor" />
                                 </div>
                             </div>
                         </div>
@@ -112,7 +112,7 @@
                                 </label>
                                 <div class="col-md-8 ">
                                     <input type="text" id="GrossValue" name="GrossValue" controlType="text" class="form-control dynamic-control"
-                                        listtype="trans" data="digit" required="required" />
+                                        listtype="trans" data="digit" required="required" listname="CapexVendor" />
                                 </div>
                             </div>
                         </div>
@@ -126,7 +126,7 @@
                                 </label>
                                 <div class="col-md-8 ">
                                     <input type="text" id="LessDiscount" name="LessDiscount" controlType="text" class="form-control dynamic-control"
-                                        data="digit" required="required" listtype="trans" />
+                                        data="digit" required="required" listtype="trans" listname="CapexVendor" />
                                 </div>
                             </div>
                         </div>
@@ -138,7 +138,7 @@
                                 </label>
                                 <div class="col-md-8 ">
                                     <input type="text" id="NetValue" name="NetValue" controlType="text" class="form-control dynamic-control"
-                                        data="digit" required="required" listtype="trans" />
+                                        data="digit" required="required" listtype="trans" listname="CapexVendor" />
                                 </div>
                             </div>
                         </div>
@@ -151,7 +151,7 @@
                                 </label>
                                 <div class="col-md-8 ">
                                     <input type="text" id="CustomDuty" name="CustomDuty" controlType="text" class="form-control dynamic-control"
-                                        required="required" listtype="trans" data="digit" />
+                                        required="required" listtype="trans" data="digit" listname="CapexVendor"/>
                                 </div>
                             </div>
                         </div>
@@ -163,7 +163,7 @@
                                 </label>
                                 <div class="col-md-8 ">
                                     <input type="text" id="StateGST" name="StateGST" controlType="text" class="form-control dynamic-control"
-                                        required="required" listtype="trans" data="digit" />
+                                        required="required" listtype="trans" data="digit" listname="CapexVendor"/>
                                 </div>
                             </div>
                         </div>
@@ -176,7 +176,7 @@
                                 </label>
                                 <div class="col-md-8 ">
                                     <input type="text" id="CentralGST" name="CentralGST" controlType="text" class="form-control dynamic-control"
-                                        required="required" listtype="trans" data="digit" />
+                                        required="required" listtype="trans" data="digit" listname="CapexVendor" />
                                 </div>
                             </div>
                         </div>
@@ -188,7 +188,7 @@
                                 </label>
                                 <div class="col-md-8 ">
                                     <input type="text" id="InterStateGST" name="InterStateGST" controlType="text" class="form-control dynamic-control"
-                                        required="required" listtype="trans" data="digit" />
+                                        required="required" listtype="trans" data="digit" listname="CapexVendor"/>
                                 </div>
                             </div>
                         </div>
@@ -202,7 +202,7 @@
                                 <div class="col-md-8 ">
                                     <input type="text" id="AddInstallationCharges" name="AddInstallationCharges"
                                         controlType="text" class="form-control dynamic-control" required="required"
-                                        data="digit" listtype="trans" />
+                                        data="digit" listtype="trans" listname="CapexVendor"/>
                                 </div>
                             </div>
                         </div>
@@ -215,7 +215,7 @@
                                 <div class="col-md-8 ">
                                     <input type="text" id="DeliveryPeriod" name="DeliveryPeriod" controlType="text"
                                         class="form-control dynamic-control" required="required" listtype="trans"
-                                        controlType="text" />
+                                        controlType="text" listname="CapexVendor"/>
                                 </div>
                             </div>
                         </div>
@@ -229,7 +229,7 @@
                                 <div class="col-md-8">
                                     <textarea type="text" controlType="multitext" id="TermsOfPayment" name="TermsOfPayment"
                                         class="form-control dynamic-control" required="required" controlType="text"
-                                        listtype="trans" maxlength="1000"></textarea>
+                                        listtype="trans" maxlength="1000" listname="CapexVendor"></textarea>
                                 </div>
                             </div>
                         </div>
