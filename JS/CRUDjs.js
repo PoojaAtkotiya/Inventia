@@ -187,11 +187,19 @@ function GetItemTypeForListName(name) {
 
 function SaveVendorData(listname, listDataArray) {
     console.log(listDataArray);
+    var tempgrid = [];
     var count = listTempGridDataArray.length;
     if (listDataArray.Type === "Edit") {
-        var index = listDataArray.index;
+        var index = listDataArray.Index;
+        var removeIndex = listTempGridDataArray.map(function (item) { return item.Index; }).indexOf(Number(index));
+        var tempgrid = listTempGridDataArray.splice(removeIndex, 1);
 
-        listTempGridDataArray.splice(index, 1, listDataArray)
+        listDataArray.Index = Number(index);
+        listTempGridDataArray.push(listDataArray);
+        listTempGridDataArray.sort(function (a, b) {
+            return a.Index - b.Index
+        });
+
     }
     if (listDataArray.ID == "") {
         listDataArray.ID = "0";
@@ -203,51 +211,13 @@ function SaveVendorData(listname, listDataArray) {
         listTempGridDataArray.push(listDataArray);
     }
 
-
+    GetVendorDetails(listTempGridDataArray);
     // $("#form_VendorSection").submit();
     $("#CRUDVendorModal").modal('hide');
     AlertModal("Success", "Vendor Details Saved Successfully");
 
-    GetVendorDetails(listTempGridDataArray);
-
     /* Add final saved tran array to global tran array to save in list*/
     gTranArray.push(listTempGridDataArray);
-
-
-    /*  var itemType = GetItemTypeForListName(listname);
-      if (listDataArray != null) {
-          listDataArray["__metadata"] = {
-              "type": itemType
-          };
-  
-          var url = '', headers = '';
-          if (listDataArray.ID != null && listDataArray.ID > 0 && listDataArray.ID != "") {
-              // listDataArray.ID = listItemId;
-              url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + listname + "')/items(" + listDataArray.ID + ")";
-              headers = { "Accept": "application/json;odata=verbose", "X-RequestDigest": $("#__REQUESTDIGEST").val(), "IF-MATCH": "*", "X-HTTP-Method": "MERGE" };
-          }
-          else {
-              listDataArray.ID = isNaN(parseInt(listDataArray.ID)) == true ? 0 : parseInt(listDataArray.ID);
-              url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + listname + "')/items";
-              headers = { "Accept": "application/json;odata=verbose", "X-RequestDigest": $("#__REQUESTDIGEST").val() };
-          }
-  
-          $.ajax({
-              url: url,
-              type: "POST",
-              contentType: "application/json;odata=verbose",
-              data: JSON.stringify(listDataArray),
-              headers: headers,
-              success: function (data) {               
-                  AlertModal("Success", "Vendor Details Saved Successfully.", true, GetVendorDetails());
-                 // $('#CRUDVendorModal').modal('hide');
-                  //window.location = window.location.href;
-              },
-              error: function (data) {
-                  console.log(data);
-              }
-          });
-      }*/
 }
 
 function GetFormControlsValues(id, elementType, listDataArray) {
@@ -350,18 +320,37 @@ function DeleteVendorDetails(obj) {
             // tr.remove();
             var id = jQuery(obj).attr('id').split('_')[2].trim();
             var index = jQuery(obj).attr('id').split('_')[1].trim();
+<<<<<<< HEAD
             var item;
 
 
             if (index !== -1 && index !== 0) listTempGridDataArray = listTempGridDataArray.splice(index, 1);
+=======
+
+            var removeIndex = listTempGridDataArray.map(function (item) { return item.Index; }).indexOf(Number(index));
+
+            // remove object
+            var removeditem = listTempGridDataArray.splice(removeIndex, 1);
+            //  listTempGridDataArray= listTempGridDataArray.splice(index, 1);
+>>>>>>> 28517965a01ae2640f6f1d9ec7710d163264ae50
             GetVendorDetails(listTempGridDataArray);
+            $("#CRUDVendorModal").modal('hide');
+            jQuery("#loading").hide();
             AlertModal("Success", "Vendor Details deleted Successfully");
+<<<<<<< HEAD
             //  window.location = window.location.href;
+=======
+>>>>>>> 28517965a01ae2640f6f1d9ec7710d163264ae50
         }
     });
 }
 
 function GetVendorDetails(listTempGridDataArray) {
+<<<<<<< HEAD
+=======
+
+    $('#tblVendor tbody').empty();
+>>>>>>> 28517965a01ae2640f6f1d9ec7710d163264ae50
     if (!IsNullOrUndefined(listTempGridDataArray)) {
         listTempGridDataArray.forEach(function (arrayItem) {
 
