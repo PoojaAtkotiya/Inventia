@@ -320,37 +320,23 @@ function DeleteVendorDetails(obj) {
             // tr.remove();
             var id = jQuery(obj).attr('id').split('_')[2].trim();
             var index = jQuery(obj).attr('id').split('_')[1].trim();
-<<<<<<< HEAD
-            var item;
-
-
-            if (index !== -1 && index !== 0) listTempGridDataArray = listTempGridDataArray.splice(index, 1);
-=======
 
             var removeIndex = listTempGridDataArray.map(function (item) { return item.Index; }).indexOf(Number(index));
 
             // remove object
             var removeditem = listTempGridDataArray.splice(removeIndex, 1);
             //  listTempGridDataArray= listTempGridDataArray.splice(index, 1);
->>>>>>> 28517965a01ae2640f6f1d9ec7710d163264ae50
             GetVendorDetails(listTempGridDataArray);
             $("#CRUDVendorModal").modal('hide');
             jQuery("#loading").hide();
             AlertModal("Success", "Vendor Details deleted Successfully");
-<<<<<<< HEAD
-            //  window.location = window.location.href;
-=======
->>>>>>> 28517965a01ae2640f6f1d9ec7710d163264ae50
         }
     });
 }
 
 function GetVendorDetails(listTempGridDataArray) {
-<<<<<<< HEAD
-=======
 
     $('#tblVendor tbody').empty();
->>>>>>> 28517965a01ae2640f6f1d9ec7710d163264ae50
     if (!IsNullOrUndefined(listTempGridDataArray)) {
         listTempGridDataArray.forEach(function (arrayItem) {
 
