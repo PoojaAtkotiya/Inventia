@@ -1,3 +1,11 @@
+@media (max-width: 1280px){
+    .ms-siteicon-img {
+        width: 70%;
+        margin: 7px auto;
+    }
+}
+
+
 @media (max-width: 1024px) {
     #page-wrapper{
        float: left;
@@ -6,25 +14,31 @@
     .iframe-section div:first-child .table-responsive {
         overflow-x: scroll !important;
     }
+    .ms-siteicon-img {
+        width: 80%;
+        margin: 10px auto;
+    }
+    .navbar-static-side ul li a span.menu-title {
+        margin-left: 0;
+    }
+    .ms-core-listMenu-verticalBox, .ms-core-listMenu-horizontalBox {
+        font-size: 11px;
+    }
+    .modal-dialog{
+        width: 94%!important;
+    }
 }
 
 @media (max-width: 768px) {
-    .modal-dialog{
-        width: 98%!important;
-    }
+    
     .modal-dialog {
         left: 0%!important;
         padding-top: 6px!important;
-        width: 950px!important;
     }
     .navbar-right {
         margin-right:0!important;
     }
-    .navbar-static-side {
-    z-index: 1;
-    position: absolute;
-    width: 13%;
-    }
+    
 }
 
 @media (max-width: 767px) {
@@ -34,7 +48,7 @@
      margin:0 auto !important;
    }
     .page-title-breadcrumb{
-        margin-top: 55px;
+        margin-top: 10px;
     }
     .page-title-breadcrumb .page-header .page-title{
         font-size: 21px; 
@@ -91,6 +105,20 @@
     }
  div.dataTables_wrapper div.dataTables_length, div.dataTables_wrapper div.dataTables_filter, div.dataTables_wrapper div.dataTables_info, div.dataTables_wrapper div.dataTables_paginate {
         text-align: center;
+    }
+    #topbar .navbar-header{
+        width: auto;
+
+    }
+    #topbar .navbar-header {
+       text-align: center;
+    }
+    #page-wrapper{
+        margin: 0;
+        width: 90%;
+    }
+    .custom-scroll > ul{
+        display: block!important;
     }
 }
 
@@ -162,7 +190,11 @@
         margin-top:33px;
     }
 }
-
+@media only screen and (max-width: 400px) {
+    .o365cs-nav-header16, #s4-ribbonrow{
+        width:84%;
+    }
+}
 @media only screen and (max-width: 360px) {
     html {
     overflow-x:visible !important;
@@ -171,5 +203,13 @@
     }
     #tab-general{
         margin-top:33px;
+    }
+    .o365cs-nav-header16, #s4-ribbonrow{
+        width:75%;
+    }
+}
+@media only screen and (max-width: 320px) {
+    .o365cs-nav-header16, #s4-ribbonrow{
+        width:67%;
     }
 }

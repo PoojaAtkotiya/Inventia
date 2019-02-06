@@ -144,7 +144,9 @@ hr {
 #wrapper {
     width: 100%;
     min-height: 100%;
-    background-color: #2196f3;
+    background-color: #f0f2f5;
+
+    
 }
 
 #page-wrapper {
@@ -9523,193 +9525,13 @@ a:hover .ms-core-menu-label{ color:#fff!important; padding: 5px!important; }
     font-size: 13px;
     font-weight: bold;
 }
-
-
-@media (max-width: 1280px){
-    .ms-siteicon-img {
-        width: 70%;
-        margin: 7px auto;
-    }
+.modal-dialog {
+    width: 950px;
+}
+.modal{
+    z-index:99999999;
+}
+.ms-welcome-root{
+    width:auto;
 }
 
-
-@media (max-width: 1024px) {
-    #page-wrapper{
-       float: left;
-    
-    }
-    .iframe-section div:first-child .table-responsive {
-        overflow-x: scroll !important;
-    }
-    .ms-siteicon-img {
-        width: 80%;
-        margin: 10px auto;
-    }
-}
-
-@media (max-width: 768px) {
-    .modal-dialog{
-        width: 98%!important;
-    }
-    .modal-dialog {
-        left: 0%!important;
-        padding-top: 6px!important;
-        width: 950px!important;
-    }
-    .navbar-right {
-        margin-right:0!important;
-    }
-    
-    .navbar-static-side {
-    z-index: 1;
-    position: absolute;
-    width: 13%!important;
-    }
-}
-
-@media (max-width: 767px) {
-    html {
-    overflow-x:hidden;
-    width:700px !important;
-     margin:0 auto !important;
-   }
-    .page-title-breadcrumb{
-        margin-top: 55px;
-    }
-    .page-title-breadcrumb .page-header .page-title{
-        font-size: 21px; 
-        padding-bottom: 15px;
-    }
-    #ctl00_welcome {
-        float: right;
-        margin-right: 40px;
-    }
-    #topbar .navbar-header{
-        text-align: right;
-    }
-    ul.timeline:before {
-        left: 40px;
-    }
-
-    ul li:not(.timeline-inverted) .timeline-panel:after {
-        border-left: 0px !important;
-    }
-
-    ul li:not(.timeline-inverted) .timeline-panel.primary:before {
-        border-right: 15px solid #2e6da4;
-    }
-
-    ul li:not(.timeline-inverted) .timeline-panel.danger:before {
-        border-right: 15px solid #d9534f;
-    }
-
-    ul.timeline > li > .timeline-panel {
-        width: calc(80%);
-        width: -moz-calc(80%);
-        width: -webkit-calc(80%);
-    }
-
-    ul.timeline > li > .timeline-badge {
-        left: 15px;
-        margin-left: 0;
-        top: 16px;
-    }
-    ul.timeline > li > .timeline-panel {
-        float: right;
-    }
-    ul.timeline > li > .timeline-panel:before {
-            border-left-width: 0;
-            border-right-width: 15px;
-            left: -15px;
-            right: auto;
-    }
-    ul.timeline > li > .timeline-panel:after {
-            border-left-width: 0;
-            border-right-width: 14px;
-            left: -14px;
-            right: auto;
-    }
- div.dataTables_wrapper div.dataTables_length, div.dataTables_wrapper div.dataTables_filter, div.dataTables_wrapper div.dataTables_info, div.dataTables_wrapper div.dataTables_paginate {
-        text-align: center;
-    }
-}
-
-@media only screen and (max-width: 700px) {
-    html {
-    overflow-x:hidden;
-   width:600px !important;
-    margin:0 auto !important;
-    }
-     #tab-general{
-        margin-top:33px;
-    }
-}
-
-@media only screen and (max-width: 600px) {
-    html {
-    overflow-x:hidden;
-    width:550px !important;
-     margin:0 auto !important;
-    }
-     #tab-general{
-        margin-top:33px;
-    }
-}
-
-@media (max-width: 640px) {
-    #page-wrapper{
-        width: 97%; 
-    }
-    .page-title-breadcrumb .page-header{
-         width: 100%;
-    }
-    #ctl00_welcome {
-        float: right;
-        margin-right: 15px;
-    }
-    li a.btn {
-        margin-bottom: 10px;
-    }
-}
-
-@media only screen and (max-width: 550px) {
-    html {
-    overflow-x:hidden;
-    width:480px !important;
-     margin:0 auto !important;
-    }
-    #tab-general{
-        margin-top:33px;
-    }
-}
-
-@media (max-width: 480px) {
-    #ctl00_welcome, #ctl00_welcome .ms-welcome-root{
-        margin-right: 0;
-    }
-    .page-form {
-        width: 280px;
-    }
-    #lock-screen-page .page-form {
-        margin-top: 35%;
-    }
-     html {
-    overflow-x:hidden;
-    /* width:360px !important;*/
-    margin:0 auto !important;
-    }
-    #tab-general{
-        margin-top:33px;
-    }
-}
-
-@media only screen and (max-width: 360px) {
-    html {
-    overflow-x:visible !important;
-    /*width:320px !important;*/
-    margin:0 auto !important;
-    }
-    #tab-general{
-        margin-top:33px;
-    }
-}
