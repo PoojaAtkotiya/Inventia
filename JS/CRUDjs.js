@@ -301,11 +301,11 @@ function SaveVendorDetails() {
     });
 
 
-    var isValid = ValidateModalForm();
-    if (isValid) {
+ //   var isValid = ValidateModalForm();
+    //if (isValid) {
 
         SaveVendorData(mainListName, saveDataArray);
-    }
+   // }
 }
 
 function DeleteVendorDetails(obj) {
