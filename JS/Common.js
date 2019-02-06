@@ -1273,7 +1273,7 @@ function SaveData(listname, listDataArray, sectionName, ele) {
                         if (!isNaN(itemID)) {
                             debugger
                            // SaveTranListData(itemID);
-                           SaveAllTrans();
+                           SaveAllTrans(itemID);
                         }
                         // else {
                         //     SaveTranListData(itemID);

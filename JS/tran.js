@@ -207,7 +207,7 @@ function SaveTranData(listname, tranListDataArray, lookupId) {
 }
 
 //#region Save Trans in List
-function SaveAllTrans() {
+function SaveAllTrans(requestId) {
     if (!IsNullOrUndefined(gTranArray) && gTranArray.length > 0) {
         gTranArray.forEach(tranList => {
 
