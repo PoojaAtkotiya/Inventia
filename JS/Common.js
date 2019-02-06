@@ -1083,8 +1083,7 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
                             }
                         }
                     }
-                    catch
-                    {
+                    catch (err) {
                         tdValue = value;
                     }
 
@@ -1771,12 +1770,14 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                             allToUsers = allToUsers.trim() + "," + temp.ApproverId;
                         }
                     });
-                    debugger
-                    to = GetUserEmailsbyUserID(allToUsers);
-                    to = TrimComma(allToUsers);
+                    to = TrimComma(allToUsers).split(",");
+                    to = GetUserEmailsbyUserID(to);
                     tempApproverMatrix.forEach(temp => {
                         if (temp.Role == Roles.CREATOR) {
                             cc = temp.ApproverId;
+                            debugger                /////Pending to check for multi user field
+                            cc = TrimComma(cc).split(",");
+                            cc = GetUserEmailsbyUserID(cc);
                         }
                         if (temp.Levels == currentLevel) {
                             role = temp.Role;
@@ -2034,17 +2035,17 @@ function SaveEmail(subject, body, emailParam) {
         }
 
         var emailListArray = {};
-        emailListArray["__metadata"] = {
-            "type": GetItemTypeForListName(ListNames.EMAILNOTIFICATION)
-        };
+        // emailListArray["__metadata"] = {
+        //     "type": GetItemTypeForListName(ListNames.EMAILNOTIFICATION)
+        // };
         emailListArray["To"] = to;
         emailListArray["From"] = TrimComma(emailParam.FROM);
-        if (!IsStrNullOrEmpty(cc)) {
-            emailListArray["CC"] = cc;
-        }
-        if (!IsStrNullOrEmpty(bcc)) {
-            emailListArray["BCC"] = bcc;
-        }
+        //if (!IsStrNullOrEmpty(cc)) {
+        emailListArray["CC"] = cc;
+        //}
+        // if (!IsStrNullOrEmpty(bcc)) {
+        emailListArray["BCC"] = bcc;
+        //  }
         emailListArray["Title"] = emailParam.TEMPLATENAME;
         emailListArray["ApplicationName"] = CommonConstant.APPLICATIONNAME;
         emailListArray["FormName"] = CommonConstant.FORMNAME;
@@ -2052,33 +2053,63 @@ function SaveEmail(subject, body, emailParam) {
         emailListArray["Body"] = body;
         //emailListArray["IsRepeat"] = isRepeat;
 
-        var url = CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILNOTIFICATION + "')/items";
-        var headers = {
-            "Accept": "application/json;odata=verbose",
-            "Content-Type": "application/json;odata=verbose",
-            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-            "X-HTTP-Method": "POST"
-        };
+        // var url = CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILNOTIFICATION + "')/items";
 
-        AjaxCall(
-            {
-                url: url,
-                httpmethod: 'POST',
-                calldatatype: 'JSON',
-                headers: headers,
-                async: false,
-                postData: JSON.stringify(emailListArray),
-                sucesscallbackfunction: function (data) {
-                    debugger;
-                    emailSaved = true;
-                    console.log("Data saved successfully in email template for Template = " + emailParam.TEMPLATENAME);
-                },
-                error: function (data) {
-                    debugger;
-                }
-            });
+
+        $.ajax({
+            url: CommonConstant.SAVEEMAILINLIST,
+            type: 'POST',
+            headers: {
+                "content-type": "application/json",
+                "cache-control": "no-cache"
+            },
+            data: JSON.stringify(emailListArray),
+            async: false,
+            success: function (data) {
+                console.log("Email Saved Successfully");
+                console.log(data);
+
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+
+
+        // var digest;
+        // GetFormDigest().then(function (data) {
+        //     digest = data.d.GetContextWebInformation.FormDigestValue;
+
+        //     if (!IsNullOrUndefined(digest)) {
+        //         var headers = {
+        //             "Accept": "application/json;odata=verbose",
+        //             "Content-Type": "application/json;odata=verbose",
+        //             "X-RequestDigest": digest,
+        //             "X-HTTP-Method": "POST"
+        //         };
+
+        //         AjaxCall(
+        //             {
+        //                 url: url,
+        //                 httpmethod: 'POST',
+        //                 calldatatype: 'JSON',
+        //                 headers: headers,
+        //                 async: false,
+        //                 postData: JSON.stringify(emailListArray),
+        //                 sucesscallbackfunction: function (data) {
+        //                     debugger;
+        //                     emailSaved = true;
+        //                     console.log("Data saved successfully in email template for Template = " + emailParam.TEMPLATENAME);
+        //                 },
+        //                 error: function (data) {
+        //                     debugger;
+        //                 }
+        //             });
+        //     }
+        //     return emailSaved;
+        // });
     }
-    return emailSaved;
+
 }
 
 /*Pooja Atkotiya */
