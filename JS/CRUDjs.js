@@ -37,8 +37,18 @@ function AddVendorDetails() {
 }
 
 function ViewVendorDetails(obj) {
-    var id = jQuery(obj).attr('id').split('_')[1].trim();
-    var item = GetVendorDetailsById(id);
+    var item;
+    var id = jQuery(obj).attr('id').split('_')[2].trim();
+    var index = jQuery(obj).attr('id').split('_')[1].trim();
+    listTempGridDataArray.forEach(function (arrayItem) {
+         console.log(arrayItem);
+         if(arrayItem.Index==index)
+         {
+            item = arrayItem;
+         }
+    });
+   // var id = jQuery(obj).attr('id').split('_')[1].trim();
+  //  var item = GetVendorDetailsById(id);
     if (!IsNullOrUndefined(item)) {
         $("#CRUDVendorModal").modal('show');
         $("#spanTitle").html('Vendor Detail');
@@ -84,8 +94,17 @@ function GetVendorDetailsById(id) {
 }
 
 function EditVendorDetails(obj) {
-    var id = jQuery(obj).attr('id').split('_')[1].trim();
-    var item = GetVendorDetailsById(id);
+    var item;
+    var id = jQuery(obj).attr('id').split('_')[2].trim();
+    var index = jQuery(obj).attr('id').split('_')[1].trim();
+    listTempGridDataArray.forEach(function (arrayItem) {
+         console.log(arrayItem);
+         if(arrayItem.Index==index)
+         {
+            item = arrayItem;
+         }
+    });
+   // var item = GetVendorDetailsById(id);
     if ($('myform').length > 0)
         $('myform').renameTag('form');
     if (!IsNullOrUndefined(item)) {
@@ -171,12 +190,21 @@ function GetItemTypeForListName(name) {
 
 function SaveVendorData(listname, listDataArray) {
     console.log(listDataArray);
+    var count=listTempGridDataArray.length;
+    if(listDataArray.ID == "")
+    {
+        listDataArray.ID="0";
+        if(listDataArray.Index ==""){
+        listDataArray.Index=count+1;
+        }
+        listDataArray.Status="New";
+    }
     listTempGridDataArray.push(listDataArray);
     // $("#form_VendorSection").submit();
-
+    $("#CRUDVendorModal").modal('hide');
     AlertModal("Success", "Vendor Details Saved Successfully");
 
-    //  GetVendorDetails();
+      GetVendorDetails(listTempGridDataArray);
 
     /*  var itemType = GetItemTypeForListName(listname);
       if (listDataArray != null) {
@@ -308,58 +336,109 @@ function SaveVendorDetails() {
 function DeleteVendorDetails(obj) {
     ConfirmationDailog({
         title: "Remove", message: "Are you sure to delete this vendor details?", id: jQuery(obj).attr('id').split('_')[1].trim(),
-        url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.CAPEXVENDORLIST + "')/items(" + jQuery(obj).attr('id').split('_')[1].trim() + ")",
+       // url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.CAPEXVENDORLIST + "')/items(" + jQuery(obj).attr('id').split('_')[1].trim() + ")",
         okCallback: function (id, data) {
-            var tr = jQuery(obj).parents('tr:first');
-            tr.remove();
-            AlertModal("Success", "Vendor Details deleted Successfully.", false, GetVendorDetails());
-            window.location = window.location.href;
+           // var tr = jQuery(obj).parents('tr:first');
+           // tr.remove();
+           var id = jQuery(obj).attr('id').split('_')[2].trim();
+           var index = jQuery(obj).attr('id').split('_')[1].trim();
+           var item;
+           
+    
+   if (index !== -1 && index !== 0 ) listTempGridDataArray= listTempGridDataArray.splice(index, 1);
+            GetVendorDetails(listTempGridDataArray);
+            AlertModal("Success", "Vendor Details deleted Successfully");
+          //  window.location = window.location.href;
         }
     });
 }
 
-function GetVendorDetails() {
-    $.ajax
-        ({
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.CAPEXVENDORLIST + "')/items",
-            type: "GET",
-            async: false,
-            datatype: 'json',
-            headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
-            success: function (data) {
-                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
-                    var result = data.d.results;
-                    var tr;
-                    for (var i = 0; i < result.length; i++) {
-                        tr = $('<tr/>');
-                        // tr.append('<td width="3px"><span class="custom-checkbox">' +
-                        //     '<input type="checkbox" id="chkVendor_' + result[i].ID + '" name="options[]">' +
-                        //     '<label for=id="chkVendor_' + result[i].ID + '"></label>' +
-                        //     '</span>' +
-                        //     '</td>'
-                        // );
-                        tr.append("<td width='13%'>" + result[i].VendorName + "</td>");
-                        tr.append("<td width='14%'>" + result[i].VendorAddress + "</td>");
-                        tr.append("<td width='10%'>" + result[i].Make + "</td>");
-                        tr.append("<td width='10%'>" + result[i].GrossValue + "</td>");
-                        tr.append("<td width='9%'>" + result[i].Discount + "</td>");
-                        tr.append("<td width='17%'>" + result[i].NetValue + "</td>");
-                        tr.append("<td width='16%'>" + result[i].DeliveryPeriod + "</td>");
-                        tr.append("<td width='12%'>" +
-                            "<a href='#' class='view' id='ViewVendor_" + result[i].ID + "' title='View' data-toggle='tooltip'><i class='material-icons'>&#xE417;</i></a>" +
-                            "<a href='#' id='EditVendor_" + result[i].ID + "' class='edit' title='Edit' data-toggle='modal'><i class='material-icons'>&#xE254;</i></a>" +
-                            "<a href='#' id='DeleteVendor_" + result[i].ID + "' class='delete' title='Delete' data-toggle='modal'><i class='material-icons'>&#xE872;</i></a></td>");
-                        $('#tblVendor').append(tr);
-                    }
-                }
-            },
-            error: function (data) {
-                console.log(data);
-            }
+function GetVendorDetails(listTempGridDataArray) {
+    if (!IsNullOrUndefined(listTempGridDataArray) ){
+        listTempGridDataArray.forEach(function (arrayItem) {
+            
+            console.log(arrayItem);
+            tr = $('<tr/>');
+                 
+                    tr.append("<td width='13%'>" + arrayItem.Name + "</td>");
+                    tr.append("<td width='14%'>" + arrayItem.Address + "</td>");
+                    tr.append("<td width='10%'>" + arrayItem.Make + "</td>");
+                    tr.append("<td width='10%'>" + arrayItem.GrossValue + "</td>");
+                    tr.append("<td width='9%'>" + arrayItem.LessDiscount + "</td>");
+                    tr.append("<td width='17%'>" + arrayItem.NetValue + "</td>");
+                    tr.append("<td width='16%'>" + arrayItem.DeliveryPeriod + "</td>");
+                    tr.append("<td width='12%'>" +
+                        "<a class='view' id='ViewVendor_" + arrayItem.Index + '_'+ arrayItem.ID + "' title='View' data-toggle='tooltip'><i class='material-icons'>&#xE417;</i></a>" +
+                        "<a id='EditVendor_" + arrayItem.Index + '_'+ arrayItem.ID + "' class='edit' title='Edit' data-toggle='modal'><i class='material-icons'>&#xE254;</i></a>" +
+                        "<a id='DeleteVendor_" + arrayItem.Index + '_'+ arrayItem.ID + "' class='delete' title='Delete' data-toggle='modal'><i class='material-icons'>&#xE872;</i></a></td>");
+                    $('#tblVendor').append(tr);
         });
+    }
+                    //     var result = data.d.results;
+                    //     var tr;
+                    //     for (var i = 0; i < result.length; i++) {
+                    //         tr = $('<tr/>');
+                    //         // tr.append('<td width="3px"><span class="custom-checkbox">' +
+                    //         //     '<input type="checkbox" id="chkVendor_' + result[i].ID + '" name="options[]">' +
+                    //         //     '<label for=id="chkVendor_' + result[i].ID + '"></label>' +
+                    //         //     '</span>' +
+                    //         //     '</td>'
+                    //         // );
+                    //         tr.append("<td width='13%'>" + result[i].VendorName + "</td>");
+                    //         tr.append("<td width='14%'>" + result[i].VendorAddress + "</td>");
+                    //         tr.append("<td width='10%'>" + result[i].Make + "</td>");
+                    //         tr.append("<td width='10%'>" + result[i].GrossValue + "</td>");
+                    //         tr.append("<td width='9%'>" + result[i].Discount + "</td>");
+                    //         tr.append("<td width='17%'>" + result[i].NetValue + "</td>");
+                    //         tr.append("<td width='16%'>" + result[i].DeliveryPeriod + "</td>");
+                    //         tr.append("<td width='12%'>" +
+                    //             "<a href='#' class='view' id='ViewVendor_" + result[i].ID + "' title='View' data-toggle='tooltip'><i class='material-icons'>&#xE417;</i></a>" +
+                    //             "<a href='#' id='EditVendor_" + result[i].ID + "' class='edit' title='Edit' data-toggle='modal'><i class='material-icons'>&#xE254;</i></a>" +
+                    //             "<a href='#' id='DeleteVendor_" + result[i].ID + "' class='delete' title='Delete' data-toggle='modal'><i class='material-icons'>&#xE872;</i></a></td>");
+                    //         $('#tblVendor').append(tr);
+                    //     }
+                    // }
+    // $.ajax
+    //     ({
+    //         url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.CAPEXVENDORLIST + "')/items",
+    //         type: "GET",
+    //         async: false,
+    //         datatype: 'json',
+    //         headers:
+    //             {
+    //                 "Accept": "application/json;odata=verbose",
+    //                 "Content-Type": "application/json;odata=verbose",
+    //                 "X-RequestDigest": $("#__REQUESTDIGEST").val()
+    //             },
+    //         success: function (data) {
+    //             if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
+    //                 var result = data.d.results;
+    //                 var tr;
+    //                 for (var i = 0; i < result.length; i++) {
+    //                     tr = $('<tr/>');
+    //                     // tr.append('<td width="3px"><span class="custom-checkbox">' +
+    //                     //     '<input type="checkbox" id="chkVendor_' + result[i].ID + '" name="options[]">' +
+    //                     //     '<label for=id="chkVendor_' + result[i].ID + '"></label>' +
+    //                     //     '</span>' +
+    //                     //     '</td>'
+    //                     // );
+    //                     tr.append("<td width='13%'>" + result[i].VendorName + "</td>");
+    //                     tr.append("<td width='14%'>" + result[i].VendorAddress + "</td>");
+    //                     tr.append("<td width='10%'>" + result[i].Make + "</td>");
+    //                     tr.append("<td width='10%'>" + result[i].GrossValue + "</td>");
+    //                     tr.append("<td width='9%'>" + result[i].Discount + "</td>");
+    //                     tr.append("<td width='17%'>" + result[i].NetValue + "</td>");
+    //                     tr.append("<td width='16%'>" + result[i].DeliveryPeriod + "</td>");
+    //                     tr.append("<td width='12%'>" +
+    //                         "<a href='#' class='view' id='ViewVendor_" + result[i].ID + "' title='View' data-toggle='tooltip'><i class='material-icons'>&#xE417;</i></a>" +
+    //                         "<a href='#' id='EditVendor_" + result[i].ID + "' class='edit' title='Edit' data-toggle='modal'><i class='material-icons'>&#xE254;</i></a>" +
+    //                         "<a href='#' id='DeleteVendor_" + result[i].ID + "' class='delete' title='Delete' data-toggle='modal'><i class='material-icons'>&#xE872;</i></a></td>");
+    //                     $('#tblVendor').append(tr);
+    //                 }
+    //             }
+    //         },
+    //         error: function (data) {
+    //             console.log(data);
+    //         }
+    //     });
 }

@@ -20,7 +20,8 @@ const ListNames = {
     GLOBALAPPROVALMATRIXLIST: "ApprovalMatrix",
     BUTTONLIST: "Buttons",
     CAPEXVENDORLIST: "CapexVendor",
-    EMAILTEMPLATELIST:"EmailTemplate"
+    EMAILTEMPLATELIST: "EmailTemplate",
+    EMAILNOTIFICATION: "EmailNotification"
 }
 Object.freeze(ListNames);
 

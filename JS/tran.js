@@ -30,7 +30,7 @@ function GetTranData(tranlistname, lookupId) {
                 url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + tranlistname + "')/items?$select=Author/Title,*&$expand=Author&$filter=RequestID eq '" + lookupId + "'",
                 httpmethod: 'GET',
                 calldatatype: 'JSON',
-                isAsync: false,
+                async: false,
                 headers:
                     {
                         "Accept": "application/json;odata=verbose",
@@ -126,7 +126,7 @@ function SaveTranData(listname, tranListDataArray, lookupId) {
             AjaxCall({
                 url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + listname + "')/items?$select=Author/Title,*&$expand=Author&$filter=RequestID eq '" + lookupId + "'",
                 httpmethod: 'GET',
-                isAsync: false,
+                async: false,
                 calldatatype: 'JSON',
                 headers: {
                     "Accept": "application/json;odata=verbose",
@@ -183,6 +183,7 @@ function SaveTranData(listname, tranListDataArray, lookupId) {
             calldatatype: 'JSON',
             contentType: 'application/json; charset=utf-8',
             headers: headers,
+            async: false,
             sucesscallbackfunction: function (data) {
                 console.log("Data saved successfully in tran list.");
             }
