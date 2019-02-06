@@ -1096,8 +1096,10 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
         var tr, tdValue;
         for (var i = 0; i < activity.length; i++) {
             var item = activity[i];
-            if (!IsNullOrUndefined(item) && item.split('\t').length == 2) {
-                var itemDetails = item.split('\t');
+            /* Condition Changed by Hirvita */
+            if(item.split(' ').length>1){
+            if (!IsNullOrUndefined(item)) {
+                var itemDetails = item.split(' ');
                 if (itemDetails[0] != "ProposedBy" && itemDetails[0] != "Files") {
                     tr = $('<tr/>');
                     tr.append('<td>' + itemDetails[0] + '</td>');
@@ -1108,11 +1110,11 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
                             tdValue = value.toLowerCase() == "true" ? "Yes" : "No";
                         }
                         else {
-                            if (value.contains("/") && value.contains(":") && (value.contains("AM") || value.contains("PM"))) {
+                            if (value.includes("/") && value.includes(":") && (value.includes("AM") || value.includes("PM"))) {
                                 var datetimepart = value.split(' ');
                                 var datepart = datetimepart[0].split('/');
                                 var dt = new DateTime(parseInt(datepart[2]), parseInt(datepart[0]), parseInt(datepart[1]));
-                                tdValue = dt.toString("dd/MM/yyyy") + (itemDetails[0].toLowerCase().contains("time") ? " " + datetimepart[1] + " " + datetimepart[2] : "");
+                                tdValue = dt.toString("dd/MM/yyyy") + (itemDetails[0].toLowerCase().includes("time") ? " " + datetimepart[1] + " " + datetimepart[2] : "");
                             }
                             else {
                                 tdValue = value;
@@ -1124,9 +1126,10 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
                     }
 
                     tr.append('<td>' + tdValue + '</td>');
-                    $('#tblActivityChanges').append(tr);
+                    $('#tblActivityChanges tbody').append(tr);
                 }
             }
+          }
         }
     }
 }
@@ -1550,7 +1553,7 @@ function GetActivityString(listActivityLogDataArray, isCurrentApproverField) {
             if (element.type == "peoplepicker") {
                 element.value = GetUserNamebyUserID(element.value);
             }
-            if (stringActivity != null && stringActivity != '') {
+            if (stringActivity != null && stringActivity != ' ') {
                 stringActivity = stringActivity + '~';
                 stringActivity = stringActivity + element.id;
                 stringActivity = stringActivity + ' ';
