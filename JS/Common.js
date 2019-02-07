@@ -2195,3 +2195,21 @@ function TrimComma(yourString) {
     }
     return result;
 }
+
+/*Pooja Atkotiya */
+/*Work only non-zero array, if array contains 0 then it will remove 0 also */
+function cleanStringArray(actualArray) {
+    var newArray = new Array();
+    for (var i = 0; i < actualArray.length; i++) {
+        if (actualArray[i]) {
+            newArray.push(actualArray[i]);
+        }
+    }
+    return newArray;
+}
+
+/*Pooja Atkotiya */
+/*Work only for all array, if array contains 0 then return array with 0 also */
+function cleanArray(actualArray) {
+    return actualArray.filter(function (e) { return e === 0 || e });
+}
