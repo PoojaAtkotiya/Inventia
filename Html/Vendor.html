@@ -83,12 +83,11 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-md-4 control-label">
-                                    <span class="text-danger text-default-light">*</span>
-                                    Address :
+                                     Add New Vendor :
                                 </label>
                                 <div class="col-md-8 ">
-                                    <textarea id="Address" controlType="multitext" class="form-control dynamic-control" name="Address" required="required" listtype="trans"
-                                        controlType="text" maxlength="1000" /></textarea>
+                                    <input type="checkbox" id="addVendorMaster"  onclick="onchangecheckBox()">
+                                    <input type="hidden" id="IsNewVendor" />
                                 </div>
                             </div>
                         </div>
@@ -234,10 +233,12 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-md-4 control-label">
-
+                                    <span class="text-danger text-default-light">*</span>
+                                    Address :
                                 </label>
-                                <div class="col-md-8">
-
+                                <div class="col-md-8 ">
+                                    <textarea id="Address" controlType="multitext" class="form-control dynamic-control" name="Address" required="required" listtype="trans"
+                                        controlType="text" maxlength="1000" /></textarea>
                                 </div>
                             </div>
                         </div>
