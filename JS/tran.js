@@ -1,6 +1,7 @@
 var tranlistNameArray = [];
 var tranListData = {};
 var localApprovalMatrix;
+var tranlists = [];
 
 function GetTranListData(lookupId) {
     TranListData(lookupId);
@@ -206,6 +207,44 @@ function SaveTranData(listname, tranListDataArray, lookupId) {
     }
 }
 
+//#region Get Tran Lists
+
+function GetAllTranlists(lookupId) {
+    $('div [type=tranTable]').each(function () {
+        var tranArrayName = $(this).attr('tranArrayName');
+        var listname = $(this).attr('listname');
+        if (!IsNullOrUndefined(tranlists) && tranlists.indexOf(listname) < 0) {
+            tranlists.push({ "ListName": listname, "TranArrayName": tranArrayName });
+        }
+    });
+
+    if (tranlists != null && tranlists.length > 0) {
+        tranlists.forEach(function (tranList) {
+            GetTranList(tranList, lookupId);
+        });
+    }
+}
+
+function GetTranList(tranList, lookupId) {
+    var listName = tranList["ListName"];
+    var tranArrayName = tranList["TranArrayName"];
+
+    AjaxCall(
+        {
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + listName + "')/items?$filter=RequestIDId eq " + lookupId ,
+            httpmethod: 'GET',
+            calldatatype: 'JSON',
+            async: false,
+            sucesscallbackfunction: function (data) {
+                tranArrayName.push(data);
+            }
+        });
+
+}
+
+//#endregion
+
+
 //#region Save Trans in List
 function SaveAllTrans(requestId) {
     if (!IsNullOrUndefined(gTranArray) && gTranArray.length > 0) {
@@ -213,13 +252,13 @@ function SaveAllTrans(requestId) {
 
             if (!IsNullOrUndefined(tranList) && tranList.length > 0) {
                 tranList.forEach(tranItem => {
-                    debugger
                     var tranListName = tranItem.ListName;
                     var status = tranItem.Status;
                     var id = tranItem.ID;
                     var url = '';
                     var headers;
 
+                    debugger
                     switch (status) {
                         case "New":
                             url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + tranListName + "')/items";
