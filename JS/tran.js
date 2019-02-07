@@ -208,7 +208,7 @@ function SaveTranData(listname, tranListDataArray, lookupId) {
 }
 
 //#region Get Tran Lists
-
+/*Pooja Atkotiya */
 function GetAllTranlists(lookupId) {
     $('div [type=tranTable]').each(function () {
         var tranArrayName = $(this).attr('tranArrayName');
@@ -226,6 +226,7 @@ function GetAllTranlists(lookupId) {
     }
 }
 
+/*Pooja Atkotiya */
 function GetTranList(tranList, lookupId) {
     var listName = tranList["ListName"];
     var tranArrayName = tranList["TranArrayName"];
@@ -257,6 +258,7 @@ function GetTranList(tranList, lookupId) {
 
 
 //#region Save Trans in List
+/*Pooja Atkotiya */
 function SaveAllTrans(requestId) {
     if (!IsNullOrUndefined(gTranArray) && gTranArray.length > 0) {
         gTranArray.forEach(tranList => {
