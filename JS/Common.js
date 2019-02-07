@@ -1594,7 +1594,8 @@ function GetActivityString(listActivityLogDataArray, isCurrentApproverField) {
 /*Priya Rane */
 function GetUserNamebyUserID(userid) {
     var userName = "";
-    if (!IsNullOrUndefined(userid)) {
+     if (!IsNullOrUndefined(userid)) {
+   // if (!isNaN(userid)) {
         url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + userid + ")";
         headers = {
             "Accept": "application/json;odata=verbose",
@@ -1621,25 +1622,28 @@ function GetUserNamebyUserID(userid) {
 function GetUserNamesbyUserID(allUsersIDs) {
     var userNames = '';
     if (!IsNullOrUndefined(allUsersIDs) && allUsersIDs.length > 0) {
-        allUsersIDs.forEach(user => {
-            if (user != "") {
-                url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + user + ")";
-                headers = {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                    "X-HTTP-Method": "POST"
-                };
 
-                AjaxCall(
-                    {
-                        url: url,
-                        httpmethod: 'GET',
-                        calldatatype: 'JSON',
-                        async: false,
-                        headers: headers,
-                        sucesscallbackfunction: function (data) { userNames = userNames + data.d.Title + ","; }
-                    });
+        allUsersIDs.forEach(user => {
+            if (!isNaN(user)) {
+              //  if (user != "") {
+                    url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + user + ")";
+                    headers = {
+                        "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                        "X-HTTP-Method": "POST"
+                    };
+
+                    AjaxCall(
+                        {
+                            url: url,
+                            httpmethod: 'GET',
+                            calldatatype: 'JSON',
+                            async: false,
+                            headers: headers,
+                            sucesscallbackfunction: function (data) { userNames = userNames + data.d.Title + ","; }
+                        });
+              //  }
             }
         });
         userNames = userNames.substr(0, userNames.lastIndexOf(',')).replace(/\,/g, ', ');
@@ -1680,23 +1684,25 @@ function GetUserEmailsbyUserID(allUsersIDs) {
     var userEmails = "";
     if (!IsNullOrUndefined(allUsersIDs) && allUsersIDs.length > 0) {
         allUsersIDs.forEach(user => {
-            url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + user + ")";
-            headers = {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                "X-HTTP-Method": "POST"
-            };
+            if (!isNaN(user)) {
+                url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + user + ")";
+                headers = {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "X-HTTP-Method": "POST"
+                };
 
-            AjaxCall(
-                {
-                    url: url,
-                    httpmethod: 'GET',
-                    calldatatype: 'JSON',
-                    async: false,
-                    headers: headers,
-                    sucesscallbackfunction: function (data) { userEmails = userEmails + data.d.Email + ","; }
-                });
+                AjaxCall(
+                    {
+                        url: url,
+                        httpmethod: 'GET',
+                        calldatatype: 'JSON',
+                        async: false,
+                        headers: headers,
+                        sucesscallbackfunction: function (data) { userEmails = userEmails + data.d.Email + ","; }
+                    });
+            }
         });
         userEmails = userEmails.substr(0, userEmails.lastIndexOf(',')).replace(/\,/g, ', ');
     }
@@ -1888,11 +1894,11 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json; odata=verbose",
-                    "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json; odata=verbose",
+                "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
+            },
             sucesscallbackfunction: function (data) {
                 emailTemplate.push({ "Subject": data.d.results[0].Subject });
                 emailTemplate.push({ "Body": data.d.results[0].Body });
@@ -2010,11 +2016,11 @@ function GetDatafromList(itemID, mainListName, subject, matchesSubject, body, ma
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json; odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json; odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 mainlistData = data.d;
                 ////replacement with list item values start
