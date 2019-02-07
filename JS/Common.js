@@ -2192,11 +2192,11 @@ function TrimComma(yourString) {
 
 /*Pooja Atkotiya */
 /*Work only non-zero array, if array contains 0 then it will remove 0 also */
-function cleanStringArray(actual) {
+function cleanStringArray(actualArray) {
     var newArray = new Array();
-    for (var i = 0; i < actual.length; i++) {
-        if (actual[i]) {
-            newArray.push(actual[i]);
+    for (var i = 0; i < actualArray.length; i++) {
+        if (actualArray[i]) {
+            newArray.push(actualArray[i]);
         }
     }
     return newArray;
@@ -2204,6 +2204,6 @@ function cleanStringArray(actual) {
 
 /*Pooja Atkotiya */
 /*Work only for all array, if array contains 0 then return array with 0 also */
-function cleanArray(actual) {
-    return actual.filter(function (e) { return e === 0 || e });
+function cleanArray(actualArray) {
+    return actualArray.filter(function (e) { return e === 0 || e });
 }
