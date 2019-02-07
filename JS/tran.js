@@ -261,10 +261,12 @@ function SaveAllTrans(requestId) {
                     delete tranItem.Type;
                     delete tranItem.Index;
                     delete tranItem.Status;
+                    delete tranItem.ListName;
 
                     tranItem["__metadata"] = {
-                        "type":  GetItemTypeForListName(tranListName)
+                        "type": GetItemTypeForListName(tranListName)
                     };
+                    tranItem["RequestIDId"] = requestId;
                     AjaxCall(
                         {
                             url: url,
@@ -274,7 +276,7 @@ function SaveAllTrans(requestId) {
                             async: false,
                             postData: JSON.stringify(tranItem),
                             sucesscallbackfunction: function (data) {
-                                console.log("SaveApprovalMatrixInList - Item saved Successfully");
+                                console.log("SaveAllTrans - Item saved Successfully for ID = " + data.d.ID);
                             },
                             error: function (jQxhr, errorCode, errorThrown) {
                                 console.log(errorThrown);
