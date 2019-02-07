@@ -23,7 +23,8 @@ $(document).ready(function () {
 
 /*Monal Shah */
 function GetSetFormData() {
-    GetTranListData(listItemId);
+    //GetTranListData(listItemId);
+    GetAllTranlists(listItemId);
     var mainListName = $($('div').find('[mainlistname]')).attr('mainlistname');
     AjaxCall(
         {
