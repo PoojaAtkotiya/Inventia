@@ -6,6 +6,7 @@
     animation: spin 2s infinite linear;
 }
 
+
 .no-border-radius {
     -webkit-border-radius: 0 !important;
     -moz-border-radius: 0 !important;
