@@ -8,31 +8,32 @@ var tempApproverMatrix;
 var tcurrentLevel;
 var permItem = null;
 
+
 /*Himil Jani */
 function GetGlobalApprovalMatrix(id) {
-    GetFormDigest().then(function (data) {
-        AjaxCall(
-            {
-                url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.GLOBALAPPROVALMATRIXLIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And></Where></Query></View>\"}",
-                httpmethod: 'POST',
-                calldatatype: 'JSON',
-                async: false,
-                headers:
-                    {
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json; odata=verbose",
-                        "X-RequestDigest": data.d.GetContextWebInformation.FormDigestValue
-                    },
-                sucesscallbackfunction: function (data) {
-                    globalApprovalMatrix = data.d.results;
-                    /*Pooja Atkotiya */
-                    SetSectionWiseRoles(id = 0);
-                    SetApprovalMatrix(id, '');
-                    //setCustomApprovers(tempApproverMatrix);
-                    GetButtons(id, currentUserRole, 'New');
-                }
-            });
-    });
+    // GetFormDigest().then(function (data) {
+    AjaxCall(
+        {
+            url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.GLOBALAPPROVALMATRIXLIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And></Where></Query></View>\"}",
+            httpmethod: 'POST',
+            calldatatype: 'JSON',
+            async: false,
+            headers:
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json; odata=verbose",
+                    "X-RequestDigest": gRequestDigestValue// data.d.GetContextWebInformation.FormDigestValue
+                },
+            sucesscallbackfunction: function (data) {
+                globalApprovalMatrix = data.d.results;
+                /*Pooja Atkotiya */
+                SetSectionWiseRoles(id = 0);
+                SetApprovalMatrix(id, '');
+                //setCustomApprovers(tempApproverMatrix);
+                GetButtons(id, currentUserRole, 'New');
+            }
+        });
+    //  });
 }
 
 /*Himil Jani*/

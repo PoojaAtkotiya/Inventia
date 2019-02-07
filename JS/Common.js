@@ -13,9 +13,16 @@ var fileIdCounter = 0;
 var currentApproverDetails = {};
 var gTranArray = [];
 var department;
+var gRequestDigest;
+var gRequestDigestValue;
 jQuery(document).ready(function () {
 
     jQuery.noConflict();
+    GetFormDigest().done(function (data) {
+        gRequestDigestValue = data.responseJSON.d.GetContextWebInformation.FormDigestValue;
+    }).fail(function () {
+        console.log("Execute  second after the retrieve list items  failed");
+    });
 
     var scriptbase = CommonConstant.HOSTWEBURL + "/_layouts/15/";
     // Load the js files and continue to
@@ -123,35 +130,34 @@ function onloadConstantsSuccess(sender, args) {
     //setCustomApprovers();
 }
 
-function GetUserDepartment()
-{
-    $.ajax({  
-        url:_spPageContextInfo.webAbsoluteUrl + "/_api/SP.UserProfiles.PeopleManager/GetMyProperties",
+function GetUserDepartment() {
+    $.ajax({
+        url: _spPageContextInfo.webAbsoluteUrl + "/_api/SP.UserProfiles.PeopleManager/GetMyProperties",
         httpmethod: 'GET',
         calldatatype: 'JSON',
         async: false,
         headers: {
             Accept: "application/json;odata=verbose"
         },
-        success: function (data) {  
-            try {  
+        success: function (data) {
+            try {
                 //Get properties from user profile Json response  
-                userDisplayName = data.d.DisplayName;  
-                AccountName = data.d.AccountName;  
-                var properties = data.d.UserProfileProperties.results;  
-                for (var i = 0; i < properties.length; i++) {  
-                if (properties[i].Key  =="Department") {  
-                        department = properties[i].Value;  
-                    }  
-                }  
-            } catch (err2) {  
+                userDisplayName = data.d.DisplayName;
+                AccountName = data.d.AccountName;
+                var properties = data.d.UserProfileProperties.results;
+                for (var i = 0; i < properties.length; i++) {
+                    if (properties[i].Key == "Department") {
+                        department = properties[i].Value;
+                    }
+                }
+            } catch (err2) {
                 //alert(JSON.stringify(err2));  
-            }  
-        },  
-        error: function (jQxhr, errorCode, errorThrown) {  
-            console.log(errorThrown);  
-        }  
-    });  
+            }
+        },
+        error: function (jQxhr, errorCode, errorThrown) {
+            console.log(errorThrown);
+        }
+    });
 }
 
 
@@ -512,12 +518,15 @@ function cancel() {
 
 /*Himil Jani */
 function GetFormDigest() {
-    return $.ajax({
+    var deferred = $.Deferred();
+    gRequestDigest = $.ajax({
         url: CommonConstant.ROOTURL + "/_api/contextinfo",
         method: "POST",
         async: false,
         headers: { "Accept": "application/json; odata=verbose" }
     });
+    deferred.resolve(gRequestDigest);
+    return deferred.promise();
 }
 
 function BindDatePicker(selector) {
@@ -1097,39 +1106,39 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
         for (var i = 0; i < activity.length; i++) {
             var item = activity[i];
             /* Condition Changed by Hirvita */
-            if(item.split(' ').length>1){
-            if (!IsNullOrUndefined(item)) {
-                var itemDetails = item.split(' ');
-                if (itemDetails[0] != "ProposedBy" && itemDetails[0] != "Files") {
-                    tr = $('<tr/>');
-                    tr.append('<td>' + itemDetails[0] + '</td>');
+            if (item.split(' ').length > 1) {
+                if (!IsNullOrUndefined(item)) {
+                    var itemDetails = item.split(' ');
+                    if (itemDetails[0] != "ProposedBy" && itemDetails[0] != "Files") {
+                        tr = $('<tr/>');
+                        tr.append('<td>' + itemDetails[0] + '</td>');
 
-                    var value = itemDetails[1];
-                    try {
-                        if (value.toLowerCase() == "true" || value.toLowerCase() == "false") {
-                            tdValue = value.toLowerCase() == "true" ? "Yes" : "No";
-                        }
-                        else {
-                            if (value.includes("/") && value.includes(":") && (value.includes("AM") || value.includes("PM"))) {
-                                var datetimepart = value.split(' ');
-                                var datepart = datetimepart[0].split('/');
-                                var dt = new DateTime(parseInt(datepart[2]), parseInt(datepart[0]), parseInt(datepart[1]));
-                                tdValue = dt.toString("dd/MM/yyyy") + (itemDetails[0].toLowerCase().includes("time") ? " " + datetimepart[1] + " " + datetimepart[2] : "");
+                        var value = itemDetails[1];
+                        try {
+                            if (value.toLowerCase() == "true" || value.toLowerCase() == "false") {
+                                tdValue = value.toLowerCase() == "true" ? "Yes" : "No";
                             }
                             else {
-                                tdValue = value;
+                                if (value.includes("/") && value.includes(":") && (value.includes("AM") || value.includes("PM"))) {
+                                    var datetimepart = value.split(' ');
+                                    var datepart = datetimepart[0].split('/');
+                                    var dt = new DateTime(parseInt(datepart[2]), parseInt(datepart[0]), parseInt(datepart[1]));
+                                    tdValue = dt.toString("dd/MM/yyyy") + (itemDetails[0].toLowerCase().includes("time") ? " " + datetimepart[1] + " " + datetimepart[2] : "");
+                                }
+                                else {
+                                    tdValue = value;
+                                }
                             }
                         }
-                    }
-                    catch (err) {
-                        tdValue = value;
-                    }
+                        catch (err) {
+                            tdValue = value;
+                        }
 
-                    tr.append('<td>' + tdValue + '</td>');
-                    $('#tblActivityChanges tbody').append(tr);
+                        tr.append('<td>' + tdValue + '</td>');
+                        $('#tblActivityChanges tbody').append(tr);
+                    }
                 }
             }
-          }
         }
     }
 }
@@ -1275,8 +1284,8 @@ function SaveData(listname, listDataArray, sectionName, ele) {
                         SaveActivityLog(sectionName, itemID, ListNames.ACTIVITYLOGLIST, listDataArray, isNewItem, buttonCaption);
                         if (!isNaN(itemID)) {
                             debugger
-                           // SaveTranListData(itemID);
-                           SaveAllTrans(itemID);
+                            // SaveTranListData(itemID);
+                            SaveAllTrans(itemID);
                         }
                         // else {
                         //     SaveTranListData(itemID);
@@ -1737,6 +1746,7 @@ function AjaxCall(options) {
                 //     window.location = UnAuthorizationUrl;
                 // }
                 // else {
+                console.log(xhr);
 
                 debugger
                 AlertModal("Error", "Oops! Something went wrong");
@@ -1870,30 +1880,30 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
     var emailTemplate = [];
     var emailTemplateListData;
 
-    GetFormDigest().then(function (data) {
-        AjaxCall(
-            {
-                url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And><Eq><FieldRef Name='LinkTitle' /><Value Type='Computed'>" + templateName + "</Value></Eq></And></Where></Query></View>\"}",
-                httpmethod: 'POST',
-                calldatatype: 'JSON',
-                async: false,
-                headers:
-                    {
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json; odata=verbose",
-                        "X-RequestDigest": data.d.GetContextWebInformation.FormDigestValue
-                    },
-                sucesscallbackfunction: function (data) {
-                    emailTemplate.push({ "Subject": data.d.results[0].Subject });
-                    emailTemplate.push({ "Body": data.d.results[0].Body });
-                    mailCustomValues.push({ "ItemLink": "#URL" + "https://synoverge.sharepoint.com/sites/dev/Pages/Home.aspx?ID=" + itemID });
-                    mailCustomValues.push({ "ItemLinkClickHere": "<a href='#URL" + "https://synoverge.sharepoint.com/sites/dev/Pages/Home.aspx?ID=" + itemID + "' >Click Here</a>" });
-                    emailTemplate = CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, emailParam);
-                }
-            });
+    //GetFormDigest().then(function (data) {
+    AjaxCall(
+        {
+            url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And><Eq><FieldRef Name='LinkTitle' /><Value Type='Computed'>" + templateName + "</Value></Eq></And></Where></Query></View>\"}",
+            httpmethod: 'POST',
+            calldatatype: 'JSON',
+            async: false,
+            headers:
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json; odata=verbose",
+                    "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
+                },
+            sucesscallbackfunction: function (data) {
+                emailTemplate.push({ "Subject": data.d.results[0].Subject });
+                emailTemplate.push({ "Body": data.d.results[0].Body });
+                mailCustomValues.push({ "ItemLink": "#URL" + "https://synoverge.sharepoint.com/sites/dev/Pages/Home.aspx?ID=" + itemID });
+                mailCustomValues.push({ "ItemLinkClickHere": "<a href='#URL" + "https://synoverge.sharepoint.com/sites/dev/Pages/Home.aspx?ID=" + itemID + "' >Click Here</a>" });
+                emailTemplate = CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, emailParam);
+            }
+        });
 
 
-    });
+    // });
     //return emailTemplate;
 }
 
@@ -2178,4 +2188,22 @@ function TrimComma(yourString) {
         result = yourString.toString().trim().replace(/^\,|\,$/g, '');
     }
     return result;
+}
+
+/*Pooja Atkotiya */
+/*Work only non-zero array, if array contains 0 then it will remove 0 also */
+function cleanStringArray(actualArray) {
+    var newArray = new Array();
+    for (var i = 0; i < actualArray.length; i++) {
+        if (actualArray[i]) {
+            newArray.push(actualArray[i]);
+        }
+    }
+    return newArray;
+}
+
+/*Pooja Atkotiya */
+/*Work only for all array, if array contains 0 then return array with 0 also */
+function cleanArray(actualArray) {
+    return actualArray.filter(function (e) { return e === 0 || e });
 }
