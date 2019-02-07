@@ -186,6 +186,8 @@ function GetItemTypeForListName(name) {
 }
 
 function SaveVendorData(listname, listDataArray) {
+
+    listDataArray["ListName"] = mainListName;
     console.log(listDataArray);
     var tempgrid = [];
     var count = listTempGridDataArray.length;
@@ -268,32 +270,32 @@ function GetFormControlsValues(id, elementType, listDataArray) {
     return listDataArray;
 }
 
- function ValidateModalForm() {
-//     var isValid = true;
-//     $('#form_VendorSection').valid();
-//     if (!$(this).valid()) {
-//         isValid = false;
-//         try {
-//             var validator = $(this).validate();
-//             $(validator.errorList).each(function (i, errorItem) {
-//                 //  AlertModal("Validation", errorItem.element.id + "' : '" + errorItem.message);
-//                 $("#" + errorItem.element.id).addClass("error");
-//                 $("#" + errorItem.element.id).removeClass("valid");
-//                 $("#" + errorItem.element.id).next().remove();
-//                 console.log("{ '" + errorItem.element.id + "' : '" + errorItem.message + "'}");
-//             });
-//         }
-//         catch (e1) {
-//             console.log(e1.message);
-//         }
-//     }
-//     return isValid;
+function ValidateModalForm() {
+    //     var isValid = true;
+    //     $('#form_VendorSection').valid();
+    //     if (!$(this).valid()) {
+    //         isValid = false;
+    //         try {
+    //             var validator = $(this).validate();
+    //             $(validator.errorList).each(function (i, errorItem) {
+    //                 //  AlertModal("Validation", errorItem.element.id + "' : '" + errorItem.message);
+    //                 $("#" + errorItem.element.id).addClass("error");
+    //                 $("#" + errorItem.element.id).removeClass("valid");
+    //                 $("#" + errorItem.element.id).next().remove();
+    //                 console.log("{ '" + errorItem.element.id + "' : '" + errorItem.message + "'}");
+    //             });
+    //         }
+    //         catch (e1) {
+    //             console.log(e1.message);
+    //         }
+    //     }
+    //     return isValid;
 
- }
+}
 
 function SaveVendorDetails() {
     var saveDataArray = {}
-    var mainListName = ListNames.CAPEXVENDORLIST;
+    var tranListName = ListNames.CAPEXVENDORLIST;
     $('#CRUDVendorModal').find('input[listtype=trans],select[listtype=trans],radio[listtype=trans],textarea[listtype=trans],label[listtype=trans]').each(function () {
         var elementId = $(this).attr('id');
         var elementType = $(this).attr('controlType');
@@ -304,7 +306,7 @@ function SaveVendorDetails() {
     var isValid = ValidateModalForm();
     if (isValid) {
 
-        SaveVendorData(mainListName, saveDataArray);
+        SaveVendorData(tranListName, saveDataArray);
     }
 }
 

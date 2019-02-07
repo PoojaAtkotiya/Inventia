@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <br />
-                <div class="table-responsive">
+                <div class="table-responsive" type="tranTable" listName="CapexVendor" tranArrayName="listTempGridDataArray">
                     <table class="table table-hover table-bordered someTable" id="tblVendor">
                         <thead>
                             <tr>
@@ -65,7 +65,7 @@
                     <input type="hidden" class="dynamic-control" listtype="trans" controlType="hidden" id="Index" value="" />
                     <input type="hidden" class="dynamic-control" listtype="trans" controlType="hidden" id="Status" value="" />
                     <input type="hidden" class="dynamic-control" listtype="trans" controlType="hidden" id="Type" value="" />
-                    <input type="hidden" class="dynamic-control" listtype="trans" controlType="hidden" id="ListName" value="CapexVendor" />
+                    <!-- <input type="hidden" class="dynamic-control" listtype="trans" controlType="hidden" id="ListName" value="CapexVendor" /> -->
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -75,7 +75,7 @@
                                 </label>
                                 <div class="col-md-8 ">
                                     <input type="text" id="Name" name="Name" class="form-control dynamic-control" required="required" listtype="trans" controlType="text"
-                                         />
+                                    />
 
                                 </div>
                             </div>
@@ -101,7 +101,7 @@
                                 </label>
                                 <div class="col-md-8 ">
                                     <input type="text" id="Make" name="Make" controlType="text" class="form-control dynamic-control" listtype="trans" required="required"
-                                        controlType="text"  />
+                                        controlType="text" />
                                 </div>
                             </div>
                         </div>
@@ -113,7 +113,7 @@
                                 </label>
                                 <div class="col-md-8 ">
                                     <input type="text" id="GrossValue" name="GrossValue" controlType="text" class="form-control dynamic-control" listtype="trans"
-                                        data="digit" required="required"  />
+                                        data="digit" required="required" />
                                 </div>
                             </div>
                         </div>
@@ -139,7 +139,7 @@
                                 </label>
                                 <div class="col-md-8 ">
                                     <input type="text" id="NetValue" name="NetValue" controlType="text" class="form-control dynamic-control" data="digit" required="required"
-                                        listtype="trans"  />
+                                        listtype="trans" />
                                 </div>
                             </div>
                         </div>
@@ -189,7 +189,7 @@
                                 </label>
                                 <div class="col-md-8 ">
                                     <input type="text" id="InterstateGST" name="InterstateGST" controlType="text" class="form-control dynamic-control" required="required"
-                                        listtype="trans" data="digit"  />
+                                        listtype="trans" data="digit" />
                                 </div>
                             </div>
                         </div>
@@ -202,7 +202,7 @@
                                 </label>
                                 <div class="col-md-8 ">
                                     <input type="text" id="AddInstallationCharges" name="AddInstallationCharges" controlType="text" class="form-control dynamic-control"
-                                        required="required" data="digit" listtype="trans"  />
+                                        required="required" data="digit" listtype="trans" />
                                 </div>
                             </div>
                         </div>
@@ -227,7 +227,7 @@
                                 </label>
                                 <div class="col-md-8">
                                     <textarea type="text" controlType="multitext" id="TermsOfPayment" name="TermsOfPayment" class="form-control dynamic-control"
-                                        required="required" controlType="text" listtype="trans" maxlength="1000" ></textarea>
+                                        required="required" controlType="text" listtype="trans" maxlength="1000"></textarea>
                                 </div>
                             </div>
                         </div>

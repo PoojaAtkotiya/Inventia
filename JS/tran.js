@@ -257,7 +257,6 @@ function SaveAllTrans(requestId) {
 
                     //Column which not to be saved/not column in list are removed 
 
-                    debugger
                     delete tranItem.Type;
                     delete tranItem.Index;
                     delete tranItem.Status;
