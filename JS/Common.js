@@ -1737,6 +1737,7 @@ function AjaxCall(options) {
                 //     window.location = UnAuthorizationUrl;
                 // }
                 // else {
+                console.log(xhr);
 
                 debugger
                 AlertModal("Error", "Oops! Something went wrong");
