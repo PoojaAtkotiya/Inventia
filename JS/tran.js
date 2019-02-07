@@ -213,8 +213,9 @@ function GetAllTranlists(lookupId) {
     $('div [type=tranTable]').each(function () {
         var tranArrayName = $(this).attr('tranArrayName');
         var listname = $(this).attr('listname');
+        var jsFunction = $(this).attr('jsFunction');
         if (!IsNullOrUndefined(tranlists) && tranlists.indexOf(listname) < 0) {
-            tranlists.push({ "ListName": listname, "TranArrayName": tranArrayName });
+            tranlists.push({ "ListName": listname, "TranArrayName": tranArrayName, "JSFunction": jsFunction });
         }
     });
 
@@ -228,15 +229,25 @@ function GetAllTranlists(lookupId) {
 function GetTranList(tranList, lookupId) {
     var listName = tranList["ListName"];
     var tranArrayName = tranList["TranArrayName"];
-
+    var jsFunction = tranList["JSFunction"];
     AjaxCall(
         {
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + listName + "')/items?$filter=RequestIDId eq " + lookupId ,
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + listName + "')/items?$filter=RequestIDId eq " + lookupId,
             httpmethod: 'GET',
             calldatatype: 'JSON',
             async: false,
             sucesscallbackfunction: function (data) {
-                tranArrayName.push(data);
+                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.value) && IsArray(data.value) && data.value.length > 0) {
+
+                    (data.value).forEach(item => {
+                        window[tranArrayName].push(item);////here tranarrayName should be global variable
+                    });
+
+                    ////load tran js's document.ready function
+                    window[jsFunction](window[tranArrayName]); // window["functionName"](arguments);
+
+                }
+
             }
         });
 
