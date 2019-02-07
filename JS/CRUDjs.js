@@ -8,6 +8,8 @@ $(document).ready(function () {
             $('myform').renameTag('form');
         KeyPressNumericValidation();
         $("#IsNewVendor").val("unchecked");
+     
+        AutoPopulateVendor();
     });
     $(document).on('click', 'a[id="btnAddVendor"]', function () {
         AddVendorDetails();
@@ -29,6 +31,49 @@ $(document).ready(function () {
         }]
     });
 });
+function AutoPopulateVendor() {
+    $("#tags").autocomplete({
+        source: function( request, response ) {
+            $.ajax({             
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('VendorMaster')/items?$filter=substringof('"+request.term+"',Title)&$top=100&$select=Title,Address", 
+                type: "GET",
+                headers: { 
+                    Accept: "application/json;odata=verbose" 
+                }, 
+                async: false,
+                cache: false,
+                beforeSend: function(){     
+                    console.log("beforeSend");              
+                },
+                success: function (data, status, xhr) {
+                    arrayEmployee = [];
+                    for(i =0; i<data.d.results.length; i++) {         
+                      //  arrayEmployee.push(data.d.results[i]["Title"] + ", " + data.d.results[i]["Address"]);    
+                      arrayEmployee.push(data.d.results[i]["Title"]);             
+                    }
+                    arrayEmployee=$.unique(arrayEmployee);
+                    response(arrayEmployee);
+                    var autoSuggestion = document.getElementsByClassName('ui-autocomplete');
+                    if(autoSuggestion.length > 0){
+                        autoSuggestion[0].style.zIndex = 1051;
+                    }
+                }, 
+                error: function (xhr, status, error) {                      
+                    console.log("error: "+ xhr.responseText); 
+                },
+                complete: function(){
+                    console.log("complete");
+                }
+            });
+          },
+          minLength: 2,
+          appendTo :$("#menu"),
+          select: showLabel
+        });
+    } 
+    function showLabel(event, ui) {
+        $('#Address').text(ui.item.label);
+    }
 function onchangecheckBox() {
     var checkBox = document.getElementById("addVendorMaster");
     if (checkBox.checked == true) {

@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0-rc.2/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Content/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Content/datatable.css" />
@@ -16,6 +17,11 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.js"></script>
+    <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script> -->
+    
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Script/moment.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Script/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Script/bootstrap-datetimepicker.min.js"></script>
@@ -100,11 +106,23 @@
             });
             DatePickerControl('#date');
         });
+   
     </script>
-
+<style>
+    /* .ui-autocomplete{
+        z-index:1050 !important;
+      
+    } */
+    /* .pac-container{
+    z-index: 999999;
+} */
+    /* .ui-autocomplete-input, .ui-menu, .ui-menu-item {  z-index: 2006; background: black; } */
+  
+    </style>
 </head>
 
 <body>
+        
     <meta name="viewport" content="width=device-width, initial-scale=1.0">        
     <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
         <div class="page-header pull-left">
@@ -145,6 +163,7 @@
                                                                 </label>
                                                                 <label id="ProposedBy" class="col-md-8 dynamic-control labeltop"
                                                                     controlType="text" listtype="main"></label>
+                                                                   
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
