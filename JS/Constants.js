@@ -24,7 +24,8 @@ const ListNames = {
     BUTTONLIST: "Buttons",
     CAPEXVENDORLIST: "CapexVendor",
     EMAILTEMPLATELIST: "EmailTemplate",
-    EMAILNOTIFICATION: "EmailNotification"
+    EMAILNOTIFICATION: "EmailNotification",
+    VENDORMASTER:"VendorMaster"
 }
 Object.freeze(ListNames);
 

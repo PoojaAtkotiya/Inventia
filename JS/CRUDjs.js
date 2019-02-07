@@ -7,6 +7,7 @@ $(document).ready(function () {
         if ($('myform').length > 0)
             $('myform').renameTag('form');
         KeyPressNumericValidation();
+        $("#IsNewVendor").val("unchecked");
     });
     $(document).on('click', 'a[id="btnAddVendor"]', function () {
         AddVendorDetails();
@@ -28,7 +29,14 @@ $(document).ready(function () {
         }]
     });
 });
-
+function onchangecheckBox() {
+    var checkBox = document.getElementById("addVendorMaster");
+    if (checkBox.checked == true) {
+        $("#IsNewVendor").val("checked");
+    } else {
+        $("#IsNewVendor").val("unchecked");
+    }
+}
 
 function AddVendorDetails() {
     $("#CRUDVendorModal *").removeAttr("disabled");
@@ -36,6 +44,7 @@ function AddVendorDetails() {
     $("#CRUDVendorModal").modal('show');
     $("#spanTitle").html('Add Vendor Detail');
 }
+
 
 function ViewVendorDetails(obj) {
     var item;
@@ -103,11 +112,15 @@ function EditVendorDetails(obj) {
             item = arrayItem;
         }
     });
+    $("#IsNewVendor").val("unchecked");
+    $("#addVendorMaster").val("unchecked");
+
     // var item = GetVendorDetailsById(id);
     if ($('myform').length > 0)
         $('myform').renameTag('form');
     if (!IsNullOrUndefined(item)) {
         $("#CRUDVendorModal *").removeAttr("disabled");
+        $("#addVendorMaster").attr("disabled", "disabled");
         $("#CRUDVendorModal").modal('show');
         $("#spanTitle").html('Edit Vendor Detail');
         $('.dynamic-control').each(function () {
@@ -214,9 +227,40 @@ function SaveVendorData(listname, listDataArray) {
     }
 
     GetVendorDetails(listTempGridDataArray);
-    // $("#form_VendorSection").submit();
+    var IsNewVendorChecked = $("#IsNewVendor").val();
+    if (IsNewVendorChecked === "checked") {
+        SaveVendorNameInMaster(listDataArray);
+    }
     $("#CRUDVendorModal").modal('hide');
     AlertModal("Success", "Vendor Details Saved Successfully");
+}
+
+function SaveVendorNameInMaster(listDataArray) {
+    var mainlistDataArray = {};
+    mainlistDataArray["__metadata"] = {
+        "type": GetItemTypeForListName(ListNames.VENDORMASTER)
+    };
+    mainlistDataArray['Title'] = listDataArray.Name;
+    mainlistDataArray['Address'] = listDataArray.Address;
+
+    AjaxCall(
+        {
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.VENDORMASTER + "')/items",
+            httpmethod: 'POST',
+            calldatatype: 'JSON',
+            postData: JSON.stringify(mainlistDataArray),
+            async: false,
+            headers:
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "IF-MATCH": "*",
+                },
+            sucesscallbackfunction: function (data) {
+                console.log("Item saved Successfully");
+            }
+        });
 }
 
 function GetFormControlsValues(id, elementType, listDataArray) {
@@ -303,12 +347,12 @@ function SaveVendorDetails() {
     });
 
 
-    var isValid = ValidateModalForm();
-    if (isValid) {
-
-        SaveVendorData(tranListName, saveDataArray);
-    }
+    //   var isValid = ValidateModalForm();
+    //if (isValid) {
+    SaveVendorData(tranListName, saveDataArray);
+    //}
 }
+
 
 function DeleteVendorDetails(obj) {
     ConfirmationDailog({
