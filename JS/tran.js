@@ -1,6 +1,7 @@
 var tranlistNameArray = [];
 var tranListData = {};
 var localApprovalMatrix;
+var tranlists = [];
 
 function GetTranListData(lookupId) {
     TranListData(lookupId);
@@ -206,20 +207,71 @@ function SaveTranData(listname, tranListDataArray, lookupId) {
     }
 }
 
+//#region Get Tran Lists
+/*Pooja Atkotiya */
+function GetAllTranlists(lookupId) {
+    $('div [type=tranTable]').each(function () {
+        var tranArrayName = $(this).attr('tranArrayName');
+        var listname = $(this).attr('listname');
+        var jsFunction = $(this).attr('jsFunction');
+        if (!IsNullOrUndefined(tranlists) && tranlists.indexOf(listname) < 0) {
+            tranlists.push({ "ListName": listname, "TranArrayName": tranArrayName, "JSFunction": jsFunction });
+        }
+    });
+
+    if (tranlists != null && tranlists.length > 0) {
+        tranlists.forEach(function (tranList) {
+            GetTranList(tranList, lookupId);
+        });
+    }
+}
+
+/*Pooja Atkotiya */
+function GetTranList(tranList, lookupId) {
+    var listName = tranList["ListName"];
+    var tranArrayName = tranList["TranArrayName"];
+    var jsFunction = tranList["JSFunction"];
+    AjaxCall(
+        {
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + listName + "')/items?$filter=RequestIDId eq " + lookupId,
+            httpmethod: 'GET',
+            calldatatype: 'JSON',
+            async: false,
+            sucesscallbackfunction: function (data) {
+                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.value) && IsArray(data.value) && data.value.length > 0) {
+
+                    (data.value).forEach(item => {
+                        window[tranArrayName].push(item);////here tranarrayName should be global variable
+                    });
+
+                    ////load tran js's document.ready function
+                    window[jsFunction](window[tranArrayName]); // window["functionName"](arguments);
+
+                }
+
+            }
+        });
+
+}
+
+//#endregion
+
+
 //#region Save Trans in List
+/*Pooja Atkotiya */
 function SaveAllTrans(requestId) {
     if (!IsNullOrUndefined(gTranArray) && gTranArray.length > 0) {
         gTranArray.forEach(tranList => {
 
             if (!IsNullOrUndefined(tranList) && tranList.length > 0) {
                 tranList.forEach(tranItem => {
-                    debugger
                     var tranListName = tranItem.ListName;
                     var status = tranItem.Status;
                     var id = tranItem.ID;
                     var url = '';
                     var headers;
 
+                    debugger
                     switch (status) {
                         case "New":
                             url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + tranListName + "')/items";
