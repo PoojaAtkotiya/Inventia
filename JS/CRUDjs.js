@@ -47,13 +47,17 @@ function AutoPopulateVendor() {
                     console.log("beforeSend");
                 },
                 success: function (data, status, xhr) {
-                    arrayEmployee = [];
-                    for (i = 0; i < data.d.results.length; i++) {
-                        //  arrayEmployee.push(data.d.results[i]["Title"] + ", " + data.d.results[i]["Address"]);    
-                        arrayEmployee.push(data.d.results[i]["Title"]);
-                    }
-                    arrayEmployee = $.unique(arrayEmployee);
-                    response(arrayEmployee);
+                    arrayVendor = [];
+                    arrayAddress=[];
+                    for(i =0; i<data.d.results.length; i++) {         
+                      //  arrayEmployee.push(data.d.results[i]["Title"] + ", " + data.d.results[i]["Address"]);    
+                      arrayVendor.push(data.d.results[i]["Title"]); 
+                      var VendorName = data.d.results[i]["Title"];
+                      var Address = data.d.results[i]["Address"];
+                      arrayAddress.push({ name: VendorName, address: Address }); 
+                     }
+                    arrayVendor=$.unique(arrayVendor);
+                    response(arrayVendor);
                     var autoSuggestion = document.getElementsByClassName('ui-autocomplete');
                     if (autoSuggestion.length > 0) {
                         autoSuggestion[0].style.zIndex = 1051;
@@ -66,15 +70,27 @@ function AutoPopulateVendor() {
                     console.log("complete");
                 }
             });
-        },
-        minLength: 2,
-        appendTo: $("#menu"),
-        select: showLabel
-    });
-}
-function showLabel(event, ui) {
-    $('#Address').text(ui.item.label);
-}
+          },
+          minLength: 2,
+          appendTo :$("#menu"),
+          select: showLabel
+        });
+    } 
+    function showLabel(event, ui) {
+        var nameofvendor= $('#tags').val();
+        if(nameofvendor != undefined && nameofvendor !=""){
+        arrayAddress.forEach(element => {
+            if (element.name == nameofvendor) {
+                $('#Address').val(element.address);
+            }
+         });
+        }
+        else
+        {
+            $('#Address').val('');
+        }
+       
+    }
 function onchangecheckBox() {
     var checkBox = document.getElementById("addVendorMaster");
     if (checkBox.checked == true) {
