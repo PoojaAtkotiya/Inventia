@@ -1279,8 +1279,8 @@ function SaveData(listname, listDataArray, sectionName, ele) {
                     clientContext.load(oListItem, 'FormLevel', 'ProposedBy');
                     clientContext.load(web);
                     clientContext.executeQueryAsync(function () {
-                        SaveLocalApprovalMatrix(sectionName, itemID, listname, isNewItem, oListItem, ListNames.APPROVALMATRIXLIST);
                         SaveImageSignaturePath(sectionName, itemID);
+                        SaveLocalApprovalMatrix(sectionName, itemID, listname, isNewItem, oListItem, ListNames.APPROVALMATRIXLIST);
                         SaveActivityLog(sectionName, itemID, ListNames.ACTIVITYLOGLIST, listDataArray, isNewItem, buttonCaption);
                         if (!isNaN(itemID)) {
                             debugger
@@ -1828,12 +1828,14 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                         }
                     });
                     to = TrimComma(allToUsers).split(",");
+                    cleanArray(allToUsers);
                     to = GetUserEmailsbyUserID(to);
                     tempApproverMatrix.forEach(temp => {
                         if (temp.Role == Roles.CREATOR) {
                             cc = temp.ApproverId;
                             debugger                /////Pending to check for multi user field
                             cc = TrimComma(cc).split(",");
+                            cleanArray(cc);
                             cc = GetUserEmailsbyUserID(cc);
                         }
                         if (temp.Levels == currentLevel) {
@@ -2197,7 +2199,7 @@ function TrimComma(yourString) {
 }
 
 /*Pooja Atkotiya */
-/*Work only non-zero array, if array contains 0 then it will remove 0 also */
+/*Work only for non-zero array, if array contains 0 then it will remove 0 also */
 function cleanStringArray(actualArray) {
     var newArray = new Array();
     for (var i = 0; i < actualArray.length; i++) {
@@ -2209,7 +2211,7 @@ function cleanStringArray(actualArray) {
 }
 
 /*Pooja Atkotiya */
-/*Work only for all array, if array contains 0 then return array with 0 also */
+/*Work for all array, if array contains 0 then return array with 0 also */
 function cleanArray(actualArray) {
     return actualArray.filter(function (e) { return e === 0 || e });
 }
