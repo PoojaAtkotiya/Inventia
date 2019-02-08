@@ -918,9 +918,9 @@ function GetFormControlsValue(id, elementType, listDataArray, elementvaluetype =
                 listDataArray[id] = $(obj).val();
             }
             break;
-        // case "number":
-        //     listDataArray[id] = Number($(this).val());
-        //     break;
+        case "hidden":
+            listDataArray[id] = $(obj).val();
+            break;
         case "terms":
             var metaObject = {
                 __metadata: { "type": "SP.Taxonomy.TaxonomyFieldValue" },
@@ -1217,6 +1217,7 @@ function SaveFormData(activeSection, ele) {
             var elementId = $(this).attr('id');
             var elementType = $(this).attr('controlType');
             var elementProperty = $(this).attr('controlProperty');
+            var elementvaluetype = $(this).attr('controlvaluetype');
             currAppArray = GetFormControlsValue(elementId, elementType, currAppArray);
 
             if (!IsNullOrUndefined(currAppArray)) {
