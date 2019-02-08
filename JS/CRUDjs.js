@@ -2,7 +2,6 @@ var data = null;
 var listTempGridDataArray = [];
 
 $(document).ready(function () {
-
     GetVendorDetails();
     $(document).on('shown.bs.modal', "#CRUDVendorModal", function () {
         if ($('myform').length > 0)
@@ -32,37 +31,6 @@ $(document).ready(function () {
         }]
     });
 });
-
-// function LoadVendorCRUSJS(){
-//     GetVendorDetails();
-//     $(document).on('shown.bs.modal', "#CRUDVendorModal", function () {
-//         if ($('myform').length > 0)
-//             $('myform').renameTag('form');
-//         KeyPressNumericValidation();
-//         $("#IsNewVendor").val("unchecked");
-
-//         AutoPopulateVendor();
-//     });
-//     $(document).on('click', 'a[id="btnAddVendor"]', function () {
-//         AddVendorDetails();
-//     });
-//     $(document).on('click', 'a[id*="EditVendor_"]', function () {
-//         EditVendorDetails(jQuery(this));
-//     });
-//     $(document).on('click', 'a[id*="ViewVendor_"]', function () {
-//         ViewVendorDetails(jQuery(this));
-//     });
-//     $(document).on('click', 'a[id*="DeleteVendor_"]', function () {
-//         DeleteVendorDetails(jQuery(this));
-//     });
-
-//     $('#tblVendor').DataTable({
-//         "columnDefs": [{
-//             "targets": 'no-sort',
-//             "orderable": false
-//         }]
-//     });
-// }
 
 function AutoPopulateVendor() {
     $("#tags").autocomplete({
@@ -147,7 +115,7 @@ function ViewVendorDetails(obj) {
             else if (elementType == 'radiogroup')
                 fieldName = $(this).attr("cParent");
 
-            setFieldValues(elementId, item, elementType, fieldName);
+            setFieldValue(elementId, item, elementType, fieldName);
         });
         $("#CRUDVendorModal *").attr("disabled", "disabled");
         $("#CRUDVendorModal").find(".modal-footer").find("button").remove("onclick");
@@ -216,59 +184,60 @@ function EditVendorDetails(obj) {
     }
 }
 
-// function setFieldValues(controlId, item, fieldType, fieldName) {
-//     if (!fieldName || fieldName == "")
-//         fieldName = controlId;
+/*
+    function setFieldValues(controlId, item, fieldType, fieldName) {
+        if (!fieldName || fieldName == "")
+            fieldName = controlId;
 
-//     switch (fieldType) {
-//         case "hidden":
-//             $("#" + controlId).val(item[fieldName]);
-//             break;
-//         case "text":
-//             $("#" + controlId).val(item[fieldName]).change();
-//             break;
-//         case "label":
-//             $("#" + controlId).text(item[fieldName]);
-//             break;
-//         case "terms":
-//             if (item[fieldName]) {
-//                 $("#" + controlId).val(item[fieldName].TermGuid).change()
-//             }
-//             break;
-//         case "combo":
-//             $("#" + controlId).val(item[fieldName]).change();
-//             break;
-//         case "multitext":
-//             $("#" + controlId).val(RemoveHtmlForMultiLine(item[fieldName])).change();
-//             break;
-//         case "date":
-//             var dt = "";
-//             if (item[fieldName] && item[fieldName] != null) {
-//                 dt = new Date(item[fieldName]).format("dd-MM-yyyy");
-//                 $("#" + controlId).val(dt).change();
-//             }
-//             break;
-//         case "multicheckbox":
-//             if (item[fieldName] != null && item[fieldName].results != null && item[fieldName].results.length > 0) {
-//                 item[fieldName].results.forEach(function (thisItem) {
-//                     if (thisItem == controlId) {
-//                         $("#" + controlId)[0].checked = true;
-//                         if (listDataArray[fieldName] == undefined)
-//                             listDataArray[fieldName] = { "__metadata": { "type": "Collection(Edm.String)" }, "results": [] };
-//                         listDataArray[fieldName].results.push(thisItem);
-//                     }
-//                 });
-//             }
-//             break;
-//         case "radiogroup":
-//             if (controlId == item[fieldName])
-//                 $("#" + controlId).prop('checked', true);
-//             else
-//                 $("#" + controlId).prop('checked', false);
-//             break;
-//     }
-// }
-
+        switch (fieldType) {
+            case "hidden":
+                $("#" + controlId).val(item[fieldName]);
+                break;
+            case "text":
+                $("#" + controlId).val(item[fieldName]).change();
+                break;
+            case "label":
+                $("#" + controlId).text(item[fieldName]);
+                break;
+            case "terms":
+                if (item[fieldName]) {
+                    $("#" + controlId).val(item[fieldName].TermGuid).change()
+                }
+                break;
+            case "combo":
+                $("#" + controlId).val(item[fieldName]).change();
+                break;
+            case "multitext":
+                $("#" + controlId).val(RemoveHtmlForMultiLine(item[fieldName])).change();
+                break;
+            case "date":
+                var dt = "";
+                if (item[fieldName] && item[fieldName] != null) {
+                    dt = new Date(item[fieldName]).format("dd-MM-yyyy");
+                    $("#" + controlId).val(dt).change();
+                }
+                break;
+            case "multicheckbox":
+                if (item[fieldName] != null && item[fieldName].results != null && item[fieldName].results.length > 0) {
+                    item[fieldName].results.forEach(function (thisItem) {
+                        if (thisItem == controlId) {
+                            $("#" + controlId)[0].checked = true;
+                            if (listDataArray[fieldName] == undefined)
+                                listDataArray[fieldName] = { "__metadata": { "type": "Collection(Edm.String)" }, "results": [] };
+                            listDataArray[fieldName].results.push(thisItem);
+                        }
+                    });
+                }
+                break;
+            case "radiogroup":
+                if (controlId == item[fieldName])
+                    $("#" + controlId).prop('checked', true);
+                else
+                    $("#" + controlId).prop('checked', false);
+                break;
+        }
+    }
+*/
 function SaveVendorData(listname, listDataArray) {
 
     listDataArray["ListName"] = listname;
@@ -287,13 +256,18 @@ function SaveVendorData(listname, listDataArray) {
         });
 
     }
-    if (listDataArray.ID == "") {
+
+    if (IsStrNullOrEmpty(listDataArray.ID)) {
         listDataArray.ID = "0";
         if (listDataArray.Index == "") {
             listDataArray.Index = count + 1;
         }
-        listDataArray.Status = "New";
+        listDataArray.Status = ItemActionStatus.NEW;
         listDataArray.Type = "Edit";
+        listTempGridDataArray.push(listDataArray);
+    }
+    else {
+        listDataArray.Status = ItemActionStatus.UPDATED;
         listTempGridDataArray.push(listDataArray);
     }
 
@@ -420,7 +394,6 @@ function SaveVendorDetails() {
         saveDataArray = GetFormControlsValue(elementId, elementType, saveDataArray);
     });
 
-
     //   var isValid = ValidateModalForm();
     //if (isValid) {
     SaveVendorData(tranListName, saveDataArray);
@@ -437,14 +410,21 @@ function DeleteVendorDetails(obj) {
             var id = jQuery(obj).attr('id').split('_')[2].trim();
             var index = jQuery(obj).attr('id').split('_')[1].trim();
 
-            var removeIndex = listTempGridDataArray.map(function (item) { return item.Index; }).indexOf(Number(index));
+            //var removeIndex = listTempGridDataArray.map(function (item) { return item.Index; }).indexOf(Number(index));
 
             // remove object
-            var removeditem = listTempGridDataArray.splice(removeIndex, 1);
-            //  listTempGridDataArray= listTempGridDataArray.splice(index, 1);
+            //var removeditem = listTempGridDataArray.splice(removeIndex, 1);
+
+            listTempGridDataArray.filter(function (item) {
+                if (item.Index == index) {
+                    item.Status = ItemActionStatus.DELETED;
+                }
+            });
+
             GetVendorDetails(listTempGridDataArray);
             $("#CRUDVendorModal").modal('hide');
-            jQuery("#loading").hide();
+            HideWaitDialog();
+            //jQuery("#loading").hide();
             AlertModal("Success", "Vendor Details deleted Successfully");
         }
     });
@@ -455,29 +435,32 @@ function GetVendorDetails(listTempGridDataArray) {
     if (!IsNullOrUndefined(listTempGridDataArray)) {
         var indexCount = 1;
         listTempGridDataArray.forEach(function (arrayItem) {
-            if (IsNullOrUndefined(arrayItem.Index)) {
-                arrayItem.Index = indexCount;
-                indexCount++;
-            }
-            if (IsStrNullOrEmpty(arrayItem.Type)) {
-                arrayItem.Type = "Edit";
-            }
+            if (arrayItem.Status != ItemActionStatus.DELETED)   ////skip deleted rows
+            {
+                if (IsNullOrUndefined(arrayItem.Index)) {
+                    arrayItem.Index = indexCount;
+                    indexCount++;
+                }
+                if (IsStrNullOrEmpty(arrayItem.Type)) {
+                    arrayItem.Type = "Edit";
+                }
 
-            console.log(arrayItem);
-            tr = $('<tr/>');
+                console.log(arrayItem);
+                tr = $('<tr/>');
 
-            tr.append("<td width='13%'>" + arrayItem.Name + "</td>");
-            tr.append("<td width='14%'>" + arrayItem.Address + "</td>");
-            tr.append("<td width='10%'>" + arrayItem.Make + "</td>");
-            tr.append("<td width='10%'>" + arrayItem.GrossValue + "</td>");
-            tr.append("<td width='9%'>" + arrayItem.LessDiscount + "</td>");
-            tr.append("<td width='17%'>" + arrayItem.NetValue + "</td>");
-            tr.append("<td width='16%'>" + arrayItem.DeliveryPeriod + "</td>");
-            tr.append("<td width='12%'>" +
-                "<a class='view' id='ViewVendor_" + arrayItem.Index + '_' + arrayItem.ID + "' title='View' data-toggle='tooltip'><i class='material-icons'>&#xE417;</i></a>" +
-                "<a id='EditVendor_" + arrayItem.Index + '_' + arrayItem.ID + '_' + arrayItem.Type + "' class='edit' title='Edit' data-toggle='modal'><i class='material-icons'>&#xE254;</i></a>" +
-                "<a id='DeleteVendor_" + arrayItem.Index + '_' + arrayItem.ID + "' class='delete' title='Delete' data-toggle='modal'><i class='material-icons'>&#xE872;</i></a></td>");
-            $('#tblVendor').append(tr);
+                tr.append("<td width='13%'>" + arrayItem.Name + "</td>");
+                tr.append("<td width='14%'>" + arrayItem.Address + "</td>");
+                tr.append("<td width='10%'>" + arrayItem.Make + "</td>");
+                tr.append("<td width='10%'>" + arrayItem.GrossValue + "</td>");
+                tr.append("<td width='9%'>" + arrayItem.LessDiscount + "</td>");
+                tr.append("<td width='17%'>" + arrayItem.NetValue + "</td>");
+                tr.append("<td width='16%'>" + arrayItem.DeliveryPeriod + "</td>");
+                tr.append("<td width='12%'>" +
+                    "<a class='view' id='ViewVendor_" + arrayItem.Index + '_' + arrayItem.ID + "' title='View' data-toggle='tooltip'><i class='material-icons'>&#xE417;</i></a>" +
+                    "<a id='EditVendor_" + arrayItem.Index + '_' + arrayItem.ID + '_' + arrayItem.Type + "' class='edit' title='Edit' data-toggle='modal'><i class='material-icons'>&#xE254;</i></a>" +
+                    "<a id='DeleteVendor_" + arrayItem.Index + '_' + arrayItem.ID + "' class='delete' title='Delete' data-toggle='modal'><i class='material-icons'>&#xE872;</i></a></td>");
+                $('#tblVendor').append(tr);
+            }
         });
     }
 }
