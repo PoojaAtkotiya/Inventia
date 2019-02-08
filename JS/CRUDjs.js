@@ -2,6 +2,7 @@ var data = null;
 var listTempGridDataArray = [];
 
 $(document).ready(function () {
+
     GetVendorDetails();
     $(document).on('shown.bs.modal', "#CRUDVendorModal", function () {
         if ($('myform').length > 0)
@@ -31,6 +32,38 @@ $(document).ready(function () {
         }]
     });
 });
+
+// function LoadVendorCRUSJS(){
+//     GetVendorDetails();
+//     $(document).on('shown.bs.modal', "#CRUDVendorModal", function () {
+//         if ($('myform').length > 0)
+//             $('myform').renameTag('form');
+//         KeyPressNumericValidation();
+//         $("#IsNewVendor").val("unchecked");
+     
+//         AutoPopulateVendor();
+//     });
+//     $(document).on('click', 'a[id="btnAddVendor"]', function () {
+//         AddVendorDetails();
+//     });
+//     $(document).on('click', 'a[id*="EditVendor_"]', function () {
+//         EditVendorDetails(jQuery(this));
+//     });
+//     $(document).on('click', 'a[id*="ViewVendor_"]', function () {
+//         ViewVendorDetails(jQuery(this));
+//     });
+//     $(document).on('click', 'a[id*="DeleteVendor_"]', function () {
+//         DeleteVendorDetails(jQuery(this));
+//     });
+
+//     $('#tblVendor').DataTable({
+//         "columnDefs": [{
+//             "targets": 'no-sort',
+//             "orderable": false
+//         }]
+//     });
+// }
+
 function AutoPopulateVendor() {
     $("#tags").autocomplete({
         source: function( request, response ) {
@@ -46,13 +79,17 @@ function AutoPopulateVendor() {
                     console.log("beforeSend");              
                 },
                 success: function (data, status, xhr) {
-                    arrayEmployee = [];
+                    arrayVendor = [];
+                    arrayAddress=[];
                     for(i =0; i<data.d.results.length; i++) {         
                       //  arrayEmployee.push(data.d.results[i]["Title"] + ", " + data.d.results[i]["Address"]);    
-                      arrayEmployee.push(data.d.results[i]["Title"]);             
-                    }
-                    arrayEmployee=$.unique(arrayEmployee);
-                    response(arrayEmployee);
+                      arrayVendor.push(data.d.results[i]["Title"]); 
+                      var VendorName = data.d.results[i]["Title"];
+                      var Address = data.d.results[i]["Address"];
+                      arrayAddress.push({ name: VendorName, address: Address }); 
+                     }
+                    arrayVendor=$.unique(arrayVendor);
+                    response(arrayVendor);
                     var autoSuggestion = document.getElementsByClassName('ui-autocomplete');
                     if(autoSuggestion.length > 0){
                         autoSuggestion[0].style.zIndex = 1051;
@@ -72,7 +109,19 @@ function AutoPopulateVendor() {
         });
     } 
     function showLabel(event, ui) {
-        $('#Address').text(ui.item.label);
+        var nameofvendor= $('#tags').val();
+        if(nameofvendor != undefined && nameofvendor !=""){
+        arrayAddress.forEach(element => {
+            if (element.name == nameofvendor) {
+                $('#Address').val(element.address);
+            }
+         });
+        }
+        else
+        {
+            $('#Address').val('');
+        }
+       
     }
 function onchangecheckBox() {
     var checkBox = document.getElementById("addVendorMaster");
