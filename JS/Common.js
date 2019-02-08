@@ -568,9 +568,9 @@ function setFieldValue(controlId, item, fieldType, fieldName) {
         case "text":
             $("#" + controlId).val(item[fieldName]).change();
             break;
-        case "number":
-            $("#" + controlId).val(item[fieldName]).change();
-            break;
+        // case "number":
+        //     $("#" + controlId).val(item[fieldName]).change();
+        //     break;
         case "label":
             $("#" + controlId).text(item[fieldName]);
             break;
@@ -583,7 +583,7 @@ function setFieldValue(controlId, item, fieldType, fieldName) {
             $("#" + controlId).val(item[fieldName]).change();
             break;
         case "multitext":
-            $("#" + controlId).val(item[fieldName]).change();
+            $("#" + controlId).val(RemoveHtmlForMultiLine(item[fieldName])).change();
             break;
         case "date":
             var dt = "";
@@ -2206,4 +2206,12 @@ function cleanStringArray(actualArray) {
 /*Work only for all array, if array contains 0 then return array with 0 also */
 function cleanArray(actualArray) {
     return actualArray.filter(function (e) { return e === 0 || e });
+}
+
+function RemoveHtmlForMultiLine(multiLineValue) {
+    if (!IsStrNullOrEmpty(multiLineValue)) {
+        return multiLineValue.replace(/(<([^>]+)>)/ig, "");
+    } else {
+        return "";
+    }
 }

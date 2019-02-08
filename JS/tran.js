@@ -251,7 +251,6 @@ function GetTranList(tranList, lookupId) {
 
             }
         });
-
 }
 
 //#endregion

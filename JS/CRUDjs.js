@@ -9,7 +9,7 @@ $(document).ready(function () {
             $('myform').renameTag('form');
         KeyPressNumericValidation();
         $("#IsNewVendor").val("unchecked");
-     
+
         AutoPopulateVendor();
     });
     $(document).on('click', 'a[id="btnAddVendor"]', function () {
@@ -40,7 +40,7 @@ $(document).ready(function () {
 //             $('myform').renameTag('form');
 //         KeyPressNumericValidation();
 //         $("#IsNewVendor").val("unchecked");
-     
+
 //         AutoPopulateVendor();
 //     });
 //     $(document).on('click', 'a[id="btnAddVendor"]', function () {
@@ -66,47 +66,47 @@ $(document).ready(function () {
 
 function AutoPopulateVendor() {
     $("#tags").autocomplete({
-        source: function( request, response ) {
-            $.ajax({             
-                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('VendorMaster')/items?$filter=substringof('"+request.term+"',Title)&$top=100&$select=Title,Address", 
+        source: function (request, response) {
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('VendorMaster')/items?$filter=substringof('" + request.term + "',Title)&$top=100&$select=Title,Address",
                 type: "GET",
-                headers: { 
-                    Accept: "application/json;odata=verbose" 
-                }, 
+                headers: {
+                    Accept: "application/json;odata=verbose"
+                },
                 async: false,
                 cache: false,
-                beforeSend: function(){     
-                    console.log("beforeSend");              
+                beforeSend: function () {
+                    console.log("beforeSend");
                 },
                 success: function (data, status, xhr) {
                     arrayEmployee = [];
-                    for(i =0; i<data.d.results.length; i++) {         
-                      //  arrayEmployee.push(data.d.results[i]["Title"] + ", " + data.d.results[i]["Address"]);    
-                      arrayEmployee.push(data.d.results[i]["Title"]);             
+                    for (i = 0; i < data.d.results.length; i++) {
+                        //  arrayEmployee.push(data.d.results[i]["Title"] + ", " + data.d.results[i]["Address"]);    
+                        arrayEmployee.push(data.d.results[i]["Title"]);
                     }
-                    arrayEmployee=$.unique(arrayEmployee);
+                    arrayEmployee = $.unique(arrayEmployee);
                     response(arrayEmployee);
                     var autoSuggestion = document.getElementsByClassName('ui-autocomplete');
-                    if(autoSuggestion.length > 0){
+                    if (autoSuggestion.length > 0) {
                         autoSuggestion[0].style.zIndex = 1051;
                     }
-                }, 
-                error: function (xhr, status, error) {                      
-                    console.log("error: "+ xhr.responseText); 
                 },
-                complete: function(){
+                error: function (xhr, status, error) {
+                    console.log("error: " + xhr.responseText);
+                },
+                complete: function () {
                     console.log("complete");
                 }
             });
-          },
-          minLength: 2,
-          appendTo :$("#menu"),
-          select: showLabel
-        });
-    } 
-    function showLabel(event, ui) {
-        $('#Address').text(ui.item.label);
-    }
+        },
+        minLength: 2,
+        appendTo: $("#menu"),
+        select: showLabel
+    });
+}
+function showLabel(event, ui) {
+    $('#Address').text(ui.item.label);
+}
 function onchangecheckBox() {
     var checkBox = document.getElementById("addVendorMaster");
     if (checkBox.checked == true) {
@@ -122,7 +122,6 @@ function AddVendorDetails() {
     $("#CRUDVendorModal").modal('show');
     $("#spanTitle").html('Add Vendor Detail');
 }
-
 
 function ViewVendorDetails(obj) {
     var item;
@@ -209,7 +208,7 @@ function EditVendorDetails(obj) {
                 fieldName = $(this).attr("cParent");
             else if (elementType == 'radiogroup')
                 fieldName = $(this).attr("cParent");
-            setFieldValues(elementId, item, elementType, fieldName);
+            setFieldValue(elementId, item, elementType, fieldName);
         });
     }
     else {
@@ -217,64 +216,58 @@ function EditVendorDetails(obj) {
     }
 }
 
-function setFieldValues(controlId, item, fieldType, fieldName) {
-    if (!fieldName || fieldName == "")
-        fieldName = controlId;
+// function setFieldValues(controlId, item, fieldType, fieldName) {
+//     if (!fieldName || fieldName == "")
+//         fieldName = controlId;
 
-    switch (fieldType) {
-        case "hidden":
-            $("#" + controlId).val(item[fieldName]);
-            break;
-        case "text":
-            $("#" + controlId).val(item[fieldName]).change();
-            break;
-        case "label":
-            $("#" + controlId).text(item[fieldName]);
-            break;
-        case "terms":
-            if (item[fieldName]) {
-                $("#" + controlId).val(item[fieldName].TermGuid).change()
-            }
-            break;
-        case "combo":
-            $("#" + controlId).val(item[fieldName]).change();
-            break;
-        case "multitext":
-            $("#" + controlId).val(item[fieldName]).change();
-            break;
-        case "date":
-            var dt = "";
-            if (item[fieldName] && item[fieldName] != null) {
-                dt = new Date(item[fieldName]).format("dd-MM-yyyy");
-                $("#" + controlId).val(dt).change();
-            }
-            break;
-        case "multicheckbox":
-            if (item[fieldName] != null && item[fieldName].results != null && item[fieldName].results.length > 0) {
-                item[fieldName].results.forEach(function (thisItem) {
-                    if (thisItem == controlId) {
-                        $("#" + controlId)[0].checked = true;
-                        if (listDataArray[fieldName] == undefined)
-                            listDataArray[fieldName] = { "__metadata": { "type": "Collection(Edm.String)" }, "results": [] };
-                        listDataArray[fieldName].results.push(thisItem);
-                    }
-                });
-            }
-            break;
-        case "radiogroup":
-            if (controlId == item[fieldName])
-                $("#" + controlId).prop('checked', true);
-            else
-                $("#" + controlId).prop('checked', false);
-            break;
-    }
-}
-
-
-
-function GetItemTypeForListName(name) {
-    return "SP.Data." + name.charAt(0).toUpperCase() + name.split(" ").join("").slice(1) + "ListItem";
-}
+//     switch (fieldType) {
+//         case "hidden":
+//             $("#" + controlId).val(item[fieldName]);
+//             break;
+//         case "text":
+//             $("#" + controlId).val(item[fieldName]).change();
+//             break;
+//         case "label":
+//             $("#" + controlId).text(item[fieldName]);
+//             break;
+//         case "terms":
+//             if (item[fieldName]) {
+//                 $("#" + controlId).val(item[fieldName].TermGuid).change()
+//             }
+//             break;
+//         case "combo":
+//             $("#" + controlId).val(item[fieldName]).change();
+//             break;
+//         case "multitext":
+//             $("#" + controlId).val(RemoveHtmlForMultiLine(item[fieldName])).change();
+//             break;
+//         case "date":
+//             var dt = "";
+//             if (item[fieldName] && item[fieldName] != null) {
+//                 dt = new Date(item[fieldName]).format("dd-MM-yyyy");
+//                 $("#" + controlId).val(dt).change();
+//             }
+//             break;
+//         case "multicheckbox":
+//             if (item[fieldName] != null && item[fieldName].results != null && item[fieldName].results.length > 0) {
+//                 item[fieldName].results.forEach(function (thisItem) {
+//                     if (thisItem == controlId) {
+//                         $("#" + controlId)[0].checked = true;
+//                         if (listDataArray[fieldName] == undefined)
+//                             listDataArray[fieldName] = { "__metadata": { "type": "Collection(Edm.String)" }, "results": [] };
+//                         listDataArray[fieldName].results.push(thisItem);
+//                     }
+//                 });
+//             }
+//             break;
+//         case "radiogroup":
+//             if (controlId == item[fieldName])
+//                 $("#" + controlId).prop('checked', true);
+//             else
+//                 $("#" + controlId).prop('checked', false);
+//             break;
+//     }
+// }
 
 function SaveVendorData(listname, listDataArray) {
 
@@ -431,7 +424,6 @@ function SaveVendorDetails() {
     //}
 }
 
-
 function DeleteVendorDetails(obj) {
     ConfirmationDailog({
         title: "Remove", message: "Are you sure to delete this vendor details?", id: jQuery(obj).attr('id').split('_')[1].trim(),
@@ -459,7 +451,16 @@ function GetVendorDetails(listTempGridDataArray) {
 
     $('#tblVendor tbody').empty();
     if (!IsNullOrUndefined(listTempGridDataArray)) {
+        var indexCount = 1;
         listTempGridDataArray.forEach(function (arrayItem) {
+            debugger
+            if (IsNullOrUndefined(arrayItem.Index)) {
+                arrayItem.Index = indexCount;
+                indexCount++;
+            }
+            if (IsStrNullOrEmpty(arrayItem.Type)) {
+                arrayItem.Type = "Edit";
+            }
 
             console.log(arrayItem);
             tr = $('<tr/>');
