@@ -231,7 +231,7 @@ function GetTranList(tranList, lookupId) {
     var listName = tranList["ListName"];
     var tranArrayName = tranList["TranArrayName"];
     var jsFunction = tranList["JSFunction"];
-// and (Status Ne '" + ItemActionStatus.DELETED + "')
+    // and (Status Ne '" + ItemActionStatus.DELETED + "')
     AjaxCall(
         {
             url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + listName + "')/items?$select=*&$filter=((RequestIDId eq " + lookupId + ") and (Status ne '" + ItemActionStatus.DELETED + "'))",
@@ -264,10 +264,12 @@ function GetTranList(tranList, lookupId) {
 function SaveAllTrans(requestId) {
     if (!IsNullOrUndefined(gTranArray) && gTranArray.length > 0) {
         ////REmove all rows which have status NOCHANGE
-        gTranArray.forEach(tranList => {
+        gTranArray.forEach(element => {
+            var tranList = element.TranListArray;
+            var tranListName = element.TranListName;
             if (!IsNullOrUndefined(tranList) && tranList.length > 0) {
                 tranList.forEach(tranItem => {
-                    var tranListName = tranItem.ListName;
+                    // var tranListName = tranItem.ListName;
                     var status = tranItem.Status;
                     var id = tranItem.ID;
                     var url = '';
@@ -314,7 +316,7 @@ function SaveAllTrans(requestId) {
                     //Column which not to be saved/not column in list are removed 
                     delete tranItem.Type;
                     delete tranItem.Index;
-                    delete tranItem.ListName;
+                   // delete tranItem.ListName;
 
                     tranItem["__metadata"] = {
                         "type": GetItemTypeForListName(tranListName)

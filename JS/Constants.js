@@ -190,9 +190,9 @@ const EmailTemplateName =
 Object.freeze(EmailTemplateName);
 
 const ItemActionStatus = {
-    NEW: 0,
-    UPDATED: 1,
-    DELETED: 2,
-    NOCHANGE: 3
+    NEW: "New",
+    UPDATED: "Updated",
+    DELETED: "Deleted",
+    NOCHANGE: "NoChange"
 }
 Object.freeze(ItemActionStatus);
