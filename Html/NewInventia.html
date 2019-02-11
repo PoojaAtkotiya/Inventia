@@ -50,7 +50,11 @@
                 var file = CommonConstant.HTMLFILSEPATH + $(this).data('include') + '.html';
                 $(this).load(file);
             });
-
+            $('#IsNewVendor').hide();
+            
+            $("#AddVendor").click(function () {
+                     $("#IsNewVendor").show();
+            });
             // $(document).on("change", "#UploadArtworkAttachment", function () {
             //     BindAttachmentFiles();
             // });
@@ -357,23 +361,24 @@
                                                     <div class="form-group">
                                                         <label class="col-md-4 control-label"> </label>
                                                         <div class="col-md-8">
-                                                            <a class="btn btn-primary pull-left" value="Add Proposed Vendor"
+                                                            <a class="btn btn-primary pull-left" value="Add Proposed Vendor" id="AddVendor"
                                                                 onclick="">Add Proposed Vendor</a>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- <div class="col-lg-6">
-                                                    <div class="form-group">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group" id="IsNewVendor" style="display:none">
                                                         <label class="col-md-4 control-label">
                                                             Vendor Name:
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <input type="text" id="VendorName" class="form-control dynamic-control"
+                                                            <input type="text" id="NewVendorName" class="form-control dynamic-control"
                                                                 placeholder="Vendor Name" controlType="text" maxlength="255"
                                                                 name="VendorName" listtype="main" />
+                                                                <input type="hidden" id="isVendorAdded" />
                                                         </div>
                                                     </div>
-                                                </div> -->
+                                                </div>
 
                                             </div>
                                             <div class="row">

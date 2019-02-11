@@ -1280,7 +1280,7 @@ function SaveData(listname, listDataArray, sectionName, ele) {
                     clientContext.load(oListItem, 'FormLevel', 'ProposedBy');
                     clientContext.load(web);
                     clientContext.executeQueryAsync(function () {
-                        SaveImageSignaturePath(sectionName, itemID);
+                        CommonBusinessLogic(sectionName,itemID,listDataArray);
                         SaveLocalApprovalMatrix(sectionName, itemID, listname, isNewItem, oListItem, ListNames.APPROVALMATRIXLIST);
                         SaveActivityLog(sectionName, itemID, ListNames.ACTIVITYLOGLIST, listDataArray, isNewItem, buttonCaption);
                         if (!isNaN(itemID)) {
@@ -1328,6 +1328,23 @@ function SaveData(listname, listDataArray, sectionName, ele) {
     }
 }
 
+function CommonBusinessLogic(sectionName,itemID,listDataArray)
+{
+    SaveImageSignaturePath(sectionName, itemID);
+    if(sectionName == SectionNames.INITIATORSECTION && listDataArray.VendorName !=undefined &&listDataArray.isVendorAdded !="Yes" ){
+         SaveVendorNameInMaster(listDataArray);
+    }
+    if(sectionName == SectionNames.INITIATORSECTION && listDataArray.CapitalAssetRequisitionNumber !=undefined &&listDataArray.CapitalAssetRequisitionNumber !=null && isNewItem==true){
+        SaveCapitalAssetRequisitionNumber(itemID,listDataArray);
+   }
+}
+
+function SaveCapitalAssetRequisitionNumber(itemID,listDataArray)
+{
+    var todayDate = new Date();
+    formFieldValues['CapitalAssetRequisitionNumber'] = 'CAR' + '/'+ listDataArray.AssetName + '/'+ listDataArray.CostCenter + '/'+ todayDate.getMonth +'-' + todayDate.getFullYear+'/'+ itemID;
+    SaveFormFields(formFieldValues, itemID);
+}
 /*Priya Rane */
 function SaveImageSignaturePath(sectionName, itemID) {
     var formFieldValues = [];

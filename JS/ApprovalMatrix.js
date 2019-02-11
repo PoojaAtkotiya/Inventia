@@ -1155,6 +1155,9 @@ function SaveFormFields(formFieldValues, requestId) {
     if (!IsNullOrUndefined(formFieldValues["ManagementSignature"])) {
         mainlistDataArray['ManagementSignature'] = formFieldValues["ManagementSignature"].toString();
     }
+    if (!IsNullOrUndefined(formFieldValues["CapitalAssetRequisitionNumber"])) {
+        mainlistDataArray['CapitalAssetRequisitionNumber'] = formFieldValues["CapitalAssetRequisitionNumber"].toString();
+    }
     //ApprovalStatus : formFieldValues["ApprovalStatus"],
     //LastactionPerformed : formFieldValues["LastactionPerformed"],
     //IsReschedule: formFieldValues["IsReschedule"],

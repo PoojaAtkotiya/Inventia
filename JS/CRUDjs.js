@@ -291,10 +291,10 @@ function SaveVendorData(listDataArray) {
     });
 
     GetVendorDetails(listTempGridDataArray);
-    var IsNewVendorChecked = $("#IsNewVendor").val();
-    if (IsNewVendorChecked === "checked") {
-        SaveVendorNameInMaster(listDataArray);
-    }
+    // var IsNewVendorChecked = $("#IsNewVendor").val();
+    // if (IsNewVendorChecked === "checked") {
+    //     SaveVendorNameInMaster(listDataArray);
+    // }
     $("#CRUDVendorModal").modal('hide');
     AlertModal("Success", "Vendor Details Saved Successfully");
 }
@@ -322,6 +322,7 @@ function SaveVendorNameInMaster(listDataArray) {
                     "IF-MATCH": "*",
                 },
             sucesscallbackfunction: function (data) {
+                listDataArray.isVendorAdded="Yes";
                 console.log("Item saved Successfully");
             }
         });
