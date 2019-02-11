@@ -231,27 +231,29 @@ function GetTranList(tranList, lookupId) {
     var listName = tranList["ListName"];
     var tranArrayName = tranList["TranArrayName"];
     var jsFunction = tranList["JSFunction"];
+    // and (Status Ne '" + ItemActionStatus.DELETED + "')
     AjaxCall(
         {
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + listName + "')/items?$filter=RequestIDId eq " + lookupId,
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + listName + "')/items?$select=*&$filter=((RequestIDId eq " + lookupId + ") and (Status ne '" + ItemActionStatus.DELETED + "'))",
             httpmethod: 'GET',
             calldatatype: 'JSON',
             async: false,
             sucesscallbackfunction: function (data) {
                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.value) && IsArray(data.value) && data.value.length > 0) {
-
+                    debugger
+                    var indexCount = 1;
                     (data.value).forEach(item => {
+                        item.Status = ItemActionStatus.NOCHANGE;
+                        item.Index = indexCount;
+                        indexCount++;
                         window[tranArrayName].push(item);////here tranarrayName should be global variable
                     });
 
                     ////load tran js's document.ready function
                     window[jsFunction](window[tranArrayName]); // window["functionName"](arguments);
-
                 }
-
             }
         });
-
 }
 
 //#endregion
@@ -261,11 +263,13 @@ function GetTranList(tranList, lookupId) {
 /*Pooja Atkotiya */
 function SaveAllTrans(requestId) {
     if (!IsNullOrUndefined(gTranArray) && gTranArray.length > 0) {
-        gTranArray.forEach(tranList => {
-
+        ////REmove all rows which have status NOCHANGE
+        gTranArray.forEach(element => {
+            var tranList = element.TranListArray;
+            var tranListName = element.TranListName;
             if (!IsNullOrUndefined(tranList) && tranList.length > 0) {
                 tranList.forEach(tranItem => {
-                    var tranListName = tranItem.ListName;
+                    // var tranListName = tranItem.ListName;
                     var status = tranItem.Status;
                     var id = tranItem.ID;
                     var url = '';
@@ -273,7 +277,7 @@ function SaveAllTrans(requestId) {
 
                     debugger
                     switch (status) {
-                        case "New":
+                        case ItemActionStatus.NEW:
                             url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + tranListName + "')/items";
                             headers = {
                                 "Accept": "application/json;odata=verbose",
@@ -281,9 +285,11 @@ function SaveAllTrans(requestId) {
                                 "X-RequestDigest": $("#__REQUESTDIGEST").val(),
                                 "X-HTTP-Method": "POST"
                             };
+                            tranItem["RequestById"] = currentUser.Id;
+                            tranItem["RequestDate"] = new Date().format("yyyy-MM-ddTHH:mm:ssZ");
                             delete tranItem.ID;   ////removed ID when item is new
                             break;
-                        case "Delete":
+                        case ItemActionStatus.DELETED:
                             url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + tranListName + "')/items(" + id + ")";
                             headers = {
                                 "X-RequestDigest": $("#__REQUESTDIGEST").val(),
@@ -291,7 +297,7 @@ function SaveAllTrans(requestId) {
                                 "X-HTTP-Method": "DELETE"
                             };
                             break;
-                        case "Update":
+                        case ItemActionStatus.UPDATED:
                             url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + tranListName + "')/items(" + id + ")";
                             headers = {
                                 "Accept": "application/json;odata=verbose",
@@ -301,43 +307,41 @@ function SaveAllTrans(requestId) {
                                 "X-HTTP-Method": "MERGE"
                             };
                             break;
-                        case "NoChange":
+                        case ItemActionStatus.NOCHANGE:
                             break;
                         default:
                             break;
                     }
 
                     //Column which not to be saved/not column in list are removed 
-
                     delete tranItem.Type;
                     delete tranItem.Index;
-                    delete tranItem.Status;
-                    delete tranItem.ListName;
+                   // delete tranItem.ListName;
 
                     tranItem["__metadata"] = {
                         "type": GetItemTypeForListName(tranListName)
                     };
                     tranItem["RequestIDId"] = requestId;
-                    AjaxCall(
-                        {
-                            url: url,
-                            httpmethod: 'POST',
-                            calldatatype: 'JSON',
-                            headers: headers,
-                            async: false,
-                            postData: JSON.stringify(tranItem),
-                            sucesscallbackfunction: function (data) {
-                                console.log("SaveAllTrans - Item saved Successfully for ID = " + data.d.ID);
-                            },
-                            error: function (jQxhr, errorCode, errorThrown) {
-                                console.log(errorThrown);
-                            }
-                        });
 
-
+                    if (!IsStrNullOrEmpty(url) && !IsNullOrUndefined(headers)) {
+                        AjaxCall(
+                            {
+                                url: url,
+                                httpmethod: 'POST',
+                                calldatatype: 'JSON',
+                                headers: headers,
+                                async: false,
+                                postData: JSON.stringify(tranItem),
+                                sucesscallbackfunction: function (data) {
+                                    console.log("SaveAllTrans - Item saved Successfully for ID = " + data.d.ID);
+                                },
+                                error: function (jQxhr, errorCode, errorThrown) {
+                                    console.log(errorThrown);
+                                }
+                            });
+                    }
                 });
             }
-
         });
     }
 }

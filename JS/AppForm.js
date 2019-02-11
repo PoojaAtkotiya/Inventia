@@ -111,7 +111,7 @@ function FormBusinessLogic(activeSection) {
     try {
 
         /* Add final saved tran array to global tran array to save in list*/
-        gTranArray.push(listTempGridDataArray);  ////Vendor tran added in global tran
+        gTranArray.push({ "TranListArray": listTempGridDataArray, "TranListName": ListNames.CAPEXVENDORLIST });  ////Vendor tran added in global tran
 
         //     //check if there any delegate user fillby section owner        
         //     ////Pending to make it dynamic
