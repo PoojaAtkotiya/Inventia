@@ -101,9 +101,11 @@ function onchangecheckBox() {
 
 function AddVendorDetails() {
     $("#CRUDVendorModal *").removeAttr("disabled");
-    $("#CRUDVendorModal").find('input,textarea,select').val('');
+    $("#CRUDVendorModal").find('input,textarea,select,checkbox').val('');
     $("#CRUDVendorModal").modal('show');
     $("#spanTitle").html('Add Vendor Detail');
+    $('input[type=checkbox]').prop('checked',false);
+    
 }
 
 function ViewVendorDetails(obj) {
@@ -304,7 +306,7 @@ function SaveVendorNameInMaster(listDataArray) {
     mainlistDataArray["__metadata"] = {
         "type": GetItemTypeForListName(ListNames.VENDORMASTER)
     };
-    mainlistDataArray['Title'] = listDataArray.Name;
+    mainlistDataArray['Title'] = listDataArray.VendorName;
     mainlistDataArray['Address'] = listDataArray.Address;
 
     AjaxCall(
@@ -384,10 +386,10 @@ function SaveVendorNameInMaster(listDataArray) {
 function ValidateModalForm() {
         var isValid = true;
         $('#form_VendorSection').valid();
-        if (!$(this).valid()) {
+        if (!$(form_VendorSection).valid()) {
             isValid = false;
             try {
-                var validator = $(this).validate();
+                var validator = $(form_VendorSection).validate();
                 $(validator.errorList).each(function (i, errorItem) {
                     //  AlertModal("Validation", errorItem.element.id + "' : '" + errorItem.message);
                     $("#" + errorItem.element.id).addClass("error");
@@ -414,10 +416,10 @@ function SaveVendorDetails() {
         saveDataArray = GetFormControlsValue(elementId, elementType, saveDataArray);
     });
 
-    //   var isValid = ValidateModalForm();
-    //if (isValid) {
-    SaveVendorData(saveDataArray);
-    //}
+      var isValid = ValidateModalForm();
+     if (isValid) {
+     SaveVendorData(saveDataArray);
+     }
 }
 
 function DeleteVendorDetails(obj) {
@@ -468,9 +470,9 @@ function GetVendorDetails(listTempGridDataArray) {
                 console.log(arrayItem);
                 tr = $('<tr/>');
 
-                tr.append("<td width='13%'>" + arrayItem.Name + "</td>");
-                tr.append("<td width='14%'>" + arrayItem.Address + "</td>");
-                tr.append("<td width='10%'>" + arrayItem.Make + "</td>");
+                tr.append("<td width='13%'>" + arrayItem.VendorName + "</td>");
+                tr.append("<td width='14%'>" + arrayItem.VendorEmailID + "</td>");
+                tr.append("<td width='10%'>" + arrayItem.Specifications + "</td>");
                 tr.append("<td width='10%'>" + arrayItem.GrossValue + "</td>");
                 tr.append("<td width='9%'>" + arrayItem.LessDiscount + "</td>");
                 tr.append("<td width='17%'>" + arrayItem.NetValue + "</td>");
