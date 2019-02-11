@@ -8508,11 +8508,16 @@ ul.chats li.out .message {
         color: #fff;
     }
 
-input[type=radio], input[type=checkbox] {
+input[type=radio] {
     margin: 4px 3px 0 0px !important;
     vertical-align: text-top;
 }
-
+input[type=checkbox] {
+    margin: 4px 3px 0 0px !important;
+    vertical-align: text-top;
+    width: 26px!important;
+    height: 21px!important;
+}
 .form-control div div label, .form-group div div label {
     margin-right: 5px;
 }
@@ -8522,7 +8527,7 @@ input[type=radio], input[type=checkbox] {
 }
 
 .dropdown-user {
-    box-shadow: 0 3px 3px rgba(0,0,0,0.3) !important;
+    box-shadow: 0 3px 3px rgba(212, 212, 212, 0.3) !important;
 }
 
     .dropdown-user li {

@@ -22,7 +22,7 @@ const ListNames = {
     APPROVERMASTERLIST: "ApproverMaster",
     GLOBALAPPROVALMATRIXLIST: "ApprovalMatrix",
     BUTTONLIST: "Buttons",
-    CAPEXVENDORLIST: "CapexVendor",
+    CAPEXVENDORLIST: "CapexVendorDetails",
     EMAILTEMPLATELIST: "EmailTemplate",
     EMAILNOTIFICATION: "EmailNotification",
     VENDORMASTER:"VendorMaster"
@@ -165,9 +165,10 @@ const Roles = {
     VIEWER: "Viewer",
     EDITOR: "Editor",
     INITIATOR: "Initiator",
-    HOD: "HOD",
-    CAPEXCOMMITTEE: "Capex Committee",
-    MANAGEMENT: "Management"
+    INITIATORHOD: "Initiator HOD",
+    FUNCTIONHEAD: "Function Head",
+    MANAGEMENT: "Management",
+    PURCHASE: "Purchase"
 }
 Object.freeze(Roles);
 
@@ -175,8 +176,9 @@ Object.freeze(Roles);
 const SectionNames =
     {
         INITIATORSECTION: "Initiator Section",
-        HODSECTION: "HOD Section",
-        CAPEXCOMMITTEESECTION: "Capex Committee Section",
+        HODSECTION: "Initiator HOD Section",
+        PURCHASESECTION:"Purchase Section",
+        FUNCTIONHEADSECTION: "Function Head Section",
         MANAGEMENTSECTION: "Management Section"
     }
 Object.freeze(SectionNames);

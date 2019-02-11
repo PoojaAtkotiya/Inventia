@@ -409,25 +409,25 @@ function GetFormControlsValues(id, elementType, listDataArray) {
 }
 
 function ValidateModalForm() {
-    //     var isValid = true;
-    //     $('#form_VendorSection').valid();
-    //     if (!$(this).valid()) {
-    //         isValid = false;
-    //         try {
-    //             var validator = $(this).validate();
-    //             $(validator.errorList).each(function (i, errorItem) {
-    //                 //  AlertModal("Validation", errorItem.element.id + "' : '" + errorItem.message);
-    //                 $("#" + errorItem.element.id).addClass("error");
-    //                 $("#" + errorItem.element.id).removeClass("valid");
-    //                 $("#" + errorItem.element.id).next().remove();
-    //                 console.log("{ '" + errorItem.element.id + "' : '" + errorItem.message + "'}");
-    //             });
-    //         }
-    //         catch (e1) {
-    //             console.log(e1.message);
-    //         }
-    //     }
-    //     return isValid;
+        var isValid = true;
+        $('#form_VendorSection').valid();
+        if (!$(this).valid()) {
+            isValid = false;
+            try {
+                var validator = $(this).validate();
+                $(validator.errorList).each(function (i, errorItem) {
+                    //  AlertModal("Validation", errorItem.element.id + "' : '" + errorItem.message);
+                    $("#" + errorItem.element.id).addClass("error");
+                    $("#" + errorItem.element.id).removeClass("valid");
+                    $("#" + errorItem.element.id).next().remove();
+                    console.log("{ '" + errorItem.element.id + "' : '" + errorItem.message + "'}");
+                });
+            }
+            catch (e1) {
+                console.log(e1.message);
+            }
+        }
+        return isValid;
 
 }
 
@@ -441,10 +441,10 @@ function SaveVendorDetails() {
     });
 
 
-    //   var isValid = ValidateModalForm();
-    //if (isValid) {
+       var isValid = ValidateModalForm();
+    if (isValid) {
     SaveVendorData(tranListName, saveDataArray);
-    //}
+    }
 }
 
 
