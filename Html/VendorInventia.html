@@ -126,17 +126,20 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                             <div class="form-group">
-                                <label class="col-md-4 control-label">
+                                <label class="col-md-2 control-label">
                                     <span class="text-danger text-default-light">*</span>Specifications :
                                 </label>
-                                <div class="col-md-8 ">
-                                    <input type="text" id="Specifications" name="Specifications" class="form-control dynamic-control" 
-                                     listtype="trans" required="required" controlType="text" />
+                                <div class="col-md-10 ">
+                                     <textarea id="Specifications" class="form-control dynamic-control"
+                                        controlType="multitext" listtype="trans" maxlength="1000" name="Specifications" required="required">
+                                    </textarea>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-md-4 control-label">
@@ -149,8 +152,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-md-4 control-label">
@@ -163,6 +164,8 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-md-4 control-label">
@@ -175,9 +178,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                            <div class="col-sm-6">
+                        <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">
                                             <span class="text-danger text-default-light">*</span>Installation/Other Charges :
@@ -188,6 +189,22 @@
                                         </div>
                                     </div>
                             </div>
+                    </div>
+                    <div class="row">
+                            <div class="col-sm-6"></div>
+                            <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">
+                                            <span class="text-danger text-default-light">*</span>Total Value(Rupees)  :
+                                        </label>
+                                        <div class="col-md-8 ">
+                                            <input type="text" id="TotalValue" name="TotalValue" controlType="text" class="form-control dynamic-control"
+                                                required="required" data="digit" listtype="trans" />
+                                        </div>
+                                    </div>
+                            </div>  
+                    </div>
+                    <div class="row">
                             <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">
@@ -199,47 +216,21 @@
                                         </div>
                                     </div>
                             </div>
-                       
-                    </div>
-                    <div class="row">
                             <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">
-                                            <span class="text-danger text-default-light">*</span>Total Value(Rupees)  :
+                                            <span class="text-danger text-default-light">*</span>
+                                            Delivery Period :
                                         </label>
                                         <div class="col-md-8 ">
-                                            <input type="text" id="TotalValue" name="TotalValue" controlType="text" class="form-control dynamic-control"
-                                                required="required" data="digit" listtype="trans" />
+                                            <input type="text" id="DeliveryPeriod" name="DeliveryPeriod" controlType="text" class="form-control dynamic-control" 
+                                            required="required" listtype="trans" controlType="text" />
                                         </div>
                                     </div>
                             </div>
-                            <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label class="col-md-4 col-xs-12 control-label">
-                                                <span class="text-danger text-default-light">*</span>
-                                                Negotiated? :
-                                        </label>
-                                        <div class="col-md-8 ">
-                                                <input type="checkbox" id="VendorNegotiatedflag"  class="form-control dynamic-control" 
-                                                 required="required" name="VendorNegotiatedflag" controlType="checkbox" />
-                                                <!-- <input type="hidden" id="IsNewVendor" /> -->
-                                        </div>
-                                    </div>
-                            </div>  
+                           
                     </div>
-                    <div class="row"> 
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-md-4 control-label">
-                                    <span class="text-danger text-default-light">*</span>
-                                    Delivery Period :
-                                </label>
-                                <div class="col-md-8 ">
-                                    <input type="text" id="DeliveryPeriod" name="DeliveryPeriod" controlType="text" class="form-control dynamic-control" 
-                                    required="required" listtype="trans" controlType="text" />
-                                </div>
-                            </div>
-                        </div>
+                    <div class="row">     
                         <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">
@@ -256,8 +247,21 @@
                                     </div>
                                 </div>
                         </div>
+                        <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-md-4 col-xs-12 control-label">
+                                            <span class="text-danger text-default-light">*</span>
+                                            Negotiated? :
+                                    </label>
+                                    <div class="col-md-8 ">
+                                            <input type="checkbox" id="VendorNegotiatedflag"  class="form-control dynamic-control" 
+                                             required="required" name="VendorNegotiatedflag" controlType="checkbox" /> 
+                                    </div>
+                                </div>
+                        </div>  
                     </div>
                     <div class="row">
+                            
                             <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">
