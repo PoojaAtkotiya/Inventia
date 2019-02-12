@@ -124,7 +124,7 @@
                                 </label>
                                 <div class="col-md-8 ">
                                         <input type="text" id="VendorEmailID" name="VendorEmailID" class="form-control dynamic-control" 
-                                        required="required" listtype="trans" controlType="text" />
+                                        required="required" listtype="trans" controlType="text" onblur="validateEmail(this);" /><span id="invalidemail"></span>
                                 </div>
                             </div>
                         </div>
