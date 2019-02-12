@@ -51,10 +51,19 @@
                 $(this).load(file);
             });
             $('#IsNewVendor').hide();
+            $("#ProposedVendor").hide();
             
             $("#AddVendor").click(function () {
                      $("#IsNewVendor").show();
+                     $("#ProposedVendor").show();
             });
+            $("#NewVendorName").change(function(){
+                if($("#ProposedVendor").html()!=""){
+                $("#ProposedVendor").append(',');
+                }
+                $("#ProposedVendor").append($("#NewVendorName").val());
+                $("#NewVendorName").val('');
+  });
             // $(document).on("change", "#UploadArtworkAttachment", function () {
             //     BindAttachmentFiles();
             // });
@@ -373,11 +382,8 @@
                                                                 <label class="col-md-4 control-label"> 
                                                                     Proposed Vendor(s)
                                                                 </label>
-                                                                <label id="" class="col-md-8 dynamic-control labeltop">Vendor 1</label>
-                                                                <label class="col-md-4 control-label"> </label>
-                                                                <label id="" class="col-md-8 dynamic-control labeltop">Vendor 2</label>
-                                                                <label class="col-md-4 control-label"> </label>
-                                                                <label id="" class="col-md-8 dynamic-control labeltop">Vendor 3</label>
+                                                                <label id="ProposedVendor" class="col-md-8 dynamic-control labeltop"> </label>
+                                                               
                                                             </div>
                                                     </div>
                                                 <div class="col-lg-6">
@@ -393,7 +399,7 @@
                                             <div class="row">
                                                 <div class="col-lg-6"></div>
                                                 <div class="col-lg-6">
-                                                    <div class="form-group" id="IsNewVendor" style="display:none">
+                                                    <div class="form-group" id="IsNewVendor">
                                                         <label class="col-md-4 control-label">
                                                             Vendor Name
                                                         </label>
@@ -447,6 +453,35 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <hr>
+                                            <br>
+                                            <div class="row"  >
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label">
+
+                                                          
+                                                        </label>
+                                                        <div class="col-md-8">
+                                                            <div id="img_Intiator" class="col-md-8" width="100" height="100"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label">
+
+                                                          
+                                                        </label>
+                                                        <div class="col-md-8">
+                                                           <b> Mayuri Shah </b> <br>
+                                                           <b> Submitted </b><br>
+                                                           <b> 12/02/2019 15.30 </b>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                           
 
 
                                         </div>
@@ -497,11 +532,7 @@
                                                                 </div>
                                                             </div>
                                                     </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="form-group">
-                                                           
-                                                        </div>
-                                                    </div>
+                                                   
                                             </div>
                                         </div>
                                         <div class="clearfix"></div>
@@ -728,7 +759,7 @@
                                 </div>
                                 <myform enctype="multipart/form-data" id="form_FunctionHead" method="post" novalidate="novalidate"
                                     autocomplete="off">
-                                                <div class="card-body" id="HodSection" section="HOD Section" sectionOwner=""
+                                                <div class="card-body" id="FunctionHead" section="HOD Section" sectionOwner=""
                                                 <div class="card-body " id="FunctionHead" section="Function Head Section"
                                         sectionOwner="" FillByRole="">
                                         <div class="form-horizontal">
