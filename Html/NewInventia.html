@@ -412,11 +412,11 @@
                                                     <div class="form-group">
                                                         <label class="col-md-4 control-label">
 
-                                                            Signature:
+                                                            Supportive Documents:
                                                         </label>
                                                         <div class="col-md-8">
                                                             <a class="btn btn-primary pull-left" value="Attach Signature"
-                                                                onclick="">Attach Signature</a>
+                                                                onclick="">Attach</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -440,7 +440,7 @@
                                 </div>
                                 <myform enctype="multipart/form-data" id="form_PurchaseSection" method="post" novalidate="novalidate"
                                     autocomplete="off">
-                                    <div class="card-body disabled" id="PurchaseSection" section="Purchase Section" sectionOwner=""
+                                    <div class="card-body" id="PurchaseSection" section="Purchase Section" sectionOwner=""
                                         FillByRole="">
                                         <div data-include="VendorInventia"></div>
                                         <div class="form-horizontal">
@@ -473,14 +473,7 @@
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
-                                                            <label class="col-md-4 control-label">
-
-                                                                Signature:
-                                                            </label>
-                                                            <div class="col-md-8">
-                                                                <a class="btn btn-primary pull-left" value="Attach Signature"
-                                                                    onclick="">Attach Signature</a>
-                                                            </div>
+                                                           
                                                         </div>
                                                     </div>
                                             </div>
@@ -492,14 +485,14 @@
                             </div>
                             <div class="card">
                                 <div class="card-head" data-toggle="collapse" data-target="#HodSection">
-                                    <b>INITIATOR HOD SECTION </b>
+                                    <b>INITIATOR HOD REVIEW </b>
                                     <div class="btn collapse-btn">
                                         <i class="fa fa-chevron-down"></i>
                                     </div>
                                 </div>
                                 <myform enctype="multipart/form-data" id="form_HodSection" method="post" novalidate="novalidate"
                                     autocomplete="off">
-                                                <div class="card-body disabled" id="HodSection" section="HOD Section" sectionOwner=""
+                                                <div class="card-body" id="HodSection" section="HOD Section" sectionOwner=""
                                                 <div class="card-body " id="HodSection" section="Initiator HOD Section" sectionOwner=""
                                         FillByRole="">
                                         <div class="form-horizontal">
@@ -521,7 +514,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <div class="form-group">
+                                                   
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group" >
                                                         <label class="col-md-4 control-label">
                                                             <span class="text-danger text-default-light">*</span>
                                                             Reason for Selection:
@@ -536,10 +534,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
                                                 <div class="col-lg-6">
-                                                    <div class="form-group">
+                                                    <div class="form-group" style="display:none">
                                                         <label class="col-md-4 control-label">
                                                             <span class="text-danger text-default-light">*</span>
                                                             Description:
@@ -551,7 +547,9 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6">
+                                            </div>
+                                            <div class="row">
+                                               <div class="col-lg-6">
                                                     <div class="form-group">
                                                         <label class="col-md-4 col-xs-12 control-label">
                                                             <span class="text-danger text-default-light">*</span>
@@ -562,8 +560,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
                                                         <label class="col-md-4 control-label">
@@ -575,19 +571,6 @@
                                                                 placeholder="Pay Back Period" controlType="text"
                                                                  name="PayBackPeriodDuration " listtype="main"
                                                                 data="digit" required="required" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                            <span class="text-danger text-default-light">*</span>
-                                                            Budgeted Value(Rupee in Lakhs) :</label>
-                                                        <div class="col-md-8">
-                                                            <input id="BudgetedValue" class="form-control dynamic-control"
-                                                                name="BudgetedValue" placeholder="Budgeted Value" type="text"
-                                                                required="required" data="digit" maxlength="15"
-                                                                controlType="text" listtype="main" required="required" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -678,14 +661,7 @@
                                                         </div>
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-
-                                                            Signature:
-                                                        </label>
-                                                        <div class="col-md-8">
-                                                            <a class="btn btn-primary pull-left" value="Attach Signature"
-                                                                onclick="">Attach Signature</a>
-                                                        </div>
+                                                       
                                                     </div>
                                                 </div>
                                             </div>
@@ -697,14 +673,14 @@
                             </div>
                             <div class="card">
                                 <div class="card-head" data-toggle="collapse" data-target="#FunctionHead">
-                                    <b> INITIATOR FUNCTION HEAD SECTION </b>
+                                    <b> INITIATOR FUNCTION HEAD REVIEW </b>
                                     <div class="btn collapse-btn">
                                         <i class="fa fa-chevron-down"></i>
                                     </div>
                                 </div>
                                 <myform enctype="multipart/form-data" id="form_FunctionHead" method="post" novalidate="novalidate"
                                     autocomplete="off">
-                                                <div class="card-body disabled" id="HodSection" section="HOD Section" sectionOwner=""
+                                                <div class="card-body" id="HodSection" section="HOD Section" sectionOwner=""
                                                 <div class="card-body " id="FunctionHead" section="Function Head Section"
                                         sectionOwner="" FillByRole="">
                                         <div class="form-horizontal">
@@ -723,14 +699,9 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-
-                                                            Signature:
-                                                        </label>
-                                                        <div class="col-md-8">
-                                                            <a class="btn btn-primary pull-left" value="Attach Signature"
-                                                                onclick="">Attach Signature</a>
-                                                        </div>
+                                                 
+                                                        <div id="img_HOD" class="col-md-8" width="100" height="100"></div>
+                                                           
                                                     </div>
                                                 </div>
                                             </div>
@@ -740,14 +711,14 @@
                             </div>
                             <div class="card">
                                 <div class="card-head" data-toggle="collapse" data-target="#ManagementSection">
-                                    <b> MANAGEMENT SECTION</b>
+                                    <b> MANAGEMENT REVIEW</b>
                                     <div class="btn collapse-btn">
                                         <i class="fa fa-chevron-down"></i>
                                     </div>
                                 </div>
                                 <myform enctype="multipart/form-data" id="form_ManagementSection" method="post"
                                     novalidate="novalidate" autocomplete="off">
-                                    <div class="card-body disabled" id="ManagementSection" section="Management Section"
+                                    <div class="card-body" id="ManagementSection" section="Management Section"
                                         sectionOwner="" FillByRole="">
                                         <div class="form-horizontal">
                                             <div class="row">
@@ -767,11 +738,10 @@
                                                         <div class="form-group">
                                                             <label class="col-md-4 control-label">
 
-                                                                Signature:
+                                                              
                                                             </label>
                                                             <div class="col-md-8">
-                                                                <a class="btn btn-primary pull-left" value="Attach Signature"
-                                                                    onclick="">Attach Signature</a>
+                                                                <div id="img_Management" class="col-md-8" width="100" height="100"></div>
                                                             </div>
                                                         </div>
                                                     </div>
