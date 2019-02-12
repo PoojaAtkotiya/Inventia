@@ -38,6 +38,10 @@
     .navbar-right {
         margin-right:0!important;
     }
+    .form-horizontal .control-label {
+       
+        text-align: left!important;
+    }
     
 }
 
