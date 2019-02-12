@@ -9540,3 +9540,12 @@ a:hover .ms-core-menu-label{ color:#fff!important; padding: 5px!important; }
 .ms-welcome-root{
     width:auto;
 }
+hr{
+    display: block;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: auto;
+  margin-right: auto;
+  border-style: inset;
+  border-width: 0.5px;
+}
