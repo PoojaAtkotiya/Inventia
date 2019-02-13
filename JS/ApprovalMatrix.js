@@ -1149,11 +1149,14 @@ function SaveFormFields(formFieldValues, requestId) {
     if (!IsNullOrUndefined(formFieldValues["HODSignature"])) {
         mainlistDataArray['HODSignature'] = formFieldValues["HODSignature"].toString();
     }
-    if (!IsNullOrUndefined(formFieldValues["SignatureCapexMemberOne"])) {
-        mainlistDataArray['SignatureCapexMemberOne'] = formFieldValues["SignatureCapexMemberOne"].toString();
+    if (!IsNullOrUndefined(formFieldValues["PurchaseSignature"])) {
+        mainlistDataArray['PurchaseSignature'] = formFieldValues["PurchaseSignature"].toString();
     }
     if (!IsNullOrUndefined(formFieldValues["ManagementSignature"])) {
         mainlistDataArray['ManagementSignature'] = formFieldValues["ManagementSignature"].toString();
+    }
+    if (!IsNullOrUndefined(formFieldValues["FunctionHeadSignature"])) {
+        mainlistDataArray['FunctionHeadSignature'] = formFieldValues["FunctionHeadSignature"].toString();
     }
     if (!IsNullOrUndefined(formFieldValues["CapitalAssetRequisitionNumber"])) {
         mainlistDataArray['CapitalAssetRequisitionNumber'] = formFieldValues["CapitalAssetRequisitionNumber"].toString();
