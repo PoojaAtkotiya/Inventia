@@ -174,15 +174,15 @@ function setImageSignature() {
         img.src = item["HODSignature"];
         img_HOD.appendChild(img);
     }
-    if (item["SignatureCapexMemberOne"] != null) {
+    if (item["PurchaseSignature"] != null) {
         var img = new Image();
-        img.src = item["SignatureCapexMemberOne"];
-        img_CapexMemberOne.appendChild(img);
+        img.src = item["PurchaseSignature"];
+        img_Purchase.appendChild(img);
     }
-    if (item["SignatureCapexMemberTwo"] != null) {
+    if (item["FunctionHeadSignature"] != null) {
         var img = new Image();
-        img.src = item["SignatureCapexMemberTwo"];
-        img_CapexMemberTwo.appendChild(img);
+        img.src = item["FunctionHeadSignature"];
+        img_FunctionHead.appendChild(img);
     }
     if (item["ManagementSignature"] != null) {
         var img = new Image();
@@ -1361,15 +1361,18 @@ function SaveImageSignaturePath(sectionName, itemID) {
                     case SectionNames.INITIATORSECTION:
                         formFieldValues['InitiatorSignature'] = data.d.results[0].FileRef;
                         break;
-                    // case SectionNames.HODSECTION:
-                    //     formFieldValues['HODSignature'] = data.d.results[0].FileRef;
-                    //     break;
-                    // case SectionNames.CAPEXCOMMITTEESECTION:
-                    //     formFieldValues['SignatureCapexMemberOne'] = data.d.results[0].FileRef;
-                    //     break;
-                    // case SectionNames.INITIATORSECTION:
-                    //     formFieldValues['ManagementSignature'] = data.d.results[0].FileRef;
-                    //     break;
+                    case SectionNames.HODSECTION:
+                        formFieldValues['HODSignature'] = data.d.results[0].FileRef;
+                        break;
+                    case SectionNames.PURCHASESECTION:
+                        formFieldValues['PurchaseSignature'] = data.d.results[0].FileRef;
+                        break;
+                    case SectionNames.FUNCTIONHEADSECTION:
+                        formFieldValues['FunctionHeadSignature'] = data.d.results[0].FileRef;
+                        break;
+                    case SectionNames.MANAGEMENTSECTION:
+                        formFieldValues['ManagementSignature'] = data.d.results[0].FileRef;
+                        break;
                 }
                 SaveFormFields(formFieldValues, itemID);
             }
