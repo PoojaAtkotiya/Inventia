@@ -609,6 +609,9 @@ function setFieldValue(controlId, item, fieldType, fieldName) {
                 });
             }
             break;
+        case "checkbox":
+            $("#" + controlId)[0].checked = item[fieldName];
+            break;
         case "radiogroup":
             if (controlId == item[fieldName])
                 $("#" + controlId).prop('checked', true);
@@ -1014,7 +1017,7 @@ function GetFormControlsValueAndType(id, elementType, elementProperty, listActiv
             break;
         case "checkbox":
 
-            listActivityLogDataArray.push({ id: id, value: $(obj)[0]['checked'], type: 'checked' });
+            listActivityLogDataArray.push({ id: id, value: $(obj)[0]['checked'], type: 'checkbox' });
             break;
         case "multicheckbox":
             var parenType = $(obj).attr('cParent');
@@ -1281,7 +1284,7 @@ function SaveData(listname, listDataArray, sectionName, ele) {
                     clientContext.load(oListItem, 'FormLevel', 'RaisedBy');
                     clientContext.load(web);
                     clientContext.executeQueryAsync(function () {
-                        CommonBusinessLogic(sectionName,itemID,listDataArray);
+                        CommonBusinessLogic(sectionName, itemID, listDataArray);
                         SaveLocalApprovalMatrix(sectionName, itemID, listname, isNewItem, oListItem, ListNames.APPROVALMATRIXLIST);
                         SaveActivityLog(sectionName, itemID, ListNames.ACTIVITYLOGLIST, listDataArray, isNewItem, buttonCaption);
                         if (!isNaN(itemID)) {
@@ -1329,19 +1332,17 @@ function SaveData(listname, listDataArray, sectionName, ele) {
     }
 }
 
-function CommonBusinessLogic(sectionName,itemID,listDataArray)
-{
+function CommonBusinessLogic(sectionName, itemID, listDataArray) {
     SaveImageSignaturePath(sectionName, itemID);
-   
-    if(sectionName == SectionNames.INITIATORSECTION && actionPerformed == ButtonActionStatus.NextApproval){
-        SaveCapitalAssetRequisitionNumber(itemID,listDataArray);
-   }
+
+    if (sectionName == SectionNames.INITIATORSECTION && actionPerformed == ButtonActionStatus.NextApproval) {
+        SaveCapitalAssetRequisitionNumber(itemID, listDataArray);
+    }
 }
 
-function SaveCapitalAssetRequisitionNumber(itemID,listDataArray)
-{
+function SaveCapitalAssetRequisitionNumber(itemID, listDataArray) {
     var todayDate = new Date();
-    formFieldValues['CapitalAssetRequisitionNumber'] =  listDataArray.CostCenter + '/'+ todayDate.getFullYeartodayDate.getMonth +'/'+ itemID;
+    formFieldValues['CapitalAssetRequisitionNumber'] = listDataArray.CostCenter + '/' + todayDate.getFullYeartodayDate.getMonth + '/' + itemID;
     SaveFormFields(formFieldValues, itemID);
 }
 /*Priya Rane */
@@ -1614,8 +1615,8 @@ function GetActivityString(listActivityLogDataArray, isCurrentApproverField) {
 /*Priya Rane */
 function GetUserNamebyUserID(userid) {
     var userName = "";
-     if (!IsNullOrUndefined(userid)) {
-   // if (!isNaN(userid)) {
+    if (!IsNullOrUndefined(userid)) {
+        // if (!isNaN(userid)) {
         url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + userid + ")";
         headers = {
             "Accept": "application/json;odata=verbose",
@@ -1645,25 +1646,25 @@ function GetUserNamesbyUserID(allUsersIDs) {
 
         allUsersIDs.forEach(user => {
             if (!isNaN(user)) {
-              //  if (user != "") {
-                    url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + user + ")";
-                    headers = {
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json;odata=verbose",
-                        "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                        "X-HTTP-Method": "POST"
-                    };
+                //  if (user != "") {
+                url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + user + ")";
+                headers = {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "X-HTTP-Method": "POST"
+                };
 
-                    AjaxCall(
-                        {
-                            url: url,
-                            httpmethod: 'GET',
-                            calldatatype: 'JSON',
-                            async: false,
-                            headers: headers,
-                            sucesscallbackfunction: function (data) { userNames = userNames + data.d.Title + ","; }
-                        });
-              //  }
+                AjaxCall(
+                    {
+                        url: url,
+                        httpmethod: 'GET',
+                        calldatatype: 'JSON',
+                        async: false,
+                        headers: headers,
+                        sucesscallbackfunction: function (data) { userNames = userNames + data.d.Title + ","; }
+                    });
+                //  }
             }
         });
         userNames = userNames.substr(0, userNames.lastIndexOf(',')).replace(/\,/g, ', ');
@@ -1916,11 +1917,11 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
             calldatatype: 'JSON',
             async: false,
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json; odata=verbose",
-                "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json; odata=verbose",
+                    "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
+                },
             sucesscallbackfunction: function (data) {
                 emailTemplate.push({ "Subject": data.d.results[0].Subject });
                 emailTemplate.push({ "Body": data.d.results[0].Body });
@@ -2038,11 +2039,11 @@ function GetDatafromList(itemID, mainListName, subject, matchesSubject, body, ma
             calldatatype: 'JSON',
             async: false,
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json; odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val()
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json; odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
             sucesscallbackfunction: function (data) {
                 mainlistData = data.d;
                 ////replacement with list item values start
