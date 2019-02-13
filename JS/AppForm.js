@@ -211,5 +211,51 @@ function GetFormBusinessLogic(activeSectionName,department){
                 }
             });
     }
+
+    if(activeSectionName== SectionNames.INITIATORSECTION)
+    {
+        AjaxCall(
+            {
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetName,Department/Title&$expand=Department/Title&$filter=Department/Title eq '" + department +"'",
+                httpmethod: 'GET',
+                calldatatype: 'JSON',
+                async: false,
+                headers:
+                    {
+                        "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                    },
+                sucesscallbackfunction: function (data) {
+                    if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
+                        var result = data.d.results;
+                       
+                        $('input[listname*=' + ListNames.BUDGETMASTER + '],select[listname*=' + ListNames.BUDGETMASTER + ']').each(function () {
+                            var elementId = $(this).attr('id');
+                            var elementType = $(this).attr('controlType');
+                            var valueBindingColumn = $(this).attr('valuebindingcolumn');
+                            var textBindingColumnn = $(this).attr('textbindingcolumnn');
+                            switch (elementType) {
+                                case "combo":
+                                    $("#" + elementId).html('');
+                                    $("#" + elementId).html("<option value=''>Select</option>");
+                                    if (!IsNullOrUndefined(valueBindingColumn) && !IsNullOrUndefined(textBindingColumnn) && valueBindingColumn != '' && textBindingColumnn != '') {
+                                        $(result).each(function (i, e) {
+                                            var cmditem = result[i];
+                                            var opt = $("<option/>");
+                                            opt.text(cmditem[textBindingColumnn]);
+                                            opt.attr("value", cmditem[valueBindingColumn]);
+                                            opt.appendTo($("#" + elementId));
+                                        });
+                                    }
+                                    break;
+                               
+                            }
+                        });
+                       
+                    }
+                }
+            });
+    }
 }
 
