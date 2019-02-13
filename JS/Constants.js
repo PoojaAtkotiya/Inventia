@@ -165,19 +165,20 @@ const Roles = {
     VIEWER: "Viewer",
     EDITOR: "Editor",
     INITIATOR: "Initiator",
+    PURCHASE: "Purchase",
     INITIATORHOD: "Initiator HOD",
     FUNCTIONHEAD: "Function Head",
-    MANAGEMENT: "Management",
-    PURCHASE: "Purchase"
+    MANAGEMENT: "Management"
+    
 }
 Object.freeze(Roles);
 
 
 const SectionNames =
     {
-        INITIATORSECTION: "Initiator Section",
-        HODSECTION: "Initiator HOD Section",
+        INITIATORSECTION: "Initiator Section",      
         PURCHASESECTION:"Purchase Section",
+        HODSECTION: "Initiator HOD Section",
         FUNCTIONHEADSECTION: "Function Head Section",
         MANAGEMENTSECTION: "Management Section"
     }
