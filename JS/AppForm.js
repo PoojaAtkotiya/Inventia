@@ -188,8 +188,28 @@ function SaveItemWiseAttachments(listname, itemID) {
     });
 }
 
-// function SendBack() {
-//     ButtonActionStatus = "SendBack";
-//     SaveFormData();
-// }
+function GetFormBusinessLogic(activeSectionName,department){
+    if(activeSectionName== SectionNames.INITIATORSECTION)
+    {
+        AjaxCall(
+            {
+
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.DEPTFUNCTIONMASTER + "')/Items?$select=Function/Title,Department/Title,*&$expand=Department/Title,Function/Title&$filter=Department/Title eq '" + department +"'",
+                httpmethod: 'GET',
+                calldatatype: 'JSON',
+                async: false,
+                headers:
+                    {
+                        "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                    },
+                sucesscallbackfunction: function (data) {
+                    if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
+                        $("#Function").html(data.d.results[0].Function.Title);
+                    }
+                }
+            });
+    }
+}
 

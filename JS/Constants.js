@@ -25,7 +25,7 @@ const ListNames = {
     CAPEXVENDORLIST: "CapexVendorDetails",
     EMAILTEMPLATELIST: "EmailTemplate",
     EMAILNOTIFICATION: "EmailNotification",
-    VENDORMASTER: "VendorMaster"
+    DEPTFUNCTIONMASTER: "DepartmentFunctionMapping"
 }
 Object.freeze(ListNames);
 
