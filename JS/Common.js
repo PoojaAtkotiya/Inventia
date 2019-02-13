@@ -1341,7 +1341,7 @@ function CommonBusinessLogic(sectionName, itemID, listDataArray) {
 
 }
 function SaveActions(sectionName,itemID) {
-
+    var formFieldValues = [];
     var todayDate = new Date();
     switch (sectionName) {
         case SectionNames.INITIATORSECTION:
@@ -1364,6 +1364,7 @@ function SaveActions(sectionName,itemID) {
     SaveFormFields(formFieldValues, itemID);
 }
 function SaveCapitalAssetRequisitionNumber(itemID, listDataArray) {
+    var formFieldValues = [];
     var todayDate = new Date();
     formFieldValues['CapitalAssetRequisitionNumber'] = listDataArray.CostCenter + '/' + todayDate.getFullYeartodayDate.getMonth + '/' + itemID;
     SaveFormFields(formFieldValues, itemID);
