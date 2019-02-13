@@ -1331,10 +1331,8 @@ function SaveData(listname, listDataArray, sectionName, ele) {
 function CommonBusinessLogic(sectionName,itemID,listDataArray)
 {
     SaveImageSignaturePath(sectionName, itemID);
-    if(sectionName == SectionNames.INITIATORSECTION && listDataArray.VendorName !=undefined &&listDataArray.isVendorAdded !="Yes" ){
-         SaveVendorNameInMaster(listDataArray);
-    }
-    if(sectionName == SectionNames.INITIATORSECTION && listDataArray.CapitalAssetRequisitionNumber !=undefined &&listDataArray.CapitalAssetRequisitionNumber !=null && isNewItem==true){
+   
+    if(sectionName == SectionNames.INITIATORSECTION && actionPerformed == ButtonActionStatus.NextApproval){
         SaveCapitalAssetRequisitionNumber(itemID,listDataArray);
    }
 }
@@ -1342,7 +1340,7 @@ function CommonBusinessLogic(sectionName,itemID,listDataArray)
 function SaveCapitalAssetRequisitionNumber(itemID,listDataArray)
 {
     var todayDate = new Date();
-    formFieldValues['CapitalAssetRequisitionNumber'] = 'CAR' + '/'+ listDataArray.AssetName + '/'+ listDataArray.CostCenter + '/'+ todayDate.getMonth +'-' + todayDate.getFullYear+'/'+ itemID;
+    formFieldValues['CapitalAssetRequisitionNumber'] =  listDataArray.CostCenter + '/'+ todayDate.getFullYeartodayDate.getMonth +'/'+ itemID;
     SaveFormFields(formFieldValues, itemID);
 }
 /*Priya Rane */
@@ -1362,15 +1360,15 @@ function SaveImageSignaturePath(sectionName, itemID) {
                     case SectionNames.INITIATORSECTION:
                         formFieldValues['InitiatorSignature'] = data.d.results[0].FileRef;
                         break;
-                    case SectionNames.HODSECTION:
-                        formFieldValues['HODSignature'] = data.d.results[0].FileRef;
-                        break;
-                    case SectionNames.CAPEXCOMMITTEESECTION:
-                        formFieldValues['SignatureCapexMemberOne'] = data.d.results[0].FileRef;
-                        break;
-                    case SectionNames.INITIATORSECTION:
-                        formFieldValues['ManagementSignature'] = data.d.results[0].FileRef;
-                        break;
+                    // case SectionNames.HODSECTION:
+                    //     formFieldValues['HODSignature'] = data.d.results[0].FileRef;
+                    //     break;
+                    // case SectionNames.CAPEXCOMMITTEESECTION:
+                    //     formFieldValues['SignatureCapexMemberOne'] = data.d.results[0].FileRef;
+                    //     break;
+                    // case SectionNames.INITIATORSECTION:
+                    //     formFieldValues['ManagementSignature'] = data.d.results[0].FileRef;
+                    //     break;
                 }
                 SaveFormFields(formFieldValues, itemID);
             }
