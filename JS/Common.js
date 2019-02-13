@@ -127,6 +127,7 @@ function onloadConstantsSuccess(sender, args) {
     if (listItemId != null && listItemId > 0) {
         setImageSignature();
     }
+    GetFormBusinessLogic(activeSectionName,department);
     //setCustomApprovers();
 }
 
