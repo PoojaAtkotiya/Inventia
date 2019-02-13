@@ -1109,7 +1109,7 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
             if (item.split(' ').length > 1) {
                 if (!IsNullOrUndefined(item)) {
                     var itemDetails = item.split(' ');
-                    if (itemDetails[0] != "ProposedBy" && itemDetails[0] != "Files") {
+                    if (itemDetails[0] != "RaisedBy" && itemDetails[0] != "Files") {
                         tr = $('<tr/>');
                         tr.append('<td>' + itemDetails[0] + '</td>');
 
@@ -1277,7 +1277,7 @@ function SaveData(listname, listDataArray, sectionName, ele) {
                     web = clientContext.get_web();
                     oList = web.get_lists().getByTitle(listname);
                     var oListItem = oList.getItemById(itemID);
-                    clientContext.load(oListItem, 'FormLevel', 'ProposedBy');
+                    clientContext.load(oListItem, 'FormLevel', 'RaisedBy');
                     clientContext.load(web);
                     clientContext.executeQueryAsync(function () {
                         CommonBusinessLogic(sectionName,itemID,listDataArray);
@@ -1331,10 +1331,8 @@ function SaveData(listname, listDataArray, sectionName, ele) {
 function CommonBusinessLogic(sectionName,itemID,listDataArray)
 {
     SaveImageSignaturePath(sectionName, itemID);
-    if(sectionName == SectionNames.INITIATORSECTION && listDataArray.VendorName !=undefined &&listDataArray.isVendorAdded !="Yes" ){
-         SaveVendorNameInMaster(listDataArray);
-    }
-    if(sectionName == SectionNames.INITIATORSECTION && listDataArray.CapitalAssetRequisitionNumber !=undefined &&listDataArray.CapitalAssetRequisitionNumber !=null && isNewItem==true){
+   
+    if(sectionName == SectionNames.INITIATORSECTION && actionPerformed == ButtonActionStatus.NextApproval){
         SaveCapitalAssetRequisitionNumber(itemID,listDataArray);
    }
 }
@@ -1342,7 +1340,7 @@ function CommonBusinessLogic(sectionName,itemID,listDataArray)
 function SaveCapitalAssetRequisitionNumber(itemID,listDataArray)
 {
     var todayDate = new Date();
-    formFieldValues['CapitalAssetRequisitionNumber'] = 'CAR' + '/'+ listDataArray.AssetName + '/'+ listDataArray.CostCenter + '/'+ todayDate.getMonth +'-' + todayDate.getFullYear+'/'+ itemID;
+    formFieldValues['CapitalAssetRequisitionNumber'] =  listDataArray.CostCenter + '/'+ todayDate.getFullYeartodayDate.getMonth +'/'+ itemID;
     SaveFormFields(formFieldValues, itemID);
 }
 /*Priya Rane */
@@ -1362,15 +1360,15 @@ function SaveImageSignaturePath(sectionName, itemID) {
                     case SectionNames.INITIATORSECTION:
                         formFieldValues['InitiatorSignature'] = data.d.results[0].FileRef;
                         break;
-                    case SectionNames.HODSECTION:
-                        formFieldValues['HODSignature'] = data.d.results[0].FileRef;
-                        break;
-                    case SectionNames.CAPEXCOMMITTEESECTION:
-                        formFieldValues['SignatureCapexMemberOne'] = data.d.results[0].FileRef;
-                        break;
-                    case SectionNames.INITIATORSECTION:
-                        formFieldValues['ManagementSignature'] = data.d.results[0].FileRef;
-                        break;
+                    // case SectionNames.HODSECTION:
+                    //     formFieldValues['HODSignature'] = data.d.results[0].FileRef;
+                    //     break;
+                    // case SectionNames.CAPEXCOMMITTEESECTION:
+                    //     formFieldValues['SignatureCapexMemberOne'] = data.d.results[0].FileRef;
+                    //     break;
+                    // case SectionNames.INITIATORSECTION:
+                    //     formFieldValues['ManagementSignature'] = data.d.results[0].FileRef;
+                    //     break;
                 }
                 SaveFormFields(formFieldValues, itemID);
             }
