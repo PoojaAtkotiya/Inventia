@@ -24,12 +24,12 @@ $(document).ready(function () {
         DeleteVendorDetails(jQuery(this));
     });
 
-    $('#tblVendor').DataTable({
-        "columnDefs": [{
-            "targets": 'no-sort',
-            "orderable": false
-        }]
-    });
+    // $('#tblVendor').DataTable({
+    //     "columnDefs": [{
+    //         "targets": 'no-sort',
+    //         "orderable": false
+    //     }]
+    // });
 });
 
 function AutoPopulateVendor() {

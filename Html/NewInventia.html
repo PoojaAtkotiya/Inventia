@@ -188,9 +188,9 @@
                                                             <span class="text-danger text-default-light">*</span>
                                                             Raised By
                                                         </label>
-                                                        <!-- <label id="RaisedBy" class="col-md-8 dynamic-control labeltop"
-                                                         controlType="text" listtype="main"></label> -->
-                                                         <label id="RaisedBy" class="col-md-8 labeltop">Mayuri Shah</label>
+                                                         <!-- <label id="RaisedBy" class="col-md-8 labeltop">Mayuri Shah</label> -->
+                                                         <label id="RaisedBy" class="col-md-8 dynamic-control labeltop"
+                                                         controlType="text" listtype="main"></label>
 
                                                     </div>
                                                 </div>
@@ -200,8 +200,8 @@
                                                             <span class="text-danger text-default-light">*</span>
                                                             Raised On
                                                         </label>
-                                                        <!-- <label id="RaisedOn" class="col-md-8 labeltop"></label> -->
-                                                        <label id="RequestDate" class="col-md-8 labeltop">12-02-2019</label>
+                                                        <!-- <label id="RequestDate" class="col-md-8 labeltop">12-02-2019</label> -->
+                                                        <label id="RaisedOn" class="col-md-8 labeltop"></label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -212,9 +212,9 @@
                                                             <span class="text-danger text-default-light">*</span>
                                                             Department
                                                         </label>
-                                                        <!-- <label id="Department" class="col-md-8 dynamic-control labeltop"
-                                                        controlType="text" listtype="main"></label> -->
-                                                        <label id="Department" class="col-md-8 dynamic-control labeltop">IT</label>
+                                                        <!-- <label id="Department" class="col-md-8 dynamic-control labeltop">IT</label> -->
+                                                        <label id="Department" class="col-md-8 dynamic-control labeltop"
+                                                         controlType="text" listtype="main"></label>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
@@ -653,34 +653,47 @@
                                             <hr>
                                             <br>
                                             <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                            <span class="text-danger text-default-light">*</span>
-                                                            Utilised Value(Rupee in Lakhs) </label>
-                                                        <div class="col-md-8">
-                                                            <input id="UtilizedValue" class="form-control dynamic-control"
-                                                                name="UtilizedValue" placeholder="Utilised Value" type="text"
-                                                                required="required" controlType="text" data="digit"
-                                                                maxlength="15" listtype="main" />
-                                                        </div>
+                                                    <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">
+                                                                    <span class="text-danger text-default-light">*</span>
+                                                                    Budgeted Value (Rupee in Lakhs) </label>
+                                                                <div class="col-md-8">
+                                                                    <input id="BudgetedValue" class="form-control dynamic-control"
+                                                                        name="BudgetedValue" placeholder="Budgeted Value" type="text"
+                                                                        required="required" controlType="text" data="digit"
+                                                                        maxlength="15" listtype="main" />
+                                                                </div>
+                                                            </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                            <span class="text-danger text-default-light">*</span>
-                                                            Current Value(Rupee in Lakhs) </label>
-                                                        <div class="col-md-8">
-                                                            <input id="CurrentValue" class="form-control dynamic-control"
-                                                                name="CurrentValue" placeholder="Current Value" type="text"
-                                                                required="required" controlType="combo" data="digit"
-                                                                maxlength="15" listtype="main" />
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">
+                                                                <span class="text-danger text-default-light">*</span>
+                                                                Utilised Value(Rupee in Lakhs) </label>
+                                                            <div class="col-md-8">
+                                                                <input id="UtilizedValue" class="form-control dynamic-control"
+                                                                    name="UtilizedValue" placeholder="Utilised Value" type="text"
+                                                                    required="required" controlType="text" data="digit"
+                                                                    maxlength="15" listtype="main" />
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </div>
+                                                    </div>   
                                             </div>
                                             <div class="row">
+                                                    <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">
+                                                                    <span class="text-danger text-default-light">*</span>
+                                                                    Current Value(Rupee in Lakhs) </label>
+                                                                <div class="col-md-8">
+                                                                    <input id="CurrentValue" class="form-control dynamic-control"
+                                                                        name="CurrentValue" placeholder="Current Value" type="text"
+                                                                        required="required" controlType="combo" data="digit"
+                                                                        maxlength="15" listtype="main" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
                                                         <label class="col-md-4 control-label">
@@ -695,19 +708,21 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                            <span class="text-danger text-default-light">*</span>
-                                                            Balance(Rupee in Lakhs) </label>
-                                                        <div class="col-md-8">
-                                                            <input id="Balance" class="form-control dynamic-control"
-                                                                name="Balance" placeholder="Balance Value" type="text"
-                                                                required="required" controlType="text" listtype="main"
-                                                                data="digit" maxlength="15" />
-                                                        </div>
+                                            </div>
+                                            <div class="row">
+                                                    <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">
+                                                                    <span class="text-danger text-default-light">*</span>
+                                                                    Balance(Rupee in Lakhs) </label>
+                                                                <div class="col-md-8">
+                                                                    <input id="Balance" class="form-control dynamic-control"
+                                                                        name="Balance" placeholder="Balance Value" type="text"
+                                                                        required="required" controlType="text" listtype="main"
+                                                                        data="digit" maxlength="15" />
+                                                                </div>
+                                                            </div>
                                                     </div>
-                                                </div>
                                             </div>
                                             <hr>
                                             <br>

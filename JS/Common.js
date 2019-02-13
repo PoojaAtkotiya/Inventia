@@ -116,10 +116,10 @@ function onloadConstantsSuccess(sender, args) {
         GetGlobalApprovalMatrix(listItemId);
     }
     if (listItemId == 0) {
-        $("#ProposedBy").html(currentUser.Title);
+        $("#RaisedBy").html(currentUser.Title);
         $("#InitiatorName").html(currentUser.Title);
         var today = new Date().format("dd-MM-yyyy");
-        $("#RequestDate").html(today);
+        $("#RaisedOn").html(today);
         $("#WorkflowStatus").html("New");
         GetUserDepartment();
         $("#Department").html(department);
