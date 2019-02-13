@@ -271,7 +271,9 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
         });
         if (actionPerformed != ButtonActionStatus.SendBack && actionPerformed != ButtonActionStatus.Forward && tempApproverMatrix.some(t => t.Levels != currentLevel)) {
             ////Get Next Level
-            var nextLevelRow = tempApproverMatrix.sort(t => t.Levels).filter(function (temp) {
+            var nextLevelRow = tempApproverMatrix.sort(function (a, b) {
+                return a.Levels - b.Levels;
+            }).filter(function (temp) {
                 return (temp.Status != "Not Required" && !IsNullOrUndefined(temp.ApproverId) && temp.Levels > currentLevel);
             })[0];
             nextLevel = (!IsNullOrUndefined(nextLevelRow)) ? nextLevelRow.Levels : nextLevel;
@@ -311,7 +313,9 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
         }
         else {
             if (actionPerformed == ButtonActionStatus.NextApproval || actionPerformed == ButtonActionStatus.Delegate) {
-                var approvers = tempApproverMatrix.sort(a => a.Levels).filter(a => a.Levels > currentLevel && !IsNullOrUndefined(a.ApproverId) && a.Status != "Not Required")[0];
+                var approvers = tempApproverMatrix.sort(function (a, b) {
+                    return a.Levels - b.Levels;
+                }).filter(a => a.Levels > currentLevel && !IsNullOrUndefined(a.ApproverId) && a.Status != "Not Required")[0];
                 if (!IsNullOrUndefined(approvers)) {
                     var listofNextApprovers = tempApproverMatrix.filter(temp => (temp.Levels == nextLevel && temp.Status == "Pending"));
 
@@ -373,7 +377,9 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
         }
         if (actionPerformed == ButtonActionStatus.SendForward && !IsNullOrUndefined(sendToLevel)) {
             nextLevel = sendToLevel;
-            var approvers = tempApproverMatrix.sort(a => a.Levels).filter(a => a.Levels >= nextLevel && !IsNullOrUndefined(a.ApproverId))[0];
+            var approvers = tempApproverMatrix.sort(function (a, b) {
+                return a.Levels - b.Levels;
+            }).filter(a => a.Levels >= nextLevel && !IsNullOrUndefined(a.ApproverId))[0];
             if (!IsNullOrUndefined(approvers)) {
                 nextLevel = approvers.Levels;
                 var listofNextApprovers = tempApproverMatrix.filter(temp => !IsNullOrUndefined(temp.ApproverId) && temp.Levels == nextLevel);
@@ -1355,7 +1361,9 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
                     if ((ConstantKeys.SENDTOLEVEL in param) && !IsNullOrUndefined(param[ConstantKeys.SENDTOLEVEL])) {
                         nextLevel = parseInt(param[ConstantKeys.SENDTOLEVEL]);
                         ////Get Next Level
-                        var nextLevelRow = tempApproverMatrix.sort(t => t.Levels).filter(function (temp) {
+                        var nextLevelRow = tempApproverMatrix.sort(function (a, b) {
+                            return a.Levels - b.Levels;
+                        }).filter(function (temp) {
                             return (!IsNullOrUndefined(temp.ApproverId) && temp.Levels >= nextLevel);
                         })[0];
                         nextLevel = (!IsNullOrUndefined(nextLevelRow)) ? nextLevelRow.Levels : nextLevel;
