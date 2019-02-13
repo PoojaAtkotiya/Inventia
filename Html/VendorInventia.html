@@ -1,4 +1,3 @@
-
 <div class="card">
     <div class="card-head sub" data-toggle="collapse" data-target="#VendorSection">
         <h4 class="justify"> Manage Vendor Details</h4>
@@ -22,7 +21,8 @@
                     </div>
                 </div>
                 <br />
-                <div class="table-responsive" type="tranTable" listName="CapexVendor" tranArrayName="listTempGridDataArray" jsFunction="GetVendorDetails">
+                <div class="table-responsive" type="tranTable" listName="CapexVendor" tranArrayName="listTempGridDataArray"
+                    jsFunction="GetVendorDetails">
                     <table class="table table-hover table-bordered someTable" id="tblVendor">
                         <thead>
                             <tr>
@@ -38,39 +38,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Vendor 1</td>
-                                <td>Vendor1@xyz.com</td>
-                                <td>Specification1</td>
-                                <td>12</td>
-                                <td>10</td>
-                                <td>17890</td>
-                                <td>18000</td>
-                                <td>Yes</td>
-                                <td><span class="glyphicon glyphicon-plus-sign"></span><span class="glyphicon glyphicon-pencil"></span><i class="fa fa-trash"></i></td>
-                            </tr>
-                            <tr>
-                                    <td>Vendor 2</td>
-                                    <td>Vendor2@yex.com</td>
-                                    <td>Specification2</td>
-                                    <td>34</td>
-                                    <td>8</td>
-                                    <td>34345</td>
-                                    <td>40000</td>
-                                    <td>No</td>
-                                    <td><span class="glyphicon glyphicon-plus-sign"></span><span class="glyphicon glyphicon-pencil"></span><i class="fa fa-trash"></i></td>
-                            </tr>
-                            <tr>
-                                        <td>Vendor 3</td>
-                                        <td>Vendor3@yun.com</td>
-                                        <td>dfgvfb</td>
-                                        <td>3435</td>
-                                        <td>10</td>
-                                        <td>54657</td>
-                                        <td>60000</td>
-                                        <td>No</td>
-                                        <td><span class="glyphicon glyphicon-plus-sign"></span><span class="glyphicon glyphicon-pencil"></span><i class="fa fa-trash"></i></td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -98,7 +65,8 @@
                 <div class="modal-body form-horizontal" id="CRUDVendorModalbody">
                     <input type="hidden" class="dynamic-control" listtype="trans" controlType="hidden" id="ID" value="" />
                     <input type="hidden" class="dynamic-control" listtype="trans" controlType="hidden" id="Index" value="" />
-                    <input type="hidden" class="dynamic-control" listtype="trans" controlType="hidden" id="Status" value="" />
+                    <input type="hidden" class="dynamic-control" listtype="trans" controlType="hidden" id="Status"
+                        value="" />
                     <input type="hidden" class="dynamic-control" listtype="trans" controlType="hidden" id="Type" value="" />
                     <!-- <input type="hidden" class="dynamic-control" listtype="trans" controlType="hidden" id="ListName" value="CapexVendor" /> -->
                     <div class="row">
@@ -106,13 +74,13 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">
                                     <span class="text-danger text-default-light">*</span>
-                                    Vendor Name 
+                                    Vendor Name
                                 </label>
                                 <div class="col-md-8 ">
-                                 
-                                    <input type="text" id="VendorName" name="VendorName" class="form-control dynamic-control" 
-                                    required="required" listtype="trans" controlType="text" />
-                                    
+
+                                    <input type="text" id="VendorName" name="VendorName" class="form-control dynamic-control"
+                                        required="required" listtype="trans" controlType="text" />
+
                                 </div>
                             </div>
                         </div>
@@ -120,11 +88,12 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">
                                     <span class="text-danger text-default-light">*</span>
-                                  Vendor Email ID 
+                                    Vendor Email ID
                                 </label>
                                 <div class="col-md-8 ">
-                                        <input type="text" id="VendorEmailID" name="VendorEmailID" class="form-control dynamic-control" 
-                                        required="required" listtype="trans" controlType="text" onblur="validateEmail(this);" /><span id="invalidemail"></span>
+                                    <input type="text" id="VendorEmailID" name="VendorEmailID" class="form-control dynamic-control"
+                                        required="required" listtype="trans" controlType="text" onblur="validateEmail(this);" /><span
+                                        id="invalidemail"></span>
                                 </div>
                             </div>
                         </div>
@@ -133,11 +102,11 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label class="col-md-2 control-label">
-                                    <span class="text-danger text-default-light">*</span>Specifications 
+                                    <span class="text-danger text-default-light">*</span>Specifications
                                 </label>
                                 <div class="col-md-10 ">
-                                     <textarea id="Specifications" class="form-control dynamic-control"
-                                        controlType="multitext" listtype="trans" maxlength="1000" name="Specifications" required="required">
+                                    <textarea id="Specifications" class="form-control dynamic-control" controlType="multitext"
+                                        listtype="trans" maxlength="1000" name="Specifications" required="required">
                                     </textarea>
                                 </div>
                             </div>
@@ -148,11 +117,11 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">
                                     <span class="text-danger text-default-light">*</span>
-                                    Gross Value(INR) 
+                                    Gross Value(INR)
                                 </label>
                                 <div class="col-md-8 ">
-                                    <input type="text" id="GrossValue" name="GrossValue" controlType="text" class="form-control dynamic-control" 
-                                    listtype="trans" data="digit" required="required" />
+                                    <input type="text" id="GrossValue" name="GrossValue" controlType="text" class="form-control dynamic-control"
+                                        listtype="trans" data="digit" required="required" />
                                 </div>
                             </div>
                         </div>
@@ -160,11 +129,11 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">
                                     <span class="text-danger text-default-light">*</span>
-                                    Less Discount(INR) 
+                                    Less Discount(INR)
                                 </label>
                                 <div class="col-md-8 ">
-                                    <input type="text" id="LessDiscount" name="LessDiscount" controlType="text" class="form-control dynamic-control" 
-                                    data="digit"  required="required" listtype="trans" />
+                                    <input type="text" id="LessDiscount" name="LessDiscount" controlType="text" class="form-control dynamic-control"
+                                        data="digit" required="required" listtype="trans" />
                                 </div>
                             </div>
                         </div>
@@ -174,110 +143,113 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">
                                     <span class="text-danger text-default-light">*</span>
-                                    Net Value(INR) 
+                                    Net Value(INR)
                                 </label>
                                 <div class="col-md-8 ">
-                                    <input type="text" id="NetValue" name="NetValue" controlType="text" class="form-control dynamic-control" 
-                                    data="digit" required="required" listtype="trans" />
+                                    <input type="text" id="NetValue" name="NetValue" controlType="text" class="form-control dynamic-control"
+                                        data="digit" required="required" listtype="trans" />
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label">
-                                            <span class="text-danger text-default-light">*</span>Installation/Other Charges 
-                                        </label>
-                                        <div class="col-md-8 ">
-                                            <input type="text" id="InstallationOtherCharges" name="InstallationOtherCharges" controlType="text" class="form-control dynamic-control"
-                                             required="required" data="digit" listtype="trans" />
-                                        </div>
-                                    </div>
-                            </div>
-                    </div>
-                    <div class="row">
-                            <div class="col-sm-6"></div>
-                            <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label">
-                                            <span class="text-danger text-default-light">*</span>Total Value(INR)  
-                                        </label>
-                                        <div class="col-md-8 ">
-                                            <input type="text" id="TotalValue" name="TotalValue" controlType="text" class="form-control dynamic-control"
-                                                required="required" data="digit" listtype="trans" />
-                                        </div>
-                                    </div>
-                            </div>  
-                    </div>
-                    <div class="row">
-                            <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label">
-                                            <span class="text-danger text-default-light">*</span>Description of Charges 
-                                        </label>
-                                        <div class="col-md-8 ">
-                                            <input type="text" id="DescriptionofCharges" name="DescriptionofCharges" controlType="text" class="form-control dynamic-control"
-                                                required="required"  listtype="trans" />
-                                        </div>
-                                    </div>
-                            </div>
-                            <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label">
-                                            <span class="text-danger text-default-light">*</span>
-                                            Delivery Period 
-                                        </label>
-                                        <div class="col-md-8 ">
-                                            <input type="text" id="DeliveryPeriod" name="DeliveryPeriod" controlType="text" class="form-control dynamic-control" 
-                                            required="required" listtype="trans" controlType="text" />
-                                        </div>
-                                    </div>
-                            </div>
-                           
-                    </div>
-                    <div class="row">     
-                        <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label">
-                                        <span class="text-danger text-default-light">*</span>
-                                        Terms of Payment 
-                                    </label>
-                                    <div class="col-md-8 ">
-                                            <select class="form-control m-b-n-sm dynamic-control" id="TermsofPayment"
-                                                                controlType="combo" listtype="master" reflisttype="main"
-                                                                name="TermsofPayment" data-selected="TermsofPayment"
-                                                                valuebindingcolumn="Title" textbindingcolumnn="Title"
-                                                                listname="TermsofPayment" required="required">
-                                            </select>
-                                    </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">
+                                    <span class="text-danger text-default-light">*</span>Installation/Other Charges
+                                </label>
+                                <div class="col-md-8 ">
+                                    <input type="text" id="InstallationOtherCharges" name="InstallationOtherCharges"
+                                        controlType="text" class="form-control dynamic-control" required="required"
+                                        data="digit" listtype="trans" />
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6"></div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">
+                                    <span class="text-danger text-default-light">*</span>Total Value(INR)
+                                </label>
+                                <div class="col-md-8 ">
+                                    <input type="text" id="TotalValue" name="TotalValue" controlType="text" class="form-control dynamic-control"
+                                        required="required" data="digit" listtype="trans" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">
+                                    <span class="text-danger text-default-light">*</span>Description of Charges
+                                </label>
+                                <div class="col-md-8 ">
+                                    <input type="text" id="DescriptionofCharges" name="DescriptionofCharges"
+                                        controlType="text" class="form-control dynamic-control" required="required"
+                                        listtype="trans" />
+                                </div>
+                            </div>
                         </div>
                         <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label class="col-md-4 col-xs-12 control-label">
-                                            <span class="text-danger text-default-light">*</span>
-                                            Negotiated? 
-                                    </label>
-                                    <div class="col-md-8 ">
-                                            <input type="checkbox" id="VendorNegotiatedflag"  class="form-control dynamic-control" 
-                                             required="required" name="VendorNegotiatedflag" controlType="checkbox" /> 
-                                    </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">
+                                    <span class="text-danger text-default-light">*</span>
+                                    Delivery Period
+                                </label>
+                                <div class="col-md-8 ">
+                                    <input type="text" id="DeliveryPeriod" name="DeliveryPeriod" controlType="text"
+                                        class="form-control dynamic-control" required="required" listtype="trans"
+                                        controlType="text" />
                                 </div>
-                        </div>  
+                            </div>
+                        </div>
+
                     </div>
                     <div class="row">
-                            
-                            <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label">
-                                                <span class="text-danger text-default-light">*</span>
-                                                Recommended? 
-                                        </label>
-                                        <div class="col-md-8 ">
-                                            <input type="checkbox" id="Recommended" name="Recommended" required="required" controlType="checkbox">
-                                            <!-- <input type="hidden" id="IsNewVendor" /> -->
-                                        </div>
-                                    </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">
+                                    <span class="text-danger text-default-light">*</span>
+                                    Terms of Payment
+                                </label>
+                                <div class="col-md-8 ">
+                                    <select class="form-control m-b-n-sm dynamic-control" id="TermsofPayment"
+                                        controlType="combo" listtype="master" reflisttype="main" name="TermsofPayment"
+                                        data-selected="TermsofPayment" valuebindingcolumn="Title" textbindingcolumnn="Title"
+                                        listname="TermsofPayment" required="required">
+                                    </select>
+                                </div>
                             </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-md-4 col-xs-12 control-label">
+                                    <span class="text-danger text-default-light">*</span>
+                                    Negotiated?
+                                </label>
+                                <div class="col-md-8 ">
+                                    <input type="checkbox" id="VendorNegotiatedflag" class="form-control dynamic-control"
+                                        required="required" name="VendorNegotiatedflag" controlType="checkbox" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">
+                                    <span class="text-danger text-default-light">*</span>
+                                    Recommended?
+                                </label>
+                                <div class="col-md-8 ">
+                                    <input type="checkbox" id="Recommended" name="Recommended" required="required"
+                                        controlType="checkbox">
+                                    <!-- <input type="hidden" id="IsNewVendor" /> -->
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
