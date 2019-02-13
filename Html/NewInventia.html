@@ -60,7 +60,7 @@
                 $("#ProposedVendor").show();
             });
             $("#NewVendorName").change(function () {
-                if ($("#ProposedVendor").html() != "") {
+                if ($("#ProposedVendor").html() != " ") {
                     $("#ProposedVendor").append(',');
                 }
                 $("#ProposedVendor").append($("#NewVendorName").val());
@@ -224,9 +224,10 @@
 
                                                         <!-- <label id="Function" class="col-md-8 dynamic-control labeltop"
                                                          controlType="text" listtype="main"> -->
-                                                        <label id="Function" class="col-md-8 labeltop">Information Technology
+                                                         
+                                                                <label id="Function" class="col-md-8 dynamic-control labeltop"
+                                                                controlType="text" listtype="main"></label>
                                                         </label>
-
 
                                                     </div>
                                                 </div>
@@ -244,6 +245,7 @@
                                                                 listname="LocationMaster" data-selected="Location" valuebindingcolumn="Title"
                                                                 textbindingcolumnn="Title" name="Location" required="required">
                                                             </select>
+                                                           
                                                         </div>
                                                     </div>
                                                 </div>
@@ -258,10 +260,14 @@
                                                             Asset Name
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <select class="form-control m-b-n-sm dynamic-control" id="AssetName" controlType="combo" listtype="master" reflisttype="main"
+                                                            <!-- <select class="form-control m-b-n-sm dynamic-control" id="AssetName" controlType="combo" listtype="master" reflisttype="main"
                                                                 listname="AssetMaster" data-selected="AssetName" valuebindingcolumn="Title"
                                                                 textbindingcolumnn="Title" name="AssetName" required="required">
-                                                            </select>
+                                                            </select> -->
+                                                            <select class="form-control m-b-n-sm dynamic-control" id="AssetName" controlType="combo" 
+                                                            data-selected="AssetName" valuebindingcolumn="AssetName" listname="BudgetMaster"
+                                                            textbindingcolumnn="AssetName" name="AssetName" required="required">
+                                                        </select> 
                                                         </div>
                                                     </div>
                                                 </div>
