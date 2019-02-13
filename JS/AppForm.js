@@ -189,8 +189,7 @@ function SaveItemWiseAttachments(listname, itemID) {
 }
 
 function GetFormBusinessLogic(activeSectionName,department){
-    if(activeSectionName== SectionNames.INITIATORSECTION)
-    {
+   
         AjaxCall(
             {
 
@@ -210,10 +209,9 @@ function GetFormBusinessLogic(activeSectionName,department){
                     }
                 }
             });
-    }
+    
 
-    if(activeSectionName== SectionNames.INITIATORSECTION)
-    {
+   
         AjaxCall(
             {
                 url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetName,Department/Title&$expand=Department/Title&$filter=Department/Title eq '" + department +"'",
@@ -253,10 +251,21 @@ function GetFormBusinessLogic(activeSectionName,department){
                                
                             }
                         });
-                       
+                        if(mainListData.AssetName != undefined ){
+                        var objSelect = document.getElementById("AssetName");
+                        setSelectedValue(objSelect, mainListData.AssetName);
+                        }
                     }
                 }
             });
+    
+}
+function setSelectedValue(selectObj, valueToSet) {
+    for (var i = 0; i < selectObj.options.length; i++) {
+        if (selectObj.options[i].text== valueToSet) {
+            selectObj.options[i].selected = true;
+            return;
+        }
     }
 }
 

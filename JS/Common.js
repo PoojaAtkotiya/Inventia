@@ -106,7 +106,7 @@ function onloadConstantsSuccess(sender, args) {
     listItemId = getUrlParameter("ID");
     returnUrl = getUrlParameter("Source");
     ExecuteOrDelayUntilScriptLoaded(GetCurrentUserDetails, "sp.js");
-
+    GetUserDepartment();
     GetAllMasterData();
 
     if (listItemId != null && listItemId > 0) {
@@ -121,12 +121,12 @@ function onloadConstantsSuccess(sender, args) {
         var today = new Date().format("dd-MM-yyyy");
         $("#RaisedOn").html(today);
         $("#WorkflowStatus").html("New");
-        GetUserDepartment();
         $("#Department").html(department);
     }
     if (listItemId != null && listItemId > 0) {
         setImageSignature();
     }
+
     GetFormBusinessLogic(activeSectionName,department);
     //setCustomApprovers();
 }
@@ -1333,19 +1333,28 @@ function SaveData(listname, listDataArray, sectionName, ele) {
 }
 
 function CommonBusinessLogic(sectionName, itemID, listDataArray) {
+    var actionStatus = $("#ActionStatus").val();
+    
+    var keys = Object.keys(ButtonActionStatus).filter(k => ButtonActionStatus[k] == actionStatus);
+    var actionPerformed = keys.toString();
     SaveImageSignaturePath(sectionName, itemID);
-    SaveActions(sectionName,itemID);
-    if (sectionName == SectionNames.INITIATORSECTION && actionPerformed == ButtonActionStatus.NextApproval) {
-        SaveCapitalAssetRequisitionNumber(itemID, listDataArray);
+    SaveActions(sectionName,itemID,actionPerformed);
+    if (sectionName == SectionNames.INITIATORSECTION && actionPerformed == "NextApproval") {
+        SaveCapitalAssetRequisitionNumber(itemID, listDataArray,actionPerformed);
     }
 
 }
-function SaveActions(sectionName,itemID) {
-
+function SaveActions(sectionName,itemID,actionPerformed) {
+    var formFieldValues = [];
     var todayDate = new Date();
     switch (sectionName) {
         case SectionNames.INITIATORSECTION:
-        formFieldValues['InitiatorAction'] = currentUser.Title + '-' + todayDate + '-' + actionPerformed;
+        if(actionPerformed=="NextApproval"){
+        formFieldValues['InitiatorAction'] = currentUser.Title + '-' + todayDate + '-' + "Submit";
+        }
+        else if(actionPerformed=="SaveAsDraft"){
+            formFieldValues['InitiatorAction'] = currentUser.Title + '-' + todayDate + '-' + "SaveAsDraft";
+        }
             break;
         case SectionNames.HODSECTION:
           // formFieldValues['HODSignature'] = data.d.results[0].FileRef;
@@ -1363,9 +1372,10 @@ function SaveActions(sectionName,itemID) {
    
     SaveFormFields(formFieldValues, itemID);
 }
-function SaveCapitalAssetRequisitionNumber(itemID, listDataArray) {
+function SaveCapitalAssetRequisitionNumber(itemID, listDataArray,actionPerformed) {
+    var formFieldValues = [];
     var todayDate = new Date();
-    formFieldValues['CapitalAssetRequisitionNumber'] = listDataArray.CostCenter + '/' + todayDate.getFullYeartodayDate.getMonth + '/' + itemID;
+    formFieldValues['CapitalAssetRequisitionNumber'] = listDataArray.CostCenter + '/' + todayDate.getFullYear() + ("0" + (this.getMonth() + 1)).slice(-2) + '/' + itemID;
     SaveFormFields(formFieldValues, itemID);
 }
 /*Priya Rane */
