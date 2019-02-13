@@ -1109,7 +1109,7 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
             if (item.split(' ').length > 1) {
                 if (!IsNullOrUndefined(item)) {
                     var itemDetails = item.split(' ');
-                    if (itemDetails[0] != "ProposedBy" && itemDetails[0] != "Files") {
+                    if (itemDetails[0] != "RaisedBy" && itemDetails[0] != "Files") {
                         tr = $('<tr/>');
                         tr.append('<td>' + itemDetails[0] + '</td>');
 
@@ -1277,7 +1277,7 @@ function SaveData(listname, listDataArray, sectionName, ele) {
                     web = clientContext.get_web();
                     oList = web.get_lists().getByTitle(listname);
                     var oListItem = oList.getItemById(itemID);
-                    clientContext.load(oListItem, 'FormLevel', 'ProposedBy');
+                    clientContext.load(oListItem, 'FormLevel', 'RaisedBy');
                     clientContext.load(web);
                     clientContext.executeQueryAsync(function () {
                         CommonBusinessLogic(sectionName,itemID,listDataArray);
