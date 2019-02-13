@@ -1290,7 +1290,9 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
                         }
                     });
                     ////Get Next Level
-                    var nextLevelRow = tempApproverMatrix.sort(t => t.Levels).filter(function (temp) {
+                    var nextLevelRow = tempApproverMatrix.sort(function (a, b) {
+                        return a.Levels - b.Levels;
+                    }).filter(function (temp) {
                         return (temp.Status != "Not Required" && !IsNullOrUndefined(temp.ApproverId) && temp.Levels > currentLevel);
                     })[0];
                     nextLevel = (!IsNullOrUndefined(nextLevelRow)) ? nextLevelRow.Levels : nextLevel;
