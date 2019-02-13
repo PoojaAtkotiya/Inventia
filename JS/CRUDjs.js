@@ -8,8 +8,6 @@ $(document).ready(function () {
             $('myform').renameTag('form');
         KeyPressNumericValidation();
         $("#IsNewVendor").val("unchecked");
-
-        AutoPopulateVendor();
     });
     $(document).on('click', 'a[id="btnAddVendor"]', function () {
         AddVendorDetails();
@@ -293,10 +291,7 @@ function SaveVendorData(listDataArray) {
     });
 
     GetVendorDetails(listTempGridDataArray);
-    // var IsNewVendorChecked = $("#IsNewVendor").val();
-    // if (IsNewVendorChecked === "checked") {
-    //     SaveVendorNameInMaster(listDataArray);
-    // }
+  
     $("#CRUDVendorModal").modal('hide');
     AlertModal("Success", "Vendor Details Saved Successfully");
 }
