@@ -248,6 +248,7 @@ function GetFormBusinessLogic(activeSectionName,department){
                                             opt.appendTo($("#" + elementId));
                                         });
                                     }
+                                    
                                     break;
                                
                             }
