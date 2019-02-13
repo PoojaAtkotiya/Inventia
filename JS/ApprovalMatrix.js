@@ -250,7 +250,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
 
     if (isNewItem) {
         // var sectionOwner = currentUserRole;
-        formFieldValues["ProposedBy"] = currentUser.Id;
+        formFieldValues["RaisedBy"] = currentUser.Id;
         ////Save CurrentApprover as Creator in tempApprovalMatrix
         tempApproverMatrix.filter(function (temp) {
             if (temp.Role == Roles.CREATOR) {
@@ -1118,8 +1118,8 @@ function SaveFormFields(formFieldValues, requestId) {
     mainlistDataArray["__metadata"] = {
         "type": GetItemTypeForListName(ListNames.MAINLIST)
     };
-    if (!IsNullOrUndefined(formFieldValues['ProposedBy'])) {
-        mainlistDataArray['ProposedById'] = formFieldValues['ProposedBy'];
+    if (!IsNullOrUndefined(formFieldValues['RaisedBy'])) {
+        mainlistDataArray['RaisedById'] = formFieldValues['RaisedBy'];
     }
     if (!IsNullOrUndefined(formFieldValues["FormLevel"])) {
         mainlistDataArray['FormLevel'] = formFieldValues["FormLevel"].toString();
