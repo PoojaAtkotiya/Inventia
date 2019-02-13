@@ -213,13 +213,13 @@ function HideWaitDialog() {
 }
 
 function DatePickerControl(ele) {
-    $(ele).find('.datepicker').each(function () {
-        $(this).datepicker({
-            format: 'mm-dd-yyyy',
-            todayHighlight: true,
-            autoclose: true
-        });
-    });
+    // $(ele).find('.datepicker').each(function () {
+    //     $(this).datepicker({
+    //         format: 'mm-dd-yyyy',
+    //         todayHighlight: true,
+    //         autoclose: true
+    //     });
+    // });
 }
 
 /*Pooja Atkotiya */
@@ -1334,12 +1334,35 @@ function SaveData(listname, listDataArray, sectionName, ele) {
 
 function CommonBusinessLogic(sectionName, itemID, listDataArray) {
     SaveImageSignaturePath(sectionName, itemID);
-
+    SaveActions(sectionName,itemID);
     if (sectionName == SectionNames.INITIATORSECTION && actionPerformed == ButtonActionStatus.NextApproval) {
         SaveCapitalAssetRequisitionNumber(itemID, listDataArray);
     }
-}
 
+}
+function SaveActions(sectionName,itemID) {
+
+    var todayDate = new Date();
+    switch (sectionName) {
+        case SectionNames.INITIATORSECTION:
+        formFieldValues['InitiatorAction'] = currentUser.Title + '-' + todayDate + '-' + actionPerformed;
+            break;
+        case SectionNames.HODSECTION:
+          // formFieldValues['HODSignature'] = data.d.results[0].FileRef;
+            break;
+        case SectionNames.PURCHASESECTION:
+          //  formFieldValues['PurchaseSignature'] = data.d.results[0].FileRef;
+            break;
+        case SectionNames.FUNCTIONHEADSECTION:
+          //  formFieldValues['FunctionHeadSignature'] = data.d.results[0].FileRef;
+            break;
+        case SectionNames.MANAGEMENTSECTION:
+           // formFieldValues['ManagementSignature'] = data.d.results[0].FileRef;
+            break;
+    }
+   
+    SaveFormFields(formFieldValues, itemID);
+}
 function SaveCapitalAssetRequisitionNumber(itemID, listDataArray) {
     var todayDate = new Date();
     formFieldValues['CapitalAssetRequisitionNumber'] = listDataArray.CostCenter + '/' + todayDate.getFullYeartodayDate.getMonth + '/' + itemID;
