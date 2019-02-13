@@ -24,12 +24,12 @@ $(document).ready(function () {
         DeleteVendorDetails(jQuery(this));
     });
 
-    $('#tblVendor').DataTable({
-        "columnDefs": [{
-            "targets": 'no-sort',
-            "orderable": false
-        }]
-    });
+    // $('#tblVendor').DataTable({
+    //     "columnDefs": [{
+    //         "targets": 'no-sort',
+    //         "orderable": false
+    //     }]
+    // });
 });
 
 function AutoPopulateVendor() {
@@ -415,11 +415,35 @@ function SaveVendorDetails() {
         //  saveDataArray = GetFormControlsValues(elementId, elementType, saveDataArray);
         saveDataArray = GetFormControlsValue(elementId, elementType, saveDataArray);
     });
+    // var email = document.getElementById('VendorEmailID');
+    // var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+    // if (!filter.test(email.value)) {
+    // alert('Please provide a valid email address');
+    // email.focus;
+    // return false;
 
       var isValid = ValidateModalForm();
      if (isValid) {
      SaveVendorData(saveDataArray);
-     }
+     
+     //}
+    }
+}
+function validateEmail(emailField){
+    var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+    if (reg.test(emailField.value) == false) 
+    {
+       // alert('Invalid Email Address');
+       document.getElementById('invalidemail').innerHTML="This is invalid EmailID ";
+        return false;
+    }
+    else{
+        document.getElementById('invalidemail').innerHTML=" ";
+    }
+    return true;
+
 }
 
 function DeleteVendorDetails(obj) {
@@ -470,13 +494,14 @@ function GetVendorDetails(listTempGridDataArray) {
                 console.log(arrayItem);
                 tr = $('<tr/>');
 
-                tr.append("<td width='13%'>" + arrayItem.VendorName + "</td>");
-                tr.append("<td width='14%'>" + arrayItem.VendorEmailID + "</td>");
-                tr.append("<td width='10%'>" + arrayItem.Specifications + "</td>");
+                tr.append("<td width='10%'>" + arrayItem.VendorName + "</td>");
+                tr.append("<td width='10%'>" + arrayItem.VendorEmailID + "</td>");
+                tr.append("<td width='20%'>" + arrayItem.Specifications + "</td>");
                 tr.append("<td width='10%'>" + arrayItem.GrossValue + "</td>");
-                tr.append("<td width='9%'>" + arrayItem.LessDiscount + "</td>");
-                tr.append("<td width='17%'>" + arrayItem.NetValue + "</td>");
-                tr.append("<td width='16%'>" + arrayItem.DeliveryPeriod + "</td>");
+                tr.append("<td width='10%'>" + arrayItem.LessDiscount + "</td>");
+                tr.append("<td width='10%'>" + arrayItem.NetValue + "</td>");
+                tr.append("<td width='10%'>" + arrayItem.TotalValue + "</td>");
+                tr.append("<td width='10%'>" + arrayItem.Recommended + "</td>");
                 tr.append("<td width='12%'>" +
                     "<a class='view' id='ViewVendor_" + arrayItem.Index + '_' + arrayItem.ID + "' title='View' data-toggle='tooltip'><i class='material-icons'>&#xE417;</i></a>" +
                     "<a id='EditVendor_" + arrayItem.Index + '_' + arrayItem.ID + '_' + arrayItem.Type + "' class='edit' title='Edit' data-toggle='modal'><i class='material-icons'>&#xE254;</i></a>" +
