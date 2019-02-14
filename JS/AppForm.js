@@ -156,7 +156,7 @@ function SaveForm(activeSection, ele) {
 
 /*Priya Rane */
 function AddAllAttachments(listname, itemID) {
-    $('#divItemCodeForm').find('div[section]').not(".disabled").each(function (i, e) {
+    $('#divCapexForm').find('div[section]').not(".disabled").each(function (i, e) {
 
         $(e).find('input[type="file"]').each(function () {
             var elementId = $(this).attr('id');
@@ -195,13 +195,20 @@ function GetAttachmentValue(elementId, fileListArray) {
 
 /*Priya Rane */
 function SaveItemWiseAttachments(listname, itemID) {
+    var formFieldValues = [];
+    fileInfos.forEach(element => {
+        var fileName = element.name;
+        formFieldValues['URSAttachment'] =fileName;
+    });
     var item = $pnp.sp.web.lists.getByTitle(listname).items.getById(itemID);
+    
     item.attachmentFiles.addMultiple(fileInfos).then(v => {
         console.log("files saved successfully in list = " + listname + "for listItemId = " + itemID);
     }).catch(function (err) {
         console.log(err);
         console.log("error while save attachment ib list = " + listname + "for listItemId = " + itemID)
     });
+    SaveFormFields(formFieldValues, itemID);
 }
 
 function GetFormBusinessLogic(activeSectionName, department) {
