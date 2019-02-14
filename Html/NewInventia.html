@@ -45,6 +45,9 @@
                 var file = CommonConstant.HTMLFILSEPATH + $(this).data('include') + '.html';
                 $(this).load(file);
             });
+              $(document).on("change", "#UploadURSAttachment", function () {
+                BindAttachmentFiles();
+            });
             $('#IsNewVendor').hide();
             $("#ProposedVendor").hide();
 
@@ -445,7 +448,8 @@
                                                             URS Attachment
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <a class="btn btn-primary pull-left" value="Attach" onclick="">Attach</a>
+                                                            <input type="file" class="form-control dynamic-control" id="UploadURSAttachment" name="myfiles" controlType="file">
+                                                            <ul id="fileListURS"></ul>
                                                         </div>
                                                     </div>
                                                 </div>
