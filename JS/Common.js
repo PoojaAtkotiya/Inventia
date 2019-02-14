@@ -7,7 +7,8 @@ var currentContext;
 var listDataArray = {};
 var listActivityLogDataArray = [];
 var actionPerformed;
-var fileInfos = [];
+var fileURSArray = [];
+var fileSupportDocArray = [];
 var scriptbase; //= spSiteUrl + "/_layouts/15/";     ////_spPageContextInfo.layoutsUrl
 var fileIdCounter = 0;
 var currentApproverDetails = {};
@@ -58,12 +59,12 @@ function BindURSAttachmentFiles() {
             return function (e) {
                 console.log(file.name);
                 //Push the converted file into array
-                fileInfos.push({
+                fileURSArray.push({
                     "name": file.name,
                     "content": e.target.result,
                     "id": fileId
                 });
-                console.log(fileInfos);
+                console.log(fileURSArray);
             }
         })(file);
         reader.readAsArrayBuffer(file);
@@ -93,12 +94,12 @@ function BindSupportDocAttachmentFiles() {
             return function (e) {
                 console.log(file.name);
                 //Push the converted file into array
-                fileInfos.push({
+                fileSupportDocArray.push({
                     "name": file.name,
                     "content": e.target.result,
                     "id": fileId
                 });
-                console.log(fileInfos);
+                console.log(fileSupportDocArray);
             }
         })(file);
         reader.readAsArrayBuffer(file);
@@ -113,9 +114,9 @@ function BindSupportDocAttachmentFiles() {
 /*Priya Rane */
 function removeURSFiles(fileId) {
 
-    for (var i = 0; i < fileInfos.length; ++i) {
-        if (fileInfos[i].id === fileId)
-            fileInfos.splice(i, 1);
+    for (var i = 0; i < fileURSArray.length; ++i) {
+        if (fileURSArray[i].id === fileId)
+        fileURSArray.splice(i, 1);
     }
     var item = document.getElementById("fileListURS");
     fileId--;
@@ -124,9 +125,9 @@ function removeURSFiles(fileId) {
 }
 function removeSupportDocFiles(fileId) {
 
-    for (var i = 0; i < fileInfos.length; ++i) {
-        if (fileInfos[i].id === fileId)
-            fileInfos.splice(i, 1);
+    for (var i = 0; i < fileSupportDocArray.length; ++i) {
+        if (fileSupportDocArray[i].id === fileId)
+        fileSupportDocArray.splice(i, 1);
     }
     var item = document.getElementById("fileListSupportiveDoc");
     fileId--;
@@ -1343,7 +1344,13 @@ function OnSuccessMainListSave(listname,isNewItem,data, sectionName, buttonCapti
         clientContext.load(oListItem, 'FormLevel', 'RaisedBy');
         clientContext.load(web);
         clientContext.executeQueryAsync(function () {
-            AddAllAttachments(listname, itemID);
+            if(fileURSArray.length>0){
+            AddURSAttachments(listname, itemID);
+            }
+            if(fileSupportDocArray.length>0)
+            {
+                AddSupportiveDocAttachments(listname, itemID);
+            }
             CommonBusinessLogic(sectionName, itemID, listDataArray);
             SaveLocalApprovalMatrix(sectionName, itemID, listname, isNewItem, oListItem, ListNames.APPROVALMATRIXLIST);
             SaveActivityLog(sectionName, itemID, ListNames.ACTIVITYLOGLIST, listDataArray, isNewItem, buttonCaption);

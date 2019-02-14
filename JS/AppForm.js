@@ -139,21 +139,63 @@ function SaveForm(activeSection, ele) {
 }
 
 /*Priya Rane */
-function AddAllAttachments(listname, itemID) {
+function AddURSAttachments(listname, itemID) {
     $('#divCapexForm').find('div[section]').not(".disabled").each(function (i, e) {
 
         $(e).find('input[type="file"]').each(function () {
             var elementId = $(this).attr('id');
             var controlType = $(this).attr('controlType');
             // if (controlType == "file") {
-            if (!IsNullOrUndefined(fileInfos)) {
-                SaveItemWiseAttachments(listname, itemID);
+            if (!IsNullOrUndefined(fileURSArray)) {
+               // SaveItemWiseAttachments(listname, itemID);
+               var formFieldValues = [];
+               fileURSArray.forEach(element => {
+                   var fileName = element.name;
+                   formFieldValues['URSAttachment'] =fileName;
+               });
+               var item = $pnp.sp.web.lists.getByTitle(listname).items.getById(itemID);
+               
+               item.attachmentFiles.addMultiple(fileURSArray).then(v => {
+                   console.log("files saved successfully in list = " + listname + "for listItemId = " + itemID);
+               }).catch(function (err) {
+                   console.log(err);
+                   console.log("error while save attachment ib list = " + listname + "for listItemId = " + itemID)
+               });
+               SaveFormFields(formFieldValues, itemID);
             }
             // }
 
         });
+    });
+}
 
+function AddSupportiveDocAttachments(listname, itemID) {
+    $('#divCapexForm').find('div[section]').not(".disabled").each(function (i, e) {
 
+        $(e).find('input[type="file"]').each(function () {
+            var elementId = $(this).attr('id');
+            var controlType = $(this).attr('controlType');
+            // if (controlType == "file") {
+            if (!IsNullOrUndefined(fileSupportDocArray)) {
+               // SaveItemWiseAttachments(listname, itemID);
+               var formFieldValues = [];
+               fileSupportDocArray.forEach(element => {
+                   var fileName = element.name;
+                   formFieldValues['SupportDocAttachment'] = fileName +',';
+               });
+               var item = $pnp.sp.web.lists.getByTitle(listname).items.getById(itemID);
+               
+               item.attachmentFiles.addMultiple(fileSupportDocArray).then(v => {
+                   console.log("files saved successfully in list = " + listname + "for listItemId = " + itemID);
+               }).catch(function (err) {
+                   console.log(err);
+                   console.log("error while save attachment ib list = " + listname + "for listItemId = " + itemID)
+               });
+               SaveFormFields(formFieldValues, itemID);
+            }
+            // }
+
+        });
     });
 }
 
@@ -167,7 +209,7 @@ function GetAttachmentValue(elementId, fileListArray) {
         reader.onload = (function (file) {
             return function (e) {
                 console.log(file.name);
-                fileInfos.push({
+                fileURSArray.push({
                     "name": file.name,
                     "content": e.target.result
                 });
@@ -180,13 +222,13 @@ function GetAttachmentValue(elementId, fileListArray) {
 /*Priya Rane */
 function SaveItemWiseAttachments(listname, itemID) {
     var formFieldValues = [];
-    fileInfos.forEach(element => {
+    fileURSArray.forEach(element => {
         var fileName = element.name;
         formFieldValues['URSAttachment'] =fileName;
     });
     var item = $pnp.sp.web.lists.getByTitle(listname).items.getById(itemID);
     
-    item.attachmentFiles.addMultiple(fileInfos).then(v => {
+    item.attachmentFiles.addMultiple(fileURSArray).then(v => {
         console.log("files saved successfully in list = " + listname + "for listItemId = " + itemID);
     }).catch(function (err) {
         console.log(err);

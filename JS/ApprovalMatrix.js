@@ -1185,7 +1185,10 @@ function SaveFormFields(formFieldValues, requestId) {
     if (!IsNullOrUndefined(formFieldValues["URSAttachment"])) {
         mainlistDataArray['URSAttachment'] = formFieldValues["URSAttachment"].toString();
     }
-    
+    if (!IsNullOrUndefined(formFieldValues["SupportDocAttachment"])) {
+        mainlistDataArray['SupportDocAttachment'] = formFieldValues["SupportDocAttachment"].toString();
+    }
+ 
     //ApprovalStatus : formFieldValues["ApprovalStatus"],
     //LastactionPerformed : formFieldValues["LastactionPerformed"],
     //IsReschedule: formFieldValues["IsReschedule"],
