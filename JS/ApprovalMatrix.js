@@ -1170,6 +1170,18 @@ function SaveFormFields(formFieldValues, requestId) {
     if (!IsNullOrUndefined(formFieldValues["InitiatorAction"])) {
         mainlistDataArray['InitiatorAction'] = formFieldValues["InitiatorAction"].toString();
     }
+    if (!IsNullOrUndefined(formFieldValues["HODAction"])) {
+        mainlistDataArray['HODAction'] = formFieldValues["HODAction"].toString();
+    }
+    if (!IsNullOrUndefined(formFieldValues["PurchaseAction"])) {
+        mainlistDataArray['PurchaseAction'] = formFieldValues["PurchaseAction"].toString();
+    }
+    if (!IsNullOrUndefined(formFieldValues["FuctionHeadAction"])) {
+        mainlistDataArray['FuctionHeadAction'] = formFieldValues["FuctionHeadAction"].toString();
+    }
+    if (!IsNullOrUndefined(formFieldValues["ManagementAction"])) {
+        mainlistDataArray['ManagementAction'] = formFieldValues["ManagementAction"].toString();
+    }
     //ApprovalStatus : formFieldValues["ApprovalStatus"],
     //LastactionPerformed : formFieldValues["LastactionPerformed"],
     //IsReschedule: formFieldValues["IsReschedule"],
