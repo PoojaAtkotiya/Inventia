@@ -981,11 +981,9 @@ function GetFormControlsValue(id, elementType, listDataArray, elementvaluetype =
             listDataArray[id] = metaObject;
             break;
         case "combo":
-            if (elementvaluetype == "int") {
-                if (IsNullOrUndefined($(obj).val()) || IsStrNullOrEmpty($(obj).val())) {
-                    $(obj).val(0);
-                }
-            }
+        if (IsNullOrUndefined($(obj).val()) || IsStrNullOrEmpty($(obj).val())) {
+            $(obj).val(0);
+        }
             listDataArray[id] = $(obj).val();
             break;
         case "multitext":
@@ -1253,7 +1251,7 @@ function SaveFormData(activeSection, ele) {
         var sectionName = $(activeSection).attr('section');
         var activeSectionId = $(activeSection).attr('id');
 
-        $(activeSection).find('input[listtype=main],select[listtype=main],radio[listtype=main],textarea[listtype=main],label[listtype=main],input[reflisttype=main],select[reflisttype=main],radio[reflisttype=main],textarea[reflisttype=main],label[reflisttype=main]').each(function () {
+        $(activeSection).find('input[listtype=main],select[listtype=main],radio[listtype=main],textarea[listtype=main],label[listtype=main],input[reflisttype=main],select[reflisttype=main],radio[reflisttype=main],textarea[reflisttype=main],label[reflisttype=main],select[reflisttype=trans]').each(function () {
             var elementId = $(this).attr('id');
             var elementType = $(this).attr('controlType');
             var elementProperty = $(this).attr('controlProperty');
