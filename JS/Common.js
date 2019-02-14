@@ -1357,16 +1357,37 @@ function SaveActions(sectionName,itemID,actionPerformed) {
         }
             break;
         case SectionNames.HODSECTION:
-          // formFieldValues['HODSignature'] = data.d.results[0].FileRef;
+        if(actionPerformed=="NextApproval"){
+            formFieldValues['HODAction'] = currentUser.Title + '-' + todayDate + '-' + "Approve";
+            }
+            else if(actionPerformed=="Rejected")
+            {
+                formFieldValues['HODAction'] = currentUser.Title + '-' + todayDate + '-' + "Rejected";
+            }
             break;
         case SectionNames.PURCHASESECTION:
-          //  formFieldValues['PurchaseSignature'] = data.d.results[0].FileRef;
+            if(actionPerformed=="NextApproval"){
+            formFieldValues['PurchaseAction'] = currentUser.Title + '-' + todayDate + '-' + "Submit";
+            }
+            
             break;
         case SectionNames.FUNCTIONHEADSECTION:
-          //  formFieldValues['FunctionHeadSignature'] = data.d.results[0].FileRef;
+        if(actionPerformed=="NextApproval"){
+            formFieldValues['FuctionHeadAction'] = currentUser.Title + '-' + todayDate + '-' + "Approve";
+            }
+            else if(actionPerformed=="Rejected")
+            {
+                formFieldValues['FuctionHeadAction'] = currentUser.Title + '-' + todayDate + '-' + "Rejected";
+            }
             break;
         case SectionNames.MANAGEMENTSECTION:
-           // formFieldValues['ManagementSignature'] = data.d.results[0].FileRef;
+        if(actionPerformed=="NextApproval"){
+            formFieldValues['ManagementAction'] = currentUser.Title + '-' + todayDate + '-' + "Approve";
+            }
+            else if(actionPerformed=="Rejected")
+            {
+                formFieldValues['ManagementAction'] = currentUser.Title + '-' + todayDate + '-' + "Rejected";
+            }
             break;
     }
    
