@@ -161,19 +161,7 @@ function onloadConstantsSuccess(sender, args) {
     else {
         GetGlobalApprovalMatrix(listItemId);
     }
-    if (listItemId == 0) {
-        $("#RaisedBy").html(currentUser.Title);
-        $("#InitiatorName").html(currentUser.Title);
-        var today = new Date().format("dd-MM-yyyy");
-        $("#RaisedOn").html(today);
-        $("#WorkflowStatus").html("New");
-        $("#Department").html(department);
-    }
-    if (listItemId != null && listItemId > 0) {
-        setImageSignature();
-    }
-
-    GetFormBusinessLogic(activeSectionName, department);
+    GetFormBusinessLogic(listItemId, activeSectionName, department);
     //setCustomApprovers();
 }
 
@@ -1025,9 +1013,9 @@ function GetFormControlsValue(id, elementType, listDataArray, elementvaluetype =
             listDataArray[id] = metaObject;
             break;
         case "combo":
-        if (IsNullOrUndefined($(obj).val()) || IsStrNullOrEmpty($(obj).val())) {
-            $(obj).val(0);
-        }
+            if (IsNullOrUndefined($(obj).val()) || IsStrNullOrEmpty($(obj).val())) {
+                $(obj).val(0);
+            }
             listDataArray[id] = $(obj).val();
             break;
         case "multitext":
@@ -1038,11 +1026,12 @@ function GetFormControlsValue(id, elementType, listDataArray, elementvaluetype =
             // var date = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getDate() : null;
             // var year = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getFullYear() : null;
             // var date = (!IsNullOrUndefined(month) && !IsNullOrUndefined(date) && !IsNullOrUndefined(year)) ? new Date(year.toString() + "-" + month.toString() + "-" + date.toString()).format("yyyy-MM-ddTHH:mm:ssZ") : null;
+
+            // if (date) {
+            //     listDataArray[id] = date;
+            // }
             debugger
             listDataArray[id] = $(obj).val();
-            if (date) {
-                listDataArray[id] = date;
-            }
             break;
         case "checkbox":
             listDataArray[id] = $(obj)[0]['checked'];
@@ -1097,13 +1086,16 @@ function GetFormControlsValueAndType(id, elementType, elementProperty, listActiv
             listActivityLogDataArray.push({ id: id, value: $(obj).val(), type: 'multitext' });
             break;
         case "date":
-            var month = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getMonth() + 1 : null;
-            var date = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getDate() : null;
-            var year = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getFullYear() : null;
-            var date = (!IsNullOrUndefined(month) && !IsNullOrUndefined(date) && !IsNullOrUndefined(year)) ? new Date(year.toString() + "-" + month.toString() + "-" + date.toString()).format("yyyy-MM-ddTHH:mm:ssZ") : null;
-            if (date) {
-                listActivityLogDataArray.push({ id: id, value: date, type: 'date' });
-            }
+            // var month = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getMonth() + 1 : null;
+            // var date = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getDate() : null;
+            // var year = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getFullYear() : null;
+            // var date = (!IsNullOrUndefined(month) && !IsNullOrUndefined(date) && !IsNullOrUndefined(year)) ? new Date(year.toString() + "-" + month.toString() + "-" + date.toString()).format("yyyy-MM-ddTHH:mm:ssZ") : null;
+            // if (date) {
+            //     listActivityLogDataArray.push({ id: id, value: date, type: 'date' });
+            // }
+
+            debugger
+            listDataArray[id] = $(obj).val();
             break;
         case "checkbox":
 
