@@ -1270,78 +1270,22 @@ function SaveData(listname, listDataArray, sectionName, ele) {
                 contentType: 'application/json; charset=utf-8',
                 async: false,
                 sucesscallbackfunction: function (data) {
-                    OnSuccessMainListSave(data, sectionName, buttonCaption);
+                    OnSuccessMainListSave(listname,data, sectionName, buttonCaption);
                 },
                 error: function (data) {
                     console.log(data);
                     HideWaitDialog();
                 }
-<<<<<<< HEAD
-                ////AddAttachments(itemID);
-                AddAllAttachments(listname, itemID);
-                var web, clientContext;
-                SP.SOD.executeFunc('sp.js', 'SP.ClientContext', function () {
-                    clientContext = new SP.ClientContext.get_current();
-                    web = clientContext.get_web();
-                    oList = web.get_lists().getByTitle(listname);
-                    var oListItem = oList.getItemById(itemID);
-                    clientContext.load(oListItem, 'FormLevel', 'RaisedBy');
-                    clientContext.load(web);
-                    clientContext.executeQueryAsync(function () {
-                        CommonBusinessLogic(sectionName, itemID, listDataArray);
-                        SaveLocalApprovalMatrix(sectionName, itemID, listname, isNewItem, oListItem, ListNames.APPROVALMATRIXLIST);
-                        SaveActivityLog(sectionName, itemID, ListNames.ACTIVITYLOGLIST, listDataArray, isNewItem, buttonCaption);
-                        if (!isNaN(itemID)) {
-                            debugger
-                            // SaveTranListData(itemID);
-                            SaveAllTrans(itemID);
-                        }
-                        // else {
-                        //     SaveTranListData(itemID);
-                        // }
-                        HideWaitDialog();
-                        if (IsNullOrUndefined(data)) {
-                            data = {};
-                            data = {
-                                ItemID: itemID,
-                                IsSucceed: true,
-                                Messages: "Data saved successfully"
-                            }
-                        }
-                        else {
-                            data.ItemID = itemID;
-                            data.IsSucceed = true;
-                            data.Messages = "Data saved successfully";
-                        }
-                        if (buttonCaption.toLowerCase() == "save as draft" || buttonCaption.toLowerCase() == "resume") {
-                            OnSuccessNoRedirect(data);
-                        }
-                        else if (buttonCaption.toLowerCase() == "complete" && !isPageRedirect) {
-                            OnSuccessConfirmSubmitNoRedirect(data);
-                        }
-                        else {
-                            OnSuccess(data);
-                        }
-                    }, function (sender, args) {
-                        HideWaitDialog();
-                        console.log('request failed ' + args.get_message() + '\n' + args.get_stackTrace());
-                    });
-                });
-            },
-            error: function (data) {
-                console.log(data);
-                HideWaitDialog();
-=======
             });
         }
         else {
-            OnSuccessMainListSave(null, sectionName, buttonCaption);
+            OnSuccessMainListSave(listname,null, sectionName, buttonCaption);
         }
 
     }
 }
 
-function OnSuccessMainListSave(data, sectionName, buttonCaption) {
+function OnSuccessMainListSave(listname,data, sectionName, buttonCaption) {
     var itemID = listItemId;
     if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d)) {
         itemID = data.d.ID;
@@ -1355,6 +1299,7 @@ function OnSuccessMainListSave(data, sectionName, buttonCaption) {
         clientContext.load(oListItem, 'FormLevel', 'RaisedBy');
         clientContext.load(web);
         clientContext.executeQueryAsync(function () {
+            AddAllAttachments(listname, itemID);
             CommonBusinessLogic(sectionName, itemID, listDataArray);
             SaveLocalApprovalMatrix(sectionName, itemID, listname, isNewItem, oListItem, ListNames.APPROVALMATRIXLIST);
             SaveActivityLog(sectionName, itemID, ListNames.ACTIVITYLOGLIST, listDataArray, isNewItem, buttonCaption);
@@ -1382,7 +1327,6 @@ function OnSuccessMainListSave(data, sectionName, buttonCaption) {
             }
             if (buttonCaption.toLowerCase() == "save as draft" || buttonCaption.toLowerCase() == "resume") {
                 OnSuccessNoRedirect(data);
->>>>>>> 46663f23ad59081f2f9569c410de5a5a341cbdfd
             }
             else if (buttonCaption.toLowerCase() == "complete" && !isPageRedirect) {
                 OnSuccessConfirmSubmitNoRedirect(data);
@@ -1461,7 +1405,7 @@ function SaveActions(sectionName, itemID, actionPerformed) {
 function SaveCapitalAssetRequisitionNumber(itemID, listDataArray, actionPerformed) {
     var formFieldValues = [];
     var todayDate = new Date();
-    formFieldValues['CapitalAssetRequisitionNumber'] = listDataArray.CostCenter + '/' + todayDate.getFullYear() + ("0" + (this.getMonth() + 1)).slice(-2) + '/' + itemID;
+    formFieldValues['CapitalAssetRequisitionNumber'] = listDataArray.CostCenter + '/' + todayDate.getFullYear() + ("0" + (todayDate.getMonth() + 1)).slice(-2) + '/' + itemID;
     SaveFormFields(formFieldValues, itemID);
 }
 /*Priya Rane */
