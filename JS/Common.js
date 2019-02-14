@@ -669,6 +669,50 @@ function setFieldValue(controlId, item, fieldType, fieldName) {
 }
 
 /*Pooja Atkotiya */
+function setStaticFieldValue(controlId, item, fieldType, cType, fieldName) {
+
+    if (!fieldName || fieldName == "") {
+        fieldName = controlId;
+    }
+
+    switch (fieldType) {
+        case "text":
+        case "combo":
+        case "multitext":
+            if (cType == "text") {
+                $("#" + controlId).val(item[fieldName]).change();
+            }
+            else {
+                $("#" + controlId).text(item[fieldName]);
+            }
+            break;
+        case "date":
+            var dt = "";
+            if (item[fieldName] && item[fieldName] != null) {
+                dt = new Date(item[fieldName]).format("MM-dd-yyyy");
+            }
+            if (cType == "text") {
+                $("#" + controlId).val(dt).change();
+            }
+            else {
+                $("#" + controlId).text(dt);
+            }
+            break;
+        case "person":
+            var dispName = "";
+            if (item[fieldName] && item[fieldName] != null) {
+                dispName = item[fieldName].Title;
+            }
+            if (cType == "text") {
+                $("#" + controlId).val(dispName).change();
+            }
+            else {
+                $("#" + controlId).text(dispName);
+            }
+            break;
+    }
+}
+/*Pooja Atkotiya */
 function GetItemTypeForListName(name) {
     return "SP.Data." + name.charAt(0).toUpperCase() + name.split(" ").join("").slice(1) + "ListItem";
 }
@@ -991,10 +1035,12 @@ function GetFormControlsValue(id, elementType, listDataArray, elementvaluetype =
             listDataArray[id] = $(obj).val();
             break;
         case "date":
-            var month = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getMonth() + 1 : null;
-            var date = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getDate() : null;
-            var year = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getFullYear() : null;
-            var date = (!IsNullOrUndefined(month) && !IsNullOrUndefined(date) && !IsNullOrUndefined(year)) ? new Date(year.toString() + "-" + month.toString() + "-" + date.toString()).format("yyyy-MM-ddTHH:mm:ssZ") : null;
+            // var month = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getMonth() + 1 : null;
+            // var date = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getDate() : null;
+            // var year = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getFullYear() : null;
+            // var date = (!IsNullOrUndefined(month) && !IsNullOrUndefined(date) && !IsNullOrUndefined(year)) ? new Date(year.toString() + "-" + month.toString() + "-" + date.toString()).format("yyyy-MM-ddTHH:mm:ssZ") : null;
+            debugger
+            listDataArray[id] = $(obj).val();
             if (date) {
                 listDataArray[id] = date;
             }
@@ -1315,7 +1361,7 @@ function SaveData(listname, listDataArray, sectionName, ele) {
                 contentType: 'application/json; charset=utf-8',
                 async: false,
                 sucesscallbackfunction: function (data) {
-                    OnSuccessMainListSave(listname,isNewItem,data, sectionName, buttonCaption);
+                    OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCaption);
                 },
                 error: function (data) {
                     console.log(data);
@@ -1324,13 +1370,13 @@ function SaveData(listname, listDataArray, sectionName, ele) {
             });
         }
         else {
-            OnSuccessMainListSave(listname,isNewItem,null, sectionName, buttonCaption);
+            OnSuccessMainListSave(listname, isNewItem, null, sectionName, buttonCaption);
         }
 
     }
 }
 
-function OnSuccessMainListSave(listname,isNewItem,data, sectionName, buttonCaption) {
+function OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCaption) {
     var itemID = listItemId;
     if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d)) {
         itemID = data.d.ID;
@@ -1417,35 +1463,32 @@ function SaveActions(sectionName, itemID, actionPerformed) {
             }
             break;
         case SectionNames.HODSECTION:
-        if(actionPerformed=="NextApproval"){
-            formFieldValues['HODAction'] = currentUser.Title + '-' + todayDate + '-' + "Approve";
+            if (actionPerformed == "NextApproval") {
+                formFieldValues['HODAction'] = currentUser.Title + '-' + todayDate + '-' + "Approve";
             }
-            else if(actionPerformed=="Rejected")
-            {
+            else if (actionPerformed == "Rejected") {
                 formFieldValues['HODAction'] = currentUser.Title + '-' + todayDate + '-' + "Rejected";
             }
             break;
         case SectionNames.PURCHASESECTION:
-            if(actionPerformed=="NextApproval"){
-            formFieldValues['PurchaseAction'] = currentUser.Title + '-' + todayDate + '-' + "Submit";
+            if (actionPerformed == "NextApproval") {
+                formFieldValues['PurchaseAction'] = currentUser.Title + '-' + todayDate + '-' + "Submit";
             }
-            
+
             break;
         case SectionNames.FUNCTIONHEADSECTION:
-        if(actionPerformed=="NextApproval"){
-            formFieldValues['FuctionHeadAction'] = currentUser.Title + '-' + todayDate + '-' + "Approve";
+            if (actionPerformed == "NextApproval") {
+                formFieldValues['FuctionHeadAction'] = currentUser.Title + '-' + todayDate + '-' + "Approve";
             }
-            else if(actionPerformed=="Rejected")
-            {
+            else if (actionPerformed == "Rejected") {
                 formFieldValues['FuctionHeadAction'] = currentUser.Title + '-' + todayDate + '-' + "Rejected";
             }
             break;
         case SectionNames.MANAGEMENTSECTION:
-        if(actionPerformed=="NextApproval"){
-            formFieldValues['ManagementAction'] = currentUser.Title + '-' + todayDate + '-' + "Approve";
+            if (actionPerformed == "NextApproval") {
+                formFieldValues['ManagementAction'] = currentUser.Title + '-' + todayDate + '-' + "Approve";
             }
-            else if(actionPerformed=="Rejected")
-            {
+            else if (actionPerformed == "Rejected") {
                 formFieldValues['ManagementAction'] = currentUser.Title + '-' + todayDate + '-' + "Rejected";
             }
             break;

@@ -28,7 +28,7 @@ function GetSetFormData() {
     var mainListName = $($('div').find('[mainlistname]')).attr('mainlistname');
     AjaxCall(
         {
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + mainListName + "')/items(" + listItemId + ")?$select=Author/Title,*&$expand=Author",
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + mainListName + "')/items(" + listItemId + ")?$select=RaisedBy/Title,*&$expand=RaisedBy",
             httpmethod: 'GET',
             calldatatype: 'JSON',
             async: false,
@@ -56,6 +56,22 @@ function onGetSetFormDataSuccess(data) {
 
             if (listType == 'main' || reflisttype == 'main') {
                 setFieldValue(elementId, item, elementType, fieldName);
+            }
+        });
+        $(".static-control").each(function () {
+            var listType = $(this).attr('listtype');
+            var reflisttype = $(this).attr('reflisttype');
+            var controlType = $(this).attr("controlType");
+            var cType = $(this).attr("type");
+            if (controlType == 'multicheckbox')
+                fieldName = $(this).attr("cParent");
+            else if (controlType == 'radiogroup')
+                fieldName = $(this).attr("cParent");
+
+            var id = $(this).attr("id");
+            var fieldName = $(this).attr("id");
+            if (listType == 'main' || reflisttype == 'main') {
+                setStaticFieldValue(id, item, controlType, cType, fieldName);
             }
         });
     }
@@ -237,81 +253,81 @@ function SaveItemWiseAttachments(listname, itemID) {
     SaveFormFields(formFieldValues, itemID);
 }
 
-function GetFormBusinessLogic(activeSectionName,department){
-   
-        AjaxCall(
-            {
+function GetFormBusinessLogic(activeSectionName, department) {
 
-                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.DEPTFUNCTIONMASTER + "')/Items?$select=Function/Title,Department/Title,*&$expand=Department/Title,Function/Title&$filter=Department/Title eq '" + department +"'",
-                httpmethod: 'GET',
-                calldatatype: 'JSON',
-                async: false,
-                headers:
-                    {
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json;odata=verbose",
-                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                    },
-                sucesscallbackfunction: function (data) {
-                    if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
-                        $("#Function").html(data.d.results[0].Function.Title);
-                    }
+    AjaxCall(
+        {
+
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.DEPTFUNCTIONMASTER + "')/Items?$select=Function/Title,Department/Title,*&$expand=Department/Title,Function/Title&$filter=Department/Title eq '" + department + "'",
+            httpmethod: 'GET',
+            calldatatype: 'JSON',
+            async: false,
+            headers:
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+            sucesscallbackfunction: function (data) {
+                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
+                    $("#Function").html(data.d.results[0].Function.Title);
                 }
-            });
-    
+            }
+        });
 
-   
-        AjaxCall(
-            {
-                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetName,Department/Title&$expand=Department/Title&$filter=Department/Title eq '" + department +"'",
-                httpmethod: 'GET',
-                calldatatype: 'JSON',
-                async: false,
-                headers:
-                    {
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json;odata=verbose",
-                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                    },
-                sucesscallbackfunction: function (data) {
-                    if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
-                        var result = data.d.results;
-                       
-                        $('input[listname*=' + ListNames.BUDGETMASTER + '],select[listname*=' + ListNames.BUDGETMASTER + ']').each(function () {
-                            var elementId = $(this).attr('id');
-                            var elementType = $(this).attr('controlType');
-                            var valueBindingColumn = $(this).attr('valuebindingcolumn');
-                            var textBindingColumnn = $(this).attr('textbindingcolumnn');
-                            switch (elementType) {
-                                case "combo":
-                                    $("#" + elementId).html('');
-                                    $("#" + elementId).html("<option value=''>Select</option>");
-                                    if (!IsNullOrUndefined(valueBindingColumn) && !IsNullOrUndefined(textBindingColumnn) && valueBindingColumn != '' && textBindingColumnn != '') {
-                                        $(result).each(function (i, e) {
-                                            var cmditem = result[i];
-                                            var opt = $("<option/>");
-                                            opt.text(cmditem[textBindingColumnn]);
-                                            opt.attr("value", cmditem[valueBindingColumn]);
-                                            opt.appendTo($("#" + elementId));
-                                        });
-                                    }
-                                    
-                                    break;
-                               
-                            }
-                        });
-                        if(mainListData.AssetName != undefined ){
+
+
+    AjaxCall(
+        {
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetName,Department/Title&$expand=Department/Title&$filter=Department/Title eq '" + department + "'",
+            httpmethod: 'GET',
+            calldatatype: 'JSON',
+            async: false,
+            headers:
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+            sucesscallbackfunction: function (data) {
+                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
+                    var result = data.d.results;
+
+                    $('input[listname*=' + ListNames.BUDGETMASTER + '],select[listname*=' + ListNames.BUDGETMASTER + ']').each(function () {
+                        var elementId = $(this).attr('id');
+                        var elementType = $(this).attr('controlType');
+                        var valueBindingColumn = $(this).attr('valuebindingcolumn');
+                        var textBindingColumnn = $(this).attr('textbindingcolumnn');
+                        switch (elementType) {
+                            case "combo":
+                                $("#" + elementId).html('');
+                                $("#" + elementId).html("<option value=''>Select</option>");
+                                if (!IsNullOrUndefined(valueBindingColumn) && !IsNullOrUndefined(textBindingColumnn) && valueBindingColumn != '' && textBindingColumnn != '') {
+                                    $(result).each(function (i, e) {
+                                        var cmditem = result[i];
+                                        var opt = $("<option/>");
+                                        opt.text(cmditem[textBindingColumnn]);
+                                        opt.attr("value", cmditem[valueBindingColumn]);
+                                        opt.appendTo($("#" + elementId));
+                                    });
+                                }
+
+                                break;
+
+                        }
+                    });
+                    if (mainListData.AssetName != undefined) {
                         var objSelect = document.getElementById("AssetName");
                         setSelectedValue(objSelect, mainListData.AssetName);
-                        }
                     }
                 }
-            });
-    
+            }
+        });
+
 }
 function setSelectedValue(selectObj, valueToSet) {
     for (var i = 0; i < selectObj.options.length; i++) {
-        if (selectObj.options[i].text== valueToSet) {
+        if (selectObj.options[i].text == valueToSet) {
             selectObj.options[i].selected = true;
             return;
         }
