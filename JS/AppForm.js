@@ -63,15 +63,15 @@ function onGetSetFormDataSuccess(data) {
             var reflisttype = $(this).attr('reflisttype');
             var controlType = $(this).attr("controlType");
             var cType = $(this).attr("type");
-            if (elementType == 'multicheckbox')
+            if (controlType == 'multicheckbox')
                 fieldName = $(this).attr("cParent");
-            else if (elementType == 'radiogroup')
+            else if (controlType == 'radiogroup')
                 fieldName = $(this).attr("cParent");
 
             var id = $(this).attr("id");
             var fieldName = $(this).attr("id");
             if (listType == 'main' || reflisttype == 'main') {
-                setStaticFieldValue(id, item, elementType, cType, fieldName);
+                setStaticFieldValue(id, item, controlType, cType, fieldName);
             }
         });
     }
