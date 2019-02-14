@@ -1260,7 +1260,7 @@ function SaveData(listname, listDataArray, sectionName, ele) {
             headers = { "Accept": "application/json;odata=verbose", "Content-Type": "application/json;odata=verbose", "X-RequestDigest": $("#__REQUESTDIGEST").val() };
         }
 
-        if (!IsNullOrUndefined(listDataArray) && listDataArray.length > 0) {
+        if (!IsNullOrUndefined(listDataArray) && Object.keys(listDataArray).length > 0) {
             AjaxCall({
                 url: url,
                 postData: JSON.stringify(listDataArray),
