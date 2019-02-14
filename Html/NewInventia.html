@@ -47,7 +47,10 @@
                 $(this).load(file);
             });
               $(document).on("change", "#UploadURSAttachment", function () {
-                BindAttachmentFiles();
+                BindURSAttachmentFiles();
+            });
+            $(document).on("change", "#UploadSupportiveDocAttachment", function () {
+                BindSupportDocAttachmentFiles();
             });
             $('#IsNewVendor').hide();
             $("#ProposedVendor").hide();
@@ -450,6 +453,7 @@
                                                         </label>
                                                         <div class="col-md-8">
                                                             <input type="file" class="form-control dynamic-control" id="UploadURSAttachment" name="myfiles" controlType="file">
+                                                            <br>
                                                             <ul id="fileListURS"></ul>
                                                         </div>
                                                     </div>
@@ -461,8 +465,9 @@
                                                             Supportive Documents
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <a class="btn btn-primary pull-left" value="Attach Signature"
-                                                                onclick="">Attach</a>
+                                                            <input type="file" class="form-control dynamic-control" id="UploadSupportiveDocAttachment" name="myfiles" controlType="file">
+                                                            <br>
+                                                            <ul id="fileListSupportiveDoc"></ul>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -40,7 +40,7 @@ jQuery(document).ready(function () {
 });
 
 /*Priya Rane */
-function BindAttachmentFiles() {
+function BindURSAttachmentFiles() {
     var output = [];
 
     //Get the File Upload control id
@@ -67,7 +67,7 @@ function BindAttachmentFiles() {
             }
         })(file);
         reader.readAsArrayBuffer(file);
-        var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\">Remove</a>";
+        var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeURSFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\">Remove</a>";
         output.push("<li><strong>", escape(file.name), removeLink, "</li> ");
     }
     $('#UploadURSAttachment').next().append(output.join(""));
@@ -75,14 +75,60 @@ function BindAttachmentFiles() {
     //End of for loop
 }
 
+function BindSupportDocAttachmentFiles() {
+    var output = [];
+
+    //Get the File Upload control id
+    var input = document.getElementById("UploadSupportiveDocAttachment");
+    var fileCount = input.files.length;
+    console.log(fileCount);
+    for (var i = 0; i < fileCount; i++) {
+        var fileName = input.files[i].name;
+        console.log(fileName);
+        fileIdCounter++;
+        var fileId = fileIdCounter;
+        var file = input.files[i];
+        var reader = new FileReader();
+        reader.onload = (function (file) {
+            return function (e) {
+                console.log(file.name);
+                //Push the converted file into array
+                fileInfos.push({
+                    "name": file.name,
+                    "content": e.target.result,
+                    "id": fileId
+                });
+                console.log(fileInfos);
+            }
+        })(file);
+        reader.readAsArrayBuffer(file);
+        var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeSupportDocFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\">Remove</a>";
+        output.push("<li><strong>", escape(file.name), removeLink, "</li> ");
+    }
+    $('#UploadSupportiveDocAttachment').next().append(output.join(""));
+
+    //End of for loop
+}
+
 /*Priya Rane */
-function removeFiles(fileId) {
+function removeURSFiles(fileId) {
 
     for (var i = 0; i < fileInfos.length; ++i) {
         if (fileInfos[i].id === fileId)
             fileInfos.splice(i, 1);
     }
     var item = document.getElementById("fileListURS");
+    fileId--;
+    item.children[fileId].remove();
+
+}
+function removeSupportDocFiles(fileId) {
+
+    for (var i = 0; i < fileInfos.length; ++i) {
+        if (fileInfos[i].id === fileId)
+            fileInfos.splice(i, 1);
+    }
+    var item = document.getElementById("fileListSupportiveDoc");
     fileId--;
     item.children[fileId].remove();
 
