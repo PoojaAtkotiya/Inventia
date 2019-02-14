@@ -404,11 +404,13 @@ function ValidateModalForm() {
 function SaveVendorDetails() {
     var saveDataArray = {}
     //var tranListName = ListNames.CAPEXVENDORLIST;
-    $('#CRUDVendorModal').find('input[listtype=trans],select[listtype=trans],radio[listtype=trans],textarea[listtype=trans],label[listtype=trans]').each(function () {
+   // find('input[listtype=main],select[listtype=main],radio[listtype=main],textarea[listtype=main],label[listtype=main],input[reflisttype=main],select[reflisttype=main],radio[reflisttype=main],textarea[reflisttype=main],label[reflisttype=main],select[reflisttype=trans]').each(function () {
+    $('#CRUDVendorModal').find('input[listtype=trans],select[listtype=trans],radio[listtype=trans],textarea[listtype=trans],label[listtype=trans],input[reflisttype=main],select[reflisttype=main],radio[reflisttype=main],textarea[reflisttype=main],label[reflisttype=main],select[reflisttype=trans]').each(function () {
         var elementId = $(this).attr('id');
         var elementType = $(this).attr('controlType');
+        var elementvaluetype = $(this).attr('controlvaluetype');
         //  saveDataArray = GetFormControlsValues(elementId, elementType, saveDataArray);
-        saveDataArray = GetFormControlsValue(elementId, elementType, saveDataArray);
+        saveDataArray = GetFormControlsValue(elementId, elementType, saveDataArray,elementvaluetype);
     });
     // var email = document.getElementById('VendorEmailID');
     // var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;

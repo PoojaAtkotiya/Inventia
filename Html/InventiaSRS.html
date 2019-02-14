@@ -135,7 +135,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
         <div class="page-header pull-left">
-            <div class="page-title">CAPEX REQUISITION FORM</div>
+            <div class="page-title">CAPITAL ASSET REQUISITION FORM</div>
 
         </div>
         <ul class="header-nav header-nav-options nav navbar-nav navbar-right" id="dynamicButtonli"></ul>
@@ -161,7 +161,7 @@
                                 </div>
                                 <myform enctype="multipart/form-data" id="form_InitiatorSection" method="post"
                                     novalidate="novalidate" autocomplete="off">
-                                    <div class="card-body disabled" id="InitiatorSection" section="Initiator Section"
+                                    <div class="card-body " id="InitiatorSection" section="Initiator Section"
                                         sectionOwner="" FillByRole="">
                                         <div class="form-horizontal">
                                             <div class="row">
@@ -172,10 +172,10 @@
                                                             Capex Requisition Sr No.
                                                         </label>
 
-                                                        <!-- <label id="CapexRequisitionSrNo" class="col-md-8 labeltop">
-                                                            12001/201902/001</label> -->
-                                                            <label id="CapitalAssetRequisitionNumber" class="col-md-8 static-control labeltop"
-                                                            controlType="text" listtype="main"></label>
+                                                        <label id="CapexRequisitionSrNo" class="col-md-8 labeltop">
+                                                            12001/201902/001</label>
+                                                            <!-- <label id="CapitalAssetRequisitionNumber" class="col-md-8 static-control labeltop"
+                                                            controlType="text" listtype="main"></label> -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -186,9 +186,9 @@
                                                             <span class="text-danger text-default-light">*</span>
                                                             Raised By
                                                         </label>
-                                                        <!-- <label id="RaisedBy" class="col-md-8 labeltop">Mayuri Shah</label> -->
-                                                        <label id="RaisedBy" class="col-md-8 static-control labeltop"
-                                                            controlType="person" listtype="main"></label>
+                                                        <label id="RaisedBy" class="col-md-8 labeltop">Mayuri Shah</label>
+                                                        <!-- <label id="RaisedBy" class="col-md-8 static-control labeltop"
+                                                            controlType="person" listtype="main"></label> -->
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
@@ -197,7 +197,7 @@
                                                             <span class="text-danger text-default-light">*</span>
                                                             Raised On
                                                         </label>
-                                                        <!-- <label id="RequestDate" class="col-md-8 labeltop">12-02-2019</label> -->
+                                                         <label id="RequestDate" class="col-md-8 labeltop">14-02-2019</label> 
                                                         <!-- <label id="RaisedOn" class="col-md-8 static-control labeltop" controlType="date" listtype="main"></label> -->
                                                     </div>
                                                 </div>
@@ -209,9 +209,9 @@
                                                             <span class="text-danger text-default-light">*</span>
                                                             Department
                                                         </label>
-                                                        <!-- <label id="Department" class="col-md-8 dynamic-control labeltop">IT</label> -->
-                                                        <label id="Department" class="col-md-8 dynamic-control labeltop"
-                                                            controlType="text" listtype="main"></label>
+                                                        <label id="Department" class="col-md-8 dynamic-control labeltop">IT</label>
+                                                        <!-- <label id="Department" class="col-md-8 dynamic-control labeltop"
+                                                            controlType="text" listtype="main"></label> -->
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
@@ -221,12 +221,12 @@
                                                             Function
                                                         </label>
 
-                                                        <!-- <label id="Function" class="col-md-8 dynamic-control labeltop"
-                                                         controlType="text" listtype="main"> -->
+                                                        <label id="Function" class="col-md-8 dynamic-control labeltop">Information Technology</label>
+                                                         
 
-                                                        <label id="Function" class="col-md-8 dynamic-control labeltop"
+                                                        <!-- <label id="Function" class="col-md-8 dynamic-control labeltop"
                                                             controlType="text" listtype="main"></label>
-                                                        </label>
+                                                        </label> -->
 
                                                     </div>
                                                 </div>
@@ -445,8 +445,8 @@
                                                             URS Attachment
                                                         </label>
                                                         <div class="col-md-8">
-                                                               
-                                                                <a class="btn btn-primary pull-left" value="Attach" onclick="">Attach</a>
+                                                                <input type="file" class="form-control dynamic-control" id="UploadURSAttachment" name="myfiles" controltype="file"><br>
+                                                                <a href>URSfile.png</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -457,8 +457,8 @@
                                                             Supportive Documents
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <a class="btn btn-primary pull-left" value="Attach Signature"
-                                                                onclick="">Attach</a>
+                                                                <input type="file" class="form-control dynamic-control" id="UploadURSAttachment" name="myfiles" controltype="file"><br>
+                                                                <a href>Supportivedoc.png</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -473,22 +473,28 @@
 
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <div id="img_Intiator" class="col-md-8" width="100" height="100"></div>
+                                                               
+                                                            <div href= class="col-md-8" width="100" height="100"> 
+                                                                <img src="/sites/dev/EmployeeSignature/Priya Rane.png" />
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-
-
-                                                        </label>
-                                                        <div class="col-md-8">
-                                                            <label id="InitiatorAction" class="col-md-8 static-control labeltop"
-                                                                listtype="main"></label>
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">
+    
+    
+                                                            </label>
+                                                            <div class="col-md-8">
+                                                                <b> Submitted By </b>
+                                                                <br>
+                                                                <b> Mayuri Shah </b>
+                                                                <br>
+                                                                <b> 12/02/2019 15.30PM IST </b>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
                                             </div>
 
 
@@ -510,9 +516,9 @@
                                 </div>
                                 <myform enctype="multipart/form-data" id="form_PurchaseSection" method="post"
                                     novalidate="novalidate" autocomplete="off">
-                                    <div class="card-body disabled" id="PurchaseSection" section="Purchase Section"
+                                    <div class="card-body " id="PurchaseSection" section="Purchase Section"
                                         sectionOwner="" FillByRole="">
-                                        <div data-include="VendorInventia"></div>
+                                        <div data-include="VendorSRS"></div>
                                         <div class="form-horizontal">
                                             <div class="row">
                                                 <div class="col-lg-12">
@@ -537,7 +543,8 @@
                                                             Attachments
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <a class="btn btn-primary pull-left" value="Attach" onclick="">Attach</a>
+                                                                <input type="file" class="form-control dynamic-control" id="UploadURSAttachment" name="myfiles" controltype="file"><br>
+                                                                <a href>Attach1.jpg</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -553,7 +560,9 @@
 
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <div id="img_Purchase" class="col-md-8" width="100" height="100"></div>
+                                                                <div href= class="col-md-8" width="100" height="100"> 
+                                                                        <img src="/sites/dev/EmployeeSignature/Satishpatel.jpg" />
+                                                                    </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -564,11 +573,11 @@
 
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <b> Mayuri Shah </b>
+                                                            <b> Submitted By </b>
                                                             <br>
-                                                            <b> Submitted </b>
+                                                            <b> Prakash Shinde </b>
                                                             <br>
-                                                            <b> 12/02/2019 15.30 </b>
+                                                            <b> 13/02/2019 15.30PM IST </b>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -589,7 +598,7 @@
                                 <myform enctype="multipart/form-data" id="form_HodSection" method="post" novalidate="novalidate"
                                     autocomplete="off">
                                     <!-- <div class="card-body" id="HodSection" section="HOD Section" sectionOwner="" -->
-                                    <div class="card-body disabled " id="HodSection" section="Initiator HOD Section"
+                                    <div class="card-body  " id="HodSection" section="Initiator HOD Section"
                                         sectionOwner="" FillByRole="">
                                         <div class="form-horizontal">
                                             <div class="row">
@@ -692,78 +701,37 @@
                                             </div>
                                             <hr>
                                             <br>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                            <span class="text-danger text-default-light">*</span>
-                                                            Budgeted Value (Rupee in Lakhs) </label>
-                                                        <div class="col-md-8">
-                                                            <input id="BudgetedValue" class="form-control dynamic-control"
-                                                                name="BudgetedValue" placeholder="Budgeted Value" type="text"
-                                                                required="required" controlType="text" data="digit"
-                                                                maxlength="15" listtype="main" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                            <span class="text-danger text-default-light">*</span>
-                                                            Utilised Value(Rupee in Lakhs) </label>
-                                                        <div class="col-md-8">
-                                                            <input id="UtilizedValue" class="form-control dynamic-control"
-                                                                name="UtilizedValue" placeholder="Utilised Value" type="text"
-                                                                required="required" controlType="text" data="digit"
-                                                                maxlength="15" listtype="main" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                            <span class="text-danger text-default-light">*</span>
-                                                            Current Value(Rupee in Lakhs) </label>
-                                                        <div class="col-md-8">
-                                                            <input id="CurrentValue" class="form-control dynamic-control"
-                                                                name="CurrentValue" placeholder="Current Value" type="text"
-                                                                required="required" controlType="combo" data="digit"
-                                                                maxlength="15" listtype="main" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                            <span class="text-danger text-default-light">*</span>
-                                                            Total Utilised Value(Rupee in Lakhs)
-                                                        </label>
-                                                        <div class="col-md-8">
-                                                            <input id="TotalUtilizedValue" class="form-control dynamic-control"
-                                                                name="TotalUtilizedValue" placeholder="Total Utilised Value"
-                                                                type="text" required="required" controlType="text"
-                                                                listtype="main" data="digit" maxlength="15" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                            <span class="text-danger text-default-light">*</span>
-                                                            Balance(Rupee in Lakhs) </label>
-                                                        <div class="col-md-8">
-                                                            <input id="Balance" class="form-control dynamic-control"
-                                                                name="Balance" placeholder="Balance Value" type="text"
-                                                                required="required" controlType="text" listtype="main"
-                                                                data="digit" maxlength="15" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    <div class="table-wrapper"> 
+                                        <div class="table-responsive"> 
+                                                    
+                                                <table class="table table-hover table-bordered someTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th width='20%'>Budgeted Value (Rupee in Lakhs)</th>
+                                                                <th width='20%'>Utilised Value(Rupee in Lakhs)</th>
+                                                                <th width='20%'>Current Value(Rupee in Lakhs)</th>
+                                                                <th width='20%'>Total Utilised Value(Rupee in Lakhs)</th>
+                                                                <th width='20%'>Balance(Rupee in Lakhs)</th>
+                                                            
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>123</td>
+                                                                <td>544565</td>
+                                                                <td>566</td>
+                                                                <td>23652</td>
+                                                                <td>12545</td>
+
+                                                            </tr>
+                                                           
+                                                                    
+                                                                    
+                                                        </tbody>
+                                                    </table>
+                                        </div>
+                                    </div>
+                                           
                                             <hr>
                                             <br>
                                             <div class="row">
@@ -791,7 +759,10 @@
                                                             Attachments
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <a class="btn btn-primary pull-left" value="Attach" onclick="">Attach</a>
+                                                                <div class="col-md-8">
+                                                                        <input type="file" class="form-control dynamic-control" id="UploadURSAttachment" name="myfiles" controltype="file"><br>
+                                                                        <a href>Attachedfile1.jpg</a>
+                                                                </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -811,7 +782,9 @@
 
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <div id="img_HOD" class="col-md-8" width="100" height="100"></div>
+                                                                <div href= class="col-md-8" width="100" height="100"> 
+                                                                        <img src="/sites/dev/EmployeeSignature/Himil.jpg" />
+                                                                </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -822,11 +795,11 @@
 
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <b> Mayuri Shah </b>
+                                                            <b> Rajat Shah </b>
                                                             <br>
                                                             <b> Submitted </b>
                                                             <br>
-                                                            <b> 12/02/2019 15.30 </b>
+                                                            <b> 14/02/2019 15.30 </b>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -847,17 +820,17 @@
                                 <myform enctype="multipart/form-data" id="form_FunctionHead" method="post" novalidate="novalidate"
                                     autocomplete="off">
                                     <!-- <div class="card-body" id="FunctionHead" section="HOD Section" sectionOwner="" -->
-                                    <div class="card-body disabled" id="FunctionHead" section="Function Head Section"
+                                    <div class="card-body " id="FunctionHead" section="Function Head Section"
                                         sectionOwner="" FillByRole="">
                                         <div class="form-horizontal">
                                             <div class="row">
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-12">
                                                     <div class="form-group">
-                                                        <label class="col-md-4 control-label">
+                                                        <label class="col-md-2 control-label">
 
                                                             Comment(s)
                                                         </label>
-                                                        <div class="col-md-8">
+                                                        <div class="col-md-10">
 
                                                             <textarea class="form-control approver-control" maxlength="1000"
                                                                 controlType="multitext" listname="" name="Comments" id="FunctionHead_Comments"
@@ -865,6 +838,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
                                                 <hr>
                                                 <br>
                                                 <div class="row">
@@ -875,8 +849,9 @@
 
                                                             </label>
                                                             <div class="col-md-8">
-                                                                <div id="img_FunctionHead" class="col-md-8" width="100"
-                                                                    height="100"></div>
+                                                                    <div href= class="col-md-8" width="100" height="100"> 
+                                                                            <img src="/sites/dev/EmployeeSignature/Krishna%20Soni.png" />
+                                                                    </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -887,16 +862,16 @@
 
                                                             </label>
                                                             <div class="col-md-8">
-                                                                <b> Mayuri Shah </b>
+                                                                <b> Vaibhavi Shah </b>
                                                                 <br>
                                                                 <b> Submitted </b>
                                                                 <br>
-                                                                <b> 12/02/2019 15.30 </b>
+                                                                <b> 14/02/2019 15.30 </b>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            
                                         </div>
                                 </myform>
                                 <div class="clearfix"></div>
@@ -910,23 +885,24 @@
                                 </div>
                                 <myform enctype="multipart/form-data" id="form_ManagementSection" method="post"
                                     novalidate="novalidate" autocomplete="off">
-                                    <div class="card-body disabled" id="ManagementSection" section="Management Section"
+                                    <div class="card-body " id="ManagementSection" section="Management Section"
                                         sectionOwner="" FillByRole="">
                                         <div class="form-horizontal">
                                             <div class="row">
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-12">
                                                     <div class="form-group">
-                                                        <label class="col-md-4 control-label">
+                                                        <label class="col-md-2 control-label">
 
                                                             Comment(s)
                                                         </label>
-                                                        <div class="col-md-8">
+                                                        <div class="col-md-10">
                                                             <textarea class="form-control approver-control" maxlength="1000"
                                                                 controlType="multitext" listname="" name="Comments" id="ManagementSection_Comments"
                                                                 name="ManagementSection_Comments"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
                                                 <hr>
                                                 <br>
                                                 <div class="row">
@@ -937,8 +913,9 @@
 
                                                             </label>
                                                             <div class="col-md-8">
-                                                                <div id="img_Management" class="col-md-8" width="100"
-                                                                    height="100"></div>
+                                                                    <div href= class="col-md-8" width="100" height="100"> 
+                                                                            <img src="/sites/dev/EmployeeSignature/PoojaAtkotiya.png" />
+                                                                    </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -949,16 +926,16 @@
 
                                                             </label>
                                                             <div class="col-md-8">
-                                                                <b> Mayuri Shah </b>
+                                                                <b> Hitesh Dave </b>
                                                                 <br>
                                                                 <b> Submitted </b>
                                                                 <br>
-                                                                <b> 12/02/2019 15.30 </b>
+                                                                <b> 14/02/2019 15.30 </b>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            
                                         </div>
 
                                     </div>
