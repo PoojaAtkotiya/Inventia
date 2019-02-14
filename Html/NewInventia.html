@@ -22,6 +22,7 @@
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Script/bootstrap-datetimepicker.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sp-pnp-js/3.0.10/pnp.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/jquery.validate.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/jquery.validate.unobtrusive.js"></script>
 
@@ -44,6 +45,9 @@
             jQuery.each(includes, function () {
                 var file = CommonConstant.HTMLFILSEPATH + $(this).data('include') + '.html';
                 $(this).load(file);
+            });
+              $(document).on("change", "#UploadURSAttachment", function () {
+                BindAttachmentFiles();
             });
             $('#IsNewVendor').hide();
             $("#ProposedVendor").hide();
@@ -445,8 +449,13 @@
                                                             URS Attachment
                                                         </label>
                                                         <div class="col-md-8">
+<<<<<<< HEAD
                                                                
                                                                 <a class="btn btn-primary pull-left" value="Attach" onclick="">Attach</a>
+=======
+                                                            <input type="file" class="form-control dynamic-control" id="UploadURSAttachment" name="myfiles" controlType="file">
+                                                            <ul id="fileListURS"></ul>
+>>>>>>> 744d437cdebeadc82c654782b6008cd64d0f659a
                                                         </div>
                                                     </div>
                                                 </div>

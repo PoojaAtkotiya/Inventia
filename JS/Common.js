@@ -44,7 +44,7 @@ function BindAttachmentFiles() {
     var output = [];
 
     //Get the File Upload control id
-    var input = document.getElementById("UploadArtworkAttachment");
+    var input = document.getElementById("UploadURSAttachment");
     var fileCount = input.files.length;
     console.log(fileCount);
     for (var i = 0; i < fileCount; i++) {
@@ -70,7 +70,7 @@ function BindAttachmentFiles() {
         var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\">Remove</a>";
         output.push("<li><strong>", escape(file.name), removeLink, "</li> ");
     }
-    $('#UploadArtworkAttachment').next().append(output.join(""));
+    $('#UploadURSAttachment').next().append(output.join(""));
 
     //End of for loop
 }
@@ -82,7 +82,7 @@ function removeFiles(fileId) {
         if (fileInfos[i].id === fileId)
             fileInfos.splice(i, 1);
     }
-    var item = document.getElementById("fileList");
+    var item = document.getElementById("fileListURS");
     fileId--;
     item.children[fileId].remove();
 
@@ -1297,6 +1297,7 @@ function OnSuccessMainListSave(listname,isNewItem,data, sectionName, buttonCapti
         clientContext.load(oListItem, 'FormLevel', 'RaisedBy');
         clientContext.load(web);
         clientContext.executeQueryAsync(function () {
+            AddAllAttachments(listname, itemID);
             CommonBusinessLogic(sectionName, itemID, listDataArray);
             SaveLocalApprovalMatrix(sectionName, itemID, listname, isNewItem, oListItem, ListNames.APPROVALMATRIXLIST);
             SaveActivityLog(sectionName, itemID, ListNames.ACTIVITYLOGLIST, listDataArray, isNewItem, buttonCaption);
