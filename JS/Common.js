@@ -1270,7 +1270,11 @@ function SaveData(listname, listDataArray, sectionName, ele) {
                 contentType: 'application/json; charset=utf-8',
                 async: false,
                 sucesscallbackfunction: function (data) {
+<<<<<<< HEAD
                     OnSuccessMainListSave(listname,data, sectionName, buttonCaption);
+=======
+                    OnSuccessMainListSave(listname,isNewItem,data, sectionName, buttonCaption);
+>>>>>>> 372b4ece8dc290941180dd99021352350724377f
                 },
                 error: function (data) {
                     console.log(data);
@@ -1279,13 +1283,21 @@ function SaveData(listname, listDataArray, sectionName, ele) {
             });
         }
         else {
+<<<<<<< HEAD
             OnSuccessMainListSave(listname,null, sectionName, buttonCaption);
+=======
+            OnSuccessMainListSave(listname,isNewItem,null, sectionName, buttonCaption);
+>>>>>>> 372b4ece8dc290941180dd99021352350724377f
         }
 
     }
 }
 
+<<<<<<< HEAD
 function OnSuccessMainListSave(listname,data, sectionName, buttonCaption) {
+=======
+function OnSuccessMainListSave(listname,isNewItem,data, sectionName, buttonCaption) {
+>>>>>>> 372b4ece8dc290941180dd99021352350724377f
     var itemID = listItemId;
     if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d)) {
         itemID = data.d.ID;

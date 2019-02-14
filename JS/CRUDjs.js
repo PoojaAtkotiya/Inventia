@@ -30,50 +30,50 @@ $(document).ready(function () {
     // });
 });
 
-function AutoPopulateVendor() {
-    $("#tags").autocomplete({
-        source: function (request, response) {
-            $.ajax({
-                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('VendorMaster')/items?$filter=substringof('" + request.term + "',Title)&$top=100&$select=Title,Address",
-                type: "GET",
-                headers: {
-                    Accept: "application/json;odata=verbose"
-                },
-                async: false,
-                cache: false,
-                beforeSend: function () {
-                    console.log("beforeSend");
-                },
-                success: function (data, status, xhr) {
-                    arrayVendor = [];
-                    arrayAddress = [];
-                    for (i = 0; i < data.d.results.length; i++) {
-                        //  arrayEmployee.push(data.d.results[i]["Title"] + ", " + data.d.results[i]["Address"]);    
-                        arrayVendor.push(data.d.results[i]["Title"]);
-                        var VendorName = data.d.results[i]["Title"];
-                        var Address = data.d.results[i]["Address"];
-                        arrayAddress.push({ name: VendorName, address: Address });
-                    }
-                    arrayVendor = $.unique(arrayVendor);
-                    response(arrayVendor);
-                    var autoSuggestion = document.getElementsByClassName('ui-autocomplete');
-                    if (autoSuggestion.length > 0) {
-                        autoSuggestion[0].style.zIndex = 1051;
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.log("error: " + xhr.responseText);
-                },
-                complete: function () {
-                    console.log("complete");
-                }
-            });
-        },
-        minLength: 2,
-        appendTo: $("#menu"),
-        select: showLabel
-    });
-}
+//function AutoPopulateVendor() {
+// $("#tags").autocomplete({
+//     source: function (request, response) {
+//         $.ajax({
+//             url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('VendorMaster')/items?$filter=substringof('" + request.term + "',Title)&$top=100&$select=Title,Address",
+//             type: "GET",
+//             headers: {
+//                 Accept: "application/json;odata=verbose"
+//             },
+//             async: false,
+//             cache: false,
+//             beforeSend: function () {
+//                 console.log("beforeSend");
+//             },
+//             success: function (data, status, xhr) {
+//                 arrayVendor = [];
+//                 arrayAddress = [];
+//                 for (i = 0; i < data.d.results.length; i++) {
+//                     //  arrayEmployee.push(data.d.results[i]["Title"] + ", " + data.d.results[i]["Address"]);    
+//                     arrayVendor.push(data.d.results[i]["Title"]);
+//                     var VendorName = data.d.results[i]["Title"];
+//                     var Address = data.d.results[i]["Address"];
+//                     arrayAddress.push({ name: VendorName, address: Address });
+//                 }
+//                 arrayVendor = $.unique(arrayVendor);
+//                 response(arrayVendor);
+//                 var autoSuggestion = document.getElementsByClassName('ui-autocomplete');
+//                 if (autoSuggestion.length > 0) {
+//                     autoSuggestion[0].style.zIndex = 1051;
+//                 }
+//             },
+//             error: function (xhr, status, error) {
+//                 console.log("error: " + xhr.responseText);
+//             },
+//             complete: function () {
+//                 console.log("complete");
+//             }
+//         });
+//     },
+//     minLength: 2,
+//     appendTo: $("#menu"),
+//     select: showLabel
+// });
+//}
 function showLabel(event, ui) {
     var nameofvendor = $('#tags').val();
     if (nameofvendor != undefined && nameofvendor != "") {
@@ -102,8 +102,8 @@ function AddVendorDetails() {
     $("#CRUDVendorModal").find('input,textarea,select,checkbox').val('');
     $("#CRUDVendorModal").modal('show');
     $("#spanTitle").html('Add Vendor Detail');
-    $('input[type=checkbox]').prop('checked',false);
-    
+    $('input[type=checkbox]').prop('checked', false);
+
 }
 
 function ViewVendorDetails(obj) {
@@ -150,11 +150,11 @@ function GetVendorDetailsById(id) {
             async: false,
             datatype: 'json',
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             success: function (data) {
                 VendorDetailresult = data.d;
             }
@@ -291,7 +291,7 @@ function SaveVendorData(listDataArray) {
     });
 
     GetVendorDetails(listTempGridDataArray);
-  
+
     $("#CRUDVendorModal").modal('hide');
     AlertModal("Success", "Vendor Details Saved Successfully");
 }
@@ -312,14 +312,14 @@ function SaveVendorNameInMaster(listDataArray) {
             postData: JSON.stringify(mainlistDataArray),
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                    "IF-MATCH": "*",
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                "IF-MATCH": "*",
+            },
             sucesscallbackfunction: function (data) {
-                listDataArray.isVendorAdded="Yes";
+                listDataArray.isVendorAdded = "Yes";
                 console.log("Item saved Successfully");
             }
         });
@@ -379,25 +379,25 @@ function SaveVendorNameInMaster(listDataArray) {
 */
 
 function ValidateModalForm() {
-        var isValid = true;
-        $('#form_VendorSection').valid();
-        if (!$(form_VendorSection).valid()) {
-            isValid = false;
-            try {
-                var validator = $(form_VendorSection).validate();
-                $(validator.errorList).each(function (i, errorItem) {
-                    //  AlertModal("Validation", errorItem.element.id + "' : '" + errorItem.message);
-                    $("#" + errorItem.element.id).addClass("error");
-                    $("#" + errorItem.element.id).removeClass("valid");
-                    $("#" + errorItem.element.id).next().remove();
-                    console.log("{ '" + errorItem.element.id + "' : '" + errorItem.message + "'}");
-                });
-            }
-            catch (e1) {
-                console.log(e1.message);
-            }
+    var isValid = true;
+    $('#form_VendorSection').valid();
+    if (!$(form_VendorSection).valid()) {
+        isValid = false;
+        try {
+            var validator = $(form_VendorSection).validate();
+            $(validator.errorList).each(function (i, errorItem) {
+                //  AlertModal("Validation", errorItem.element.id + "' : '" + errorItem.message);
+                $("#" + errorItem.element.id).addClass("error");
+                $("#" + errorItem.element.id).removeClass("valid");
+                $("#" + errorItem.element.id).next().remove();
+                console.log("{ '" + errorItem.element.id + "' : '" + errorItem.message + "'}");
+            });
         }
-        return isValid;
+        catch (e1) {
+            console.log(e1.message);
+        }
+    }
+    return isValid;
 
 }
 
@@ -418,24 +418,23 @@ function SaveVendorDetails() {
     // email.focus;
     // return false;
 
-      var isValid = ValidateModalForm();
-     if (isValid) {
-     SaveVendorData(saveDataArray);
-     
-     //}
+    var isValid = ValidateModalForm();
+    if (isValid) {
+        SaveVendorData(saveDataArray);
+
+        //}
     }
 }
-function validateEmail(emailField){
+function validateEmail(emailField) {
     var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
-    if (reg.test(emailField.value) == false) 
-    {
-       // alert('Invalid Email Address');
-       document.getElementById('invalidemail').innerHTML="This is invalid EmailID ";
+    if (reg.test(emailField.value) == false) {
+        // alert('Invalid Email Address');
+        document.getElementById('invalidemail').innerHTML = "This is invalid EmailID ";
         return false;
     }
-    else{
-        document.getElementById('invalidemail').innerHTML=" ";
+    else {
+        document.getElementById('invalidemail').innerHTML = " ";
     }
     return true;
 
@@ -486,6 +485,11 @@ function GetVendorDetails(listTempGridDataArray) {
                     arrayItem.Type = "Edit";
                 }
 
+                var recommended = "No";
+                if (arrayItem.Recommended) {
+                    recommended = "Yes";
+                }
+
                 console.log(arrayItem);
                 tr = $('<tr/>');
 
@@ -496,7 +500,7 @@ function GetVendorDetails(listTempGridDataArray) {
                 tr.append("<td width='10%'>" + arrayItem.LessDiscount + "</td>");
                 tr.append("<td width='10%'>" + arrayItem.NetValue + "</td>");
                 tr.append("<td width='10%'>" + arrayItem.TotalValue + "</td>");
-                tr.append("<td width='10%'>" + arrayItem.Recommended + "</td>");
+                tr.append("<td width='10%'>" + recommended + "</td>");
                 tr.append("<td width='12%'>" +
                     "<a class='view' id='ViewVendor_" + arrayItem.Index + '_' + arrayItem.ID + "' title='View' data-toggle='tooltip'><i class='material-icons'>&#xE417;</i></a>" +
                     "<a id='EditVendor_" + arrayItem.Index + '_' + arrayItem.ID + '_' + arrayItem.Type + "' class='edit' title='Edit' data-toggle='modal'><i class='material-icons'>&#xE254;</i></a>" +
