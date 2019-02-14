@@ -127,7 +127,7 @@ function onloadConstantsSuccess(sender, args) {
         setImageSignature();
     }
 
-    GetFormBusinessLogic(activeSectionName,department);
+    GetFormBusinessLogic(activeSectionName, department);
     //setCustomApprovers();
 }
 
@@ -1260,19 +1260,23 @@ function SaveData(listname, listDataArray, sectionName, ele) {
             headers = { "Accept": "application/json;odata=verbose", "Content-Type": "application/json;odata=verbose", "X-RequestDigest": $("#__REQUESTDIGEST").val() };
         }
 
-        AjaxCall({
-            url: url,
-            postData: JSON.stringify(listDataArray),
-            httpmethod: 'POST',
-            calldatatype: 'JSON',
-            headers: headers,
-            contentType: 'application/json; charset=utf-8',
-            async: false,
-            sucesscallbackfunction: function (data) {
-                var itemID = listItemId;
-                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d)) {
-                    itemID = data.d.ID;
+        if (!IsNullOrUndefined(listDataArray) && Object.keys(listDataArray).length > 0) {
+            AjaxCall({
+                url: url,
+                postData: JSON.stringify(listDataArray),
+                httpmethod: 'POST',
+                calldatatype: 'JSON',
+                headers: headers,
+                contentType: 'application/json; charset=utf-8',
+                async: false,
+                sucesscallbackfunction: function (data) {
+                    OnSuccessMainListSave(data, sectionName, buttonCaption);
+                },
+                error: function (data) {
+                    console.log(data);
+                    HideWaitDialog();
                 }
+<<<<<<< HEAD
                 ////AddAttachments(itemID);
                 AddAllAttachments(listname, itemID);
                 var web, clientContext;
@@ -1327,34 +1331,95 @@ function SaveData(listname, listDataArray, sectionName, ele) {
             error: function (data) {
                 console.log(data);
                 HideWaitDialog();
-            }
-        });
+=======
+            });
+        }
+        else {
+            OnSuccessMainListSave(null, sectionName, buttonCaption);
+        }
+
     }
+}
+
+function OnSuccessMainListSave(data, sectionName, buttonCaption) {
+    var itemID = listItemId;
+    if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d)) {
+        itemID = data.d.ID;
+    }
+    var web, clientContext;
+    SP.SOD.executeFunc('sp.js', 'SP.ClientContext', function () {
+        clientContext = new SP.ClientContext.get_current();
+        web = clientContext.get_web();
+        oList = web.get_lists().getByTitle(ListNames.MAINLIST);
+        var oListItem = oList.getItemById(itemID);
+        clientContext.load(oListItem, 'FormLevel', 'RaisedBy');
+        clientContext.load(web);
+        clientContext.executeQueryAsync(function () {
+            CommonBusinessLogic(sectionName, itemID, listDataArray);
+            SaveLocalApprovalMatrix(sectionName, itemID, listname, isNewItem, oListItem, ListNames.APPROVALMATRIXLIST);
+            SaveActivityLog(sectionName, itemID, ListNames.ACTIVITYLOGLIST, listDataArray, isNewItem, buttonCaption);
+            if (!isNaN(itemID)) {
+                debugger
+                // SaveTranListData(itemID);
+                SaveAllTrans(itemID);
+            }
+            // else {
+            //     SaveTranListData(itemID);
+            // }
+            HideWaitDialog();
+            if (IsNullOrUndefined(data)) {
+                data = {};
+                data = {
+                    ItemID: itemID,
+                    IsSucceed: true,
+                    Messages: "Data saved successfully"
+                }
+            }
+            else {
+                data.ItemID = itemID;
+                data.IsSucceed = true;
+                data.Messages = "Data saved successfully";
+            }
+            if (buttonCaption.toLowerCase() == "save as draft" || buttonCaption.toLowerCase() == "resume") {
+                OnSuccessNoRedirect(data);
+>>>>>>> 46663f23ad59081f2f9569c410de5a5a341cbdfd
+            }
+            else if (buttonCaption.toLowerCase() == "complete" && !isPageRedirect) {
+                OnSuccessConfirmSubmitNoRedirect(data);
+            }
+            else {
+                OnSuccess(data);
+            }
+        }, function (sender, args) {
+            HideWaitDialog();
+            console.log('request failed ' + args.get_message() + '\n' + args.get_stackTrace());
+        });
+    });
 }
 
 function CommonBusinessLogic(sectionName, itemID, listDataArray) {
     var actionStatus = $("#ActionStatus").val();
-    
+
     var keys = Object.keys(ButtonActionStatus).filter(k => ButtonActionStatus[k] == actionStatus);
     var actionPerformed = keys.toString();
     SaveImageSignaturePath(sectionName, itemID);
-    SaveActions(sectionName,itemID,actionPerformed);
+    SaveActions(sectionName, itemID, actionPerformed);
     if (sectionName == SectionNames.INITIATORSECTION && actionPerformed == "NextApproval") {
-        SaveCapitalAssetRequisitionNumber(itemID, listDataArray,actionPerformed);
+        SaveCapitalAssetRequisitionNumber(itemID, listDataArray, actionPerformed);
     }
 
 }
-function SaveActions(sectionName,itemID,actionPerformed) {
+function SaveActions(sectionName, itemID, actionPerformed) {
     var formFieldValues = [];
     var todayDate = new Date();
     switch (sectionName) {
         case SectionNames.INITIATORSECTION:
-        if(actionPerformed=="NextApproval"){
-        formFieldValues['InitiatorAction'] = currentUser.Title + '-' + todayDate + '-' + "Submit";
-        }
-        else if(actionPerformed=="SaveAsDraft"){
-            formFieldValues['InitiatorAction'] = currentUser.Title + '-' + todayDate + '-' + "SaveAsDraft";
-        }
+            if (actionPerformed == "NextApproval") {
+                formFieldValues['InitiatorAction'] = currentUser.Title + '-' + todayDate + '-' + "Submit";
+            }
+            else if (actionPerformed == "SaveAsDraft") {
+                formFieldValues['InitiatorAction'] = currentUser.Title + '-' + todayDate + '-' + "SaveAsDraft";
+            }
             break;
         case SectionNames.HODSECTION:
         if(actionPerformed=="NextApproval"){
@@ -1390,10 +1455,10 @@ function SaveActions(sectionName,itemID,actionPerformed) {
             }
             break;
     }
-   
+
     SaveFormFields(formFieldValues, itemID);
 }
-function SaveCapitalAssetRequisitionNumber(itemID, listDataArray,actionPerformed) {
+function SaveCapitalAssetRequisitionNumber(itemID, listDataArray, actionPerformed) {
     var formFieldValues = [];
     var todayDate = new Date();
     formFieldValues['CapitalAssetRequisitionNumber'] = listDataArray.CostCenter + '/' + todayDate.getFullYear() + ("0" + (this.getMonth() + 1)).slice(-2) + '/' + itemID;
