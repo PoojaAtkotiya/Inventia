@@ -254,16 +254,31 @@ function SaveItemWiseAttachments(listname, itemID) {
 }
 
 function GetFormBusinessLogic(listItemId, activeSectionName, department) {
+    var sectionName;
+    var pendingWithRole; //from mainListData
+     if(mainListData.length==0)
+      {
+        pendingWithRole="Creator";
+      }
+    
     if (listItemId == 0) {
         setNewFormParamters(department)
     }
     if (listItemId != null && listItemId > 0) {
         setImageSignature();
     }
+    if(pendingWithRole=="Creator"){
     setFunctionbasedDept(department);
+    }
     bindAssetName(department);
     if (listItemId > 0) {
         bindAttachments();
+    }
+
+    if(mainListData.PendingWith=="Initiator HOD")
+    {
+        setVendorDropDown(department);
+        
     }
 }
 function setSelectedValue(selectObj, valueToSet) {
@@ -283,7 +298,18 @@ function setNewFormParamters(department) {
     $("#WorkflowStatus").html("New");
     $("#Department").html(department);
 }
-
+function setVendorDropDown()
+{
+     $("#SelectedVendor").html('');
+     $("#SelectedVendor").html("<option value=''>Select</option>");
+     $(listTempGridDataArray).each(function (i, e) {
+                        var cmditem = listTempGridDataArray[i].VendorName;
+                        var opt = $("<option/>");
+                        opt.text(cmditem);
+                        opt.attr("value", cmditem);
+                        opt.appendTo($("#SelectedVendor"));
+    });
+}
 function setFunctionbasedDept(department) {
     AjaxCall(
         {
@@ -367,10 +393,10 @@ function bindAttachments() {
                     var htmlStr = "";
                     fileURSArray = previewFile(fileURSArray,element.ServerRelativeUrl,element.FileName,1);
                     if (htmlStr === "") {
-                        htmlStr = "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
+                        htmlStr = "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a><a href=\"javascript:removeURSFile('" + element.FileName + "')\"> Remove</a></li>";
                     }
                     else {
-                        htmlStr = htmlStr + "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
+                        htmlStr = htmlStr + "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a></li><a href=\"javascript:removeURSFile('" + element.FileName + "')\"> Remove</a></li>";
 
                     }
                     $('#URSContainer').html(htmlStr);
@@ -392,7 +418,7 @@ function bindAttachments() {
                             fileId++;
                             fileSupportDocArray = previewFile(fileSupportDocArray,element.ServerRelativeUrl,element.FileName,fileId);
                             if (htmlStr === "") {
-                                htmlStr = "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a><a href=\"javascript:removeSupportFiles(" + element.FileName + ")\"> Remove</a></li>";
+                                htmlStr = "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a><a href=\"javascript:removeSupportFiles('" + element.FileName + "')\"> Remove</a></li>";
                                                                                                              
                             }
                             else {
@@ -414,13 +440,31 @@ function bindAttachments() {
 
 function removeSupportFiles(fileName) {
     var ctx = SP.ClientContext.get_current();
-    var list = ctx.get_web().get_lists().getByTitle("listTitle");
+    var list = ctx.get_web().get_lists().getByTitle("CapexRequisition");
     var item = list.getItemById(listItemId);
     var attachmentFile = item.get_attachmentFiles().getByFileName(fileName); 
     attachmentFile.deleteObject();
     ctx.executeQueryAsync(
       function(){
-         console.log('Attachment file has been deleted');  
+         
+      },
+      function(sender,args) 
+      {
+         console.log(args.get_message());
+      });
+   
+
+}
+function removeURSFile(fileName) {
+    var ctx = SP.ClientContext.get_current();
+    var list = ctx.get_web().get_lists().getByTitle("CapexRequisition");
+    var item = list.getItemById(listItemId);
+    var attachmentFile = item.get_attachmentFiles().getByFileName(fileName); 
+    attachmentFile.deleteObject();
+    ctx.executeQueryAsync(
+      function(){
+        var htmlStr = "";
+        $('#URSContainer').html(htmlStr);
       },
       function(sender,args) 
       {
@@ -464,4 +508,28 @@ function previewFile(fileArray,url,fileName,fileID) {
     };
     request.send();
     return fileArray;
+  }
+  function SetBudgetValue(department)
+  {
+      var selectedVal= $("#SelectedVendor").val();
+      AjaxCall(
+        {
+
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetName,Department/Title&$expand=Department/Title&$filter=Department/Title eq '" + department + "'and AssetName eq '" + mainListData.AssetName + "'",
+                                                                                                                                                                                                            
+            httpmethod: 'GET',
+            calldatatype: 'JSON',
+            async: false,
+            headers:
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
+            sucesscallbackfunction: function (data) {
+                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
+                    $("#Function").html(data.d.results[0].Function.Title);
+                }
+            }
+        });
   }
