@@ -1188,7 +1188,7 @@ function SaveFormFields(formFieldValues, requestId) {
     if (!IsNullOrUndefined(formFieldValues["SupportDocAttachment"])) {
         mainlistDataArray['SupportDocAttachment'] = formFieldValues["SupportDocAttachment"].toString();
     }
- 
+
     //ApprovalStatus : formFieldValues["ApprovalStatus"],
     //LastactionPerformed : formFieldValues["LastactionPerformed"],
     //IsReschedule: formFieldValues["IsReschedule"],
@@ -1341,9 +1341,6 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
                         }
                         else if (temp.Levels > nextLevel && temp.Status != "Not Required") {
                             temp.Status = ApproverStatus.NOTASSIGNED;   // "Not Assigned";
-                            // temp.AssignDate = null;
-                            // temp.DueDate = null;
-                            // temp.Comments = '';
                         }
                     });
                     break;
@@ -1416,7 +1413,7 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
                     break;
                 case ButtonActionStatus.Rejected:
                     debugger
-                    if (tempApproverMatrix.some(temp => temp.Levels == currentLevel) && !IsNullOrUndefined(temp.ApproverId) && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1))) {
+                    if (tempApproverMatrix.some(temp => temp.Levels == currentLevel && !IsNullOrUndefined(temp.ApproverId) && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1)))) {
                         var approvers = tempApproverMatrix.filter(temp => {
                             return (temp.Levels == currentLevel && !IsNullOrUndefined(temp.ApproverId) && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1)));
                         })[0];
@@ -1427,7 +1424,7 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
                     break;
                 case ButtonActionStatus.Complete:
                     debugger
-                    if (tempApproverMatrix.some(temp => temp.Levels == currentLevel) && !IsNullOrUndefined(temp.ApproverId) && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1))) {
+                    if (tempApproverMatrix.some(temp => temp.Levels == currentLevel && !IsNullOrUndefined(temp.ApproverId) && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1)))) {
                         var approvers = tempApproverMatrix.filter(temp => {
                             return (temp.Levels == currentLevel && !IsNullOrUndefined(temp.ApproverId) && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1)));
                         })[0];
