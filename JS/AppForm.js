@@ -392,7 +392,8 @@ function bindAttachments() {
                             fileId++;
                             fileSupportDocArray = previewFile(fileSupportDocArray,element.ServerRelativeUrl,element.FileName,fileId);
                             if (htmlStr === "") {
-                                htmlStr = "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
+                                htmlStr = "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a><a href=\"javascript:removeSupportFiles(" + element.FileName + ")\"> Remove</a></li>";
+                                                                                                             
                             }
                             else {
                                 htmlStr = htmlStr + "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
@@ -403,13 +404,33 @@ function bindAttachments() {
                 }
             });
 
-           
+            
         }
 
 
     });
 
 }
+
+function removeSupportFiles(fileName) {
+    var ctx = SP.ClientContext.get_current();
+    var list = ctx.get_web().get_lists().getByTitle("listTitle");
+    var item = list.getItemById(listItemId);
+    var attachmentFile = item.get_attachmentFiles().getByFileName(fileName); 
+    attachmentFile.deleteObject();
+    ctx.executeQueryAsync(
+      function(){
+         console.log('Attachment file has been deleted');  
+      },
+      function(sender,args) 
+      {
+         console.log(args.get_message());
+      });
+   
+
+}
+
+
 function getListItems(siteurl, success, failure) {
     $.ajax({
         url: siteurl,

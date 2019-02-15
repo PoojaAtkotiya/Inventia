@@ -1,4 +1,3 @@
-
 <div class="card">
     <div class="card-head sub" data-toggle="collapse" data-target="#VendorSection">
         <h4 class="justify"> Manage Vendor Details</h4>
@@ -62,11 +61,11 @@
                     </h4>
                 </div>
                 <div class="modal-body form-horizontal" id="CRUDVendorModalbody">
-                    <input type="hidden" class="dynamic-control" listtype="trans" controlType="hidden" id="ID" value="" />
-                    <input type="hidden" class="dynamic-control" listtype="trans" controlType="hidden" id="Index" value="" />
-                    <input type="hidden" class="dynamic-control" listtype="trans" controlType="hidden" id="Status" value="" />
-                    <input type="hidden" class="dynamic-control" listtype="trans" controlType="hidden" id="Type" value="" />
-                    <!-- <input type="hidden" class="dynamic-control" listtype="trans" controlType="hidden" id="ListName" value="CapexVendor" /> -->
+                    <input type="hidden" class="dynamic-control" listtype="trans" controlType="text" id="ID" value="" />
+                    <input type="hidden" class="dynamic-control" listtype="trans" controlType="text" id="Index" value="" />
+                    <input type="hidden" class="dynamic-control" listtype="trans" controlType="text" id="Status" value="" />
+                    <input type="hidden" class="dynamic-control" listtype="trans" controlType="text" id="Type" value="" />
+                  
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -75,7 +74,7 @@
                                     Name :
                                 </label>
                                 <div class="col-md-8 ">
-                                 
+
                                     <input type="text" id="Name" name="Name" class="form-control dynamic-control" required="required" listtype="trans" controlType="text"
                                     />
                                     <!-- <input id="tags">
@@ -92,10 +91,10 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="col-md-4 control-label">
-                                     Add New Vendor :
+                                    Add New Vendor :
                                 </label>
                                 <div class="col-md-8 ">
-                                    <input type="checkbox" id="addVendorMaster"  onclick="onchangecheckBox()">
+                                    <input type="checkbox" id="addVendorMaster" onclick="onchangecheckBox()">
                                     <input type="hidden" id="IsNewVendor" />
                                 </div>
                             </div>
