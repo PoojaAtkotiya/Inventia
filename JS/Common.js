@@ -1026,14 +1026,69 @@ function GetFormControlsValue(id, elementType, listDataArray, elementvaluetype =
             listDataArray[id] = $(obj).val();
             break;
         case "date":
-            // var month = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getMonth() + 1 : null;
-            // var date = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getDate() : null;
-            // var year = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getFullYear() : null;
-            // var date = (!IsNullOrUndefined(month) && !IsNullOrUndefined(date) && !IsNullOrUndefined(year)) ? new Date(year.toString() + "-" + month.toString() + "-" + date.toString()).format("yyyy-MM-ddTHH:mm:ssZ") : null;
+            var month = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getMonth() + 1 : null;
+            var date = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getDate() : null;
+            var year = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getFullYear() : null;
+            var date = (!IsNullOrUndefined(month) && !IsNullOrUndefined(date) && !IsNullOrUndefined(year)) ? new Date(year.toString() + "-" + month.toString() + "-" + date.toString()).format("yyyy-MM-ddTHH:mm:ssZ") : null;
+            if (date) {
+                listDataArray[id] = date;
+            }
+            break;
+        case "checkbox":
+            listDataArray[id] = $(obj)[0]['checked'];
+            break;
+        case "multicheckbox":
+            var parenType = $(obj).attr('cParent');
+            if (listDataArray[parenType] == undefined)
+                listDataArray[parenType] = { "__metadata": { "type": "Collection(Edm.String)" }, "results": [] };
 
-            // if (date) {
-            //     listDataArray[id] = date;
-            // }
+            var isChecked = $(obj)[0]['checked'];
+            var choiceName = $(obj)[0].id;
+            var idx = listDataArray[parenType].results.indexOf(choiceName);
+            if (isChecked && idx == -1)
+                listDataArray[parenType].results.push(choiceName);
+            else if (idx > -1)
+                listDataArray[parenType].results.splice(idx, 1);
+            break;
+        case "radiogroup":
+            var parenType = $(obj).attr('cParent');
+            listDataArray[parenType] = $(obj)[0].id;
+            break;
+    }
+    return listDataArray;
+}
+
+/*Pooja Atkotiya */
+function GetStaticFormControlValue(elementId, elementType, listDataArray, elementvaluetype) {
+    var obj = '#' + id;
+    switch (elementType) {
+        case "text":
+            if (!IsStrNullOrEmpty($(obj).val())) {
+                listDataArray[id] = $(obj).val();
+            }
+            break;
+        case "hidden":
+            listDataArray[id] = $(obj).val();
+            break;
+        case "terms":
+            var metaObject = {
+                __metadata: { "type": "SP.Taxonomy.TaxonomyFieldValue" },
+                Label: $("select#" + id + ">option:selected").text(),
+                TermGuid: $(obj).val(),
+                WssId: -1
+            }
+            listDataArray[id] = metaObject;
+            break;
+        case "combo":
+            if (IsNullOrUndefined($(obj).val()) || IsStrNullOrEmpty($(obj).val())) {
+                $(obj).val(0);
+            }
+            listDataArray[id] = $(obj).val();
+            break;
+        case "multitext":
+            listDataArray[id] = $(obj).val();
+            break;
+        case "date":
             debugger
             listDataArray[id] = $(obj).val();
             break;
@@ -1303,6 +1358,15 @@ function SaveFormData(activeSection, ele) {
 
             listDataArray = GetFormControlsValue(elementId, elementType, listDataArray, elementvaluetype);
             listActivityLogDataArray = GetFormControlsValueAndType(elementId, elementType, elementProperty, listActivityLogDataArray);
+        });
+        $(activeSection).find('.static-control').each(function () {
+            var elementId = $(this).attr('id');
+            var elementType = $(this).attr('controlType');
+            var elementProperty = $(this).attr('controlProperty');
+            var elementvaluetype = $(this).attr('controlvaluetype');
+
+            listDataArray = GetStaticFormControlValue(elementId, elementType, listDataArray, elementvaluetype);
+            //listActivityLogDataArray = GetFormControlsValueAndType(elementId, elementType, elementProperty, listActivityLogDataArray);
         });
         $(activeSection).find('.approver-control').each(function () {
             var currAppArray = {};
