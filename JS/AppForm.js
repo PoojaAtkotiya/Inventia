@@ -255,7 +255,7 @@ function SaveItemWiseAttachments(listname, itemID) {
 
 function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     if (listItemId == 0) {
-        setNewFormParamters()
+        setNewFormParamters(department)
     }
     if (listItemId != null && listItemId > 0) {
         setImageSignature();
@@ -278,7 +278,7 @@ function setSelectedValue(selectObj, valueToSet) {
 function setNewFormParamters(department) {
     $("#RaisedBy").html(currentUser.Title);
     $("#InitiatorName").html(currentUser.Title);
-    var today = new Date().format("dd-MM-yyyy");
+    var today = new Date().format("MM-dd-yyyy");
     $("#RaisedOn").html(today);
     $("#WorkflowStatus").html("New");
     $("#Department").html(department);
@@ -356,6 +356,7 @@ function bindAssetName(department) {
 }
 
 function bindAttachments() {
+    fileURSArray = [];
     var Requestorurl = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('CapexRequisition')/items(" + listItemId + ")/AttachmentFiles";
     getListItems(Requestorurl, function (data) {
         var results = data.d.results;
@@ -364,6 +365,7 @@ function bindAttachments() {
             results.forEach(element => {
                 if (mainListData.URSAttachment != null && element.FileName == mainListData.URSAttachment) {
                     var htmlStr = "";
+                    fileURSArray = previewFile(fileURSArray,element.ServerRelativeUrl,element.FileName,1);
                     if (htmlStr === "") {
                         htmlStr = "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
                     }
@@ -384,9 +386,11 @@ function bindAttachments() {
                     var supportDocNames = [];
                     supportDocNames = TrimComma(mainListData.SupportDocAttachment).split(",");
                     var htmlStr = "";
+                    var fileId = 0;
                     supportDocNames.forEach(function (element1) {
                         if (element.FileName == element1) {
-
+                            fileId++;
+                            fileSupportDocArray = previewFile(fileSupportDocArray,element.ServerRelativeUrl,element.FileName,fileId);
                             if (htmlStr === "") {
                                 htmlStr = "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
                             }
@@ -419,3 +423,24 @@ function getListItems(siteurl, success, failure) {
         }
     });
 } 
+
+function previewFile(fileArray,url,fileName,fileID) {
+
+    var request = new XMLHttpRequest();
+    request.open('GET', url, true);
+    request.responseType = 'blob';
+    request.onload = function() {
+        var reader = new FileReader();
+        reader.readAsDataURL(request.response);
+        reader.onload =  function(e){
+            fileArray.push({
+                "name": fileName,
+                "content": e.target.result,
+                "id": fileID
+            });
+            console.log('DataURL:', e.target.result);
+        };
+    };
+    request.send();
+    return fileArray;
+  }

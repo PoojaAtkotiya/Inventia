@@ -43,7 +43,7 @@ jQuery(document).ready(function () {
 /*Priya Rane */
 function BindURSAttachmentFiles() {
     var output = [];
-
+    fileURSArray=[];
     //Get the File Upload control id
     var input = document.getElementById("UploadURSAttachment");
     var fileCount = input.files.length;
@@ -105,7 +105,7 @@ function BindSupportDocAttachmentFiles() {
             }
         })(file);
         reader.readAsArrayBuffer(file);
-        
+
         var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeSupportDocFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\"> Remove</a>";
         output.push("<li><strong>", escape(file.name), removeLink, "</li> ");
     }
@@ -119,7 +119,7 @@ function removeURSFiles(fileId) {
 
     for (var i = 0; i < fileURSArray.length; ++i) {
         if (fileURSArray[i].id === fileId)
-        fileURSArray.splice(i, 1);
+            fileURSArray.splice(i, 1);
     }
     var item = document.getElementById("fileListURS");
     fileId--;
@@ -130,7 +130,7 @@ function removeSupportDocFiles(fileId) {
 
     for (var i = 0; i < fileSupportDocArray.length; ++i) {
         if (fileSupportDocArray[i].id === fileId)
-        fileSupportDocArray.splice(i, 1);
+            fileSupportDocArray.splice(i, 1);
     }
     var item = document.getElementById("fileListSupportiveDoc");
     fileId--;
@@ -627,7 +627,7 @@ function setFieldValue(controlId, item, fieldType, fieldName) {
         case "date":
             var dt = "";
             if (item[fieldName] && item[fieldName] != null) {
-                dt = new Date(item[fieldName]).format("dd-MM-yyyy");
+                dt = new Date(item[fieldName]).format("MM-dd-yyyy");
                 $("#" + controlId).val(dt).change();
             }
             break;
@@ -1004,9 +1004,9 @@ function GetFormControlsValue(id, elementType, listDataArray, elementvaluetype =
                 listDataArray[id] = $(obj).val();
             }
             break;
-        case "hidden":
-            listDataArray[id] = $(obj).val();
-            break;
+        // case "hidden":
+        //     listDataArray[id] = $(obj).val();
+        //     break;
         case "terms":
             var metaObject = {
                 __metadata: { "type": "SP.Taxonomy.TaxonomyFieldValue" },
@@ -1026,16 +1026,13 @@ function GetFormControlsValue(id, elementType, listDataArray, elementvaluetype =
             listDataArray[id] = $(obj).val();
             break;
         case "date":
-            // var month = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getMonth() + 1 : null;
-            // var date = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getDate() : null;
-            // var year = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getFullYear() : null;
-            // var date = (!IsNullOrUndefined(month) && !IsNullOrUndefined(date) && !IsNullOrUndefined(year)) ? new Date(year.toString() + "-" + month.toString() + "-" + date.toString()).format("yyyy-MM-ddTHH:mm:ssZ") : null;
-
-            // if (date) {
-            //     listDataArray[id] = date;
-            // }
-            debugger
-            listDataArray[id] = $(obj).val();
+            var month = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getMonth() + 1 : null;
+            var date = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getDate() : null;
+            var year = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getFullYear() : null;
+            var date = (!IsNullOrUndefined(month) && !IsNullOrUndefined(date) && !IsNullOrUndefined(year)) ? new Date(year.toString() + "-" + month.toString() + "-" + date.toString()).format("yyyy-MM-ddTHH:mm:ssZ") : null;
+            if (date) {
+                listDataArray[id] = date;
+            }
             break;
         case "checkbox":
             listDataArray[id] = $(obj)[0]['checked'];
@@ -1061,6 +1058,54 @@ function GetFormControlsValue(id, elementType, listDataArray, elementvaluetype =
     return listDataArray;
 }
 
+/*Pooja Atkotiya */
+function GetStaticFormControlValue(id, elementType, listDataArray, elementvaluetype) {
+    var obj = '#' + id;
+    switch (elementType) {
+        case "text":
+        case "combo":
+        case "multitext":
+            if (!IsStrNullOrEmpty($(obj).text())) {
+                listDataArray[id] = $(obj).text();
+            }
+            break;
+        case "terms":
+            var metaObject = {
+                __metadata: { "type": "SP.Taxonomy.TaxonomyFieldValue" },
+                Label: $("select#" + id + ">option:selected").text(),
+                TermGuid: $(obj).text(),
+                WssId: -1
+            }
+            listDataArray[id] = metaObject;
+            break;
+        case "date":
+            debugger
+            listDataArray[id] = new Date($(obj).text()).format("yyyy-MM-ddTHH:mm:ssZ");
+            break;
+        // case "checkbox":
+        //     listDataArray[id] = $(obj)[0]['checked'];
+        //     break;
+        // case "multicheckbox":
+        //     var parenType = $(obj).attr('cParent');
+        //     if (listDataArray[parenType] == undefined)
+        //         listDataArray[parenType] = { "__metadata": { "type": "Collection(Edm.String)" }, "results": [] };
+
+        //     var isChecked = $(obj)[0]['checked'];
+        //     var choiceName = $(obj)[0].id;
+        //     var idx = listDataArray[parenType].results.indexOf(choiceName);
+        //     if (isChecked && idx == -1)
+        //         listDataArray[parenType].results.push(choiceName);
+        //     else if (idx > -1)
+        //         listDataArray[parenType].results.splice(idx, 1);
+        //     break;
+        // case "radiogroup":
+        //     var parenType = $(obj).attr('cParent');
+        //     listDataArray[parenType] = $(obj)[0].id;
+        //     break;
+    }
+    return listDataArray;
+}
+
 /*Priya Rane */
 function GetFormControlsValueAndType(id, elementType, elementProperty, listActivityLogDataArray) {
     var obj = '#' + id;
@@ -1070,7 +1115,6 @@ function GetFormControlsValueAndType(id, elementType, elementProperty, listActiv
                 listActivityLogDataArray.push({ id: id, value: $(obj).val(), type: 'text' });
             }
             break;
-
         case "terms":
             var metaObject = {
                 __metadata: { "type": "SP.Taxonomy.TaxonomyFieldValue" },
@@ -1078,7 +1122,6 @@ function GetFormControlsValueAndType(id, elementType, elementProperty, listActiv
                 TermGuid: $(obj).val(),
                 WssId: -1
             }
-
             break;
         case "combo":
 
@@ -1090,19 +1133,15 @@ function GetFormControlsValueAndType(id, elementType, elementProperty, listActiv
             listActivityLogDataArray.push({ id: id, value: $(obj).val(), type: 'multitext' });
             break;
         case "date":
-            // var month = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getMonth() + 1 : null;
-            // var date = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getDate() : null;
-            // var year = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getFullYear() : null;
-            // var date = (!IsNullOrUndefined(month) && !IsNullOrUndefined(date) && !IsNullOrUndefined(year)) ? new Date(year.toString() + "-" + month.toString() + "-" + date.toString()).format("yyyy-MM-ddTHH:mm:ssZ") : null;
-            // if (date) {
-            //     listActivityLogDataArray.push({ id: id, value: date, type: 'date' });
-            // }
-
-            debugger
-            listDataArray[id] = $(obj).val();
+            var month = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getMonth() + 1 : null;
+            var date = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getDate() : null;
+            var year = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getFullYear() : null;
+            var date = (!IsNullOrUndefined(month) && !IsNullOrUndefined(date) && !IsNullOrUndefined(year)) ? new Date(year.toString() + "-" + month.toString() + "-" + date.toString()).format("yyyy-MM-ddTHH:mm:ssZ") : null;
+            if (date) {
+                listActivityLogDataArray.push({ id: id, value: date, type: 'date' });
+            }
             break;
         case "checkbox":
-
             listActivityLogDataArray.push({ id: id, value: $(obj)[0]['checked'], type: 'checkbox' });
             break;
         case "multicheckbox":
@@ -1293,7 +1332,9 @@ function SaveFormData(activeSection, ele) {
         var sectionName = $(activeSection).attr('section');
         var activeSectionId = $(activeSection).attr('id');
 
-        $(activeSection).find('input[listtype=main],select[listtype=main],radio[listtype=main],textarea[listtype=main],label[listtype=main],input[reflisttype=main],select[reflisttype=main],radio[reflisttype=main],textarea[reflisttype=main],label[reflisttype=main],select[reflisttype=trans]').each(function () {
+        //$(activeSection).find('input[listtype=main],select[listtype=main],radio[listtype=main],textarea[listtype=main],label[listtype=main],input[reflisttype=main],select[reflisttype=main],radio[reflisttype=main],textarea[reflisttype=main],label[reflisttype=main],select[reflisttype=trans]')
+
+        $(activeSection).find('input[listtype=main],select[listtype=main],radio[listtype=main],textarea[listtype=main],input[reflisttype=main],select[reflisttype=main],radio[reflisttype=main],textarea[reflisttype=main],select[reflisttype=trans]').each(function () {
             var elementId = $(this).attr('id');
             var elementType = $(this).attr('controlType');
             var elementProperty = $(this).attr('controlProperty');
@@ -1301,6 +1342,15 @@ function SaveFormData(activeSection, ele) {
 
             listDataArray = GetFormControlsValue(elementId, elementType, listDataArray, elementvaluetype);
             listActivityLogDataArray = GetFormControlsValueAndType(elementId, elementType, elementProperty, listActivityLogDataArray);
+        });
+        $(activeSection).find('.static-control').each(function () {
+            var elementId = $(this).attr('id');
+            var elementType = $(this).attr('controlType');
+            var elementProperty = $(this).attr('controlProperty');
+            var elementvaluetype = $(this).attr('controlvaluetype');
+
+            listDataArray = GetStaticFormControlValue(elementId, elementType, listDataArray, elementvaluetype);
+            //listActivityLogDataArray = GetFormControlsValueAndType(elementId, elementType, elementProperty, listActivityLogDataArray);
         });
         $(activeSection).find('.approver-control').each(function () {
             var currAppArray = {};
@@ -1385,11 +1435,10 @@ function OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCap
         clientContext.load(oListItem, 'FormLevel', 'RaisedBy');
         clientContext.load(web);
         clientContext.executeQueryAsync(function () {
-            if(fileURSArray.length>0){
-            AddURSAttachments(listname, itemID);
+            if (fileURSArray.length > 0) {
+                AddURSAttachments(listname, itemID);
             }
-            if(fileSupportDocArray.length>0)
-            {
+            if (fileSupportDocArray.length > 0) {
                 AddSupportiveDocAttachments(listname, itemID);
             }
             CommonBusinessLogic(sectionName, itemID, listDataArray);
@@ -2389,6 +2438,7 @@ function cleanArray(actualArray) {
     return actualArray.filter(function (e) { return e === 0 || e });
 }
 
+/*Pooja Atkotiya */
 function RemoveHtmlForMultiLine(multiLineValue) {
     if (!IsStrNullOrEmpty(multiLineValue)) {
         return multiLineValue.replace(/(<([^>]+)>)/ig, "");
