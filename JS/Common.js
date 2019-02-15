@@ -68,10 +68,10 @@ function BindURSAttachmentFiles() {
             }
         })(file);
         reader.readAsArrayBuffer(file);
-        var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeURSFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\">Remove</a>";
+        var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeURSFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\"> Remove</a>";
         output.push("<li><strong>", escape(file.name), removeLink, "</li> ");
     }
-    $('#UploadURSAttachment').next().append(output.join(""));
+    $('#UploadURSAttachment').next().next().append(output.join(""));
 
     //End of for loop
 }
@@ -103,10 +103,11 @@ function BindSupportDocAttachmentFiles() {
             }
         })(file);
         reader.readAsArrayBuffer(file);
-        var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeSupportDocFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\">Remove</a>";
+        
+        var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeSupportDocFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\"> Remove</a>";
         output.push("<li><strong>", escape(file.name), removeLink, "</li> ");
     }
-    $('#UploadSupportiveDocAttachment').next().append(output.join(""));
+    $('#UploadSupportiveDocAttachment').next().next().append(output.join(""));
 
     //End of for loop
 }
