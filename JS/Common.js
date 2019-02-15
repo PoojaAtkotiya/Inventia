@@ -2454,6 +2454,7 @@ function cleanArray(actualArray) {
     return actualArray.filter(function (e) { return e === 0 || e });
 }
 
+/*Pooja Atkotiya */
 function RemoveHtmlForMultiLine(multiLineValue) {
     if (!IsStrNullOrEmpty(multiLineValue)) {
         return multiLineValue.replace(/(<([^>]+)>)/ig, "");
