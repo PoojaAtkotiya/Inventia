@@ -278,6 +278,7 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     if(mainListData.PendingWith=="Initiator HOD")
     {
         setVendorDropDown(department);
+        SetBudgetValue();
         
     }
 }
@@ -509,13 +510,15 @@ function previewFile(fileArray,url,fileName,fileID) {
     request.send();
     return fileArray;
   }
-  function SetBudgetValue(department)
+  function SetBudgetValue()
   {
-      var selectedVal= $("#SelectedVendor").val();
+      //var department= $("#Department").val();
+      department="IT";
+      if(department != null){
       AjaxCall(
         {
 
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetName,Department/Title&$expand=Department/Title&$filter=Department/Title eq '" + department + "'and AssetName eq '" + mainListData.AssetName + "'",
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetName,Department/Title,BudgetedValue,UtilisedValue&$expand=Department/Title&$filter=Department/Title eq '" + department + "'and AssetName eq '" + mainListData.AssetName + "'",
                                                                                                                                                                                                             
             httpmethod: 'GET',
             calldatatype: 'JSON',
@@ -528,8 +531,29 @@ function previewFile(fileArray,url,fileName,fileID) {
             },
             sucesscallbackfunction: function (data) {
                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
-                    $("#Function").html(data.d.results[0].Function.Title);
+                    $("#BudgetedValue").val(data.d.results[0].BudgetedValue);
+                    $("#UtilizedValue").val(data.d.results[0].UtilisedValue);
+                   
                 }
             }
         });
+    }
+  }
+
+  function SetCurrentValue(){
+  var vendorname= $("#SelectedVendor").val();
+  if(vendorname != "Select")
+  {
+    $(listTempGridDataArray).each(function (i, e) {
+        if(vendorname == listTempGridDataArray[i].VendorName)
+        {
+            $("#CurrentValue").val(listTempGridDataArray[i].TotalValue);
+            var TotalUtilizedValue= $("#UtilizedValue").val()+ listTempGridDataArray[i].TotalValue;
+            var Balance= $("#BudgetedValue").val()-TotalUtilizedValue;
+            $("#TotalUtilizedValue").val(TotalUtilizedValue);
+            $("#Balance").val(Balance);
+        }
+    });
+  }
+
   }
