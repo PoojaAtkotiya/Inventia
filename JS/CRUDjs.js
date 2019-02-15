@@ -150,11 +150,11 @@ function GetVendorDetailsById(id) {
             async: false,
             datatype: 'json',
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val()
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
             success: function (data) {
                 VendorDetailresult = data.d;
             }
@@ -172,10 +172,10 @@ function EditVendorDetails(obj) {
             item = arrayItem;
         }
     });
-   // $("#IsNewVendor").val("unchecked");
-   // $("#addVendorMaster").val("unchecked");
+    // $("#IsNewVendor").val("unchecked");
+    // $("#addVendorMaster").val("unchecked");
 
-   // var item = GetVendorDetailsById(id);
+    // var item = GetVendorDetailsById(id);
     if ($('myform').length > 0)
         $('myform').renameTag('form');
     if (!IsNullOrUndefined(item)) {
@@ -285,12 +285,12 @@ function SaveVendorData(listDataArray) {
         listDataArray.Status = ItemActionStatus.UPDATED;
         // listTempGridDataArray.push(listDataArray);
     }
-    
- if(listDataArray.Recommended= true){
-    listTempGridDataArray.forEach(function (element1) {
-        element1.Recommended= false;
-});
-}
+
+    if (listDataArray.Recommended = true) {
+        listTempGridDataArray.forEach(function  (element1) {
+            element1.Recommended = false;
+        });
+    }
 
     listTempGridDataArray.push(listDataArray);
     listTempGridDataArray.sort(function (a, b) {
@@ -319,12 +319,12 @@ function SaveVendorNameInMaster(listDataArray) {
             postData: JSON.stringify(mainlistDataArray),
             async: false,
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                "IF-MATCH": "*",
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "IF-MATCH": "*",
+                },
             sucesscallbackfunction: function (data) {
                 listDataArray.isVendorAdded = "Yes";
                 console.log("Item saved Successfully");
@@ -411,14 +411,14 @@ function ValidateModalForm() {
 function SaveVendorDetails() {
     var saveDataArray = {}
     //var tranListName = ListNames.CAPEXVENDORLIST;
-   // find('input[listtype=main],select[listtype=main],radio[listtype=main],textarea[listtype=main],label[listtype=main],input[reflisttype=main],select[reflisttype=main],radio[reflisttype=main],textarea[reflisttype=main],label[reflisttype=main],select[reflisttype=trans]').each(function () {
+    // find('input[listtype=main],select[listtype=main],radio[listtype=main],textarea[listtype=main],label[listtype=main],input[reflisttype=main],select[reflisttype=main],radio[reflisttype=main],textarea[reflisttype=main],label[reflisttype=main],select[reflisttype=trans]').each(function () {
     $('#CRUDVendorModal').find('input[listtype=trans],select[listtype=trans],radio[listtype=trans],textarea[listtype=trans],label[listtype=trans],input[reflisttype=main],select[reflisttype=main],radio[reflisttype=main],textarea[reflisttype=main],label[reflisttype=main],select[reflisttype=trans]').each(function () {
         var elementId = $(this).attr('id');
         var elementType = $(this).attr('controlType');
         var elementvaluetype = $(this).attr('controlvaluetype');
         //  saveDataArray = GetFormControlsValues(elementId, elementType, saveDataArray);
-        
-        saveDataArray = GetFormControlsValue(elementId, elementType, saveDataArray,elementvaluetype);
+
+        saveDataArray = GetFormControlsValue(elementId, elementType, saveDataArray, elementvaluetype);
     });
 
     var isValid = ValidateModalForm();
@@ -493,7 +493,7 @@ function GetVendorDetails(listTempGridDataArray) {
                     recommended = "Yes";
                 }
                 var Negotiated = "No";
-                if(arrayItem.NegotiatedNonNegotiated){
+                if (arrayItem.NegotiatedNonNegotiated) {
                     Negotiated = "Yes";
                 }
 
