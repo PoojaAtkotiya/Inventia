@@ -627,7 +627,7 @@ function setFieldValue(controlId, item, fieldType, fieldName) {
         case "date":
             var dt = "";
             if (item[fieldName] && item[fieldName] != null) {
-                dt = new Date(item[fieldName]).format("dd-MM-yyyy");
+                dt = new Date(item[fieldName]).format("MM-dd-yyyy");
                 $("#" + controlId).val(dt).change();
             }
             break;
@@ -1004,9 +1004,9 @@ function GetFormControlsValue(id, elementType, listDataArray, elementvaluetype =
                 listDataArray[id] = $(obj).val();
             }
             break;
-        case "hidden":
-            listDataArray[id] = $(obj).val();
-            break;
+        // case "hidden":
+        //     listDataArray[id] = $(obj).val();
+        //     break;
         case "terms":
             var metaObject = {
                 __metadata: { "type": "SP.Taxonomy.TaxonomyFieldValue" },
@@ -1059,59 +1059,49 @@ function GetFormControlsValue(id, elementType, listDataArray, elementvaluetype =
 }
 
 /*Pooja Atkotiya */
-function GetStaticFormControlValue(elementId, elementType, listDataArray, elementvaluetype) {
+function GetStaticFormControlValue(id, elementType, listDataArray, elementvaluetype) {
     var obj = '#' + id;
     switch (elementType) {
         case "text":
-            if (!IsStrNullOrEmpty($(obj).val())) {
-                listDataArray[id] = $(obj).val();
+        case "combo":
+        case "multitext":
+            if (!IsStrNullOrEmpty($(obj).text())) {
+                listDataArray[id] = $(obj).text();
             }
-            break;
-        case "hidden":
-            listDataArray[id] = $(obj).val();
             break;
         case "terms":
             var metaObject = {
                 __metadata: { "type": "SP.Taxonomy.TaxonomyFieldValue" },
                 Label: $("select#" + id + ">option:selected").text(),
-                TermGuid: $(obj).val(),
+                TermGuid: $(obj).text(),
                 WssId: -1
             }
             listDataArray[id] = metaObject;
             break;
-        case "combo":
-            if (IsNullOrUndefined($(obj).val()) || IsStrNullOrEmpty($(obj).val())) {
-                $(obj).val(0);
-            }
-            listDataArray[id] = $(obj).val();
-            break;
-        case "multitext":
-            listDataArray[id] = $(obj).val();
-            break;
         case "date":
             debugger
-            listDataArray[id] = $(obj).val();
+            listDataArray[id] = new Date($(obj).text()).format("yyyy-MM-ddTHH:mm:ssZ");
             break;
-        case "checkbox":
-            listDataArray[id] = $(obj)[0]['checked'];
-            break;
-        case "multicheckbox":
-            var parenType = $(obj).attr('cParent');
-            if (listDataArray[parenType] == undefined)
-                listDataArray[parenType] = { "__metadata": { "type": "Collection(Edm.String)" }, "results": [] };
+        // case "checkbox":
+        //     listDataArray[id] = $(obj)[0]['checked'];
+        //     break;
+        // case "multicheckbox":
+        //     var parenType = $(obj).attr('cParent');
+        //     if (listDataArray[parenType] == undefined)
+        //         listDataArray[parenType] = { "__metadata": { "type": "Collection(Edm.String)" }, "results": [] };
 
-            var isChecked = $(obj)[0]['checked'];
-            var choiceName = $(obj)[0].id;
-            var idx = listDataArray[parenType].results.indexOf(choiceName);
-            if (isChecked && idx == -1)
-                listDataArray[parenType].results.push(choiceName);
-            else if (idx > -1)
-                listDataArray[parenType].results.splice(idx, 1);
-            break;
-        case "radiogroup":
-            var parenType = $(obj).attr('cParent');
-            listDataArray[parenType] = $(obj)[0].id;
-            break;
+        //     var isChecked = $(obj)[0]['checked'];
+        //     var choiceName = $(obj)[0].id;
+        //     var idx = listDataArray[parenType].results.indexOf(choiceName);
+        //     if (isChecked && idx == -1)
+        //         listDataArray[parenType].results.push(choiceName);
+        //     else if (idx > -1)
+        //         listDataArray[parenType].results.splice(idx, 1);
+        //     break;
+        // case "radiogroup":
+        //     var parenType = $(obj).attr('cParent');
+        //     listDataArray[parenType] = $(obj)[0].id;
+        //     break;
     }
     return listDataArray;
 }
@@ -1125,7 +1115,6 @@ function GetFormControlsValueAndType(id, elementType, elementProperty, listActiv
                 listActivityLogDataArray.push({ id: id, value: $(obj).val(), type: 'text' });
             }
             break;
-
         case "terms":
             var metaObject = {
                 __metadata: { "type": "SP.Taxonomy.TaxonomyFieldValue" },
@@ -1133,7 +1122,6 @@ function GetFormControlsValueAndType(id, elementType, elementProperty, listActiv
                 TermGuid: $(obj).val(),
                 WssId: -1
             }
-
             break;
         case "combo":
 
@@ -1145,19 +1133,15 @@ function GetFormControlsValueAndType(id, elementType, elementProperty, listActiv
             listActivityLogDataArray.push({ id: id, value: $(obj).val(), type: 'multitext' });
             break;
         case "date":
-            // var month = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getMonth() + 1 : null;
-            // var date = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getDate() : null;
-            // var year = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getFullYear() : null;
-            // var date = (!IsNullOrUndefined(month) && !IsNullOrUndefined(date) && !IsNullOrUndefined(year)) ? new Date(year.toString() + "-" + month.toString() + "-" + date.toString()).format("yyyy-MM-ddTHH:mm:ssZ") : null;
-            // if (date) {
-            //     listActivityLogDataArray.push({ id: id, value: date, type: 'date' });
-            // }
-
-            debugger
-            listDataArray[id] = $(obj).val();
+            var month = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getMonth() + 1 : null;
+            var date = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getDate() : null;
+            var year = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getFullYear() : null;
+            var date = (!IsNullOrUndefined(month) && !IsNullOrUndefined(date) && !IsNullOrUndefined(year)) ? new Date(year.toString() + "-" + month.toString() + "-" + date.toString()).format("yyyy-MM-ddTHH:mm:ssZ") : null;
+            if (date) {
+                listActivityLogDataArray.push({ id: id, value: date, type: 'date' });
+            }
             break;
         case "checkbox":
-
             listActivityLogDataArray.push({ id: id, value: $(obj)[0]['checked'], type: 'checkbox' });
             break;
         case "multicheckbox":
