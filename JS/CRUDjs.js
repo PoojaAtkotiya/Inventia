@@ -255,12 +255,7 @@ function ValidateModalForm() {
 
 function SaveVendorDetails() {
     var saveDataArray = {}
-<<<<<<< HEAD
-  
-    $('#CRUDVendorModal').find('input[listtype=trans],select[listtype=trans],radio[listtype=trans],textarea[listtype=trans],label[listtype=trans],input[reflisttype=main],select[reflisttype=main],radio[reflisttype=main],textarea[reflisttype=main],label[reflisttype=main],select[reflisttype=trans]').each(function () {
-=======
     $('#CRUDVendorModal').find('input[listtype=trans],select[listtype=trans],radio[listtype=trans],textarea[listtype=trans],label[listtype=trans],select[reflisttype=trans]').each(function () {
->>>>>>> 0340f32ac19f3a85bb06073031edf1c6d36ead63
         var elementId = $(this).attr('id');
         var elementType = $(this).attr('controlType');
         var elementvaluetype = $(this).attr('controlvaluetype');
