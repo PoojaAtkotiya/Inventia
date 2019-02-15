@@ -255,7 +255,7 @@ function SaveItemWiseAttachments(listname, itemID) {
 
 function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     if (listItemId == 0) {
-        setNewFormParamters()
+        setNewFormParamters(department)
     }
     if (listItemId != null && listItemId > 0) {
         setImageSignature();
