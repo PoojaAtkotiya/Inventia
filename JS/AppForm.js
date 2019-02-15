@@ -331,54 +331,8 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
                 }
             }
         });
-        if(listItemId >0){
-        var Requestorurl = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('CapexRequisition')/items(" + listItemId + ")/AttachmentFiles";  
-        getListItems(Requestorurl, function (data) {  
-            var results = data.d.results;  
-           
-            if (data.d.results.length > 0) {  
-                $.each(data.d.results, function () {  
-                    if(mainListData.URSAttachment !=null ){
-                        var htmlStr = ""; 
-                        if(this.FileName==mainListData.URSAttachment){
-                            
-                    if (htmlStr === "") {  
-                        htmlStr = "<li><a id='attachment' href='" + this.ServerRelativeUrl + "'>" + this.FileName + "</a></li>";  
-                    }  
-                    else {  
-                        htmlStr = htmlStr + "<li><a id='attachment' href='" + this.ServerRelativeUrl + "'>" + this.FileName + "</a></li>";  
-                    }  
-                }
-                $('#URSContainer').html(htmlStr);
-                }
-                if(mainListData.SupportDocAttachment !=null ){
-                    var supportDocNames=[];
-                    supportDocNames= TrimComma(mainListData.SupportDocAttachment).split(",");
-                    var htmlStr = ""; 
-                    supportDocNames.forEach(function(element) {
-                        if(this.FileName==element){
-                        
-                            if (htmlStr === "") {  
-                                htmlStr = "<li><a id='attachment' href='" + this.ServerRelativeUrl + "'>" + this.FileName + "</a></li>";  
-                            }  
-                            else {  
-                                htmlStr = htmlStr + "<li><a id='attachment' href='" + this.ServerRelativeUrl + "'>" + this.FileName + "</a></li>";  
-                            }  
-                        }
-                      });
-                  
-            
-            $('#SupportiveDocContainer').html(htmlStr);
-            }
-                });  
-            }  
-            else { htmlStr = "<strong>There are no attachments to show in this item.<strong>"; }  
-             
-        });  
-    }
 
-
-
+}
 function setSelectedValue(selectObj, valueToSet) {
     for (var i = 0; i < selectObj.options.length; i++) {
         if (selectObj.options[i].text == valueToSet) {
@@ -387,18 +341,4 @@ function setSelectedValue(selectObj, valueToSet) {
         }
     }
 }
-
-function getListItems(siteurl, success, failure) {  
-    $.ajax({  
-        url: siteurl,  
-        method: "GET",  
-        headers: { "Accept": "application/json; odata=verbose" },  
-        success: function (data) {  
-            success(data);  
-        },  
-        error: function (data) {  
-            failure(data);  
-        }  
-    });  
-}  
 
