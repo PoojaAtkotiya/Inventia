@@ -69,9 +69,11 @@ function BindURSAttachmentFiles() {
         })(file);
         reader.readAsArrayBuffer(file);
         var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeURSFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\"> Remove</a>";
+        output = [];
         output.push("<li><strong>", escape(file.name), removeLink, "</li> ");
     }
-    $('#UploadURSAttachment').next().next().append(output.join(""));
+    $('#fileListURS').empty();
+    $('#UploadURSAttachment').next().next().next().next().append(output.join(""));
 
     //End of for loop
 }

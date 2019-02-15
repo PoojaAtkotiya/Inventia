@@ -255,16 +255,35 @@ function SaveItemWiseAttachments(listname, itemID) {
 
 function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     if (listItemId == 0) {
-        $("#RaisedBy").html(currentUser.Title);
-        $("#InitiatorName").html(currentUser.Title);
-        var today = new Date().format("dd-MM-yyyy");
-        $("#RaisedOn").html(today);
-        $("#WorkflowStatus").html("New");
-        $("#Department").html(department);
+        setNewFormParamters()
     }
     if (listItemId != null && listItemId > 0) {
         setImageSignature();
     }
+    setFunctionbasedDept(department);
+    bindAssetName(department);
+}
+function setSelectedValue(selectObj, valueToSet) {
+    for (var i = 0; i < selectObj.options.length; i++) {
+        if (selectObj.options[i].text == valueToSet) {
+            selectObj.options[i].selected = true;
+            return;
+        }
+    }
+}
+
+function setNewFormParamters(department)
+{
+    $("#RaisedBy").html(currentUser.Title);
+    $("#InitiatorName").html(currentUser.Title);
+    var today = new Date().format("dd-MM-yyyy");
+    $("#RaisedOn").html(today);
+    $("#WorkflowStatus").html("New");
+    $("#Department").html(department);
+}
+
+function setFunctionbasedDept(department)
+{
     AjaxCall(
         {
 
@@ -284,6 +303,10 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
                 }
             }
         });
+}
+
+function bindAssetName(department)
+{
 
     AjaxCall(
         {
@@ -331,14 +354,5 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
                 }
             }
         });
-
-}
-function setSelectedValue(selectObj, valueToSet) {
-    for (var i = 0; i < selectObj.options.length; i++) {
-        if (selectObj.options[i].text == valueToSet) {
-            selectObj.options[i].selected = true;
-            return;
-        }
-    }
 }
 
