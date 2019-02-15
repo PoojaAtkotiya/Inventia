@@ -172,10 +172,10 @@ function EditVendorDetails(obj) {
             item = arrayItem;
         }
     });
-    $("#IsNewVendor").val("unchecked");
-    $("#addVendorMaster").val("unchecked");
+   // $("#IsNewVendor").val("unchecked");
+   // $("#addVendorMaster").val("unchecked");
 
-    // var item = GetVendorDetailsById(id);
+   // var item = GetVendorDetailsById(id);
     if ($('myform').length > 0)
         $('myform').renameTag('form');
     if (!IsNullOrUndefined(item)) {
@@ -420,13 +420,6 @@ function SaveVendorDetails() {
         
         saveDataArray = GetFormControlsValue(elementId, elementType, saveDataArray,elementvaluetype);
     });
-    // var email = document.getElementById('VendorEmailID');
-    // var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-
-    // if (!filter.test(email.value)) {
-    // alert('Please provide a valid email address');
-    // email.focus;
-    // return false;
 
     var isValid = ValidateModalForm();
     if (isValid) {
@@ -499,18 +492,25 @@ function GetVendorDetails(listTempGridDataArray) {
                 if (arrayItem.Recommended) {
                     recommended = "Yes";
                 }
+                var Negotiated = "No";
+                if(arrayItem.NegotiatedNonNegotiated){
+                    Negotiated = "Yes";
+                }
 
                 console.log(arrayItem);
                 tr = $('<tr/>');
 
                 tr.append("<td width='10%'>" + arrayItem.VendorName + "</td>");
                 tr.append("<td width='10%'>" + arrayItem.VendorEmailID + "</td>");
-                tr.append("<td width='20%'>" + arrayItem.Specifications + "</td>");
+                // tr.append("<td width='20%'>" + arrayItem.Specifications + "</td>");
                 tr.append("<td width='10%'>" + arrayItem.GrossValue + "</td>");
                 tr.append("<td width='10%'>" + arrayItem.LessDiscount + "</td>");
                 tr.append("<td width='10%'>" + arrayItem.NetValue + "</td>");
                 tr.append("<td width='10%'>" + arrayItem.TotalValue + "</td>");
+                tr.append("<td width='10%'>" + arrayItem.DeliveryPeriod + "</td>");
+                tr.append("<td width='10%'>" + Negotiated + "</td>");
                 tr.append("<td width='10%'>" + recommended + "</td>");
+
                 tr.append("<td width='12%'>" +
                     "<a class='view' id='ViewVendor_" + arrayItem.Index + '_' + arrayItem.ID + "' title='View' data-toggle='tooltip'><i class='material-icons'>&#xE417;</i></a>" +
                     "<a id='EditVendor_" + arrayItem.Index + '_' + arrayItem.ID + '_' + arrayItem.Type + "' class='edit' title='Edit' data-toggle='modal'><i class='material-icons'>&#xE254;</i></a>" +

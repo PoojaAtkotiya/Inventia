@@ -255,7 +255,7 @@ function SaveItemWiseAttachments(listname, itemID) {
 
 function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     if (listItemId == 0) {
-        setNewFormParamters()
+        setNewFormParamters(department)
     }
     if (listItemId != null && listItemId > 0) {
         setImageSignature();
@@ -278,7 +278,7 @@ function setSelectedValue(selectObj, valueToSet) {
 function setNewFormParamters(department) {
     $("#RaisedBy").html(currentUser.Title);
     $("#InitiatorName").html(currentUser.Title);
-    var today = new Date().format("dd-MM-yyyy");
+    var today = new Date().format("MM-dd-yyyy");
     $("#RaisedOn").html(today);
     $("#WorkflowStatus").html("New");
     $("#Department").html(department);
