@@ -262,6 +262,9 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     }
     setFunctionbasedDept(department);
     bindAssetName(department);
+    if (listItemId > 0) {
+        bindAttachments();
+    }
 }
 function setSelectedValue(selectObj, valueToSet) {
     for (var i = 0; i < selectObj.options.length; i++) {
@@ -272,8 +275,7 @@ function setSelectedValue(selectObj, valueToSet) {
     }
 }
 
-function setNewFormParamters(department)
-{
+function setNewFormParamters(department) {
     $("#RaisedBy").html(currentUser.Title);
     $("#InitiatorName").html(currentUser.Title);
     var today = new Date().format("dd-MM-yyyy");
@@ -282,8 +284,7 @@ function setNewFormParamters(department)
     $("#Department").html(department);
 }
 
-function setFunctionbasedDept(department)
-{
+function setFunctionbasedDept(department) {
     AjaxCall(
         {
 
@@ -292,11 +293,11 @@ function setFunctionbasedDept(department)
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
                     $("#Function").html(data.d.results[0].Function.Title);
@@ -305,9 +306,7 @@ function setFunctionbasedDept(department)
         });
 }
 
-function bindAssetName(department)
-{
-
+function bindAssetName(department) {
     AjaxCall(
         {
             url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetName,Department/Title&$expand=Department/Title&$filter=Department/Title eq '" + department + "'",
@@ -315,11 +314,11 @@ function bindAssetName(department)
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
                     var result = data.d.results;
@@ -356,3 +355,67 @@ function bindAssetName(department)
         });
 }
 
+function bindAttachments() {
+    var Requestorurl = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('CapexRequisition')/items(" + listItemId + ")/AttachmentFiles";
+    getListItems(Requestorurl, function (data) {
+        var results = data.d.results;
+
+        if (data.d.results.length > 0) {
+            results.forEach(element => {
+                if (mainListData.URSAttachment != null && element.FileName == mainListData.URSAttachment) {
+                    var htmlStr = "";
+                    if (htmlStr === "") {
+                        htmlStr = "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
+                    }
+                    else {
+                        htmlStr = htmlStr + "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
+
+                    }
+                    $('#URSContainer').html(htmlStr);
+                }
+            });
+            // $.each(data.d.results, function () {
+
+              
+            // });
+
+            results.forEach(element => {
+                if (mainListData.SupportDocAttachment != null) {
+                    var supportDocNames = [];
+                    supportDocNames = TrimComma(mainListData.SupportDocAttachment).split(",");
+                    var htmlStr = "";
+                    supportDocNames.forEach(function (element1) {
+                        if (element.FileName == element1) {
+
+                            if (htmlStr === "") {
+                                htmlStr = "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
+                            }
+                            else {
+                                htmlStr = htmlStr + "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
+                            }
+                        }
+                    });
+                    $('#SupportiveDocContainer').html(htmlStr);
+                }
+            });
+
+           
+        }
+
+
+    });
+
+}
+function getListItems(siteurl, success, failure) {
+    $.ajax({
+        url: siteurl,
+        method: "GET",
+        headers: { "Accept": "application/json; odata=verbose" },
+        success: function (data) {
+            success(data);
+        },
+        error: function (data) {
+            failure(data);
+        }
+    });
+} 
