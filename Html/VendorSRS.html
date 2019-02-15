@@ -28,11 +28,13 @@
                                 <tr>
                                     <th width='10%'>Vendor Name</th>
                                     <th width='10%'>Vendor Email Id</th>
-                                    <th width='20%'>Specification</th>
+                                    <!-- <th width='20%'>Specification</th> -->
                                     <th width='10%'>Gross Value(INR)</th>
                                     <th width='10%'>Less Discount(INR)</th>
                                     <th width='10%' class="headerwordwrap">Net Value(INR)</th>
                                     <th width='10%' class="headerwordwrap">Total Value(INR) </th>
+                                    <th width='10%' class="headerwordwrap"> Delivery Period(Weeks) </th>
+                                    <th width='10%' class="headerwordwrap">Negotiated? </th>
                                     <th width='10%' class="headerwordwrap">Recommended? </th>
                                     <th width='10%' class="no-sort">Actions</th>
                                 </tr>
@@ -41,34 +43,37 @@
                                   <tr>
                                                 <td>Vendor 1</td>
                                                 <td>Vendor1@Inventia.com</td>
-                                                <td>xyz</td>
                                                 <td>12</td>
                                                 <td>10</td>
                                                 <td>17890</td>
-                                                <td>1</td>
+                                                <td>134546</td>
+                                                <td>2</td>
+                                                <td>Yes</td>
                                                 <td>Yes</td>
                                                 <td><span class="glyphicon glyphicon-plus-sign"></span><span class="glyphicon glyphicon-pencil"></span><i class="fa fa-trash"></i></td>
                                             </tr>
                                             <tr>
                                                     <td>Vendor 2</td>
                                                     <td>Vendor2@Inventia.com</td>
-                                                    <td>abc</td>
                                                     <td>34</td>
                                                     <td>8</td>
                                                     <td>343455</td>
-                                                    <td>2</td>
-                                                    <td>Yes</td>
+                                                    <td>234546</td>
+                                                    <td>3</td>
+                                                    <td>No</td>
+                                                    <td>No</td>
                                                     <td><span class="glyphicon glyphicon-plus-sign"></span><span class="glyphicon glyphicon-pencil"></span><i class="fa fa-trash"></i></td>
                                             </tr>
                                             <tr>
                                                         <td>Vendor 3</td>
                                                         <td>Vendor3@Inventia.com</td>
-                                                        <td>dfgvfb</td>
                                                         <td>3435</td>
                                                         <td>10</td>
                                                         <td>54657</td>
-                                                        <td>1</td>
-                                                        <td>Yes</td>
+                                                        <td>134534</td>
+                                                        <td>2</td>
+                                                        <td>No</td>
+                                                        <td>No</td>
                                                         <td><span class="glyphicon glyphicon-plus-sign"></span><span class="glyphicon glyphicon-pencil"></span><i class="fa fa-trash"></i></td>
                                             </tr> 
                                         
@@ -174,6 +179,34 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">
+                                            <span class="text-danger text-default-light">*</span>Installation/Other Charges
+                                        </label>
+                                        <div class="col-md-8 ">
+                                            <input type="text" id="InstallationOtherCharges" name="InstallationOtherCharges"
+                                                controlType="text" class="form-control dynamic-control" required="required"
+                                                data="digit" listtype="trans" />
+                                        </div>
+                                    </div>
+                                </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">
+                                    <span class="text-danger text-default-light">*</span>Description of Charges
+                                </label>
+                                <div class="col-md-8 ">
+                                    <input type="text" id="DescriptionofCharges" name="DescriptionofCharges"
+                                        controlType="text" class="form-control dynamic-control" required="required"
+                                        listtype="trans" />
+                                </div>
+                            </div>
+                        </div>
+                        
+
+                    </div>
+                        <div class="row">
+                            <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">
                                         <span class="text-danger text-default-light">*</span>
@@ -185,9 +218,6 @@
                                     </div>
                                 </div>
                             </div>
-                           
-                        </div>
-                        <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">
@@ -199,6 +229,9 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
+                            
                             <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="col-md-4 col-xs-12 control-label">
@@ -212,36 +245,25 @@
                                                 name="NegotiatedNonNegotiated" controlType="checkbox" listtype="trans" />
                                         </div>
                                     </div>
-                                </div>
-                        </div>
-                        <div class="row">
-                                <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label">
-                                                <span class="text-danger text-default-light">*</span>Installation/Other Charges
-                                            </label>
-                                            <div class="col-md-8 ">
-                                                <input type="text" id="InstallationOtherCharges" name="InstallationOtherCharges"
-                                                    controlType="text" class="form-control dynamic-control" required="required"
-                                                    data="digit" listtype="trans" />
-                                            </div>
-                                        </div>
-                                    </div>
-                            <div class="col-sm-6">
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">
-                                        <span class="text-danger text-default-light">*</span>Description of Charges
+                                        <span class="text-danger text-default-light">*</span>
+                                        Recommended?
                                     </label>
                                     <div class="col-md-8 ">
-                                        <input type="text" id="DescriptionofCharges" name="DescriptionofCharges"
-                                            controlType="text" class="form-control dynamic-control" required="required"
-                                            listtype="trans" />
+                                        <!-- <input type="checkbox" id="Recommended" name="Recommended" required="required"
+                                            controlType="checkbox"> -->
+                                            <input type="checkbox" id="Recommended" class="form-control dynamic-control"
+                                            name="Recommended" controlType="checkbox" listtype="trans" />
+                                        <!-- <input type="hidden" id="IsNewVendor" /> -->
                                     </div>
                                 </div>
                             </div>
                             
-    
                         </div>
+
                         <div class="row">
                                 <div class="col-sm-6">
                                         <div class="form-group">
@@ -275,21 +297,7 @@
                         </div>
                         <div class="row">
     
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label">
-                                        <span class="text-danger text-default-light">*</span>
-                                        Recommended?
-                                    </label>
-                                    <div class="col-md-8 ">
-                                        <!-- <input type="checkbox" id="Recommended" name="Recommended" required="required"
-                                            controlType="checkbox"> -->
-                                            <input type="checkbox" id="Recommended" class="form-control dynamic-control"
-                                            name="Recommended" controlType="checkbox" listtype="trans" />
-                                        <!-- <input type="hidden" id="IsNewVendor" /> -->
-                                    </div>
-                                </div>
-                            </div>
+                           
                         </div>
                     </div>
                     <div class="modal-footer">

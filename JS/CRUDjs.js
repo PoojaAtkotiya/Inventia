@@ -285,6 +285,13 @@ function SaveVendorData(listDataArray) {
         listDataArray.Status = ItemActionStatus.UPDATED;
         // listTempGridDataArray.push(listDataArray);
     }
+    
+ if(listDataArray.Recommended= true){
+    listTempGridDataArray.forEach(function (element1) {
+        element1.Recommended= false;
+});
+}
+
     listTempGridDataArray.push(listDataArray);
     listTempGridDataArray.sort(function (a, b) {
         return a.Index - b.Index
@@ -410,7 +417,7 @@ function SaveVendorDetails() {
         var elementType = $(this).attr('controlType');
         var elementvaluetype = $(this).attr('controlvaluetype');
         //  saveDataArray = GetFormControlsValues(elementId, elementType, saveDataArray);
-        debugger
+        
         saveDataArray = GetFormControlsValue(elementId, elementType, saveDataArray,elementvaluetype);
     });
     // var email = document.getElementById('VendorEmailID');
