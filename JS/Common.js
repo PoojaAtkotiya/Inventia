@@ -103,7 +103,7 @@ function BindSupportDocAttachmentFiles() {
             }
         })(file);
         reader.readAsArrayBuffer(file);
-        
+
         var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeSupportDocFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\"> Remove</a>";
         output.push("<li><strong>", escape(file.name), removeLink, "</li> ");
     }
@@ -117,7 +117,7 @@ function removeURSFiles(fileId) {
 
     for (var i = 0; i < fileURSArray.length; ++i) {
         if (fileURSArray[i].id === fileId)
-        fileURSArray.splice(i, 1);
+            fileURSArray.splice(i, 1);
     }
     var item = document.getElementById("fileListURS");
     fileId--;
@@ -128,7 +128,7 @@ function removeSupportDocFiles(fileId) {
 
     for (var i = 0; i < fileSupportDocArray.length; ++i) {
         if (fileSupportDocArray[i].id === fileId)
-        fileSupportDocArray.splice(i, 1);
+            fileSupportDocArray.splice(i, 1);
     }
     var item = document.getElementById("fileListSupportiveDoc");
     fileId--;
@@ -1291,7 +1291,9 @@ function SaveFormData(activeSection, ele) {
         var sectionName = $(activeSection).attr('section');
         var activeSectionId = $(activeSection).attr('id');
 
-        $(activeSection).find('input[listtype=main],select[listtype=main],radio[listtype=main],textarea[listtype=main],label[listtype=main],input[reflisttype=main],select[reflisttype=main],radio[reflisttype=main],textarea[reflisttype=main],label[reflisttype=main],select[reflisttype=trans]').each(function () {
+        //$(activeSection).find('input[listtype=main],select[listtype=main],radio[listtype=main],textarea[listtype=main],label[listtype=main],input[reflisttype=main],select[reflisttype=main],radio[reflisttype=main],textarea[reflisttype=main],label[reflisttype=main],select[reflisttype=trans]')
+
+        $(activeSection).find('input[listtype=main],select[listtype=main],radio[listtype=main],textarea[listtype=main],input[reflisttype=main],select[reflisttype=main],radio[reflisttype=main],textarea[reflisttype=main],select[reflisttype=trans]').each(function () {
             var elementId = $(this).attr('id');
             var elementType = $(this).attr('controlType');
             var elementProperty = $(this).attr('controlProperty');
@@ -1383,11 +1385,10 @@ function OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCap
         clientContext.load(oListItem, 'FormLevel', 'RaisedBy');
         clientContext.load(web);
         clientContext.executeQueryAsync(function () {
-            if(fileURSArray.length>0){
-            AddURSAttachments(listname, itemID);
+            if (fileURSArray.length > 0) {
+                AddURSAttachments(listname, itemID);
             }
-            if(fileSupportDocArray.length>0)
-            {
+            if (fileSupportDocArray.length > 0) {
                 AddSupportiveDocAttachments(listname, itemID);
             }
             CommonBusinessLogic(sectionName, itemID, listDataArray);
