@@ -43,7 +43,7 @@ jQuery(document).ready(function () {
 /*Priya Rane */
 function BindURSAttachmentFiles() {
     var output = [];
-    fileURSArray=[];
+    fileURSArray = [];
     //Get the File Upload control id
     var input = document.getElementById("UploadURSAttachment");
     var fileCount = input.files.length;
@@ -602,60 +602,61 @@ function setFieldValue(controlId, item, fieldType, fieldName) {
     if (!fieldName || fieldName == "") {
         fieldName = controlId;
     }
-
-    switch (fieldType) {
-        case "text":
-            $("#" + controlId).val(item[fieldName]).change();
-            break;
-        // case "number":
-        //     $("#" + controlId).val(item[fieldName]).change();
-        //     break;
-        case "label":
-            $("#" + controlId).text(item[fieldName]);
-            break;
-        case "terms":
-            if (item[fieldName]) {
-                $("#" + controlId).val(item[fieldName].TermGuid).change()
-            }
-            break;
-        case "combo":
-            $("#" + controlId).val(item[fieldName]).change();
-            break;
-        case "multitext":
-            $("#" + controlId).val(RemoveHtmlForMultiLine(item[fieldName])).change();
-            break;
-        case "date":
-            var dt = "";
-            if (item[fieldName] && item[fieldName] != null) {
-                dt = new Date(item[fieldName]).format("MM-dd-yyyy");
-                $("#" + controlId).val(dt).change();
-            }
-            break;
-        case "hidden":
-            $("#" + controlId).val(item[fieldName]);
-            break;
-        case "multicheckbox":
-            if (item[fieldName] != null && item[fieldName].results != null && item[fieldName].results.length > 0) {
-                item[fieldName].results.forEach(function (thisItem) {
-                    if (thisItem == controlId) {
-                        $("#" + controlId)[0].checked = true;
-                        debugger;
-                        if (listDataArray[fieldName] == undefined)
-                            listDataArray[fieldName] = { "__metadata": { "type": "Collection(Edm.String)" }, "results": [] };
-                        listDataArray[fieldName].results.push(thisItem);
-                    }
-                });
-            }
-            break;
-        case "checkbox":
-            $("#" + controlId)[0].checked = item[fieldName];
-            break;
-        case "radiogroup":
-            if (controlId == item[fieldName])
-                $("#" + controlId).prop('checked', true);
-            else
-                $("#" + controlId).prop('checked', false);
-            break;
+    if (!IsNullOrUndefined(item[fieldName])) {
+        switch (fieldType) {
+            case "text":
+                $("#" + controlId).val(item[fieldName]).change();
+                break;
+            // case "number":
+            //     $("#" + controlId).val(item[fieldName]).change();
+            //     break;
+            case "label":
+                $("#" + controlId).text(item[fieldName]);
+                break;
+            case "terms":
+                if (item[fieldName]) {
+                    $("#" + controlId).val(item[fieldName].TermGuid).change()
+                }
+                break;
+            case "combo":
+                $("#" + controlId).val(item[fieldName]).change();
+                break;
+            case "multitext":
+                $("#" + controlId).val(RemoveHtmlForMultiLine(item[fieldName])).change();
+                break;
+            case "date":
+                var dt = "";
+                if (item[fieldName] && item[fieldName] != null) {
+                    dt = new Date(item[fieldName]).format("MM-dd-yyyy");
+                    $("#" + controlId).val(dt).change();
+                }
+                break;
+            case "hidden":
+                $("#" + controlId).val(item[fieldName]);
+                break;
+            case "multicheckbox":
+                if (item[fieldName] != null && item[fieldName].results != null && item[fieldName].results.length > 0) {
+                    item[fieldName].results.forEach(function (thisItem) {
+                        if (thisItem == controlId) {
+                            $("#" + controlId)[0].checked = true;
+                            debugger;
+                            if (listDataArray[fieldName] == undefined)
+                                listDataArray[fieldName] = { "__metadata": { "type": "Collection(Edm.String)" }, "results": [] };
+                            listDataArray[fieldName].results.push(thisItem);
+                        }
+                    });
+                }
+                break;
+            case "checkbox":
+                $("#" + controlId)[0].checked = item[fieldName];
+                break;
+            case "radiogroup":
+                if (controlId == item[fieldName])
+                    $("#" + controlId).prop('checked', true);
+                else
+                    $("#" + controlId).prop('checked', false);
+                break;
+        }
     }
 }
 
