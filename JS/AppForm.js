@@ -163,21 +163,21 @@ function AddURSAttachments(listname, itemID) {
             var controlType = $(this).attr('controlType');
             // if (controlType == "file") {
             if (!IsNullOrUndefined(fileURSArray)) {
-               // SaveItemWiseAttachments(listname, itemID);
-               var formFieldValues = [];
-               fileURSArray.forEach(element => {
-                   var fileName = element.name;
-                   formFieldValues['URSAttachment'] =fileName;
-               });
-               var item = $pnp.sp.web.lists.getByTitle(listname).items.getById(itemID);
-               
-               item.attachmentFiles.addMultiple(fileURSArray).then(v => {
-                   console.log("files saved successfully in list = " + listname + "for listItemId = " + itemID);
-               }).catch(function (err) {
-                   console.log(err);
-                   console.log("error while save attachment ib list = " + listname + "for listItemId = " + itemID)
-               });
-               SaveFormFields(formFieldValues, itemID);
+                // SaveItemWiseAttachments(listname, itemID);
+                var formFieldValues = [];
+                fileURSArray.forEach(element => {
+                    var fileName = element.name;
+                    formFieldValues['URSAttachment'] = fileName;
+                });
+                var item = $pnp.sp.web.lists.getByTitle(listname).items.getById(itemID);
+
+                item.attachmentFiles.addMultiple(fileURSArray).then(v => {
+                    console.log("files saved successfully in list = " + listname + "for listItemId = " + itemID);
+                }).catch(function (err) {
+                    console.log(err);
+                    console.log("error while save attachment ib list = " + listname + "for listItemId = " + itemID)
+                });
+                SaveFormFields(formFieldValues, itemID);
             }
             // }
 
@@ -193,21 +193,21 @@ function AddSupportiveDocAttachments(listname, itemID) {
             var controlType = $(this).attr('controlType');
             // if (controlType == "file") {
             if (!IsNullOrUndefined(fileSupportDocArray)) {
-               // SaveItemWiseAttachments(listname, itemID);
-               var formFieldValues = [];
-               fileSupportDocArray.forEach(element => {
-                   var fileName = element.name;
-                   formFieldValues['SupportDocAttachment'] = fileName +',';
-               });
-               var item = $pnp.sp.web.lists.getByTitle(listname).items.getById(itemID);
-               
-               item.attachmentFiles.addMultiple(fileSupportDocArray).then(v => {
-                   console.log("files saved successfully in list = " + listname + "for listItemId = " + itemID);
-               }).catch(function (err) {
-                   console.log(err);
-                   console.log("error while save attachment ib list = " + listname + "for listItemId = " + itemID)
-               });
-               SaveFormFields(formFieldValues, itemID);
+                // SaveItemWiseAttachments(listname, itemID);
+                var formFieldValues = [];
+                fileSupportDocArray.forEach(element => {
+                    var fileName = element.name;
+                    formFieldValues['SupportDocAttachment'] = fileName + ',';
+                });
+                var item = $pnp.sp.web.lists.getByTitle(listname).items.getById(itemID);
+
+                item.attachmentFiles.addMultiple(fileSupportDocArray).then(v => {
+                    console.log("files saved successfully in list = " + listname + "for listItemId = " + itemID);
+                }).catch(function (err) {
+                    console.log(err);
+                    console.log("error while save attachment ib list = " + listname + "for listItemId = " + itemID)
+                });
+                SaveFormFields(formFieldValues, itemID);
             }
             // }
 
@@ -240,10 +240,10 @@ function SaveItemWiseAttachments(listname, itemID) {
     var formFieldValues = [];
     fileURSArray.forEach(element => {
         var fileName = element.name;
-        formFieldValues['URSAttachment'] =fileName;
+        formFieldValues['URSAttachment'] = fileName;
     });
     var item = $pnp.sp.web.lists.getByTitle(listname).items.getById(itemID);
-    
+
     item.attachmentFiles.addMultiple(fileURSArray).then(v => {
         console.log("files saved successfully in list = " + listname + "for listItemId = " + itemID);
     }).catch(function (err) {
@@ -253,18 +253,38 @@ function SaveItemWiseAttachments(listname, itemID) {
     SaveFormFields(formFieldValues, itemID);
 }
 
-function GetFormBusinessLogic(listItemId,activeSectionName, department) {
+function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     if (listItemId == 0) {
-        $("#RaisedBy").html(currentUser.Title);
-        $("#InitiatorName").html(currentUser.Title);
-        var today = new Date().format("dd-MM-yyyy");
-        $("#RaisedOn").html(today);
-        $("#WorkflowStatus").html("New");
-        $("#Department").html(department);
+        setNewFormParamters()
     }
     if (listItemId != null && listItemId > 0) {
         setImageSignature();
     }
+    setFunctionbasedDept(department);
+    bindAssetName(department);
+    if (listItemId > 0) {
+        bindAttachments();
+    }
+}
+function setSelectedValue(selectObj, valueToSet) {
+    for (var i = 0; i < selectObj.options.length; i++) {
+        if (selectObj.options[i].text == valueToSet) {
+            selectObj.options[i].selected = true;
+            return;
+        }
+    }
+}
+
+function setNewFormParamters(department) {
+    $("#RaisedBy").html(currentUser.Title);
+    $("#InitiatorName").html(currentUser.Title);
+    var today = new Date().format("dd-MM-yyyy");
+    $("#RaisedOn").html(today);
+    $("#WorkflowStatus").html("New");
+    $("#Department").html(department);
+}
+
+function setFunctionbasedDept(department) {
     AjaxCall(
         {
 
@@ -273,18 +293,20 @@ function GetFormBusinessLogic(listItemId,activeSectionName, department) {
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
                     $("#Function").html(data.d.results[0].Function.Title);
                 }
             }
         });
+}
 
+function bindAssetName(department) {
     AjaxCall(
         {
             url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetName,Department/Title&$expand=Department/Title&$filter=Department/Title eq '" + department + "'",
@@ -292,11 +314,11 @@ function GetFormBusinessLogic(listItemId,activeSectionName, department) {
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
                     var result = data.d.results;
@@ -331,14 +353,69 @@ function GetFormBusinessLogic(listItemId,activeSectionName, department) {
                 }
             }
         });
-
 }
-function setSelectedValue(selectObj, valueToSet) {
-    for (var i = 0; i < selectObj.options.length; i++) {
-        if (selectObj.options[i].text == valueToSet) {
-            selectObj.options[i].selected = true;
-            return;
+
+function bindAttachments() {
+    var Requestorurl = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('CapexRequisition')/items(" + listItemId + ")/AttachmentFiles";
+    getListItems(Requestorurl, function (data) {
+        var results = data.d.results;
+
+        if (data.d.results.length > 0) {
+            results.forEach(element => {
+                if (mainListData.URSAttachment != null && element.FileName == mainListData.URSAttachment) {
+                    var htmlStr = "";
+                    if (htmlStr === "") {
+                        htmlStr = "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
+                    }
+                    else {
+                        htmlStr = htmlStr + "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
+
+                    }
+                    $('#URSContainer').html(htmlStr);
+                }
+            });
+            // $.each(data.d.results, function () {
+
+              
+            // });
+
+            results.forEach(element => {
+                if (mainListData.SupportDocAttachment != null) {
+                    var supportDocNames = [];
+                    supportDocNames = TrimComma(mainListData.SupportDocAttachment).split(",");
+                    var htmlStr = "";
+                    supportDocNames.forEach(function (element1) {
+                        if (element.FileName == element1) {
+
+                            if (htmlStr === "") {
+                                htmlStr = "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
+                            }
+                            else {
+                                htmlStr = htmlStr + "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
+                            }
+                        }
+                    });
+                    $('#SupportiveDocContainer').html(htmlStr);
+                }
+            });
+
+           
         }
-    }
-}
 
+
+    });
+
+}
+function getListItems(siteurl, success, failure) {
+    $.ajax({
+        url: siteurl,
+        method: "GET",
+        headers: { "Accept": "application/json; odata=verbose" },
+        success: function (data) {
+            success(data);
+        },
+        error: function (data) {
+            failure(data);
+        }
+    });
+} 

@@ -68,10 +68,12 @@ function BindURSAttachmentFiles() {
             }
         })(file);
         reader.readAsArrayBuffer(file);
-        var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeURSFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\">Remove</a>";
+        var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeURSFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\"> Remove</a>";
+        output = [];
         output.push("<li><strong>", escape(file.name), removeLink, "</li> ");
     }
-    $('#UploadURSAttachment').next().append(output.join(""));
+    $('#fileListURS').empty();
+    $('#UploadURSAttachment').next().next().next().next().append(output.join(""));
 
     //End of for loop
 }
@@ -103,10 +105,11 @@ function BindSupportDocAttachmentFiles() {
             }
         })(file);
         reader.readAsArrayBuffer(file);
-        var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeSupportDocFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\">Remove</a>";
+        
+        var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeSupportDocFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\"> Remove</a>";
         output.push("<li><strong>", escape(file.name), removeLink, "</li> ");
     }
-    $('#UploadSupportiveDocAttachment').next().append(output.join(""));
+    $('#UploadSupportiveDocAttachment').next().next().append(output.join(""));
 
     //End of for loop
 }
@@ -1311,7 +1314,7 @@ function SaveFormData(activeSection, ele) {
                 if (elementId.indexOf("_Comments") != -1) {
                     currentApproverDetails[CurrentApprover.COMMENTS] = currAppArray[elementId];
                 }
-                else if (elementId.indexOf("_Approver") != -1) {    /////////// testing
+                else if (elementId.indexOf("_Approver") != -1) {    /////////// testing Pending
                     currentApproverDetails[CurrentApprover.APPROVEBYID] = currAppArray[elementId];
                 }
             }
