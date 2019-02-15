@@ -133,7 +133,7 @@
     <style>
         /* .ui-autocomplete{
         z-index:1050 !important;
-      
+
     } */
 
         /* .pac-container{
@@ -329,7 +329,7 @@
                                                             Imported?
                                                         </label>
                                                         <div class="col-md-8 ">
-                                                            <!-- <input type="checkbox" id="Imported"  class="form-control dynamic-control" 
+                                                            <!-- <input type="checkbox" id="Imported"  class="form-control dynamic-control"
                                                              required="required" name="Imported" controlType="multicheckbox" /> -->
                                                             <input type="checkbox" id="Imported" class="form-control dynamic-control" name="Imported" controlType="checkbox" listtype="main"
                                                             />
@@ -683,7 +683,57 @@
                                             </div>
                                             <hr>
                                             <br>
-                                            <div class="row">
+                                            <div class="table-wrapper">
+                                                    <div class="table-responsive">
+
+                                                            <table class="table table-hover table-bordered someTable">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th width='20%'>Budgeted Value (Rupee in Lakhs)</th>
+                                                                            <th width='20%'>Utilised Value(Rupee in Lakhs)</th>
+                                                                            <th width='20%'>Current Value(Rupee in Lakhs)</th>
+                                                                            <th width='20%'>Total Utilised Value(Rupee in Lakhs)</th>
+                                                                            <th width='20%'>Balance(Rupee in Lakhs)</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td class="col-md-2">
+                                                                                <!-- <div class="col-md-8"> -->
+                                                                                    <input id="BudgetedValue" class="form-control dynamic-control" name="BudgetedValue" placeholder="Budgeted Value" type="text"
+                                                                                        required="required" controlType="text" data="digit" maxlength="15"
+                                                                                        listtype="main" />
+                                                                                <!-- </div> -->
+                                                                            </td >
+                                                                            <td class="col-md-2">
+                                                                                    <input id="UtilizedValue" class="form-control dynamic-control" name="UtilizedValue" placeholder="Utilised Value" type="text"
+                                                                                    required="required" controlType="text" data="digit" maxlength="15"
+                                                                                    listtype="main" />
+                                                                            </td>
+                                                                            <td class="col-md-2">
+                                                                                    <input id="CurrentValue" class="form-control dynamic-control" name="CurrentValue" placeholder="Current Value" type="text"
+                                                                                    required="required" controlType="combo" data="digit" maxlength="15"
+                                                                                    listtype="main" />
+                                                                            </td>
+                                                                            <td class="col-md-2">
+                                                                                    <input id="TotalUtilizedValue" class="form-control dynamic-control" name="TotalUtilizedValue" placeholder="Total Utilised Value"
+                                                                                    type="text" required="required" controlType="text" listtype="main"
+                                                                                    data="digit" maxlength="15" />
+                                                                            </td>
+                                                                            <td class="col-md-2"> 
+                                                                                    <input id="Balance" class="form-control dynamic-control" name="Balance" placeholder="Balance Value" type="text" required="required"
+                                                                                    controlType="text" listtype="main" data="digit" maxlength="15" />
+                                                                            </td>
+
+                                                                        </tr>
+
+
+
+                                                                    </tbody>
+                                                                </table>
+                                                    </div>
+                                                </div>
+                                            <!-- <div class="row">
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
                                                         <label class="col-md-4 control-label">
@@ -749,7 +799,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <hr>
                                             <br>
                                             <div class="row">
