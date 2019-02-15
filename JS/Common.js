@@ -43,7 +43,7 @@ jQuery(document).ready(function () {
 /*Priya Rane */
 function BindURSAttachmentFiles() {
     var output = [];
-
+    fileURSArray=[];
     //Get the File Upload control id
     var input = document.getElementById("UploadURSAttachment");
     var fileCount = input.files.length;
