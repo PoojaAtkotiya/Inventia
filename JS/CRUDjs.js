@@ -410,6 +410,7 @@ function SaveVendorDetails() {
         var elementType = $(this).attr('controlType');
         var elementvaluetype = $(this).attr('controlvaluetype');
         //  saveDataArray = GetFormControlsValues(elementId, elementType, saveDataArray);
+        debugger
         saveDataArray = GetFormControlsValue(elementId, elementType, saveDataArray,elementvaluetype);
     });
     // var email = document.getElementById('VendorEmailID');

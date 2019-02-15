@@ -253,8 +253,18 @@ function SaveItemWiseAttachments(listname, itemID) {
     SaveFormFields(formFieldValues, itemID);
 }
 
-function GetFormBusinessLogic(activeSectionName, department) {
-
+function GetFormBusinessLogic(listItemId,activeSectionName, department) {
+    if (listItemId == 0) {
+        $("#RaisedBy").html(currentUser.Title);
+        $("#InitiatorName").html(currentUser.Title);
+        var today = new Date().format("dd-MM-yyyy");
+        $("#RaisedOn").html(today);
+        $("#WorkflowStatus").html("New");
+        $("#Department").html(department);
+    }
+    if (listItemId != null && listItemId > 0) {
+        setImageSignature();
+    }
     AjaxCall(
         {
 
@@ -274,8 +284,6 @@ function GetFormBusinessLogic(activeSectionName, department) {
                 }
             }
         });
-
-
 
     AjaxCall(
         {

@@ -41,7 +41,7 @@ function GetTranData(tranlistname, lookupId) {
                 sucesscallbackfunction: function (data) {
                     var item = data.d.results[0];
                     if (item != null && item != '' & item != undefined) {
-                        $('input[listname*=' + tranlistname + '],select[listname*=' + tranlistname + '],radio[listname*=' + tranlistname + '],textarea[listname*=' + tranlistname + ']').each(function () {
+                        $('input[listname*=' + tranlistname + '],select[listname*=' + tranlistname + '],radio[listname*=' + tranlistname + '],textarea[listname*=' + tranlistname + '],checkbox[listname*=' + tranlistname + ']').each(function () {
                             var elementId = $(this).attr('id');
                             var fieldName = $(this).attr('id');
                             var elementType = $(this).attr('controlType');
@@ -49,6 +49,9 @@ function GetTranData(tranlistname, lookupId) {
                                 fieldName = $(this).attr("cParent");
                             else if (elementType == 'radiogroup')
                                 fieldName = $(this).attr("cParent");
+                            else if(elementType == 'checkbox')
+                                fieldName =  $("#" + elementId)[0].checked;
+                              //  $("#" + elementId)[0].checked = item[fieldName];
                             setFieldValue(elementId, item, elementType, fieldName);
                         });
                     }
@@ -110,7 +113,8 @@ function SetTranDataValues(tranlistname, lookupId) {
             $('input[listname*=' + tranlistname + '],select[listname*=' + tranlistname + '],radio[listname*=' + tranlistname + '],textarea[listname*=' + tranlistname + ']').each(function () {
                 var elementId = $(this).attr('id');
                 var elementType = $(this).attr('controlType');
-                tranListData = GetFormControlsValue(elementId, elementType, tranListData);
+                tranListData = GetFormControlsValue(elementId, elementType, tranListData,elementvaluetype);
+                //saveDataArray = GetFormControlsValue(elementId, elementType, saveDataArray,elementvaluetype);
             });
             SaveTranData(tranlistname, tranListData, lookupId);
         }
