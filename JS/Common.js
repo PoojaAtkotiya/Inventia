@@ -1311,7 +1311,7 @@ function SaveFormData(activeSection, ele) {
                 if (elementId.indexOf("_Comments") != -1) {
                     currentApproverDetails[CurrentApprover.COMMENTS] = currAppArray[elementId];
                 }
-                else if (elementId.indexOf("_Approver") != -1) {    /////////// testing
+                else if (elementId.indexOf("_Approver") != -1) {    /////////// testing Pending
                     currentApproverDetails[CurrentApprover.APPROVEBYID] = currAppArray[elementId];
                 }
             }
