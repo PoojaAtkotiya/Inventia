@@ -7,7 +7,8 @@ var currentContext;
 var listDataArray = {};
 var listActivityLogDataArray = [];
 var actionPerformed;
-var fileInfos = [];
+var fileURSArray = [];
+var fileSupportDocArray = [];
 var scriptbase; //= spSiteUrl + "/_layouts/15/";     ////_spPageContextInfo.layoutsUrl
 var fileIdCounter = 0;
 var currentApproverDetails = {};
@@ -40,7 +41,7 @@ jQuery(document).ready(function () {
 });
 
 /*Priya Rane */
-function BindAttachmentFiles() {
+function BindURSAttachmentFiles() {
     var output = [];
 
     //Get the File Upload control id
@@ -58,16 +59,16 @@ function BindAttachmentFiles() {
             return function (e) {
                 console.log(file.name);
                 //Push the converted file into array
-                fileInfos.push({
+                fileURSArray.push({
                     "name": file.name,
                     "content": e.target.result,
                     "id": fileId
                 });
-                console.log(fileInfos);
+                console.log(fileURSArray);
             }
         })(file);
         reader.readAsArrayBuffer(file);
-        var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\">Remove</a>";
+        var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeURSFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\">Remove</a>";
         output.push("<li><strong>", escape(file.name), removeLink, "</li> ");
     }
     $('#UploadURSAttachment').next().append(output.join(""));
@@ -75,14 +76,60 @@ function BindAttachmentFiles() {
     //End of for loop
 }
 
-/*Priya Rane */
-function removeFiles(fileId) {
+function BindSupportDocAttachmentFiles() {
+    var output = [];
 
-    for (var i = 0; i < fileInfos.length; ++i) {
-        if (fileInfos[i].id === fileId)
-            fileInfos.splice(i, 1);
+    //Get the File Upload control id
+    var input = document.getElementById("UploadSupportiveDocAttachment");
+    var fileCount = input.files.length;
+    console.log(fileCount);
+    for (var i = 0; i < fileCount; i++) {
+        var fileName = input.files[i].name;
+        console.log(fileName);
+        fileIdCounter++;
+        var fileId = fileIdCounter;
+        var file = input.files[i];
+        var reader = new FileReader();
+        reader.onload = (function (file) {
+            return function (e) {
+                console.log(file.name);
+                //Push the converted file into array
+                fileSupportDocArray.push({
+                    "name": file.name,
+                    "content": e.target.result,
+                    "id": fileId
+                });
+                console.log(fileSupportDocArray);
+            }
+        })(file);
+        reader.readAsArrayBuffer(file);
+        var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeSupportDocFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\">Remove</a>";
+        output.push("<li><strong>", escape(file.name), removeLink, "</li> ");
+    }
+    $('#UploadSupportiveDocAttachment').next().append(output.join(""));
+
+    //End of for loop
+}
+
+/*Priya Rane */
+function removeURSFiles(fileId) {
+
+    for (var i = 0; i < fileURSArray.length; ++i) {
+        if (fileURSArray[i].id === fileId)
+        fileURSArray.splice(i, 1);
     }
     var item = document.getElementById("fileListURS");
+    fileId--;
+    item.children[fileId].remove();
+
+}
+function removeSupportDocFiles(fileId) {
+
+    for (var i = 0; i < fileSupportDocArray.length; ++i) {
+        if (fileSupportDocArray[i].id === fileId)
+        fileSupportDocArray.splice(i, 1);
+    }
+    var item = document.getElementById("fileListSupportiveDoc");
     fileId--;
     item.children[fileId].remove();
 
@@ -115,19 +162,7 @@ function onloadConstantsSuccess(sender, args) {
     else {
         GetGlobalApprovalMatrix(listItemId);
     }
-    if (listItemId == 0) {
-        $("#RaisedBy").html(currentUser.Title);
-        $("#InitiatorName").html(currentUser.Title);
-        var today = new Date().format("dd-MM-yyyy");
-        $("#RaisedOn").html(today);
-        $("#WorkflowStatus").html("New");
-        $("#Department").html(department);
-    }
-    if (listItemId != null && listItemId > 0) {
-        setImageSignature();
-    }
-
-    GetFormBusinessLogic(activeSectionName, department);
+    GetFormBusinessLogic(listItemId, activeSectionName, department);
     //setCustomApprovers();
 }
 
@@ -622,6 +657,50 @@ function setFieldValue(controlId, item, fieldType, fieldName) {
 }
 
 /*Pooja Atkotiya */
+function setStaticFieldValue(controlId, item, fieldType, cType, fieldName) {
+
+    if (!fieldName || fieldName == "") {
+        fieldName = controlId;
+    }
+
+    switch (fieldType) {
+        case "text":
+        case "combo":
+        case "multitext":
+            if (cType == "text") {
+                $("#" + controlId).val(item[fieldName]).change();
+            }
+            else {
+                $("#" + controlId).text(item[fieldName]);
+            }
+            break;
+        case "date":
+            var dt = "";
+            if (item[fieldName] && item[fieldName] != null) {
+                dt = new Date(item[fieldName]).format("MM-dd-yyyy");
+            }
+            if (cType == "text") {
+                $("#" + controlId).val(dt).change();
+            }
+            else {
+                $("#" + controlId).text(dt);
+            }
+            break;
+        case "person":
+            var dispName = "";
+            if (item[fieldName] && item[fieldName] != null) {
+                dispName = item[fieldName].Title;
+            }
+            if (cType == "text") {
+                $("#" + controlId).val(dispName).change();
+            }
+            else {
+                $("#" + controlId).text(dispName);
+            }
+            break;
+    }
+}
+/*Pooja Atkotiya */
 function GetItemTypeForListName(name) {
     return "SP.Data." + name.charAt(0).toUpperCase() + name.split(" ").join("").slice(1) + "ListItem";
 }
@@ -935,22 +1014,25 @@ function GetFormControlsValue(id, elementType, listDataArray, elementvaluetype =
             listDataArray[id] = metaObject;
             break;
         case "combo":
-        if (IsNullOrUndefined($(obj).val()) || IsStrNullOrEmpty($(obj).val())) {
-            $(obj).val(0);
-        }
+            if (IsNullOrUndefined($(obj).val()) || IsStrNullOrEmpty($(obj).val())) {
+                $(obj).val(0);
+            }
             listDataArray[id] = $(obj).val();
             break;
         case "multitext":
             listDataArray[id] = $(obj).val();
             break;
         case "date":
-            var month = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getMonth() + 1 : null;
-            var date = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getDate() : null;
-            var year = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getFullYear() : null;
-            var date = (!IsNullOrUndefined(month) && !IsNullOrUndefined(date) && !IsNullOrUndefined(year)) ? new Date(year.toString() + "-" + month.toString() + "-" + date.toString()).format("yyyy-MM-ddTHH:mm:ssZ") : null;
-            if (date) {
-                listDataArray[id] = date;
-            }
+            // var month = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getMonth() + 1 : null;
+            // var date = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getDate() : null;
+            // var year = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getFullYear() : null;
+            // var date = (!IsNullOrUndefined(month) && !IsNullOrUndefined(date) && !IsNullOrUndefined(year)) ? new Date(year.toString() + "-" + month.toString() + "-" + date.toString()).format("yyyy-MM-ddTHH:mm:ssZ") : null;
+
+            // if (date) {
+            //     listDataArray[id] = date;
+            // }
+            debugger
+            listDataArray[id] = $(obj).val();
             break;
         case "checkbox":
             listDataArray[id] = $(obj)[0]['checked'];
@@ -1005,13 +1087,16 @@ function GetFormControlsValueAndType(id, elementType, elementProperty, listActiv
             listActivityLogDataArray.push({ id: id, value: $(obj).val(), type: 'multitext' });
             break;
         case "date":
-            var month = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getMonth() + 1 : null;
-            var date = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getDate() : null;
-            var year = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getFullYear() : null;
-            var date = (!IsNullOrUndefined(month) && !IsNullOrUndefined(date) && !IsNullOrUndefined(year)) ? new Date(year.toString() + "-" + month.toString() + "-" + date.toString()).format("yyyy-MM-ddTHH:mm:ssZ") : null;
-            if (date) {
-                listActivityLogDataArray.push({ id: id, value: date, type: 'date' });
-            }
+            // var month = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getMonth() + 1 : null;
+            // var date = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getDate() : null;
+            // var year = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getFullYear() : null;
+            // var date = (!IsNullOrUndefined(month) && !IsNullOrUndefined(date) && !IsNullOrUndefined(year)) ? new Date(year.toString() + "-" + month.toString() + "-" + date.toString()).format("yyyy-MM-ddTHH:mm:ssZ") : null;
+            // if (date) {
+            //     listActivityLogDataArray.push({ id: id, value: date, type: 'date' });
+            // }
+
+            debugger
+            listDataArray[id] = $(obj).val();
             break;
         case "checkbox":
 
@@ -1268,7 +1353,7 @@ function SaveData(listname, listDataArray, sectionName, ele) {
                 contentType: 'application/json; charset=utf-8',
                 async: false,
                 sucesscallbackfunction: function (data) {
-                    OnSuccessMainListSave(listname,isNewItem,data, sectionName, buttonCaption);
+                    OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCaption);
                 },
                 error: function (data) {
                     console.log(data);
@@ -1277,13 +1362,13 @@ function SaveData(listname, listDataArray, sectionName, ele) {
             });
         }
         else {
-            OnSuccessMainListSave(listname,isNewItem,null, sectionName, buttonCaption);
+            OnSuccessMainListSave(listname, isNewItem, null, sectionName, buttonCaption);
         }
 
     }
 }
 
-function OnSuccessMainListSave(listname,isNewItem,data, sectionName, buttonCaption) {
+function OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCaption) {
     var itemID = listItemId;
     if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d)) {
         itemID = data.d.ID;
@@ -1297,7 +1382,13 @@ function OnSuccessMainListSave(listname,isNewItem,data, sectionName, buttonCapti
         clientContext.load(oListItem, 'FormLevel', 'RaisedBy');
         clientContext.load(web);
         clientContext.executeQueryAsync(function () {
-            AddAllAttachments(listname, itemID);
+            if(fileURSArray.length>0){
+            AddURSAttachments(listname, itemID);
+            }
+            if(fileSupportDocArray.length>0)
+            {
+                AddSupportiveDocAttachments(listname, itemID);
+            }
             CommonBusinessLogic(sectionName, itemID, listDataArray);
             SaveLocalApprovalMatrix(sectionName, itemID, listname, isNewItem, oListItem, ListNames.APPROVALMATRIXLIST);
             SaveActivityLog(sectionName, itemID, ListNames.ACTIVITYLOGLIST, listDataArray, isNewItem, buttonCaption);
@@ -1364,35 +1455,32 @@ function SaveActions(sectionName, itemID, actionPerformed) {
             }
             break;
         case SectionNames.HODSECTION:
-        if(actionPerformed=="NextApproval"){
-            formFieldValues['HODAction'] = currentUser.Title + '-' + todayDate + '-' + "Approve";
+            if (actionPerformed == "NextApproval") {
+                formFieldValues['HODAction'] = currentUser.Title + '-' + todayDate + '-' + "Approve";
             }
-            else if(actionPerformed=="Rejected")
-            {
+            else if (actionPerformed == "Rejected") {
                 formFieldValues['HODAction'] = currentUser.Title + '-' + todayDate + '-' + "Rejected";
             }
             break;
         case SectionNames.PURCHASESECTION:
-            if(actionPerformed=="NextApproval"){
-            formFieldValues['PurchaseAction'] = currentUser.Title + '-' + todayDate + '-' + "Submit";
+            if (actionPerformed == "NextApproval") {
+                formFieldValues['PurchaseAction'] = currentUser.Title + '-' + todayDate + '-' + "Submit";
             }
-            
+
             break;
         case SectionNames.FUNCTIONHEADSECTION:
-        if(actionPerformed=="NextApproval"){
-            formFieldValues['FuctionHeadAction'] = currentUser.Title + '-' + todayDate + '-' + "Approve";
+            if (actionPerformed == "NextApproval") {
+                formFieldValues['FuctionHeadAction'] = currentUser.Title + '-' + todayDate + '-' + "Approve";
             }
-            else if(actionPerformed=="Rejected")
-            {
+            else if (actionPerformed == "Rejected") {
                 formFieldValues['FuctionHeadAction'] = currentUser.Title + '-' + todayDate + '-' + "Rejected";
             }
             break;
         case SectionNames.MANAGEMENTSECTION:
-        if(actionPerformed=="NextApproval"){
-            formFieldValues['ManagementAction'] = currentUser.Title + '-' + todayDate + '-' + "Approve";
+            if (actionPerformed == "NextApproval") {
+                formFieldValues['ManagementAction'] = currentUser.Title + '-' + todayDate + '-' + "Approve";
             }
-            else if(actionPerformed=="Rejected")
-            {
+            else if (actionPerformed == "Rejected") {
                 formFieldValues['ManagementAction'] = currentUser.Title + '-' + todayDate + '-' + "Rejected";
             }
             break;
