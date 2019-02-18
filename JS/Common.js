@@ -157,7 +157,7 @@ function onloadConstantsSuccess(sender, args) {
     listItemId = getUrlParameter("ID");
     returnUrl = getUrlParameter("Source");
     ExecuteOrDelayUntilScriptLoaded(GetCurrentUserDetails, "sp.js");
-   if(listItemId == null){
+   if(listItemId == ""|| listItemId==null){
     GetUserDepartment();
    }
     GetAllMasterData();
@@ -1575,7 +1575,7 @@ function SaveImageSignaturePath(sectionName, itemID) {
                         formFieldValues['PurchaseSignature'] = data.d.results[0].FileRef;
                         break;
                     case SectionNames.FUNCTIONHEADSECTION:
-                        formFieldValues['FunctionHeadSignature'] = data.d.results[0].FileRef;
+                        //formFieldValues['FunctionHeadSignature'] = data.d.results[0].FileRef;
                         break;
                     case SectionNames.MANAGEMENTSECTION:
                         formFieldValues['ManagementSignature'] = data.d.results[0].FileRef;
