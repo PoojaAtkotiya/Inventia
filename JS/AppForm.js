@@ -568,7 +568,7 @@ function previewFile(fileArray,url,fileName,fileID) {
         if(vendorname == listTempGridDataArray[i].VendorName)
         {
             $("#CurrentValue").val(listTempGridDataArray[i].TotalValue);
-            var TotalUtilizedValue= $("#UtilizedValue").val()+ listTempGridDataArray[i].TotalValue;
+            var TotalUtilizedValue= (+$("#UtilizedValue").val()) + (+listTempGridDataArray[i].TotalValue);
             var Balance= $("#BudgetedValue").val()-TotalUtilizedValue;
             $("#TotalUtilizedValue").val(TotalUtilizedValue);
             $("#Balance").val(Balance);
