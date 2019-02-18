@@ -42,7 +42,7 @@ function onGetSetFormDataSuccess(data) {
     var activitylogTableId = 'tblActivityLog';
     mainListData = data;
     var item = data;
-    if (item != null && item != '' & item != undefined) {
+    if (!IsNullOrUndefined(item) && item != '') {
         $('.dynamic-control').each(function () {
             var listType = $(this).attr('listtype');
             var reflisttype = $(this).attr('reflisttype');
@@ -93,14 +93,14 @@ function setCustomApprovers(tempApproverMatrix) {
                 smsDelegate = temp.ApproverId;
             }
         });
-        if (smsIncharge != null) {
+        if (!IsNullOrUndefined(smsIncharge)) {
             tempApproverMatrix.filter(function (temp) {
                 if (temp.Role == "Final SMS Incharge" && temp.Status != "Not Required") {
                     temp.ApproverId = smsIncharge;
                 }
             });
         }
-        if (smsDelegate != null) {
+        if (!IsNullOrUndefined(smsDelegate)) {
             tempApproverMatrix.filter(function (temp) {
                 if (temp.Role == "Final SMS Delegate" && temp.Status != "Not Required") {
                     temp.ApproverId = smsDelegate;
@@ -265,7 +265,7 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     if (listItemId == 0) {
         setNewFormParamters(department)
     }
-    if (listItemId != null && listItemId > 0) {
+    if (!IsNullOrUndefined(listItemId) && listItemId > 0) {
         setImageSignature();
     }
     if (pendingWithRole == "Creator" || listItemId == "") {
@@ -400,13 +400,13 @@ function bindAssetName(department) {
 function bindAttachments() {
     fileURSArray = [];
     var Requestorurl = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('CapexRequisition')/items(" + listItemId + ")/AttachmentFiles";
-    if (mainListData.URSAttachment != null) {
+    if (!IsNullOrUndefined(mainListData.URSAttachment)) {
         getListItems(Requestorurl, function (data) {
             var results = data.d.results;
 
             if (results.length > 0) {
                 results.forEach(element => {
-                    if (mainListData.URSAttachment != null && element.FileName == mainListData.URSAttachment) {
+                    if (!IsNullOrUndefined(mainListData.URSAttachment) && element.FileName == mainListData.URSAttachment) {
                         var htmlStr = "";
                         fileURSArray = previewFile(fileURSArray, element.ServerRelativeUrl, element.FileName, 1);
                         if (htmlStr === "") {
@@ -427,7 +427,7 @@ function bindAttachments() {
                 // });
                 var htmlStr = "";
                 results.forEach(element => {
-                    if (mainListData.SupportDocAttachment != null) {
+                    if (!IsNullOrUndefined(mainListData.SupportDocAttachment)) {
                         var supportDocNames = [];
                         supportDocNames = TrimComma(mainListData.SupportDocAttachment).split(",");
 
