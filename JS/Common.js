@@ -1383,9 +1383,7 @@ function SaveData(listname, listDataArray, sectionName, ele) {
     var buttonCaption = $(ele).text().trim();
 
     if (listDataArray != null) {
-        listDataArray["__metadata"] = {
-            "type": itemType
-        };
+
         var url = '', headers = '';
         if (listItemId != null && listItemId > 0 && listItemId != "") {
 
@@ -1399,6 +1397,9 @@ function SaveData(listname, listDataArray, sectionName, ele) {
         }
 
         if (!IsNullOrUndefined(listDataArray) && Object.keys(listDataArray).length > 0) {
+            listDataArray["__metadata"] = {
+                "type": itemType
+            };
             AjaxCall({
                 url: url,
                 postData: JSON.stringify(listDataArray),
