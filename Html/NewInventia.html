@@ -81,10 +81,14 @@
               var selectedReason=$("#ReasonforSelection").val();
               if(selectedReason=="Others"){
                 $("#descriptionDiv").show();
-              }
+
+             
+             }
               else
               {
                 $("#descriptionDiv").hide();
+                $("#description").removeAttr( "required" );
+              
               }
             });
             $(document).on("change", "#PayBackPeriod", function () {
@@ -93,6 +97,7 @@
                 $("#PayBackPeriodDurationDiv").show();
                 } else {
                  $("#PayBackPeriodDurationDiv").hide();
+                 $("#PayBackPeriodDuration").removeAttr( "required" );
             }
              
             });
@@ -508,7 +513,7 @@
 
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <label id="InitiatorAction" class="col-md-8 static-control labeltop" listtype="main"></label>
+                                                            <label id="InitiatorAction" class="col-md-8 static-control labeltop" listtype="main" controlType="text" ></label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -584,11 +589,7 @@
 
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <b> Mayuri Shah </b>
-                                                            <br>
-                                                            <b> Submitted </b>
-                                                            <br>
-                                                            <b> 12/02/2019 15.30 </b>
+                                                                <label id="PurchaseAction" class="col-md-8 static-control labeltop" listtype="main" controlType="text" ></label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -660,7 +661,7 @@
                                                         </label>
                                                         <div class="col-md-8">
                                                             <input type="text" id="Description" class="form-control dynamic-control" placeholder="Description" controlType="text" name="Description"
-                                                                listtype="main" required="required" />
+                                                                listtype="main"  required="required"  />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -868,11 +869,7 @@
 
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <b> Mayuri Shah </b>
-                                                            <br>
-                                                            <b> Submitted </b>
-                                                            <br>
-                                                            <b> 12/02/2019 15.30 </b>
+                                                                <label id="HODAction" class="col-md-8 static-control labeltop" listtype="main" controlType="text" ></label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -929,11 +926,7 @@
 
                                                             </label>
                                                             <div class="col-md-8">
-                                                                <b> Mayuri Shah </b>
-                                                                <br>
-                                                                <b> Submitted </b>
-                                                                <br>
-                                                                <b> 12/02/2019 15.30 </b>
+                                                                    <label id="FunctionHeadAction" class="col-md-8 static-control labeltop" listtype="main" controlType="text" ></label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -987,11 +980,7 @@
 
                                                             </label>
                                                             <div class="col-md-8">
-                                                                <b> Mayuri Shah </b>
-                                                                <br>
-                                                                <b> Submitted </b>
-                                                                <br>
-                                                                <b> 12/02/2019 15.30 </b>
+                                                                    <label id="ManagementAction" class="col-md-8 static-control labeltop" listtype="main" controlType="text" ></label>
                                                             </div>
                                                         </div>
                                                     </div>
