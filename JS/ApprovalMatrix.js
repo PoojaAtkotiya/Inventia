@@ -1121,9 +1121,7 @@ function SaveFormFields(formFieldValues, requestId) {
         nextResults = IsArray(formFieldValues["NextApprover"]) ? formFieldValues["NextApprover"] : nextResults;
     }
     var mainlistDataArray = {};
-    mainlistDataArray["__metadata"] = {
-        "type": GetItemTypeForListName(ListNames.MAINLIST)
-    };
+
     if (!IsNullOrUndefined(formFieldValues['RaisedBy'])) {
         mainlistDataArray['RaisedById'] = formFieldValues['RaisedBy'];
     }
@@ -1193,25 +1191,30 @@ function SaveFormFields(formFieldValues, requestId) {
     //LastactionPerformed : formFieldValues["LastactionPerformed"],
     //IsReschedule: formFieldValues["IsReschedule"],
 
-    AjaxCall(
-        {
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.MAINLIST + "')/items(" + requestId + ")",
-            httpmethod: 'POST',
-            calldatatype: 'JSON',
-            postData: JSON.stringify(mainlistDataArray),
-            async: false,
-            headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                    "IF-MATCH": "*",
-                    "X-Http-Method": "MERGE", //PATCH
-                },
-            sucesscallbackfunction: function (data) {
-                console.log("Item saved Successfully");
-            }
-        });
+    if (!IsNullOrUndefined(mainlistDataArray) && Object.keys(mainlistDataArray).length > 0) {
+        mainlistDataArray["__metadata"] = {
+            "type": GetItemTypeForListName(ListNames.MAINLIST)
+        };
+        AjaxCall(
+            {
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.MAINLIST + "')/items(" + requestId + ")",
+                httpmethod: 'POST',
+                calldatatype: 'JSON',
+                postData: JSON.stringify(mainlistDataArray),
+                async: false,
+                headers:
+                    {
+                        "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                        "IF-MATCH": "*",
+                        "X-Http-Method": "MERGE", //PATCH
+                    },
+                sucesscallbackfunction: function (data) {
+                    console.log("Item saved Successfully");
+                }
+            });
+    }
 }
 
 /*Pooja Atkotiya */
