@@ -428,12 +428,12 @@ function bindAttachments() {
 
               
             // });
-
+            var htmlStr = "";
             results.forEach(element => {
                 if (mainListData.SupportDocAttachment != null) {
                     var supportDocNames = [];
                     supportDocNames = TrimComma(mainListData.SupportDocAttachment).split(",");
-                    var htmlStr = "";
+                    
                     var fileId = 0;
                     supportDocNames.forEach(function (element1) {
                         if (element.FileName == element1) {
