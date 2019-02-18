@@ -287,7 +287,7 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     if(mainListData.PendingWith=="Initiator HOD")
     {
         setVendorDropDown(department);
-        SetBudgetValue();
+        SetBudgetValue(department);
     }
     else
     {
@@ -532,9 +532,8 @@ function previewFile(fileArray,url,fileName,fileID) {
     request.send();
     return fileArray;
   }
-  function SetBudgetValue()
+  function SetBudgetValue(department)
   {
-      var department= $("#Department").val();
       if(department != null){
       AjaxCall(
         {
