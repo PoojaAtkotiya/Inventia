@@ -8,6 +8,7 @@ var listDataArray = {};
 var listActivityLogDataArray = [];
 var actionPerformed;
 var fileURSArray = [];
+var fileCommonArray=[];
 var fileSupportDocArray = [];
 var scriptbase; //= spSiteUrl + "/_layouts/15/";     ////_spPageContextInfo.layoutsUrl
 var fileIdCounter = 0;
@@ -44,14 +45,16 @@ jQuery(document).ready(function () {
 /*Priya Rane */
 function BindURSAttachmentFiles() {
     var output = [];
-    fileURSArray = [];
+   
     //Get the File Upload control id
     var input = document.getElementById("UploadURSAttachment");
     var fileCount = input.files.length;
-    console.log(fileCount);
     for (var i = 0; i < fileCount; i++) {
         var fileName = input.files[i].name;
-        console.log(fileName);
+        var duplicate = true;
+        duplicate = checkDuplicateFileName(fileName);
+        if(duplicate){
+        fileURSArray = [];
         fileIdCounter++;
         var fileId = fileIdCounter;
         var file = input.files[i];
@@ -65,6 +68,9 @@ function BindURSAttachmentFiles() {
                     "content": e.target.result,
                     "id": fileId
                 });
+                fileCommonArray.push({
+                    "name": file.name,
+                });
                 console.log(fileURSArray);
             }
         })(file);
@@ -72,6 +78,10 @@ function BindURSAttachmentFiles() {
         var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeURSFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\"> Remove</a>";
         output = [];
         output.push("<li><strong>", escape(file.name), removeLink, "</li> ");
+    }
+    else{
+        alert("Same file is present");
+    }
     }
     $('#fileListURS').empty();
     $('#UploadURSAttachment').next().next().next().next().append(output.join(""));
@@ -88,27 +98,35 @@ function BindSupportDocAttachmentFiles() {
     console.log(fileCount);
     for (var i = 0; i < fileCount; i++) {
         var fileName = input.files[i].name;
-        console.log(fileName);
+        var duplicate = true;
+        duplicate = checkDuplicateFileName(fileName);
+        if(duplicate){
         fileIdCounter++;
         var fileId = fileIdCounter;
         var file = input.files[i];
         var reader = new FileReader();
         reader.onload = (function (file) {
             return function (e) {
-                console.log(file.name);
+              
                 //Push the converted file into array
                 fileSupportDocArray.push({
                     "name": file.name,
                     "content": e.target.result,
                     "id": fileId
                 });
-                console.log(fileSupportDocArray);
+                fileCommonArray.push({
+                    "name": file.name,
+                });
             }
         })(file);
         reader.readAsArrayBuffer(file);
 
         var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeSupportDocFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\"> Remove</a>";
         output.push("<li><strong>", escape(file.name), removeLink, "</li> ");
+    }
+    else{
+        alert("Same file is present");
+    }
     }
     $('#UploadSupportiveDocAttachment').next().next().append(output.join(""));
 
@@ -2450,4 +2468,14 @@ function RemoveHtmlForMultiLine(multiLineValue) {
     } else {
         return "";
     }
+}
+
+function checkDuplicateFileName(fileName){
+    var isDuplicate=true;
+    fileCommonArray.forEach(function (element) {
+        if (element.name == fileName) {
+            isDuplicate= false;
+        }
+        });
+    return isDuplicate;
 }
