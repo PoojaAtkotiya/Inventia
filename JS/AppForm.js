@@ -260,7 +260,10 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
       {
         pendingWithRole="Creator";
       }
-    
+    if(department == undefined)
+    {
+        department=mainListData.Department;
+    }
     if (listItemId == 0) {
         setNewFormParamters(department)
     }
@@ -270,7 +273,13 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     if(pendingWithRole=="Creator"){
     setFunctionbasedDept(department);
     }
+   
     bindAssetName(department);
+    // if (mainListData.AssetName != undefined) {
+    //         var objSelect = document.getElementById("AssetName");
+    //         setSelectedValue(objSelect, mainListData.AssetName);
+    // }
+   
     if (listItemId > 0) {
         bindAttachments();
     }
@@ -279,8 +288,15 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     {
         setVendorDropDown(department);
         SetBudgetValue();
-        
     }
+    else
+    {
+        if (mainListData.SelectedVendor != undefined) {
+            var objSelect = document.getElementById("SelectedVendor");
+            setSelectedValue(objSelect, mainListData.SelectedVendor);
+        }
+    }
+    
 }
 function setSelectedValue(selectObj, valueToSet) {
     for (var i = 0; i < selectObj.options.length; i++) {
