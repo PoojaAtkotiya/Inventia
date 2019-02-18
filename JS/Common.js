@@ -157,7 +157,7 @@ function onloadConstantsSuccess(sender, args) {
     listItemId = getUrlParameter("ID");
     returnUrl = getUrlParameter("Source");
     ExecuteOrDelayUntilScriptLoaded(GetCurrentUserDetails, "sp.js");
-   if(listItemId == null){
+   if(listItemId == ""|| listItemId==null){
     GetUserDepartment();
    }
     GetAllMasterData();
