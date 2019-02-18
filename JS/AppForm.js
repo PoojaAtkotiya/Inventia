@@ -284,7 +284,7 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
 
     if (mainListData.PendingWith == "Initiator HOD") {
         setVendorDropDown(department);
-        SetBudgetValue();
+        SetBudgetValue(department);
     }
     else {
         if (mainListData.SelectedVendor != undefined) {
@@ -404,7 +404,7 @@ function bindAttachments() {
         getListItems(Requestorurl, function (data) {
             var results = data.d.results;
 
-            if (data.d.results.length > 0) {
+            if (results.length > 0) {
                 results.forEach(element => {
                     if (mainListData.URSAttachment != null && element.FileName == mainListData.URSAttachment) {
                         var htmlStr = "";
@@ -418,17 +418,19 @@ function bindAttachments() {
                         }
                         $('#URSContainer').html(htmlStr);
                     }
+                    $('#URSContainer').html(htmlStr);
                 });
+
                 // $.each(data.d.results, function () {
 
 
                 // });
-
+                var htmlStr = "";
                 results.forEach(element => {
                     if (mainListData.SupportDocAttachment != null) {
                         var supportDocNames = [];
                         supportDocNames = TrimComma(mainListData.SupportDocAttachment).split(",");
-                        var htmlStr = "";
+
                         var fileId = 0;
                         supportDocNames.forEach(function (element1) {
                             if (element.FileName == element1) {
@@ -446,14 +448,9 @@ function bindAttachments() {
                         $('#SupportiveDocContainer').html(htmlStr);
                     }
                 });
-
-
             }
-
-
         });
     }
-
 }
 
 function removeSupportFiles(fileName) {
@@ -525,8 +522,7 @@ function previewFile(fileArray, url, fileName, fileID) {
     request.send();
     return fileArray;
 }
-function SetBudgetValue() {
-    var department = $("#Department").val();
+function SetBudgetValue(department) {
     if (!IsNullOrUndefined(department)) {
         AjaxCall(
             {
@@ -537,6 +533,7 @@ function SetBudgetValue() {
                 async: false,
                 headers:
                     {
+
                         "Accept": "application/json;odata=verbose",
                         "Content-Type": "application/json;odata=verbose",
                         "X-RequestDigest": $("#__REQUESTDIGEST").val()
