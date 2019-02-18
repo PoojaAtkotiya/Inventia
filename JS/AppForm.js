@@ -310,6 +310,10 @@ function setVendorDropDown()
                         opt.attr("value", cmditem);
                         opt.appendTo($("#SelectedVendor"));
     });
+    if (mainListData.SelectedVendor != undefined) {
+        var objSelect = document.getElementById("SelectedVendor");
+        setSelectedValue(objSelect, mainListData.SelectedVendor);
+    }
 }
 function setFunctionbasedDept(department) {
     AjaxCall(
@@ -385,6 +389,7 @@ function bindAssetName(department) {
 function bindAttachments() {
     fileURSArray = [];
     var Requestorurl = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('CapexRequisition')/items(" + listItemId + ")/AttachmentFiles";
+    if (mainListData.URSAttachment != null){
     getListItems(Requestorurl, function (data) {
         var results = data.d.results;
 
@@ -436,6 +441,7 @@ function bindAttachments() {
 
 
     });
+}
 
 }
 
@@ -512,14 +518,12 @@ function previewFile(fileArray,url,fileName,fileID) {
   }
   function SetBudgetValue()
   {
-      //var department= $("#Department").val();
-      department="IT";
+      var department= $("#Department").val();
       if(department != null){
       AjaxCall(
         {
 
             url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetName,Department/Title,BudgetedValue,UtilisedValue&$expand=Department/Title&$filter=Department/Title eq '" + department + "'and AssetName eq '" + mainListData.AssetName + "'",
-                                                                                                                                                                                                            
             httpmethod: 'GET',
             calldatatype: 'JSON',
             async: false,
