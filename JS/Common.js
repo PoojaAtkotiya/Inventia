@@ -157,12 +157,12 @@ function onloadConstantsSuccess(sender, args) {
     listItemId = getUrlParameter("ID");
     returnUrl = getUrlParameter("Source");
     ExecuteOrDelayUntilScriptLoaded(GetCurrentUserDetails, "sp.js");
-   if(listItemId == ""|| listItemId==null){
-    GetUserDepartment();
-   }
+    if (listItemId == "" || IsNullOrUndefined(listItemId)) {
+        GetUserDepartment();
+    }
     GetAllMasterData();
 
-    if (listItemId != null && listItemId > 0) {
+    if (!IsNullOrUndefined(listItemId) && listItemId > 0) {
         GetSetFormData();
     }
     else {
@@ -206,27 +206,27 @@ function GetUserDepartment() {
 /*Priya Rane */
 function setImageSignature() {
     var item = mainListData;
-    if (item["InitiatorSignature"] != null) {
+    if (!IsNullOrUndefined(item["InitiatorSignature"])) {
         var img = new Image();
         img.src = item["InitiatorSignature"];
         img_Intiator.appendChild(img);
     }
-    if (item["HODSignature"] != null) {
+    if (!IsNullOrUndefined(item["HODSignature"])) {
         var img = new Image();
         img.src = item["HODSignature"];
         img_HOD.appendChild(img);
     }
-    if (item["PurchaseSignature"] != null) {
+    if (!IsNullOrUndefined(item["PurchaseSignature"])) {
         var img = new Image();
         img.src = item["PurchaseSignature"];
         img_Purchase.appendChild(img);
     }
-    if (item["FunctionHeadSignature"] != null) {
+    if (!IsNullOrUndefined(item["FunctionHeadSignature"])) {
         var img = new Image();
         img.src = item["FunctionHeadSignature"];
         img_FunctionHead.appendChild(img);
     }
-    if (item["ManagementSignature"] != null) {
+    if (!IsNullOrUndefined(item["ManagementSignature"])) {
         var img = new Image();
         img.src = item["ManagementSignature"];
         img_Management.appendChild(img);
@@ -629,7 +629,7 @@ function setFieldValue(controlId, item, fieldType, fieldName) {
                 break;
             case "date":
                 var dt = "";
-                if (item[fieldName] && item[fieldName] != null) {
+                if (item[fieldName] && !IsNullOrUndefined(item[fieldName])) {
                     dt = new Date(item[fieldName]).format("MM-dd-yyyy");
                     $("#" + controlId).val(dt).change();
                 }
@@ -638,7 +638,7 @@ function setFieldValue(controlId, item, fieldType, fieldName) {
                 $("#" + controlId).val(item[fieldName]);
                 break;
             case "multicheckbox":
-                if (item[fieldName] != null && item[fieldName].results != null && item[fieldName].results.length > 0) {
+                if (!IsNullOrUndefined(item[fieldName]) && !IsNullOrUndefined(item[fieldName].results) && item[fieldName].results.length > 0) {
                     item[fieldName].results.forEach(function (thisItem) {
                         if (thisItem == controlId) {
                             $("#" + controlId)[0].checked = true;
@@ -683,7 +683,7 @@ function setStaticFieldValue(controlId, item, fieldType, cType, fieldName) {
             break;
         case "date":
             var dt = "";
-            if (item[fieldName] && item[fieldName] != null) {
+            if (item[fieldName] && !IsNullOrUndefined(item[fieldName])) {
                 dt = new Date(item[fieldName]).format("MM-dd-yyyy");
             }
             if (cType == "text") {
@@ -695,7 +695,7 @@ function setStaticFieldValue(controlId, item, fieldType, cType, fieldName) {
             break;
         case "person":
             var dispName = "";
-            if (item[fieldName] && item[fieldName] != null) {
+            if (item[fieldName] && !IsNullOrUndefined(item[fieldName])) {
                 dispName = item[fieldName].Title;
             }
             if (cType == "text") {
@@ -721,20 +721,20 @@ function ConfirmationDailog(options) {
         "Yes</button><button type='button' id='btnNoPopup' isdialogclose='false' class='btn btn-default' data-dismiss='modal'>No</button> </div></div></div></div>";
     $(confirmDlg).appendTo("body");
     $("#ConfirmDialog #btnYesPopup").on("click", function () {
-        if (typeof (options.okCallback) !== "undefined" && options.okCallback != null) {
+        if (typeof (options.okCallback) !== "undefined" && !IsNullOrUndefined(options.okCallback)) {
             //options.okCallback();
             ConfirmPopupYes(options.url, options.id, options.okCallback);
         }
     });
     $("#ConfirmDialog #btnNoPopup").on("click", function () {
-        if (typeof (options.cancelCallback) !== "undefined" && options.cancelCallback != null) {
+        if (typeof (options.cancelCallback) !== "undefined" && !IsNullOrUndefined(options.cancelCallback)) {
             options.cancelCallback();
         }
     });
     $("#ConfirmDialog #ModalTitle").text(options.title);
     $("#ConfirmDialog #ModalContent").text(options.message);
     $("#ConfirmDialog").modal('show').on('hidden.bs.modal', function () {
-        if (typeof (options.closeCallback) !== "undefined" && options.closeCallback != null) {
+        if (typeof (options.closeCallback) !== "undefined" && !IsNullOrUndefined(options.closeCallback)) {
             options.closeCallback();
         }
     });
@@ -743,7 +743,7 @@ function ConfirmationDailog(options) {
 /*Monal Shah */
 function ConfirmPopupYes(url, id, okCallback) {
     ShowWaitDialog();
-    if (typeof (url) !== "undefined" && url != null) {
+    if (typeof (url) !== "undefined" && !IsNullOrUndefined(url)) {
         url = url;
         AjaxCall(
             {
@@ -757,7 +757,7 @@ function ConfirmPopupYes(url, id, okCallback) {
                     "IF-MATCH": "*"
                 },
                 sucesscallbackfunction: function (data) {
-                    if (typeof (okCallback) !== "undefined" && okCallback != null) {
+                    if (typeof (okCallback) !== "undefined" && !IsNullOrUndefined(okCallback)) {
                         okCallback(id, data);
                     }
                     HideWaitDialog();
@@ -765,7 +765,7 @@ function ConfirmPopupYes(url, id, okCallback) {
             });
     }
     else {
-        if (typeof (okCallback) !== "undefined" && okCallback != null) {
+        if (typeof (okCallback) !== "undefined" && !IsNullOrUndefined(okCallback)) {
             okCallback();
         }
         //HideWaitDialog();
@@ -792,13 +792,13 @@ function AlertModal(title, msg, isExit, callback) {
         $("#PopupDialog .modal-header").addClass("bg-warning text-white");
     }
     $("#PopupDialog").modal('show').on('hidden.bs.modal', function () {
-        if (typeof (callback) !== 'undefined' && callback != null) {
+        if (typeof (callback) !== 'undefined' && !IsNullOrUndefined(callback)) {
             callback();
         }
         if (typeof (isExit) !== 'undefined' && isExit == true) {
             Exit();
         }
-        if (callback == null) {
+        if (IsNullOrUndefined(callback)) {
             $("div[id='PopupDialog']").hide();
             $("div[id='PopupDialog']").remove();
 
@@ -1331,7 +1331,7 @@ function formatDate(input) {
 /*Pooja Atkotiya */
 function SaveFormData(activeSection, ele) {
     var mainListName = $($('div').find('[mainlistname]')).attr('mainlistname');
-    if (mainListName != undefined && mainListName != '' && mainListName != null) {
+    if (!IsNullOrUndefined(mainListName) && !IsStrNullOrEmpty(mainListName)) {
 
         var sectionName = $(activeSection).attr('section');
         var activeSectionId = $(activeSection).attr('id');
@@ -1384,10 +1384,10 @@ function SaveData(listname, listDataArray, sectionName, ele) {
     var callbackfunction;
     var buttonCaption = $(ele).text().trim();
 
-    if (listDataArray != null) {
+    if (!IsNullOrUndefined(listDataArray)) {
 
         var url = '', headers = '';
-        if (listItemId != null && listItemId > 0 && listItemId != "") {
+        if (!IsNullOrUndefined(listItemId) && listItemId > 0 && listItemId != "") {
 
             url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + listname + "')/items(" + listItemId + ")";
             headers = { "Accept": "application/json;odata=verbose", "Content-Type": "application/json;odata=verbose", "X-RequestDigest": $("#__REQUESTDIGEST").val(), "IF-MATCH": "*", "X-HTTP-Method": "MERGE" };
@@ -1554,7 +1554,7 @@ function SaveCapitalAssetRequisitionNumber(itemID, listDataArray, actionPerforme
 /*Priya Rane */
 function SaveImageSignaturePath(sectionName, itemID) {
     var formFieldValues = [];
-    if (currentUser.Email == "" || currentUser.Email == null) {
+    if (IsStrNullOrEmpty(currentUser.Email)) {
         currentUser.Email = currentUser.LoginName.split('|')[2];
     }
     $.ajax({
@@ -1618,7 +1618,7 @@ function OnSuccess(data) {
                 });
             } else {
                 var msg = '';
-                if (data.ExtraData != null) {
+                if (!IsNullOrUndefined(data.ExtraData)) {
                     msg = "<b>" + data.ExtraData + "</b>" + "<br>" + data.Messages;
                 }
                 else {
@@ -1686,7 +1686,7 @@ function OnSuccessConfirmSubmitNoRedirect(data) {
                 });
             } else {
                 var msg = '';
-                if (data.ExtraData != null) {
+                if (!IsNullOrUndefined(data.ExtraData)) {
                     msg = "<b>" + data.ExtraData + "</b>" + "<br>" + data.Messages;
                 }
                 else {
@@ -1789,7 +1789,7 @@ function GetActivityString(listActivityLogDataArray, isCurrentApproverField) {
             if (element.type == "peoplepicker") {
                 element.value = GetUserNamebyUserID(element.value);
             }
-            if (stringActivity != null && stringActivity != ' ') {
+            if (!IsNullOrUndefined(stringActivity) && stringActivity != ' ') {
                 stringActivity = stringActivity + '~';
                 stringActivity = stringActivity + element.id;
                 stringActivity = stringActivity + ' ';
@@ -1807,7 +1807,7 @@ function GetActivityString(listActivityLogDataArray, isCurrentApproverField) {
         var approverActivityLog = "Assigned date" + "" + currentApproverDetails.AssignDate;
         approverActivityLog += "\nApproved/Updated date" + "" + today;
         approverActivityLog += "\n" + "Approver Comment" + "" + currentApproverDetails.COMMENTS;
-        if (stringActivity != null && stringActivity != '') {
+        if (!IsNullOrUndefined(stringActivity) && stringActivity != '') {
             stringActivity = stringActivity + '~';
             stringActivity = stringActivity + approverActivityLog;
         }
@@ -2046,7 +2046,7 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
         switch (actionPerformed) {
             case ButtonActionStatus.Delegate:
             case ButtonActionStatus.NextApproval:
-                if (tempApproverMatrix != null && tempApproverMatrix.Count != 0) {
+                if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.Count != 0) {
                     from = currentUser.Email;
                     var allToUsers = "";
                     tempApproverMatrix.forEach(temp => {
