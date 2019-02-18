@@ -32,7 +32,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sp-pnp-js/3.0.10/pnp.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/jquery.validate.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/jquery.validate.unobtrusive.js"></script>
-
+    <script type="text/javascript" src="https://jserrlog.appspot.com/jserrlog-min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/Constants.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/Common.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/ApprovalMatrix.js"></script>
@@ -61,7 +61,7 @@
             });
             $('#IsNewVendor').hide();
             $("#ProposedVendor").hide();
-
+          
             $("#AddVendor").click(function () {
                 $("#IsNewVendor").show();
                 $("#ProposedVendor").show();
@@ -76,6 +76,26 @@
             // $(document).on("change", "#UploadArtworkAttachment", function () {
             //     BindAttachmentFiles();
             // });
+
+              $(document).on("change", "#ReasonforSelection", function () {
+              var selectedReason=$("#ReasonforSelection").val();
+              if(selectedReason=="Others"){
+                $("#descriptionDiv").show();
+              }
+              else
+              {
+                $("#descriptionDiv").hide();
+              }
+            });
+            $(document).on("change", "#PayBackPeriod", function () {
+                var checkBox = document.getElementById("PayBackPeriod");
+                if (checkBox.checked == true) {
+                $("#PayBackPeriodDurationDiv").show();
+                } else {
+                 $("#PayBackPeriodDurationDiv").hide();
+            }
+             
+            });
             $('.form-control').change(function () {
                 var type = $(this).attr('controlType');
                 var id = $(this).attr('id');
@@ -387,8 +407,7 @@
                                                         <label class="col-md-4 control-label">
                                                             Proposed Vendor(s)
                                                         </label>
-                                                        <label id="ProposedVendor" class="col-md-8 static-control labeltop">
-                                                        </label>
+                                                        <label id="ProposedVendor" class="col-md-8 static-control labeltop" controlType="text" listtype="main"></label>
 
                                                     </div>
                                                 </div>
@@ -625,7 +644,7 @@
                                                          <div class="col-md-8">
                                                                 <select class="form-control m-b-n-sm dynamic-control" id="ReasonforSelection"
                                                                 controlType="combo" listtype="master" reflisttype="main"
-                                                                listname="" data-selected=""
+                                                                listname="ReasonMaster" data-selected="ReasonMaster"
                                                                 valuebindingcolumn="Title" textbindingcolumnn="Title" name="ReasonforSelection"
                                                                 required="required">
                                                                 </select>
@@ -634,7 +653,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <div class="form-group" style="display:none">
+                                                    <div class="form-group" style="display:none" id="descriptionDiv">
                                                         <label class="col-md-4 control-label">
                                                             <span class="text-danger text-default-light">*</span>
                                                             Description
@@ -660,7 +679,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <div class="form-group">
+                                                    <div class="form-group" style="display:none" id="PayBackPeriodDurationDiv">
                                                         <label class="col-md-4 control-label">
                                                             <span class="text-danger text-default-light">*</span>
                                                             Pay Back Period(Years)
