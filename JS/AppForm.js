@@ -256,13 +256,11 @@ function SaveItemWiseAttachments(listname, itemID) {
 function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     var sectionName;
     var pendingWithRole; //from mainListData
-     if(mainListData.length==0)
-      {
-        pendingWithRole="Creator";
-      }
-    if(department == undefined)
-    {
-        department=mainListData.Department;
+    if (mainListData.length == 0) {
+        pendingWithRole = "Creator";
+    }
+    if (IsNullOrUndefined(department)) {
+        department = mainListData.Department;
     }
     if (listItemId == 0) {
         setNewFormParamters(department)
@@ -270,33 +268,31 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     if (listItemId != null && listItemId > 0) {
         setImageSignature();
     }
-    if(pendingWithRole=="Creator" || listItemId == ""){
-    setFunctionbasedDept(department);
+    if (pendingWithRole == "Creator" || listItemId == "") {
+        setFunctionbasedDept(department);
     }
-   
+
     bindAssetName(department);
     // if (mainListData.AssetName != undefined) {
     //         var objSelect = document.getElementById("AssetName");
     //         setSelectedValue(objSelect, mainListData.AssetName);
     // }
-   
+
     if (listItemId > 0) {
         bindAttachments();
     }
 
-    if(mainListData.PendingWith=="Initiator HOD")
-    {
+    if (mainListData.PendingWith == "Initiator HOD") {
         setVendorDropDown(department);
         SetBudgetValue();
     }
-    else
-    {
+    else {
         if (mainListData.SelectedVendor != undefined) {
             var objSelect = document.getElementById("SelectedVendor");
             setSelectedValue(objSelect, mainListData.SelectedVendor);
         }
     }
-    
+
 }
 function setSelectedValue(selectObj, valueToSet) {
     for (var i = 0; i < selectObj.options.length; i++) {
@@ -315,16 +311,15 @@ function setNewFormParamters(department) {
     $("#WorkflowStatus").html("New");
     $("#Department").html(department);
 }
-function setVendorDropDown()
-{
-     $("#SelectedVendor").html('');
-     $("#SelectedVendor").html("<option value=''>Select</option>");
-     $(listTempGridDataArray).each(function (i, e) {
-                        var cmditem = listTempGridDataArray[i].VendorName;
-                        var opt = $("<option/>");
-                        opt.text(cmditem);
-                        opt.attr("value", cmditem);
-                        opt.appendTo($("#SelectedVendor"));
+function setVendorDropDown() {
+    $("#SelectedVendor").html('');
+    $("#SelectedVendor").html("<option value=''>Select</option>");
+    $(listTempGridDataArray).each(function (i, e) {
+        var cmditem = listTempGridDataArray[i].VendorName;
+        var opt = $("<option/>");
+        opt.text(cmditem);
+        opt.attr("value", cmditem);
+        opt.appendTo($("#SelectedVendor"));
     });
     if (mainListData.SelectedVendor != undefined) {
         var objSelect = document.getElementById("SelectedVendor");
@@ -340,11 +335,11 @@ function setFunctionbasedDept(department) {
             calldatatype: 'JSON',
             async: false,
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val()
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
             sucesscallbackfunction: function (data) {
                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
                     $("#Function").html(data.d.results[0].Function.Title);
@@ -361,11 +356,11 @@ function bindAssetName(department) {
             calldatatype: 'JSON',
             async: false,
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val()
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
             sucesscallbackfunction: function (data) {
                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
                     var result = data.d.results;
@@ -405,59 +400,59 @@ function bindAssetName(department) {
 function bindAttachments() {
     fileURSArray = [];
     var Requestorurl = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('CapexRequisition')/items(" + listItemId + ")/AttachmentFiles";
-    if (mainListData.URSAttachment != null){
-    getListItems(Requestorurl, function (data) {
-        var results = data.d.results;
+    if (mainListData.URSAttachment != null) {
+        getListItems(Requestorurl, function (data) {
+            var results = data.d.results;
 
-        if (data.d.results.length > 0) {
-            results.forEach(element => {
-                if (mainListData.URSAttachment != null && element.FileName == mainListData.URSAttachment) {
-                    var htmlStr = "";
-                    fileURSArray = previewFile(fileURSArray,element.ServerRelativeUrl,element.FileName,1);
-                    if (htmlStr === "") {
-                        htmlStr = "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a><a href=\"javascript:removeURSFile('" + element.FileName + "')\"> Remove</a></li>";
-                    }
-                    else {
-                        htmlStr = htmlStr + "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a></li><a href=\"javascript:removeURSFile('" + element.FileName + "')\"> Remove</a></li>";
-
-                    }
-                    $('#URSContainer').html(htmlStr);
-                }
-            });
-            // $.each(data.d.results, function () {
-
-              
-            // });
-
-            results.forEach(element => {
-                if (mainListData.SupportDocAttachment != null) {
-                    var supportDocNames = [];
-                    supportDocNames = TrimComma(mainListData.SupportDocAttachment).split(",");
-                    var htmlStr = "";
-                    var fileId = 0;
-                    supportDocNames.forEach(function (element1) {
-                        if (element.FileName == element1) {
-                            fileId++;
-                            fileSupportDocArray = previewFile(fileSupportDocArray,element.ServerRelativeUrl,element.FileName,fileId);
-                            if (htmlStr === "") {
-                                htmlStr = "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a><a href=\"javascript:removeSupportFiles('" + element.FileName + "')\"> Remove</a></li>";
-                                                                                                             
-                            }
-                            else {
-                                htmlStr = htmlStr + "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
-                            }
+            if (data.d.results.length > 0) {
+                results.forEach(element => {
+                    if (mainListData.URSAttachment != null && element.FileName == mainListData.URSAttachment) {
+                        var htmlStr = "";
+                        fileURSArray = previewFile(fileURSArray, element.ServerRelativeUrl, element.FileName, 1);
+                        if (htmlStr === "") {
+                            htmlStr = "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a><a href=\"javascript:removeURSFile('" + element.FileName + "')\"> Remove</a></li>";
                         }
-                    });
-                    $('#SupportiveDocContainer').html(htmlStr);
-                }
-            });
+                        else {
+                            htmlStr = htmlStr + "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a></li><a href=\"javascript:removeURSFile('" + element.FileName + "')\"> Remove</a></li>";
 
-            
-        }
+                        }
+                        $('#URSContainer').html(htmlStr);
+                    }
+                });
+                // $.each(data.d.results, function () {
 
 
-    });
-}
+                // });
+
+                results.forEach(element => {
+                    if (mainListData.SupportDocAttachment != null) {
+                        var supportDocNames = [];
+                        supportDocNames = TrimComma(mainListData.SupportDocAttachment).split(",");
+                        var htmlStr = "";
+                        var fileId = 0;
+                        supportDocNames.forEach(function (element1) {
+                            if (element.FileName == element1) {
+                                fileId++;
+                                fileSupportDocArray = previewFile(fileSupportDocArray, element.ServerRelativeUrl, element.FileName, fileId);
+                                if (htmlStr === "") {
+                                    htmlStr = "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a><a href=\"javascript:removeSupportFiles('" + element.FileName + "')\"> Remove</a></li>";
+
+                                }
+                                else {
+                                    htmlStr = htmlStr + "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
+                                }
+                            }
+                        });
+                        $('#SupportiveDocContainer').html(htmlStr);
+                    }
+                });
+
+
+            }
+
+
+        });
+    }
 
 }
 
@@ -465,35 +460,33 @@ function removeSupportFiles(fileName) {
     var ctx = SP.ClientContext.get_current();
     var list = ctx.get_web().get_lists().getByTitle("CapexRequisition");
     var item = list.getItemById(listItemId);
-    var attachmentFile = item.get_attachmentFiles().getByFileName(fileName); 
+    var attachmentFile = item.get_attachmentFiles().getByFileName(fileName);
     attachmentFile.deleteObject();
     ctx.executeQueryAsync(
-      function(){
-         
-      },
-      function(sender,args) 
-      {
-         console.log(args.get_message());
-      });
-   
+        function () {
+
+        },
+        function (sender, args) {
+            console.log(args.get_message());
+        });
+
 
 }
 function removeURSFile(fileName) {
     var ctx = SP.ClientContext.get_current();
     var list = ctx.get_web().get_lists().getByTitle("CapexRequisition");
     var item = list.getItemById(listItemId);
-    var attachmentFile = item.get_attachmentFiles().getByFileName(fileName); 
+    var attachmentFile = item.get_attachmentFiles().getByFileName(fileName);
     attachmentFile.deleteObject();
     ctx.executeQueryAsync(
-      function(){
-        var htmlStr = "";
-        $('#URSContainer').html(htmlStr);
-      },
-      function(sender,args) 
-      {
-         console.log(args.get_message());
-      });
-   
+        function () {
+            var htmlStr = "";
+            $('#URSContainer').html(htmlStr);
+        },
+        function (sender, args) {
+            console.log(args.get_message());
+        });
+
 
 }
 
@@ -510,17 +503,17 @@ function getListItems(siteurl, success, failure) {
             failure(data);
         }
     });
-} 
+}
 
-function previewFile(fileArray,url,fileName,fileID) {
+function previewFile(fileArray, url, fileName, fileID) {
 
     var request = new XMLHttpRequest();
     request.open('GET', url, true);
     request.responseType = 'blob';
-    request.onload = function() {
+    request.onload = function () {
         var reader = new FileReader();
         reader.readAsDataURL(request.response);
-        reader.onload =  function(e){
+        reader.onload = function (e) {
             fileArray.push({
                 "name": fileName,
                 "content": e.target.result,
@@ -531,49 +524,46 @@ function previewFile(fileArray,url,fileName,fileID) {
     };
     request.send();
     return fileArray;
-  }
-  function SetBudgetValue()
-  {
-      var department= $("#Department").val();
-      if(department != null){
-      AjaxCall(
-        {
-
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetName,Department/Title,BudgetedValue,UtilisedValue&$expand=Department/Title&$filter=Department/Title eq '" + department + "'and AssetName eq '" + mainListData.AssetName + "'",
-            httpmethod: 'GET',
-            calldatatype: 'JSON',
-            async: false,
-            headers:
+}
+function SetBudgetValue() {
+    var department = $("#Department").val();
+    if (!IsNullOrUndefined(department)) {
+        AjaxCall(
             {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val()
-            },
-            sucesscallbackfunction: function (data) {
-                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
-                    $("#BudgetedValue").val(data.d.results[0].BudgetedValue);
-                    $("#UtilizedValue").val(data.d.results[0].UtilisedValue);
-                   
+
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetName,Department/Title,BudgetedValue,UtilisedValue&$expand=Department/Title&$filter=Department/Title eq '" + department + "'and AssetName eq '" + mainListData.AssetName + "'",
+                httpmethod: 'GET',
+                calldatatype: 'JSON',
+                async: false,
+                headers:
+                    {
+                        "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                    },
+                sucesscallbackfunction: function (data) {
+                    if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
+                        $("#BudgetedValue").val(data.d.results[0].BudgetedValue);
+                        $("#UtilizedValue").val(data.d.results[0].UtilisedValue);
+
+                    }
                 }
+            });
+    }
+}
+
+function SetCurrentValue() {
+    var vendorname = $("#SelectedVendor").val();
+    if (vendorname != "Select") {
+        $(listTempGridDataArray).each(function (i, e) {
+            if (vendorname == listTempGridDataArray[i].VendorName) {
+                $("#CurrentValue").val(listTempGridDataArray[i].TotalValue);
+                var TotalUtilizedValue = $("#UtilizedValue").val() + listTempGridDataArray[i].TotalValue;
+                var Balance = $("#BudgetedValue").val() - TotalUtilizedValue;
+                $("#TotalUtilizedValue").val(TotalUtilizedValue);
+                $("#Balance").val(Balance);
             }
         });
     }
-  }
 
-  function SetCurrentValue(){
-  var vendorname= $("#SelectedVendor").val();
-  if(vendorname != "Select")
-  {
-    $(listTempGridDataArray).each(function (i, e) {
-        if(vendorname == listTempGridDataArray[i].VendorName)
-        {
-            $("#CurrentValue").val(listTempGridDataArray[i].TotalValue);
-            var TotalUtilizedValue= $("#UtilizedValue").val()+ listTempGridDataArray[i].TotalValue;
-            var Balance= $("#BudgetedValue").val()-TotalUtilizedValue;
-            $("#TotalUtilizedValue").val(TotalUtilizedValue);
-            $("#Balance").val(Balance);
-        }
-    });
-  }
-
-  }
+}
