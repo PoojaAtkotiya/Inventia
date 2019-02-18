@@ -19,6 +19,7 @@ var gRequestDigestValue;
 jQuery(document).ready(function () {
 
     jQuery.noConflict();
+    jsErrLog.debugMode = false;
     GetFormDigest().done(function (data) {
         gRequestDigestValue = data.responseJSON.d.GetContextWebInformation.FormDigestValue;
     }).fail(function () {
@@ -1976,7 +1977,7 @@ function AjaxCall(options) {
                 // }
                 // else {
                 console.log(xhr);
-
+                jsErrLog.info = xhr.statusText;
                 debugger
                 AlertModal("Error", "Oops! Something went wrong");
                 //}
