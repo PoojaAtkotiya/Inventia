@@ -270,7 +270,7 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     if (listItemId != null && listItemId > 0) {
         setImageSignature();
     }
-    if(pendingWithRole=="Creator"){
+    if(pendingWithRole=="Creator" || listItemId == ""){
     setFunctionbasedDept(department);
     }
    
