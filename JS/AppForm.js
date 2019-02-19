@@ -318,7 +318,8 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     // }
 
     if (listItemId > 0) {
-        bindAttachments();
+        BindURSAttachmentFiles();
+     //   bindAttachments();
     }
 
     if (mainListData.PendingWith == "Initiator HOD") {
@@ -436,9 +437,65 @@ function bindAssetName(department) {
         });
 }
 
-function bindAttachments() {
+// function bindAttachments() {
+//     fileURSArray = [];
+//     var Requestorurl = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('CapexRequisition')/items(" + listItemId + ")/AttachmentFiles";
+//     if (!IsNullOrUndefined(mainListData.URSAttachment)) {
+//         getListItems(Requestorurl, function (data) {
+//             var results = data.d.results;
+
+//             if (results.length > 0) {
+//                 results.forEach(element => {
+//                     if (!IsNullOrUndefined(mainListData.URSAttachment) && element.FileName == mainListData.URSAttachment) {
+//                         var htmlStr = "";
+//                         fileURSArray = previewFile(fileURSArray, element.ServerRelativeUrl, element.FileName, 1);
+//                         if (htmlStr === "") {
+//                             htmlStr = "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a><a href=\"javascript:removeURSFile('" + element.FileName + "')\"> Remove</a></li>";
+//                         }
+//                         else {
+//                             htmlStr = htmlStr + "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a></li><a href=\"javascript:removeURSFile('" + element.FileName + "')\"> Remove</a></li>";
+
+//                         }
+//                         $('#URSContainer').html(htmlStr);
+//                     }
+//                     $('#URSContainer').html(htmlStr);
+//                 });
+
+//                 // $.each(data.d.results, function () {
+
+
+//                 // });
+//                 var htmlStr = "";
+//                 results.forEach(element => {
+//                     if (!IsNullOrUndefined(mainListData.SupportDocAttachment)) {
+//                         var supportDocNames = [];
+//                         supportDocNames = TrimComma(mainListData.SupportDocAttachment).split(",");
+
+//                         var fileId = 0;
+//                         supportDocNames.forEach(function (element1) {
+//                             if (element.FileName == element1) {
+//                                 fileId++;
+//                                 fileSupportDocArray = previewFile(fileSupportDocArray, element.ServerRelativeUrl, element.FileName, fileId);
+//                                 if (htmlStr === "") {
+//                                     htmlStr = "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a><a href=\"javascript:removeSupportFiles('" + element.FileName + "')\"> Remove</a></li>";
+
+//                                 }
+//                                 else {
+//                                     htmlStr = htmlStr + "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
+//                                 }
+//                             }
+//                         });
+//                         $('#SupportiveDocContainer').html(htmlStr);
+//                     }
+//                 });
+//             }
+//         });
+//     }
+// }
+
+function BindURSAttachmentFiles() {
     fileURSArray = [];
-    var Requestorurl = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('CapexRequisition')/items(" + listItemId + ")/AttachmentFiles";
+    var Requestorurl = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ATTACHMENTLIST + "')/items(" + listItemId + ")/AttachmentFiles";
     if (!IsNullOrUndefined(mainListData.URSAttachment)) {
         getListItems(Requestorurl, function (data) {
             var results = data.d.results;
@@ -491,7 +548,6 @@ function bindAttachments() {
         });
     }
 }
-
 function removeSupportFiles(fileName) {
     var ctx = SP.ClientContext.get_current();
     var list = ctx.get_web().get_lists().getByTitle("CapexRequisition");
