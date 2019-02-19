@@ -976,12 +976,15 @@ function ValidateForm(ele, saveCallBack) {
             var attachmsg = "Are you sure to '" + $.trim($(ele).text()) + "'?";
             if ($(formList).find("div[data-appname]").length != 0 && $(formList).find("div[data-appname]").find("ul li").length == 0 && dataAction == "11") {
                 attachmsg = "Are you sure to '" + $.trim($(ele).text()) + "' without attachment?";
-            }
+            } 
+            
             ConfirmationDailog({
                 title: "Confirm", message: attachmsg, okCallback: function (data) {
                     saveCallBack(activeSection);
                 }
             });
+            
+            
         }
         else {
             saveCallBack(activeSection);
@@ -1375,12 +1378,19 @@ function SaveFormData(activeSection, ele) {
             }
         });
         // save vendor max 3 vendor condition by hirvita
-        if(listTempGridDataArray.length>=3){
+        if(sectionName=="PurchaseSection" && listTempGridDataArray.length>=3){
+       // if(listTempGridDataArray.length>=3){
         SaveData(mainListName, listDataArray, sectionName, ele);
-        }
+       // }
+      }
+      else if(sectionName!="PurchaseSection"){
+        SaveData(mainListName, listDataArray, sectionName, ele);
+      }
         else{
-            alert("Max 3 vendor required");
+            AlertModal('Error', "Maximum 3 vendor required");
+            HideWaitDialog();
         }
+        
     }
 }
 
