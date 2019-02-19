@@ -1241,18 +1241,30 @@ function ValidateForm(ele, saveCallBack) {
             if ($(formList).find("div[data-appname]").length != 0 && $(formList).find("div[data-appname]").find("ul li").length == 0 && dataAction == "11") {
                 attachmsg = "Are you sure to '" + $.trim($(ele).text()) + "' without attachment?";
             }
+            //if(listTempGridDataArray.length >= 3){
             ConfirmationDailog({
                 title: "Confirm", message: attachmsg, okCallback: function (data) {
                     saveCallBack(activeSection);
                 }
             });
+            }
+            else{
+                ConfirmationDailog({
+                    title: "Confirm", message: attachmsg, okCallback: function (data) {
+                        saveCallBack(activeSection);
+                    }
+                });
+            }
+
+
+
         }
         else {
             saveCallBack(activeSection);
         }
         HideWaitDialog();
     }
-}
+
 
 /*Monal Shah */
 function onQuerySucceeded(sender, args) {
@@ -1639,12 +1651,20 @@ function SaveFormData(activeSection, ele) {
             }
         });
         // save vendor max 3 vendor condition by hirvita
-        if (listTempGridDataArray.length >= 3) {
+       // if(sectionName !="Purchase Section"){
             SaveData(mainListName, listDataArray, sectionName, ele);
-        }
-        else {
-            alert("Max 3 vendor required");
-        }
+       // }
+        // else {
+        //     if(listTempGridDataArray.length >= 3){
+        //         SaveData(mainListName, listDataArray, sectionName, ele);
+        //     }
+        //     else{
+        //     //alert("Max 3 vendor required");}
+        //     AlertModal('Error', "Max 3 vendor required");
+        //     HideWaitDialog();
+        // }
+        
+   // }
     }
 }
 
@@ -1776,7 +1796,8 @@ function SaveActions(sectionName, itemID, actionPerformed) {
     switch (sectionName) {
         case SectionNames.INITIATORSECTION:
             if (actionPerformed == "NextApproval") {
-                formFieldValues['InitiatorAction'] = currentUser.Title + '-' + todayDate + '-' + "Submit";
+                //formFieldValues['InitiatorAction'] = currentUser.Title + '-' + todayDate + '-' + "Submit";
+                formFieldValues['InitiatorAction'] = "Submited By"  + "\n" +  currentUser.Title  + "\n" +    todayDate  ;
             }
             else if (actionPerformed == "SaveAsDraft") {
                 formFieldValues['InitiatorAction'] = currentUser.Title + '-' + todayDate + '-' + "SaveAsDraft";
