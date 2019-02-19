@@ -1374,7 +1374,13 @@ function SaveFormData(activeSection, ele) {
                 }
             }
         });
+        // save vendor max 3 vendor condition by hirvita
+        if(listTempGridDataArray.length>=3){
         SaveData(mainListName, listDataArray, sectionName, ele);
+        }
+        else{
+            alert("Max 3 vendor required");
+        }
     }
 }
 
