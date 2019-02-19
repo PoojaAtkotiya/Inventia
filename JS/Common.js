@@ -1802,7 +1802,7 @@ function SaveActions(sectionName, itemID, actionPerformed) {
         case SectionNames.INITIATORSECTION:
             if (actionPerformed == "NextApproval") {
                 //formFieldValues['InitiatorAction'] = currentUser.Title + '-' + todayDate + '-' + "Submit";
-                formFieldValues['InitiatorAction'] = "Submited By"  + "\n" +  currentUser.Title  + "\n" +    todayDate  ;
+                formFieldValues['InitiatorAction'] = "Submited By"  + '\n' +  currentUser.Title  + '\n' +    todayDate  ;
             }
             else if (actionPerformed == "SaveAsDraft") {
                 formFieldValues['InitiatorAction'] = currentUser.Title + '-' + todayDate + '-' + "SaveAsDraft";
