@@ -124,7 +124,8 @@ function BindURSAttachmentFiles() {
                 var item = {
                     "__metadata": { "type": itemType },
                     "Title": "URS",
-                    "TypeOfAttachment": "URS"
+                    "TypeOfAttachment": "URS",
+                    "FileName":file.name
                 };
 
                 $.ajax({
@@ -251,14 +252,9 @@ function BindSupportDocAttachmentFiles() {
             var itemType = GetItemTypeForListName(listName);
             var item = {
                 "__metadata": { "type": itemType },
-<<<<<<< HEAD
-                "Title": "URS",
-                "TypeOfAttachment": "URS",
-                "FileName":file.name
-=======
                 "Title": "Supportive",
-                "TypeOfAttachment": "Supportive"
->>>>>>> dbdb1ca395ef92708283adcdaaa8c56d5e10cca1
+                "TypeOfAttachment": "Supportive",
+                "FileName":file.name
             };
 
             $.ajax({
@@ -311,142 +307,6 @@ function BindSupportDocAttachmentFiles() {
         }
     }
 }
-<<<<<<< HEAD
-    else {
-        AlertModal('Error', "Remove existing URS file to add New");
-        }
-}
-
-function removeURSFile(itemId) {
-    $.ajax(
-        {
-            url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('Attachments')/items('" + itemId + "')",
-            type: "DELETE",
-            headers: {
-                "accept": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                "IF-MATCH": "*"
-            },
-            success: function (data) {
-                var index;
-                fileCommonArray.forEach(element => {
-                    if (element.id == itemId) {
-                        index = fileCommonArray.indexOf(element);
-
-                    }
-                });
-                if (index !== -1) fileCommonArray.splice(index, 1);
-                var htmlStr = "";
-                $('#URSContainer').html(htmlStr);
-            },
-            error: function (err) {
-                alert(JSON.stringify(err));
-            }
-        }
-    );
-
-
-}
-
-function BindSupportDocAttachmentFiles() {
-    var output = [];
-    var fileName;
-
-    //Get the File Upload control id
-    var input = document.getElementById("UploadSupportiveDocAttachment");
-    var fileCount = input.files.length;
-    if(input.files.length>0){
-    for (var i = 0; i < fileCount; i++) {
-        fileName = input.files[i].name;
-        fileIdCounter++;
-        var fileId = fileIdCounter;
-        var file = input.files[i];
-        var reader = new FileReader();
-        reader.onload = (function (file) {
-            return function (e) {
-                console.log(file.name);
-                var duplicate = true;
-                // duplicate= checkDuplicateFileName(file.name);
-                //Push the converted file into array
-                // if(duplicate){
-                fileURSArray.push({
-                    "name": file.name,
-                    "content": e.target.result,
-                    "id": fileId
-                });
-                // }
-                //  else
-                //  {
-                //     alert("Duplicate file");
-                //  }
-
-            }
-        })(file);
-        reader.readAsArrayBuffer(file);
-    }
-
-    if (!IsNullOrUndefined(fileURSArray)) {
-        var listName = "Attachments";
-        var itemType = GetItemTypeForListName(listName);
-        var item = {
-            "__metadata": { "type": itemType },
-            "Title": "Supportive",
-            "TypeOfAttachment": "Supportive",
-            "FileName":file.name
-        };
-
-        $.ajax({
-            url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('" + listName + "')/items",
-            type: "POST",
-            contentType: "application/json;odata=verbose",
-            data: JSON.stringify(item),
-            headers: {
-                "Accept": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val()
-            },
-            success: function (data) {
-                var itemId = data.d.Id;
-                var item = $pnp.sp.web.lists.getByTitle("Attachments").items.getById(itemId);
-                item.attachmentFiles.addMultiple(fileURSArray).then(v => {
-                    console.log("files saved successfully in list = " + listName + "for listItemId = " + itemId);
-
-                    var htmlStr = "";
-                    // var checkFile = $('#UploadSupportiveDocAttachment').next().next().html();
-                    var checkFile = $('#fileListSupportiveDoc').html();
-                    var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + itemId + "/" + fileName;
-
-                    if (checkFile === "") {
-                        htmlStr = "<li id=li_" + itemId + "><a id='attachment_" + itemId + "' href='" + ServerRelativeUrl + "' target='_blank'>" + fileName + "</a><a id='Remove_" + itemId + "' href=\"javascript:removeSupportiveFile('" + itemId + "')\"> Remove</a></li>";
-                    }
-                    else {
-                        htmlStr = checkFile + "<li id=li_" + itemId + "><a id='attachment_" + itemId + "' href='" + ServerRelativeUrl + "'>" + fileName + "</a></li><a id='Remove_" + itemId + "' href=\"javascript:removeSupportiveFile('" + itemId + "')\"> Remove</a></li>";
-
-                    }
-                    fileCommonArray.push({
-                        "name": "Supportive",
-                        "id": itemId,
-                        "filename": fileName
-                    });
-                    fileURSArray = [];
-                    // $('#SupportiveDocContainer').html(htmlStr);
-                    $('#fileListSupportiveDoc').html(htmlStr);
-
-                    // $('#UploadSupportiveDocAttachment').next().append(htmlStr.join(""));
-                }).catch(function (err) {
-                    console.log(err);
-                    fileURSArray = [];
-                    console.log("error while save attachment ib list = " + listName + "for listItemId = " + itemId)
-                });
-            },
-            error: function (data) {
-                alert("Error");
-            }
-        });
-    }
-    }
-}
-=======
->>>>>>> dbdb1ca395ef92708283adcdaaa8c56d5e10cca1
 function removeSupportiveFile(itemId) {
 
     var checkFile = $('#SupportiveDocContainer').html();
