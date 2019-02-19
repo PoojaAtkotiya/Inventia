@@ -1816,37 +1816,45 @@ function SaveActions(sectionName, itemID, actionPerformed) {
                 formFieldValues['InitiatorAction'] = "Submitted By " + "," + currentUser.Title + "," + formatted;
             }
             else if (actionPerformed == "SaveAsDraft") {
-                formFieldValues['InitiatorAction'] = currentUser.Title + '-' + todayDate + '-' + "SaveAsDraft";
+                //formFieldValues['InitiatorAction'] = currentUser.Title + '-' + todayDate + '-' + "SaveAsDraft";
+                formFieldValues['InitiatorAction'] = "Save As Draft " + "," + currentUser.Title + "," + formatted;
             }
             break;
         case SectionNames.HODSECTION:
             if (actionPerformed == "NextApproval") {
-                formFieldValues['HODAction'] = currentUser.Title + '-' + todayDate + '-' + "Approve";
+               // formFieldValues['HODAction'] = currentUser.Title + '-' + todayDate + '-' + "Approve";
+               formFieldValues['HODAction'] = "Approve By " + "," + currentUser.Title + "," + formatted;
             }
             else if (actionPerformed == "Rejected") {
-                formFieldValues['HODAction'] = currentUser.Title + '-' + todayDate + '-' + "Rejected";
+                //formFieldValues['HODAction'] = currentUser.Title + '-' + todayDate + '-' + "Rejected";
+                formFieldValues['HODAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted;
             }
             break;
         case SectionNames.PURCHASESECTION:
             if (actionPerformed == "NextApproval") {
-                formFieldValues['PurchaseAction'] = currentUser.Title + '-' + todayDate + '-' + "Submit";
+                //formFieldValues['PurchaseAction'] = currentUser.Title + '-' + todayDate + '-' + "Submit";
+                formFieldValues['PurchaseAction'] = "Submitted By " + "," + currentUser.Title + "," + formatted;
             }
 
             break;
         case SectionNames.FUNCTIONHEADSECTION:
             if (actionPerformed == "NextApproval") {
-                formFieldValues['FuctionHeadAction'] = currentUser.Title + '-' + todayDate + '-' + "Approve";
+                //formFieldValues['FuctionHeadAction'] = currentUser.Title + '-' + todayDate + '-' + "Approve";
+                formFieldValues['FuctionHeadAction'] = "Approve By " + "," + currentUser.Title + "," + formatted;
             }
             else if (actionPerformed == "Rejected") {
-                formFieldValues['FuctionHeadAction'] = currentUser.Title + '-' + todayDate + '-' + "Rejected";
+                //formFieldValues['FuctionHeadAction'] = currentUser.Title + '-' + todayDate + '-' + "Rejected";
+                formFieldValues['FuctionHeadAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted;
             }
             break;
         case SectionNames.MANAGEMENTSECTION:
             if (actionPerformed == "NextApproval") {
-                formFieldValues['ManagementAction'] = currentUser.Title + '-' + todayDate + '-' + "Approve";
+                //formFieldValues['ManagementAction'] = currentUser.Title + '-' + todayDate + '-' + "Approve";
+                formFieldValues['ManagementAction'] = "Approve By " + "," + currentUser.Title + "," + formatted;
             }
             else if (actionPerformed == "Rejected") {
-                formFieldValues['ManagementAction'] = currentUser.Title + '-' + todayDate + '-' + "Rejected";
+                //formFieldValues['ManagementAction'] = currentUser.Title + '-' + todayDate + '-' + "Rejected";
+                formFieldValues['ManagementAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted;
             }
             break;
     }
