@@ -795,7 +795,7 @@ function ValidateFormControls(divObjectId, IgnoreBlankValues) {
 function GetCurrentUserDetails() {
     AjaxCall(
         {
-            url: CommonConstant.HOSTWEBURL + "/_api/web/currentuser",
+            url: CommonConstant.HOSTWEBURL + "/_api/web/currentuser/?$expand=groups",
             httpmethod: 'GET',
             calldatatype: 'JSON',
             async: false,
@@ -2399,11 +2399,11 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
             calldatatype: 'JSON',
             async: false,
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json; odata=verbose",
-                "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json; odata=verbose",
+                    "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
+                },
             sucesscallbackfunction: function (data) {
                 emailTemplate.push({ "Subject": data.d.results[0].Subject });
                 emailTemplate.push({ "Body": data.d.results[0].Body });
@@ -2521,11 +2521,11 @@ function GetDatafromList(itemID, mainListName, subject, matchesSubject, body, ma
             calldatatype: 'JSON',
             async: false,
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json; odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val()
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json; odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
             sucesscallbackfunction: function (data) {
                 mainlistData = data.d;
                 ////replacement with list item values start
@@ -2732,64 +2732,42 @@ function RemoveHtmlForMultiLine(multiLineValue) {
 /*Pooja Atkotiya */
 function IsGroupMember(userID, groupName) {
     var isAuthorized = false;
-    try {
-        if (!IsStrNullOrEmpty(groupName) && !IsNullOrUndefined(userID)) {
+    debugger
+    if (IsNullOrUndefined(currentUser.groups)) {
 
-            // var url = "https://synoverge.sharepoint.com/sites/dev/_api/web/sitegroups/getbyname('" + groupName + "')/Users"
-            // AjaxCall({
-            //     url: url,
-            //     httpmethod: 'GET',
-            //     calldatatype: 'JSON',
-            //     headers:
-            //         {
-            //             "Accept": "application/json;odata=verbose",
-            //             "Content-Type": "application/json;odata=verbose",
-            //             "X-RequestDigest": $("#__REQUESTDIGEST").val()
-            //         },
-            //     async: false,
-            //     sucesscallbackfunction: function (data) {
-            //         var users = data.d.results;
-            //         debugger
-            //         if (users.some(t => t.Id == parseInt(userID))) {
-            //             isAuthorized = true;
-            //         }
-            //     },
-            //     errorcallbackfunction: function (xhr) {
-            //         console.log(xhr);
-            //     }
-
-            // });
-            var url = "https://prod-06.centralindia.logic.azure.com:443/workflows/975d88ce2c1341548a913e01034c3860/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=3tl7aa_XlvZj8XZUhMAwBlxdGmcxRhH3Jzu1f8un6O8";
-            var digest = $("#__REQUESTDIGEST").val();
-            var resetDataTemplate = { "url": "https://synoverge.sharepoint.com/sites/dev/_api/web/sitegroups/getbyname('Creator')/Users", "digest": digest.toString() };
-            AjaxCall({
-                url: url,
-                httpmethod: 'GET',
-                calldatatype: 'JSON',
-                headers: {
-                    "content-type": "application/json",
-                    "cache-control": "no-cache"
-                },
-                data: JSON.stringify(resetDataTemplate),
-                async: false,
-                sucesscallbackfunction: function (data) {
-                    var users = data.d.results;
-                    debugger
-                    if (users.some(t => t.Id == parseInt(userID))) {
-                        isAuthorized = true;
-                    }
-                },
-                errorcallbackfunction: function (xhr) {
-                    console.log(xhr);
-                }
-
-            });
-        }
     }
-    catch (exception) {
-        isAuthorized = false;
-        console.log(exception);
-    }
+    // try {
+    //     if (!IsStrNullOrEmpty(groupName) && !IsNullOrUndefined(userID)) {
+
+    //         var url = "https://synoverge.sharepoint.com/sites/dev/_api/web/sitegroups/getbyname('" + groupName + "')/Users"
+    //         $.ajax({
+    //             url: url,
+    //             type: 'GET',
+    //             headers: {
+    //                 "Accept": "application/json;odata=verbose",
+    //                 "Content-Type": "application/json;odata=verbose",
+    //                 "X-RequestDigest": $("#__REQUESTDIGEST").val()
+    //             },
+    //             async: false,
+    //             success: function (data) {
+    //                 var users = data.d.results;
+    //                 debugger
+    //                 if (users.some(t => t.Id == parseInt(userID))) {
+    //                     isAuthorized = true;
+    //                 }
+
+    //             },
+    //             error: function (error) {
+    //                 console.log(error);
+    //             }
+    //         });
+
+    //     }
+    // }
+    // catch (exception) {
+    //     isAuthorized = false;
+    //     console.log(exception);
+    // }
 }
 
 

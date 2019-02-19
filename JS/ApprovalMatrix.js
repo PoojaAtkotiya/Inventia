@@ -66,14 +66,14 @@ function SetApprovalMatrix(id, mainListName) {
         //set role name from local approval matrix
         GetCurrentUserRole(id, mainListName).done(function () {
             if (IsStrNullOrEmpty(currentUserRole)) {
-                // isSuperAdmin = IsGroupMember(currentUser.Id, Roles.ADMIN);
-                // if (isSuperAdmin) {
-                //     currentUserRole = "Capex Admin";
-                // }
-                // else if (IsGroupMember(currentUser.Id, Roles.VIEWER)) {
-                //     currentUserRole = Roles.VIEWER;
-                // }
-                // console.log("Called GetCurrentUserRole and Role=" + currentUserRole);
+                isSuperAdmin = IsGroupMember(Roles.ADMIN);
+                if (isSuperAdmin) {
+                    currentUserRole = "Capex Admin";
+                }
+                else if (IsGroupMember(Roles.VIEWER)) {
+                    currentUserRole = Roles.VIEWER;
+                }
+                console.log("Called GetCurrentUserRole and Role=" + currentUserRole);
             }
             // if (!IsStrNullOrEmpty(currentUserRole)) {
             GetEnableSectionNames(id);
