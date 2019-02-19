@@ -125,7 +125,7 @@ function BindURSAttachmentFiles() {
                     "__metadata": { "type": itemType },
                     "Title": "URS",
                     "TypeOfAttachment": "URS",
-                    "FileName":file.name
+                    "FileName": file.name
                 };
 
                 $.ajax({
@@ -254,7 +254,7 @@ function BindSupportDocAttachmentFiles() {
                 "__metadata": { "type": itemType },
                 "Title": "Supportive",
                 "TypeOfAttachment": "Supportive",
-                "FileName":file.name
+                "FileName": file.name
             };
 
             $.ajax({
@@ -1254,23 +1254,23 @@ function ValidateForm(ele, saveCallBack) {
                     saveCallBack(activeSection);
                 }
             });
-            }
-            else{
-                ConfirmationDailog({
-                    title: "Confirm", message: attachmsg, okCallback: function (data) {
-                        saveCallBack(activeSection);
-                    }
-                });
-            }
-
-
-
         }
         else {
-            saveCallBack(activeSection);
+            ConfirmationDailog({
+                title: "Confirm", message: attachmsg, okCallback: function (data) {
+                    saveCallBack(activeSection);
+                }
+            });
         }
-        HideWaitDialog();
+
+
+
     }
+    else {
+        saveCallBack(activeSection);
+    }
+    HideWaitDialog();
+}
 
 
 /*Monal Shah */
@@ -1793,20 +1793,27 @@ function CommonBusinessLogic(sectionName, itemID, listDataArray) {
     }
 
 }
+function addZero(i) {
+    if (i < 10) {
+        i = "0" + i;
+    }
+    return i;
+}
 function SaveActions(sectionName, itemID, actionPerformed) {
     var formFieldValues = [];
     var todayDate = new Date();
-    var year=todayDate.getFullYear();
-    var month=todayDate.getMonth()+1 
-    var day=todayDate.getDate();
-    var time=todayDate.getTime();
-    //var formatted=year+"/"+month+"/"+day;
-    var formatted=day+"/"+month+"/"+year+" " + time +'IST';
+    var year = todayDate.getFullYear();
+    var month = todayDate.getMonth() + 1
+    var day = todayDate.getDate();
+    var amOrPm = (todayDate.getHours() < 12) ? "AM" : "PM";
+    var hour = addZero(todayDate.getHours());
+    var minute = addZero(todayDate.getMinutes());
+    var formatted = day + "/" + month + "/" + year + " " + hour + ":" + minute + " " + amOrPm + " " + 'IST';
     switch (sectionName) {
         case SectionNames.INITIATORSECTION:
             if (actionPerformed == "NextApproval") {
                 //formFieldValues['InitiatorAction'] = currentUser.Title + '-' + todayDate + '-' + "Submit";
-                formFieldValues['InitiatorAction'] = "Submited By"  + '\n' +  currentUser.Title  + '\n' +    formatted  ;
+                formFieldValues['InitiatorAction'] = "Submitted By " + "," + currentUser.Title + "," + formatted;
             }
             else if (actionPerformed == "SaveAsDraft") {
                 formFieldValues['InitiatorAction'] = currentUser.Title + '-' + todayDate + '-' + "SaveAsDraft";
@@ -2429,11 +2436,11 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json; odata=verbose",
-                    "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json; odata=verbose",
+                "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
+            },
             sucesscallbackfunction: function (data) {
                 emailTemplate.push({ "Subject": data.d.results[0].Subject });
                 emailTemplate.push({ "Body": data.d.results[0].Body });
@@ -2551,11 +2558,11 @@ function GetDatafromList(itemID, mainListName, subject, matchesSubject, body, ma
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json; odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json; odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 mainlistData = data.d;
                 ////replacement with list item values start
@@ -2813,11 +2820,11 @@ function GetSPGroupIDByName(grpName, handleData) {
                 calldatatype: 'JSON',
                 async: false,
                 headers:
-                    {
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json;odata=verbose",
-                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                    },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
                 sucesscallbackfunction: function (data) {
                     debugger
                     handleData(data.d.Id);
@@ -2850,13 +2857,13 @@ function updateRequestIDAttachmentList(attchmentID, itemID) {
         async: false,
         data: JSON.stringify(item),
         headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                "IF-MATCH": "*",
-                "X-HTTP-Method": "MERGE"
-            },
+        {
+            "Accept": "application/json;odata=verbose",
+            "Content-Type": "application/json;odata=verbose",
+            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+            "IF-MATCH": "*",
+            "X-HTTP-Method": "MERGE"
+        },
         success: function (data) {
             console.log("Item saved Successfully");
         },
