@@ -32,7 +32,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sp-pnp-js/3.0.10/pnp.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/jquery.validate.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/jquery.validate.unobtrusive.js"></script>
-    <script type="text/javascript" src="https://jserrlog.appspot.com/jserrlog-min.js"></script>
+
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/Constants.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/Common.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/ApprovalMatrix.js"></script>
@@ -41,8 +41,8 @@
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/tran.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/AppForm.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script>
-
-
+    <!-- <script type="text/javascript" src="https://jserrlog.appspot.com/jserrlog.js"></script> -->
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/jserrlog.js"></script>
 
     <script type="text/javascript">
         var formData = {};
@@ -66,11 +66,17 @@
                 $("#IsNewVendor").show();
                 $("#ProposedVendor").show();
             });
+
             $("#NewVendorName").change(function () {
+                // if ($("#ProposedVendor").html() = " ") {
+                //     $("#ProposedVendor").append($("#NewVendorName").val());
+                       
+                // }
                 if ($("#ProposedVendor").html() != " ") {
-                    $("#ProposedVendor").append(',');
+                    $("#ProposedVendor").append(','); 
+                       
                 }
-                $("#ProposedVendor").append($("#NewVendorName").val());
+               $("#ProposedVendor").append($("#NewVendorName").val());
                 $("#NewVendorName").val('');
             });
             // $(document).on("change", "#UploadArtworkAttachment", function () {
@@ -152,7 +158,16 @@
                 }
             });
             //DatePickerControl('#date');
-        });
+            // Js error log
+    //         window.onerror = function(msg, file_loc, line_no, col_no){
+	// 	jsErrLog.errorTrap(msg, file_loc, line_no, col_no);
+	// 	if(typeof(jsErrLog.fnPreviousOnErrorHandler) == "function") {
+	// 		// process any existing onerror handler
+	// 		jsErrLog.fnPreviousOnErrorHandler(msg, file_loc, line_no, col_no);
+	// 	}
+    //     return jsErrLog.trapErrors;
+	// }
+    //     });
 
     </script>
     <style>
@@ -675,7 +690,7 @@
                                                             Pay Back Period Applicable?
                                                         </label>
                                                         <div class="col-md-8 ">
-                                                            <input type="checkbox" id="PayBackPeriod" name="PayBackPeriod" required="required">
+                                                            <input type="checkbox" id="PayBackPeriod" class="form-control dynamic-control" name="PayBackPeriod"  controlType="checkbox" listtype="main" />
                                                         </div>
                                                     </div>
                                                 </div>

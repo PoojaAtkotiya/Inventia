@@ -149,9 +149,9 @@ function SaveForm(activeSection, ele) {
     try {
         SaveFormData(activeSection, ele);
     }
-    catch (Exception) {
-        console.log("Error occured in SaveForm" + Exception);
-    }
+     catch (Exception) {
+         console.log("Error occured in SaveForm" + Exception);
+     }
 }
 
 /*Priya Rane */

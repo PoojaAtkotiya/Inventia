@@ -19,7 +19,8 @@ var gRequestDigestValue;
 jQuery(document).ready(function () {
 
     jQuery.noConflict();
-    jsErrLog.debugMode = false;
+    jsErrLog.debugMode = true;
+    
     GetFormDigest().done(function (data) {
         gRequestDigestValue = data.responseJSON.d.GetContextWebInformation.FormDigestValue;
     }).fail(function () {
@@ -642,7 +643,7 @@ function setFieldValue(controlId, item, fieldType, fieldName) {
                     item[fieldName].results.forEach(function (thisItem) {
                         if (thisItem == controlId) {
                             $("#" + controlId)[0].checked = true;
-                            debugger;
+                            //debugger;
                             if (listDataArray[fieldName] == undefined)
                                 listDataArray[fieldName] = { "__metadata": { "type": "Collection(Edm.String)" }, "results": [] };
                             listDataArray[fieldName].results.push(thisItem);
@@ -1980,9 +1981,12 @@ function AjaxCall(options) {
                 // }
                 // else {
                 console.log(xhr);
+                
                 jsErrLog.info = xhr.statusText;
-                debugger
-                AlertModal("Error", "Oops! Something went wrong");
+                //jsErrLog.url = "https://synoverge.sharepoint.com/sites/dev/";
+                //debugger
+                //AlertModal("Error", "Oops! Something went wrong");
+                throw "Error";
                 //}
 
             }
@@ -2000,7 +2004,7 @@ function ShowError(ModelStateErrors) {
         messages += "<li>" + e.Value[0] + "</li>";
     });
     messages = "<div><h5>" + getMessage("errorTitle") + "</h5><ul>" + messages + "</ul></div>";
-    debugger
+    //debugger
     AlertModal("error", messages, function () { })
 }
 
@@ -2060,7 +2064,7 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                     tempApproverMatrix.forEach(temp => {
                         if (temp.Role == Roles.CREATOR) {
                             cc = temp.ApproverId;
-                            debugger                /////Pending to check for multi user field
+                            //debugger                /////Pending to check for multi user field
                             cc = TrimComma(cc).split(",");
                             cleanArray(cc);
                             cc = GetUserEmailsbyUserID(cc);
