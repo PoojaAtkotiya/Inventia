@@ -262,10 +262,10 @@ function BindSupportDocAttachmentFiles() {
                     var ServerRelativeUrl=_spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/"+itemId+"/"+fileName;
                   
                     if (checkFile === "") {
-                        htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + fileName + "</a><a href=\"javascript:removeSupportiveFile('" + itemId + "')\"> Remove</a></li>";
+                        htmlStr = "<li><a id='attachment_"+ itemId + "' href='" + ServerRelativeUrl + "'>" + fileName + "</a><a href=\"javascript:removeSupportiveFile('" + itemId + "')\"> Remove</a></li>";
                     }
                     else {
-                        htmlStr = checkFile + "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + fileName + "</a></li><a href=\"javascript:removeSupportiveFile('" + itemId + "')\"> Remove</a></li>";
+                        htmlStr = checkFile + "<li><a id='attachment_"+ itemId + "' href='" + ServerRelativeUrl + "'>" + fileName + "</a></li><a href=\"javascript:removeSupportiveFile('" + itemId + "')\"> Remove</a></li>";
 
                     }
                     fileCommonArray.push({
@@ -2229,17 +2229,10 @@ function AjaxCall(options) {
                 console.log(xhr);
                 
                 jsErrLog.info = xhr.statusText;
-<<<<<<< HEAD
-                throw "Error";
-
-              //  debugger
-              //  AlertModal("Error", "Oops! Something went wrong");
-=======
                 //jsErrLog.url = "https://synoverge.sharepoint.com/sites/dev/";
                 debugger
                 AlertModal("Error", "Oops! Something went wrong");
                 //throw "Error";
->>>>>>> 05c83efaa9511615f8f5a285638b530145bf64b7
                 //}
 
             }
