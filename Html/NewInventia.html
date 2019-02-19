@@ -42,7 +42,7 @@
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/AppForm.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script>
     <!-- <script type="text/javascript" src="https://jserrlog.appspot.com/jserrlog.js"></script> -->
-    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/jserrlog.js"></script>
+    <!-- <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/jserrlog.js"></script> -->
 
     <script type="text/javascript">
         var formData = {};
@@ -158,7 +158,9 @@
                 }
             });
             //DatePickerControl('#date');
+
             // Js error log
+<<<<<<< HEAD
     //         window.onerror = function(msg, file_loc, line_no, col_no){
 	// 	jsErrLog.errorTrap(msg, file_loc, line_no, col_no);
 	// 	if(typeof(jsErrLog.fnPreviousOnErrorHandler) == "function") {
@@ -167,7 +169,19 @@
 	// 	}
     //     return jsErrLog.trapErrors;
 	// }
-    //     });
+      });
+=======
+            //         window.onerror = function(msg, file_loc, line_no, col_no){
+            // 	jsErrLog.errorTrap(msg, file_loc, line_no, col_no);
+            // 	if(typeof(jsErrLog.fnPreviousOnErrorHandler) == "function") {
+            // 		// process any existing onerror handler
+            // 		jsErrLog.fnPreviousOnErrorHandler(msg, file_loc, line_no, col_no);
+            // 	}
+            //     return jsErrLog.trapErrors;
+            // }
+    });
+    
+>>>>>>> 9657202b76ff8631849f9acb0066481484343062
 
     </script>
     <style>
@@ -178,7 +192,7 @@
 
         /* .pac-container{
     z-index: 999999;
-} */
+  } */
 
         /* .ui-autocomplete-input, .ui-menu, .ui-menu-item {  z-index: 2006; background: black; } */
     </style>
@@ -498,10 +512,8 @@
                                                         <div class="col-md-8">
                                                             <input type="file" class="form-control dynamic-control" id="UploadSupportiveDocAttachment" name="myfiles" controlType="file" accept=
                                                             "application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
-                                                            text/plain, application/pdf, image/*" multiple>
-                                                            <br>
-                                                            <div id="SupportiveDocContainer"></div>
-                                                            <br>
+                                                            text/plain, application/pdf, image/*" >
+                                                           <br>
                                                             <ul id="fileListSupportiveDoc"></ul>
                                                         </div>
                                                     </div>

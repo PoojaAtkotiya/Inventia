@@ -20,7 +20,7 @@ var gRequestDigestValue;
 jQuery(document).ready(function () {
 
     jQuery.noConflict();
-    jsErrLog.debugMode = true;
+    //jsErrLog.debugMode = true;
 
     GetFormDigest().done(function (data) {
         gRequestDigestValue = data.responseJSON.d.GetContextWebInformation.FormDigestValue;
@@ -186,6 +186,14 @@ function removeURSFile(itemId) {
                 "IF-MATCH": "*"
             },
             success: function (data) {
+                var index;
+                fileCommonArray.forEach(element => {
+                    if (element.id == itemId) {
+                        index = fileCommonArray.indexOf(element);
+
+                    }
+                });
+                if (index !== -1) fileCommonArray.splice(index, 1);
                 var htmlStr = "";
                 $('#URSContainer').html(htmlStr);
             },
@@ -258,14 +266,15 @@ function BindSupportDocAttachmentFiles() {
                     console.log("files saved successfully in list = " + listName + "for listItemId = " + itemId);
 
                     var htmlStr = "";
-                    var checkFile = $('#SupportiveDocContainer').html();
+                    // var checkFile = $('#UploadSupportiveDocAttachment').next().next().html();
+                    var checkFile = $('#fileListSupportiveDoc').html();
                     var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + itemId + "/" + fileName;
 
                     if (checkFile === "") {
-                        htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + fileName + "</a><a href=\"javascript:removeSupportiveFile('" + itemId + "')\"> Remove</a></li>";
+                        htmlStr = "<li id=li_" + itemId + "><a id='attachment_" + itemId + "' href='" + ServerRelativeUrl + "' target='_blank'>" + fileName + "</a><a id='Remove_" + itemId + "' href=\"javascript:removeSupportiveFile('" + itemId + "')\"> Remove</a></li>";
                     }
                     else {
-                        htmlStr = checkFile + "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + fileName + "</a></li><a href=\"javascript:removeSupportiveFile('" + itemId + "')\"> Remove</a></li>";
+                        htmlStr = checkFile + "<li id=li_" + itemId + "><a id='attachment_" + itemId + "' href='" + ServerRelativeUrl + "'>" + fileName + "</a></li><a id='Remove_" + itemId + "' href=\"javascript:removeSupportiveFile('" + itemId + "')\"> Remove</a></li>";
 
                     }
                     fileCommonArray.push({
@@ -274,7 +283,10 @@ function BindSupportDocAttachmentFiles() {
                         "filename": fileName
                     });
                     fileURSArray = [];
-                    $('#SupportiveDocContainer').html(htmlStr);
+                    // $('#SupportiveDocContainer').html(htmlStr);
+                    $('#fileListSupportiveDoc').html(htmlStr);
+
+                    // $('#UploadSupportiveDocAttachment').next().append(htmlStr.join(""));
                 }).catch(function (err) {
                     console.log(err);
                     fileURSArray = [];
@@ -301,8 +313,20 @@ function removeSupportiveFile(itemId) {
                 "IF-MATCH": "*"
             },
             success: function (data) {
-                var htmlStr = "";
-                $('#SupportiveDocContainer').html(htmlStr);
+                var index;
+                fileCommonArray.forEach(element => {
+                    if (element.id == itemId) {
+                        index = fileCommonArray.indexOf(element);
+
+                    }
+                });
+                if (index !== -1) fileCommonArray.splice(index, 1);
+                var element = "#li_" + itemId;
+                var ele = "Remove_" + itemId;
+                $(element).children().remove();
+                $(element).remove();
+                $(ele).remove();
+
             },
             error: function (err) {
                 alert(JSON.stringify(err));
@@ -2228,7 +2252,6 @@ function AjaxCall(options) {
                 // }
                 // else {
                 console.log(xhr);
-
                 jsErrLog.info = xhr.statusText;
                 //jsErrLog.url = "https://synoverge.sharepoint.com/sites/dev/";
                 debugger
@@ -2376,11 +2399,11 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json; odata=verbose",
-                    "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json; odata=verbose",
+                "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
+            },
             sucesscallbackfunction: function (data) {
                 emailTemplate.push({ "Subject": data.d.results[0].Subject });
                 emailTemplate.push({ "Body": data.d.results[0].Body });
@@ -2498,11 +2521,11 @@ function GetDatafromList(itemID, mainListName, subject, matchesSubject, body, ma
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json; odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json; odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 mainlistData = data.d;
                 ////replacement with list item values start
@@ -2768,6 +2791,7 @@ function IsGroupMember(userID, groupName) {
         console.log(exception);
     }
 }
+
 
 /*Priya Rane */
 function checkDuplicateFileName(fileName) {
