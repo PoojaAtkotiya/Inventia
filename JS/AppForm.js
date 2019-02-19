@@ -112,9 +112,16 @@ function setCustomApprovers(tempApproverMatrix) {
 
 /*Monal Shah */
 function Capex_SaveData(ele) {
+   // gTranArray.push({ "TranListArray": listTempGridDataArray, "TranListName": ListNames.CAPEXVENDORLIST });  ////Vendor tran added in global tran
+        
     ValidateForm(ele, SaveDataCallBack);
+    // if(gTranArray.length <3){
+    //     AlertModal('Error', "Max 3 vendor required");
+    // }
     function SaveDataCallBack(activeSection) {
         var isError = FormBusinessLogic(activeSection);
+       
+        
         if (!isError) {
             SaveForm(activeSection, ele);
         }
@@ -125,9 +132,13 @@ function Capex_SaveData(ele) {
 function FormBusinessLogic(activeSection) {
     var isError = false;
     try {
-
+        
         /* Add final saved tran array to global tran array to save in list*/
-        gTranArray.push({ "TranListArray": listTempGridDataArray, "TranListName": ListNames.CAPEXVENDORLIST });  ////Vendor tran added in global tran
+
+         gTranArray.push({ "TranListArray": listTempGridDataArray, "TranListName": ListNames.CAPEXVENDORLIST });  ////Vendor tran added in global tran
+        // if(gTranArray.length <3){
+        //     AlertModal('Error', "Max 3 vendor required");
+        // }
 
         //     //check if there any delegate user fillby section owner        
         //     ////Pending to make it dynamic

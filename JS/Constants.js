@@ -27,7 +27,7 @@ const ListNames = {
     EMAILNOTIFICATION: "EmailNotification",
     DEPTFUNCTIONMASTER: "DepartmentFunctionMapping",
     BUDGETMASTER: "BudgetMaster",
-    ATTACHMENTLIST:"Attachments"
+    ATTACHMENTLIST: "Attachments"
 }
 Object.freeze(ListNames);
 
@@ -151,6 +151,12 @@ const SharePointPermission = {
 }
 Object.freeze(SharePointPermission);
 
+const SPPermissionID = {
+    READ: "1073741826",
+    CONTRIBUTE: "1073741827",
+    FULLCONTROL: "1073741829"
+}
+
 const CurrentApprover = {
     APPROVERID: "ApproverId",
     COMMENTS: "Comments",
@@ -171,16 +177,16 @@ const Roles = {
     INITIATORHOD: "Initiator HOD",
     FUNCTIONHEAD: "Function Head",
     MANAGEMENT: "Management",
-    ADMIN : "Admin"
-    
+    ADMIN: "Admin"
+
 }
 Object.freeze(Roles);
 
 
 const SectionNames =
     {
-        INITIATORSECTION: "Initiator Section",      
-        PURCHASESECTION:"Purchase Section",
+        INITIATORSECTION: "Initiator Section",
+        PURCHASESECTION: "Purchase Section",
         HODSECTION: "Initiator HOD Section",
         FUNCTIONHEADSECTION: "Function Head Section",
         MANAGEMENTSECTION: "Management Section"
