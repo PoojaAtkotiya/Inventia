@@ -9552,3 +9552,7 @@ hr{
 #btn1{
     background-color: #06B53C!important;
 }
+.parent {
+    width: 42px; 
+    height: 42px;
+ }
