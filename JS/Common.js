@@ -1798,11 +1798,17 @@ function CommonBusinessLogic(sectionName, itemID, listDataArray) {
 function SaveActions(sectionName, itemID, actionPerformed) {
     var formFieldValues = [];
     var todayDate = new Date();
+    var year=todayDate.getFullYear();
+    var month=todayDate.getMonth()+1 
+    var day=todayDate.getDate();
+    var time=todayDate.getTime();
+    //var formatted=year+"/"+month+"/"+day;
+    var formatted=day+"/"+month+"/"+year+" " + time +'IST';
     switch (sectionName) {
         case SectionNames.INITIATORSECTION:
             if (actionPerformed == "NextApproval") {
                 //formFieldValues['InitiatorAction'] = currentUser.Title + '-' + todayDate + '-' + "Submit";
-                formFieldValues['InitiatorAction'] = "Submited By"  + '\n' +  currentUser.Title  + '\n' +    todayDate  ;
+                formFieldValues['InitiatorAction'] = "Submited By"  + '\n' +  currentUser.Title  + '\n' +    formatted  ;
             }
             else if (actionPerformed == "SaveAsDraft") {
                 formFieldValues['InitiatorAction'] = currentUser.Title + '-' + todayDate + '-' + "SaveAsDraft";
