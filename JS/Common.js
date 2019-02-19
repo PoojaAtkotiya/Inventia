@@ -2806,7 +2806,7 @@ function IsGroupMember(groupName) {
 }
 
 /*Pooja Atkotiya */
-function GetSPGroupIDByName(grpName) {
+function GetSPGroupIDByName(grpName, handleData) {
     if (!IsStrNullOrEmpty(grpName)) {
         AjaxCall(
             {
@@ -2822,7 +2822,7 @@ function GetSPGroupIDByName(grpName) {
                     },
                 sucesscallbackfunction: function (data) {
                     debugger
-                    return data.d.Id;
+                    handleData(data.d.Id);
                 }
             });
     }

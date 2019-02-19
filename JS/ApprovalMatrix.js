@@ -803,14 +803,21 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
     });
 
     /* Add Admin group with Contribute Permission */
-    var adminGroupId = GetSPGroupIDByName(Roles.ADMIN);
-    var adminPerID = SPPermissionID.CONTRIBUTE;
-    finalUserPermDic.push({ adminGroupId, adminPerID });
+    GetSPGroupIDByName(Roles.ADMIN, function (grpId) {
+        var adminPerID = SPPermissionID.CONTRIBUTE;
+        if (!IsNullOrUndefined(grpId) && !IsNullOrUndefined(adminPerID)) {
+            finalUserPermDic.push({ 'user': grpId, 'permId': adminPerID });
+        }
+    });
+
 
     /* Add Viewer group with Contribute Permission */
-    var viewerGroupId = GetSPGroupIDByName(Roles.VIEWER);
-    var viewerPerID = SPPermissionID.READ;
-    finalUserPermDic.push({ viewerGroupId, viewerPerID });
+    GetSPGroupIDByName(Roles.VIEWER, function (grpId) {
+        var viewerPerID = SPPermissionID.READ;
+        if (!IsNullOrUndefined(grpId) && !IsNullOrUndefined(viewerPerID)) {
+            finalUserPermDic.push({ 'user': grpId, 'permId': viewerPerID });
+        }
+    });
 
     console.log(finalUserPermDic);
 
