@@ -2712,17 +2712,42 @@ function IsGroupMember(userID, groupName) {
     try {
         if (!IsStrNullOrEmpty(groupName) && !IsNullOrUndefined(userID)) {
 
-            var url = "https://synoverge.sharepoint.com/sites/dev/_api/web/sitegroups/getbyname('" + groupName + "')/Users"
+            // var url = "https://synoverge.sharepoint.com/sites/dev/_api/web/sitegroups/getbyname('" + groupName + "')/Users"
+            // AjaxCall({
+            //     url: url,
+            //     httpmethod: 'GET',
+            //     calldatatype: 'JSON',
+            //     headers:
+            //         {
+            //             "Accept": "application/json;odata=verbose",
+            //             "Content-Type": "application/json;odata=verbose",
+            //             "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            //         },
+            //     async: false,
+            //     sucesscallbackfunction: function (data) {
+            //         var users = data.d.results;
+            //         debugger
+            //         if (users.some(t => t.Id == parseInt(userID))) {
+            //             isAuthorized = true;
+            //         }
+            //     },
+            //     errorcallbackfunction: function (xhr) {
+            //         console.log(xhr);
+            //     }
+
+            // });
+            var url = "https://prod-06.centralindia.logic.azure.com:443/workflows/975d88ce2c1341548a913e01034c3860/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=3tl7aa_XlvZj8XZUhMAwBlxdGmcxRhH3Jzu1f8un6O8";
+            var digest = $("#__REQUESTDIGEST").val();
+            var resetDataTemplate = { "url": "https://synoverge.sharepoint.com/sites/dev/_api/web/sitegroups/getbyname('Creator')/Users", "digest": digest.toString() };
             AjaxCall({
                 url: url,
                 httpmethod: 'GET',
                 calldatatype: 'JSON',
-                headers:
-                    {
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json;odata=verbose",
-                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                    },
+                headers: {
+                    "content-type": "application/json",
+                    "cache-control": "no-cache"
+                },
+                data: JSON.stringify(resetDataTemplate),
                 async: false,
                 sucesscallbackfunction: function (data) {
                     var users = data.d.results;

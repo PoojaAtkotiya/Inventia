@@ -61,12 +61,25 @@ function GetLocalApprovalMatrixData(id, mainListName) {
 
 /*Pooja Atkotiya */
 function SetApprovalMatrix(id, mainListName) {
+    var isSuperAdmin = false;
     if (id > 0) {
         //set role name from local approval matrix
         GetCurrentUserRole(id, mainListName).done(function () {
+            if (IsStrNullOrEmpty(currentUserRole)) {
+                // isSuperAdmin = IsGroupMember(currentUser.Id, Roles.ADMIN);
+                // if (isSuperAdmin) {
+                //     currentUserRole = "Capex Admin";
+                // }
+                // else if (IsGroupMember(currentUser.Id, Roles.VIEWER)) {
+                //     currentUserRole = Roles.VIEWER;
+                // }
+                // console.log("Called GetCurrentUserRole and Role=" + currentUserRole);
+            }
+            // if (!IsStrNullOrEmpty(currentUserRole)) {
             GetEnableSectionNames(id);
             tempApproverMatrix = localApprovalMatrixdata;
             SetApproversInApprovalMatrix(id);
+            //}
         }).fail(function () {
             console.log("Execute  second after the retrieve list items  failed");
         });
@@ -133,21 +146,14 @@ function GetCurrentUserRole(id, mainListName) {
     currentContext.load(this._currentUser);
     currentContext.executeQueryAsync(function () {
 
-        // console.log("Does the user has full permission in the web ? : "+oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.manageWeb))
-        // if(oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.manageWeb) && oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.viewListItems)){
-        //     console.log("user has ful control and read permission");
-        // }
-        // else if(oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.manageWeb) && oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.editListItems)){
-        //     console.log("user has ful control and edit permission");
-        // }
-
         // SP.PermissionKind.manageWeb  == Full Control
         if (oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.editListItems) && oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.addListItems)) {
             console.log("user has add+edit permission");
             tcurrentLevel = oListItem.get_item('FormLevel').split("|")[1];
-
             GetRoleFromApprovalMatrix(tcurrentLevel, id, currentUser.Id);
+            //  if (!IsNullOrUndefined(currentUserRole)) {
             GetButtons(id, currentUserRole, oListItem.get_item('Status'));
+            //}
         }
         else if (oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.viewListItems)) {
             console.log("user has Read permission");
@@ -155,7 +161,7 @@ function GetCurrentUserRole(id, mainListName) {
             GetButtons(id, currentUserRole, oListItem.get_item('Status'));
         }
         else {
-            console.log("user doesn't have edit permission");
+            console.log("user doesn't have any(edit/view) permission");
         }
         deferred.resolve(currentUserRole);
 
