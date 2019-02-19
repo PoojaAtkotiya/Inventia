@@ -1576,7 +1576,7 @@ function SaveImageSignaturePath(sectionName, itemID) {
                         formFieldValues['PurchaseSignature'] = data.d.results[0].FileRef;
                         break;
                     case SectionNames.FUNCTIONHEADSECTION:
-                        //formFieldValues['FunctionHeadSignature'] = data.d.results[0].FileRef;
+                        formFieldValues['FunctionHeadSignature'] = data.d.results[0].FileRef;
                         break;
                     case SectionNames.MANAGEMENTSECTION:
                         formFieldValues['ManagementSignature'] = data.d.results[0].FileRef;
