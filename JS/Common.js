@@ -2784,6 +2784,28 @@ function IsGroupMember(groupName) {
     // }
 }
 
+/*Pooja Atkotiya */
+function GetSPGroupIDByName(grpName) {
+    if (!IsStrNullOrEmpty(grpName)) {
+        AjaxCall(
+            {
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/sitegroups/getbyname('" + grpName + "')?$select=id",
+                httpmethod: 'GET',
+                calldatatype: 'JSON',
+                async: false,
+                headers:
+                    {
+                        "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                    },
+                sucesscallbackfunction: function (data) {
+                    debugger
+                    return data.d.Id;
+                }
+            });
+    }
+}
 
 /*Priya Rane */
 function checkDuplicateFileName(fileName) {

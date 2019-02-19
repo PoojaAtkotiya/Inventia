@@ -764,10 +764,10 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
         var permission = element.permission;
         var permId;
         if (permission == SharePointPermission.CONTRIBUTOR) {
-            permId = 1073741827;
+            permId = SPPermissionID.CONTRIBUTE;
         }
         else if (permission == SharePointPermission.READER) {
-            permId = 1073741826;
+            permId = SPPermissionID.READ;
         }
         if (!IsNullOrUndefined(userIds) && !IsStrNullOrEmpty(userIds) && !IsNullOrUndefined(permission) && !IsStrNullOrEmpty(permission)) {
             var users = [];
@@ -801,6 +801,16 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
             });
         }
     });
+
+    /* Add Admin group with Contribute Permission */
+    var adminGroupId = GetSPGroupIDByName(Roles.ADMIN);
+    var adminPerID = SPPermissionID.CONTRIBUTE;
+    finalUserPermDic.push({ adminGroupId, adminPerID });
+
+    /* Add Viewer group with Contribute Permission */
+    var viewerGroupId = GetSPGroupIDByName(Roles.VIEWER);
+    var viewerPerID = SPPermissionID.READ;
+    finalUserPermDic.push({ viewerGroupId, viewerPerID });
 
     console.log(finalUserPermDic);
 
