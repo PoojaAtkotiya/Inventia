@@ -20,7 +20,11 @@ var gRequestDigestValue;
 jQuery(document).ready(function () {
 
     jQuery.noConflict();
+<<<<<<< HEAD
     //jsErrLog.debugMode = true;
+=======
+   // jsErrLog.debugMode = true;
+>>>>>>> 62b56f4cae961aa17a434efbf540fef90fdcb55d
 
     GetFormDigest().done(function (data) {
         gRequestDigestValue = data.responseJSON.d.GetContextWebInformation.FormDigestValue;
@@ -1241,15 +1245,35 @@ function ValidateForm(ele, saveCallBack) {
             if ($(formList).find("div[data-appname]").length != 0 && $(formList).find("div[data-appname]").find("ul li").length == 0 && dataAction == "11") {
                 attachmsg = "Are you sure to '" + $.trim($(ele).text()) + "' without attachment?";
             } 
-            
+           
             ConfirmationDailog({
                 title: "Confirm", message: attachmsg, okCallback: function (data) {
                     saveCallBack(activeSection);
                 }
             });
+       
             
             
         }
+        // else if (buttonCaption != "save as draft" && sectionName == "Purchase Section") {
+        //     //confirm file Attachment need attach or not
+        //     var attachmsg = "Are you sure to '" + $.trim($(ele).text()) + "'?";
+        //     if ($(formList).find("div[data-appname]").length != 0 && $(formList).find("div[data-appname]").find("ul li").length == 0 && dataAction == "11") {
+        //         attachmsg = "Are you sure to '" + $.trim($(ele).text()) + "' without attachment?";
+        //     } 
+        //     if(listTempGridDataArray.length >= 3){
+        //     ConfirmationDailog({
+        //         title: "Confirm", message: attachmsg, okCallback: function (data) {
+        //             saveCallBack(activeSection);
+        //         }
+        //     });
+        //    }
+        //    else{
+        //     AlertModal('Error', "Max 3 vendor required");
+        //     HideWaitDialog();
+        //    }
+            
+        // }
         else {
             saveCallBack(activeSection);
         }
@@ -1642,11 +1666,21 @@ function SaveFormData(activeSection, ele) {
             }
         });
         // save vendor max 3 vendor condition by hirvita
-        if (listTempGridDataArray.length >= 3) {
+
+        // if (sectionName ="PurchaseSection"  && listTempGridDataArray.length >= 3) {
+        //     SaveData(mainListName, listDataArray, sectionName, ele);
+        // }
+         if(sectionName !="Purchase Section"){
             SaveData(mainListName, listDataArray, sectionName, ele);
         }
         else {
-            alert("Max 3 vendor required");
+            if(listTempGridDataArray.length >= 3){
+                SaveData(mainListName, listDataArray, sectionName, ele);
+            }
+            else{
+            //alert("Max 3 vendor required");}
+            AlertModal('Error', "Max 3 vendor required");
+            HideWaitDialog();
         }
         
     }
@@ -1817,13 +1851,16 @@ function SaveActions(sectionName, itemID, actionPerformed) {
             }
             break;
     }
-
+    
     SaveFormFields(formFieldValues, itemID);
 }
 function SaveCapitalAssetRequisitionNumber(itemID, listDataArray, actionPerformed) {
     var formFieldValues = [];
+    var formMonth = [];
+    var formYear = [];
     var todayDate = new Date();
     formFieldValues['CapitalAssetRequisitionNumber'] = listDataArray.CostCenter + '/' + todayDate.getFullYear() + ("0" + (todayDate.getMonth() + 1)).slice(-2) + '/' + itemID;
+    
     SaveFormFields(formFieldValues, itemID);
 }
 /*Priya Rane */
@@ -1857,6 +1894,7 @@ function SaveImageSignaturePath(sectionName, itemID) {
                         break;
                 }
                 SaveFormFields(formFieldValues, itemID);
+                
             }
         },
         error: function (xhr) {
@@ -2256,7 +2294,12 @@ function AjaxCall(options) {
                 // }
                 // else {
                 console.log(xhr);
+<<<<<<< HEAD
                 jsErrLog.info = xhr.statusText;
+=======
+
+                //jsErrLog.info = xhr.statusText;
+>>>>>>> 62b56f4cae961aa17a434efbf540fef90fdcb55d
                 //jsErrLog.url = "https://synoverge.sharepoint.com/sites/dev/";
                 debugger
                 AlertModal("Error", "Oops! Something went wrong");
