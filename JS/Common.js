@@ -1944,6 +1944,7 @@ function AjaxCall(options) {
     var calldatatype = options.calldatatype;
     var headers = options.headers == undefined ? "" : options.headers;
     var sucesscallbackfunction = options.sucesscallbackfunction;
+    var errorcallbackfunction = options.errorcallbackfunction;
     var contentType = options.contentType == undefined ? "application/x-www-form-urlencoded;charset=UTF-8" : options.contentType;
     var showLoading = options.showLoading == undefined ? true : options.showLoading;
     var async = options.async == undefined ? true : options.async;
@@ -1984,7 +1985,9 @@ function AjaxCall(options) {
                 debugger
                 AlertModal("Error", "Oops! Something went wrong");
                 //}
-
+                if (errorcallbackfunction != '') {
+                    errorcallbackfunction(xhr);
+                }
             }
 
         }
@@ -2449,5 +2452,42 @@ function RemoveHtmlForMultiLine(multiLineValue) {
         return multiLineValue.replace(/(<([^>]+)>)/ig, "");
     } else {
         return "";
+    }
+}
+
+function IsGroupMember(userID, groupName) {
+    var isAuthorized = false;
+    try {
+        if (!IsStrNullOrEmpty(groupName) && !IsNullOrUndefined(userID)) {
+
+            var url = "https://synoverge.sharepoint.com/sites/dev/_api/web/sitegroups/getbyname('" + groupName + "')/Users"
+            AjaxCall({
+                url: url,
+                httpmethod: 'GET',
+                calldatatype: 'JSON',
+                headers:
+                    {
+                        "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                    },
+                async: false,
+                sucesscallbackfunction: function (data) {
+                    var users = data.d.results;
+                    debugger
+                    if (users.some(t => t.Id == parseInt(userID))) {
+                        isAuthorized = true;
+                    }
+                },
+                errorcallbackfunction: function (xhr) {
+                    console.log(xhr);
+                }
+
+            });
+        }
+    }
+    catch (exception) {
+        isAuthorized = false;
+        console.log(exception);
     }
 }
