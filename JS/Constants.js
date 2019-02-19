@@ -26,7 +26,8 @@ const ListNames = {
     EMAILTEMPLATELIST: "EmailTemplate",
     EMAILNOTIFICATION: "EmailNotification",
     DEPTFUNCTIONMASTER: "DepartmentFunctionMapping",
-    BUDGETMASTER: "BudgetMaster"
+    BUDGETMASTER: "BudgetMaster",
+    ATTACHMENTLIST:"Attachments"
 }
 Object.freeze(ListNames);
 
