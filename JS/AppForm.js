@@ -149,27 +149,55 @@ function SaveForm(activeSection, ele) {
     try {
         SaveFormData(activeSection, ele);
     }
-    catch (Exception) {
-        console.log("Error occured in SaveForm" + Exception);
-    }
+     catch (Exception) {
+         console.log("Error occured in SaveForm" + Exception);
+     }
 }
 
 /*Priya Rane */
+// function AddURSAttachments(listname, itemID) {
+//     $('#divCapexForm').find('div[section]').not(".disabled").each(function (i, e) {
+
+//         $(e).find('input[type="file"]').each(function () {
+//             var elementId = $(this).attr('id');
+//             var controlType = $(this).attr('controlType');
+//             // if (controlType == "file") {
+//             if (!IsNullOrUndefined(fileURSArray)) {
+//                 // SaveItemWiseAttachments(listname, itemID);
+//                 var formFieldValues = [];
+//                 fileURSArray.forEach(element => {
+//                     var fileName = element.name;
+//                     formFieldValues['URSAttachment'] = fileName;
+//                 });
+//                 var item = $pnp.sp.web.lists.getByTitle(listname).items.getById(itemID);
+
+//                 item.attachmentFiles.addMultiple(fileURSArray).then(v => {
+//                     console.log("files saved successfully in list = " + listname + "for listItemId = " + itemID);
+//                 }).catch(function (err) {
+//                     console.log(err);
+//                     console.log("error while save attachment ib list = " + listname + "for listItemId = " + itemID)
+//                 });
+//                 SaveFormFields(formFieldValues, itemID);
+//             }
+//             // }
+
+//         });
+//     });
+// }
+
 function AddURSAttachments(listname, itemID) {
     $('#divCapexForm').find('div[section]').not(".disabled").each(function (i, e) {
-
-        $(e).find('input[type="file"]').each(function () {
-            var elementId = $(this).attr('id');
-            var controlType = $(this).attr('controlType');
-            // if (controlType == "file") {
+         $(e).find('input[type="file"]').each(function () {
+     
+           
             if (!IsNullOrUndefined(fileURSArray)) {
-                // SaveItemWiseAttachments(listname, itemID);
+               
                 var formFieldValues = [];
                 fileURSArray.forEach(element => {
                     var fileName = element.name;
                     formFieldValues['URSAttachment'] = fileName;
                 });
-                var item = $pnp.sp.web.lists.getByTitle(listname).items.getById(itemID);
+                var item = $pnp.sp.web.lists.getByTitle("Attachments").items.getById(itemID);
 
                 item.attachmentFiles.addMultiple(fileURSArray).then(v => {
                     console.log("files saved successfully in list = " + listname + "for listItemId = " + itemID);
@@ -179,7 +207,7 @@ function AddURSAttachments(listname, itemID) {
                 });
                 SaveFormFields(formFieldValues, itemID);
             }
-            // }
+          
 
         });
     });
@@ -469,23 +497,7 @@ function removeSupportFiles(fileName) {
 
 
 }
-function removeURSFile(fileName) {
-    var ctx = SP.ClientContext.get_current();
-    var list = ctx.get_web().get_lists().getByTitle("CapexRequisition");
-    var item = list.getItemById(listItemId);
-    var attachmentFile = item.get_attachmentFiles().getByFileName(fileName);
-    attachmentFile.deleteObject();
-    ctx.executeQueryAsync(
-        function () {
-            var htmlStr = "";
-            $('#URSContainer').html(htmlStr);
-        },
-        function (sender, args) {
-            console.log(args.get_message());
-        });
 
-
-}
 
 
 function getListItems(siteurl, success, failure) {
