@@ -8,6 +8,7 @@ var listDataArray = {};
 var listActivityLogDataArray = [];
 var actionPerformed;
 var fileURSArray = [];
+var fileCommonArray = [];
 var fileSupportDocArray = [];
 var scriptbase; //= spSiteUrl + "/_layouts/15/";     ////_spPageContextInfo.layoutsUrl
 var fileIdCounter = 0;
@@ -20,7 +21,7 @@ jQuery(document).ready(function () {
 
     jQuery.noConflict();
     jsErrLog.debugMode = true;
-    
+
     GetFormDigest().done(function (data) {
         gRequestDigestValue = data.responseJSON.d.GetContextWebInformation.FormDigestValue;
     }).fail(function () {
@@ -43,16 +44,169 @@ jQuery(document).ready(function () {
 });
 
 /*Priya Rane */
+// function BindURSAttachmentFiles() {
+//     var output = [];
+
+//     //Get the File Upload control id
+//     var input = document.getElementById("UploadURSAttachment");
+//     var fileCount = input.files.length;
+//     for (var i = 0; i < fileCount; i++) {
+//         var fileName = input.files[i].name;
+//         var duplicate = true;
+//       //  duplicate = checkDuplicateFileName(fileName);
+//         if(duplicate){
+
+//         fileIdCounter++;
+//         var fileId = fileIdCounter;
+//         var file = input.files[i];
+//         var reader = new FileReader();
+//         reader.onload = (function (file) {
+//             return function (e) {
+//                 console.log(file.name);
+//                 //Push the converted file into array
+//                 fileURSArray.push({
+//                     "name": file.name,
+//                     "content": e.target.result,
+//                     "id": fileId
+//                 });
+
+
+//             }
+//         })(file);
+//         reader.readAsArrayBuffer(file);
+//         var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeURSFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\"> Remove</a>";
+//         output = [];
+//         output.push("<li><strong>", escape(file.name), removeLink, "</li> ");
+//     }
+//     else{
+//         alert("Same file is present");
+//     }
+//     }
+//     $('#fileListURS').empty();
+//     $('#UploadURSAttachment').next().next().next().next().append(output.join(""));
+
+//     //End of for loop
+// }
+
 function BindURSAttachmentFiles() {
     var output = [];
-    fileURSArray = [];
+    var fileName;
+    var checkFile = $('#URSContainer').html();
+    if (checkFile == "") {
+        //Get the File Upload control id
+        var input = document.getElementById("UploadURSAttachment");
+        var fileCount = input.files.length;
+        for (var i = 0; i < fileCount; i++) {
+            fileName = input.files[i].name;
+            fileIdCounter++;
+            var fileId = fileIdCounter;
+            var file = input.files[i];
+            var reader = new FileReader();
+            reader.onload = (function (file) {
+                return function (e) {
+                    console.log(file.name);
+                    //Push the converted file into array
+                    fileURSArray.push({
+                        "name": file.name,
+                        "content": e.target.result,
+                        "id": fileId
+                    });
+
+                }
+            })(file);
+            reader.readAsArrayBuffer(file);
+        }
+        if (!IsNullOrUndefined(fileURSArray)) {
+            var listName = "Attachments";
+            var itemType = GetItemTypeForListName(listName);
+            var item = {
+                "__metadata": { "type": itemType },
+                "Title": "URS",
+                "TypeOfAttachment": "URS"
+            };
+
+            $.ajax({
+                url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('" + listName + "')/items",
+                type: "POST",
+                contentType: "application/json;odata=verbose",
+                data: JSON.stringify(item),
+                headers: {
+                    "Accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+                success: function (data) {
+                    var itemId = data.d.Id;
+                    var item = $pnp.sp.web.lists.getByTitle("Attachments").items.getById(itemId);
+                    item.attachmentFiles.addMultiple(fileURSArray).then(v => {
+                        console.log("files saved successfully in list = " + listName + "for listItemId = " + itemId);
+
+                        var htmlStr = "";
+                        var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + itemId + "/" + fileName;
+
+                        if (htmlStr === "") {
+                            htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + fileName + "</a><a href=\"javascript:removeURSFile('" + itemId + "')\"> Remove</a></li>";
+                        }
+                        else {
+                            htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + fileName + "</a></li><a href=\"javascript:removeURSFile('" + fileName + "')\"> Remove</a></li>";
+
+                        }
+                        fileCommonArray.push({
+                            "name": "URS",
+                            "id": itemId,
+                            "filename": fileName
+                        });
+
+                        fileURSArray = [];
+                        $('#URSContainer').html(htmlStr);
+                    }).catch(function (err) {
+                        console.log(err);
+                        fileURSArray = [];
+                        console.log("error while save attachment ib list = " + listName + "for listItemId = " + itemId)
+                    });
+                },
+                error: function (data) {
+                    alert("Error");
+                }
+            });
+        }
+    }
+    else {
+        alert("Remove existing file to add New");
+    }
+}
+
+function removeURSFile(itemId) {
+    $.ajax(
+        {
+            url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('Attachments')/items('" + itemId + "')",
+            type: "DELETE",
+            headers: {
+                "accept": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                "IF-MATCH": "*"
+            },
+            success: function (data) {
+                var htmlStr = "";
+                $('#URSContainer').html(htmlStr);
+            },
+            error: function (err) {
+                alert(JSON.stringify(err));
+            }
+        }
+    );
+
+
+}
+
+function BindSupportDocAttachmentFiles() {
+    var output = [];
+    var fileName;
+
     //Get the File Upload control id
-    var input = document.getElementById("UploadURSAttachment");
+    var input = document.getElementById("UploadSupportiveDocAttachment");
     var fileCount = input.files.length;
-    console.log(fileCount);
     for (var i = 0; i < fileCount; i++) {
-        var fileName = input.files[i].name;
-        console.log(fileName);
+        fileName = input.files[i].name;
         fileIdCounter++;
         var fileId = fileIdCounter;
         var file = input.files[i];
@@ -60,85 +214,171 @@ function BindURSAttachmentFiles() {
         reader.onload = (function (file) {
             return function (e) {
                 console.log(file.name);
+                var duplicate = true;
+                // duplicate= checkDuplicateFileName(file.name);
                 //Push the converted file into array
+                // if(duplicate){
                 fileURSArray.push({
                     "name": file.name,
                     "content": e.target.result,
                     "id": fileId
                 });
-                console.log(fileURSArray);
+                // }
+                //  else
+                //  {
+                //     alert("Duplicate file");
+                //  }
+
             }
         })(file);
         reader.readAsArrayBuffer(file);
-        var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeURSFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\"> Remove</a>";
-        output = [];
-        output.push("<li><strong>", escape(file.name), removeLink, "</li> ");
     }
-    $('#fileListURS').empty();
-    $('#UploadURSAttachment').next().next().next().next().append(output.join(""));
+    if (!IsNullOrUndefined(fileURSArray)) {
+        var listName = "Attachments";
+        var itemType = GetItemTypeForListName(listName);
+        var item = {
+            "__metadata": { "type": itemType },
+            "Title": "Supportive",
+            "TypeOfAttachment": "Supportive"
+        };
 
-    //End of for loop
-}
+        $.ajax({
+            url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('" + listName + "')/items",
+            type: "POST",
+            contentType: "application/json;odata=verbose",
+            data: JSON.stringify(item),
+            headers: {
+                "Accept": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
+            success: function (data) {
+                var itemId = data.d.Id;
+                var item = $pnp.sp.web.lists.getByTitle("Attachments").items.getById(itemId);
+                item.attachmentFiles.addMultiple(fileURSArray).then(v => {
+                    console.log("files saved successfully in list = " + listName + "for listItemId = " + itemId);
 
-function BindSupportDocAttachmentFiles() {
-    var output = [];
+                    var htmlStr = "";
+                    var checkFile = $('#SupportiveDocContainer').html();
+                    var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + itemId + "/" + fileName;
 
-    //Get the File Upload control id
-    var input = document.getElementById("UploadSupportiveDocAttachment");
-    var fileCount = input.files.length;
-    console.log(fileCount);
-    for (var i = 0; i < fileCount; i++) {
-        var fileName = input.files[i].name;
-        console.log(fileName);
-        fileIdCounter++;
-        var fileId = fileIdCounter;
-        var file = input.files[i];
-        var reader = new FileReader();
-        reader.onload = (function (file) {
-            return function (e) {
-                console.log(file.name);
-                //Push the converted file into array
-                fileSupportDocArray.push({
-                    "name": file.name,
-                    "content": e.target.result,
-                    "id": fileId
+                    if (checkFile === "") {
+                        htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + fileName + "</a><a href=\"javascript:removeSupportiveFile('" + itemId + "')\"> Remove</a></li>";
+                    }
+                    else {
+                        htmlStr = checkFile + "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + fileName + "</a></li><a href=\"javascript:removeSupportiveFile('" + itemId + "')\"> Remove</a></li>";
+
+                    }
+                    fileCommonArray.push({
+                        "name": "Supportive",
+                        "id": itemId,
+                        "filename": fileName
+                    });
+                    fileURSArray = [];
+                    $('#SupportiveDocContainer').html(htmlStr);
+                }).catch(function (err) {
+                    console.log(err);
+                    fileURSArray = [];
+                    console.log("error while save attachment ib list = " + listName + "for listItemId = " + itemId)
                 });
-                console.log(fileSupportDocArray);
+            },
+            error: function (data) {
+                alert("Error");
             }
-        })(file);
-        reader.readAsArrayBuffer(file);
-
-        var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeSupportDocFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\"> Remove</a>";
-        output.push("<li><strong>", escape(file.name), removeLink, "</li> ");
+        });
     }
-    $('#UploadSupportiveDocAttachment').next().next().append(output.join(""));
 
-    //End of for loop
 }
+function removeSupportiveFile(itemId) {
+
+    var checkFile = $('#SupportiveDocContainer').html();
+    $.ajax(
+        {
+            url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('Attachments')/items('" + itemId + "')",
+            type: "DELETE",
+            headers: {
+                "accept": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                "IF-MATCH": "*"
+            },
+            success: function (data) {
+                var htmlStr = "";
+                $('#SupportiveDocContainer').html(htmlStr);
+            },
+            error: function (err) {
+                alert(JSON.stringify(err));
+            }
+        }
+    );
+
+
+}
+// function BindSupportDocAttachmentFiles() {
+//     var output = [];
+
+//     //Get the File Upload control id
+//     var input = document.getElementById("UploadSupportiveDocAttachment");
+//     var fileCount = input.files.length;
+//     console.log(fileCount);
+//     for (var i = 0; i < fileCount; i++) {
+//         var fileName = input.files[i].name;
+//         var duplicate = true;
+//        // duplicate = checkDuplicateFileName(fileName);
+//         if(duplicate){
+//         fileIdCounter++;
+//         var fileId = fileIdCounter;
+//         var file = input.files[i];
+//         var reader = new FileReader();
+//         reader.onload = (function (file) {
+//             return function (e) {
+
+//                 //Push the converted file into array
+//                 fileSupportDocArray.push({
+//                     "name": file.name,
+//                     "content": e.target.result,
+//                     "id": fileId
+//                 });
+//                 fileCommonArray.push({
+//                     "name": file.name,
+//                 });
+//             }
+//         })(file);
+//         reader.readAsArrayBuffer(file);
+
+//         var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeSupportDocFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\"> Remove</a>";
+//         output.push("<li><strong>", escape(file.name), removeLink, "</li> ");
+//     }
+//     else{
+//         alert("Same file is present");
+//     }
+//     }
+//     $('#UploadSupportiveDocAttachment').next().next().append(output.join(""));
+
+//     //End of for loop
+// }
 
 /*Priya Rane */
-function removeURSFiles(fileId) {
+// function removeURSFiles(fileId) {
 
-    for (var i = 0; i < fileURSArray.length; ++i) {
-        if (fileURSArray[i].id === fileId)
-            fileURSArray.splice(i, 1);
-    }
-    var item = document.getElementById("fileListURS");
-    fileId--;
-    item.children[fileId].remove();
+//     for (var i = 0; i < fileURSArray.length; ++i) {
+//         if (fileURSArray[i].id === fileId)
+//             fileURSArray.splice(i, 1);
+//     }
+//     var item = document.getElementById("fileListURS");
+//     fileId--;
+//     item.children[fileId].remove();
 
-}
-function removeSupportDocFiles(fileId) {
+// }
+// function removeSupportDocFiles(fileId) {
 
-    for (var i = 0; i < fileSupportDocArray.length; ++i) {
-        if (fileSupportDocArray[i].id === fileId)
-            fileSupportDocArray.splice(i, 1);
-    }
-    var item = document.getElementById("fileListSupportiveDoc");
-    fileId--;
-    item.children[fileId].remove();
+//     for (var i = 0; i < fileSupportDocArray.length; ++i) {
+//         if (fileSupportDocArray[i].id === fileId)
+//             fileSupportDocArray.splice(i, 1);
+//     }
+//     var item = document.getElementById("fileListSupportiveDoc");
+//     fileId--;
+//     item.children[fileId].remove();
 
-}
+// }
 
 /*Priya Rane */
 function loadConstants() {
@@ -1378,17 +1618,11 @@ function SaveFormData(activeSection, ele) {
             }
         });
         // save vendor max 3 vendor condition by hirvita
-        if(sectionName=="PurchaseSection" && listTempGridDataArray.length>=3){
-       // if(listTempGridDataArray.length>=3){
-        SaveData(mainListName, listDataArray, sectionName, ele);
-       // }
-      }
-      else if(sectionName!="PurchaseSection"){
-        SaveData(mainListName, listDataArray, sectionName, ele);
-      }
-        else{
-            AlertModal('Error', "Maximum 3 vendor required");
-            HideWaitDialog();
+        if (listTempGridDataArray.length >= 3) {
+            SaveData(mainListName, listDataArray, sectionName, ele);
+        }
+        else {
+            alert("Max 3 vendor required");
         }
         
     }
@@ -1961,6 +2195,7 @@ function AjaxCall(options) {
     var calldatatype = options.calldatatype;
     var headers = options.headers == undefined ? "" : options.headers;
     var sucesscallbackfunction = options.sucesscallbackfunction;
+    var errorcallbackfunction = options.errorcallbackfunction;
     var contentType = options.contentType == undefined ? "application/x-www-form-urlencoded;charset=UTF-8" : options.contentType;
     var showLoading = options.showLoading == undefined ? true : options.showLoading;
     var async = options.async == undefined ? true : options.async;
@@ -1997,14 +2232,16 @@ function AjaxCall(options) {
                 // }
                 // else {
                 console.log(xhr);
-                
+
                 jsErrLog.info = xhr.statusText;
                 //jsErrLog.url = "https://synoverge.sharepoint.com/sites/dev/";
                 debugger
                 AlertModal("Error", "Oops! Something went wrong");
                 //throw "Error";
                 //}
-
+                if (errorcallbackfunction != '') {
+                    errorcallbackfunction(xhr);
+                }
             }
 
         }
@@ -2470,4 +2707,54 @@ function RemoveHtmlForMultiLine(multiLineValue) {
     } else {
         return "";
     }
+}
+
+
+/*Pooja Atkotiya */
+function IsGroupMember(userID, groupName) {
+    var isAuthorized = false;
+    try {
+        if (!IsStrNullOrEmpty(groupName) && !IsNullOrUndefined(userID)) {
+
+            var url = "https://synoverge.sharepoint.com/sites/dev/_api/web/sitegroups/getbyname('" + groupName + "')/Users"
+            AjaxCall({
+                url: url,
+                httpmethod: 'GET',
+                calldatatype: 'JSON',
+                headers:
+                    {
+                        "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                    },
+                async: false,
+                sucesscallbackfunction: function (data) {
+                    var users = data.d.results;
+                    debugger
+                    if (users.some(t => t.Id == parseInt(userID))) {
+                        isAuthorized = true;
+                    }
+                },
+                errorcallbackfunction: function (xhr) {
+                    console.log(xhr);
+                }
+
+            });
+        }
+    }
+    catch (exception) {
+        isAuthorized = false;
+        console.log(exception);
+    }
+}
+
+/*Priya Rane */
+function checkDuplicateFileName(fileName) {
+    var isDuplicate = true;
+    fileCommonArray.forEach(function (element) {
+        if (element.name == fileName) {
+            isDuplicate = false;
+        }
+    });
+    return isDuplicate;
 }

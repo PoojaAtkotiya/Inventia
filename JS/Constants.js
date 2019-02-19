@@ -169,7 +169,8 @@ const Roles = {
     PURCHASE: "Purchase",
     INITIATORHOD: "Initiator HOD",
     FUNCTIONHEAD: "Function Head",
-    MANAGEMENT: "Management"
+    MANAGEMENT: "Management",
+    ADMIN : "Admin"
     
 }
 Object.freeze(Roles);
