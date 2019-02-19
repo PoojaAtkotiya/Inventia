@@ -1367,7 +1367,6 @@ function GetStaticFormControlValue(id, elementType, listDataArray, elementvaluet
             listDataArray[id] = metaObject;
             break;
         case "date":
-            debugger
             listDataArray[id] = new Date($(obj).text()).format("yyyy-MM-ddTHH:mm:ssZ");
             break;
         // case "checkbox":
@@ -1746,7 +1745,6 @@ function OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCap
             SaveLocalApprovalMatrix(sectionName, itemID, listname, isNewItem, oListItem, ListNames.APPROVALMATRIXLIST);
             SaveActivityLog(sectionName, itemID, ListNames.ACTIVITYLOGLIST, listDataArray, isNewItem, buttonCaption);
             if (!isNaN(itemID)) {
-                debugger
                 // SaveTranListData(itemID);
                 SaveAllTrans(itemID);
             }
