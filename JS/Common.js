@@ -1984,9 +1984,9 @@ function AjaxCall(options) {
                 
                 jsErrLog.info = xhr.statusText;
                 //jsErrLog.url = "https://synoverge.sharepoint.com/sites/dev/";
-                //debugger
-                //AlertModal("Error", "Oops! Something went wrong");
-                throw "Error";
+                debugger
+                AlertModal("Error", "Oops! Something went wrong");
+                //throw "Error";
                 //}
 
             }
