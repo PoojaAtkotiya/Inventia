@@ -149,9 +149,9 @@ function SaveForm(activeSection, ele) {
     try {
         SaveFormData(activeSection, ele);
     }
-    catch (Exception) {
-        console.log("Error occured in SaveForm" + Exception);
-    }
+     catch (Exception) {
+         console.log("Error occured in SaveForm" + Exception);
+     }
 }
 
 /*Priya Rane */
@@ -567,7 +567,7 @@ function SetCurrentValue() {
         $(listTempGridDataArray).each(function (i, e) {
             if (vendorname == listTempGridDataArray[i].VendorName) {
                 $("#CurrentValue").val(listTempGridDataArray[i].TotalValue);
-                var TotalUtilizedValue = $("#UtilizedValue").val() + listTempGridDataArray[i].TotalValue;
+                var TotalUtilizedValue = (+$("#UtilizedValue").val()) + (+listTempGridDataArray[i].TotalValue);
                 var Balance = $("#BudgetedValue").val() - TotalUtilizedValue;
                 $("#TotalUtilizedValue").val(TotalUtilizedValue);
                 $("#Balance").val(Balance);

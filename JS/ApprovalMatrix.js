@@ -1120,6 +1120,7 @@ function SaveFormFields(formFieldValues, requestId) {
     if (!IsNullOrUndefined(formFieldValues["NextApprover"]) && formFieldValues["NextApprover"].length > 0) {
         nextResults = IsArray(formFieldValues["NextApprover"]) ? formFieldValues["NextApprover"] : nextResults;
     }
+
     var mainlistDataArray = {};
 
     if (!IsNullOrUndefined(formFieldValues['RaisedBy'])) {
@@ -1128,7 +1129,8 @@ function SaveFormFields(formFieldValues, requestId) {
     if (!IsNullOrUndefined(formFieldValues["FormLevel"])) {
         mainlistDataArray['FormLevel'] = formFieldValues["FormLevel"].toString();
     }
-    if (!IsNullOrUndefined(nextResults) && nextResults.length > 0) {
+    if (!IsNullOrUndefined(nextResults))  ////&& nextResults.length > 0   - removed for case of complete and reject
+    {
         mainlistDataArray['NextApproverId'] = { "results": nextResults };
     }
     if (!IsNullOrUndefined(formFieldValues["LastActionBy"])) {

@@ -20,7 +20,8 @@ var gRequestDigestValue;
 jQuery(document).ready(function () {
 
     jQuery.noConflict();
-    jsErrLog.debugMode = false;
+    jsErrLog.debugMode = true;
+    
     GetFormDigest().done(function (data) {
         gRequestDigestValue = data.responseJSON.d.GetContextWebInformation.FormDigestValue;
     }).fail(function () {
@@ -882,7 +883,7 @@ function setFieldValue(controlId, item, fieldType, fieldName) {
                     item[fieldName].results.forEach(function (thisItem) {
                         if (thisItem == controlId) {
                             $("#" + controlId)[0].checked = true;
-                            debugger;
+                            //debugger;
                             if (listDataArray[fieldName] == undefined)
                                 listDataArray[fieldName] = { "__metadata": { "type": "Collection(Edm.String)" }, "results": [] };
                             listDataArray[fieldName].results.push(thisItem);
@@ -1613,7 +1614,13 @@ function SaveFormData(activeSection, ele) {
                 }
             }
         });
+        // save vendor max 3 vendor condition by hirvita
+        if(listTempGridDataArray.length>=3){
         SaveData(mainListName, listDataArray, sectionName, ele);
+        }
+        else{
+            alert("Max 3 vendor required");
+        }
     }
 }
 
@@ -1815,7 +1822,7 @@ function SaveImageSignaturePath(sectionName, itemID) {
                         formFieldValues['PurchaseSignature'] = data.d.results[0].FileRef;
                         break;
                     case SectionNames.FUNCTIONHEADSECTION:
-                        //formFieldValues['FunctionHeadSignature'] = data.d.results[0].FileRef;
+                        formFieldValues['FunctionHeadSignature'] = data.d.results[0].FileRef;
                         break;
                     case SectionNames.MANAGEMENTSECTION:
                         formFieldValues['ManagementSignature'] = data.d.results[0].FileRef;
@@ -2220,11 +2227,19 @@ function AjaxCall(options) {
                 // }
                 // else {
                 console.log(xhr);
+                
                 jsErrLog.info = xhr.statusText;
+<<<<<<< HEAD
                 throw "Error";
 
               //  debugger
               //  AlertModal("Error", "Oops! Something went wrong");
+=======
+                //jsErrLog.url = "https://synoverge.sharepoint.com/sites/dev/";
+                debugger
+                AlertModal("Error", "Oops! Something went wrong");
+                //throw "Error";
+>>>>>>> 05c83efaa9511615f8f5a285638b530145bf64b7
                 //}
 
             }
@@ -2242,7 +2257,7 @@ function ShowError(ModelStateErrors) {
         messages += "<li>" + e.Value[0] + "</li>";
     });
     messages = "<div><h5>" + getMessage("errorTitle") + "</h5><ul>" + messages + "</ul></div>";
-    debugger
+    //debugger
     AlertModal("error", messages, function () { })
 }
 
@@ -2302,7 +2317,7 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                     tempApproverMatrix.forEach(temp => {
                         if (temp.Role == Roles.CREATOR) {
                             cc = temp.ApproverId;
-                            debugger                /////Pending to check for multi user field
+                            //debugger                /////Pending to check for multi user field
                             cc = TrimComma(cc).split(",");
                             cleanArray(cc);
                             cc = GetUserEmailsbyUserID(cc);
