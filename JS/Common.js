@@ -95,6 +95,7 @@ function BindURSAttachmentFiles() {
     if (checkFile == "") {
         //Get the File Upload control id
         var input = document.getElementById("UploadURSAttachment");
+        if(input.files.length>0){
         var fileCount = input.files.length;
         for (var i = 0; i < fileCount; i++) {
             fileName = input.files[i].name;
@@ -116,6 +117,7 @@ function BindURSAttachmentFiles() {
             })(file);
             reader.readAsArrayBuffer(file);
         }
+    
         if (!IsNullOrUndefined(fileURSArray)) {
             var listName = "Attachments";
             var itemType = GetItemTypeForListName(listName);
@@ -170,9 +172,10 @@ function BindURSAttachmentFiles() {
             });
         }
     }
+}
     else {
-        alert("Remove existing file to add New");
-    }
+        AlertModal('Error', "Remove existing URS file to add New");
+        }
 }
 
 function removeURSFile(itemId) {
@@ -213,6 +216,7 @@ function BindSupportDocAttachmentFiles() {
     //Get the File Upload control id
     var input = document.getElementById("UploadSupportiveDocAttachment");
     var fileCount = input.files.length;
+    if(input.files.length>0){
     for (var i = 0; i < fileCount; i++) {
         fileName = input.files[i].name;
         fileIdCounter++;
@@ -241,6 +245,7 @@ function BindSupportDocAttachmentFiles() {
         })(file);
         reader.readAsArrayBuffer(file);
     }
+
     if (!IsNullOrUndefined(fileURSArray)) {
         var listName = "Attachments";
         var itemType = GetItemTypeForListName(listName);
@@ -298,7 +303,7 @@ function BindSupportDocAttachmentFiles() {
             }
         });
     }
-
+    }
 }
 function removeSupportiveFile(itemId) {
 
@@ -1639,12 +1644,12 @@ function SaveFormData(activeSection, ele) {
             }
         });
         // save vendor max 3 vendor condition by hirvita
-        if (listTempGridDataArray.length >= 3) {
+       // if (listTempGridDataArray.length >= 3) {
             SaveData(mainListName, listDataArray, sectionName, ele);
-        }
-        else {
-            alert("Max 3 vendor required");
-        }
+       // }
+       // else {
+      //      alert("Max 3 vendor required");
+      //  }
     }
 }
 
@@ -1711,11 +1716,17 @@ function OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCap
         clientContext.load(oListItem, 'FormLevel', 'RaisedBy');
         clientContext.load(web);
         clientContext.executeQueryAsync(function () {
-            if (fileURSArray.length > 0) {
-                AddURSAttachments(listname, itemID);
-            }
-            if (fileSupportDocArray.length > 0) {
-                AddSupportiveDocAttachments(listname, itemID);
+            // if (fileURSArray.length > 0) {
+            //     AddURSAttachments(listname, itemID);
+            // }
+            // if (fileSupportDocArray.length > 0) {
+            //     AddSupportiveDocAttachments(listname, itemID);
+            // }
+            if (fileCommonArray.length > 0) {
+                fileCommonArray.forEach(element => {
+                    var attchmentID = element.id;
+                    updateRequestIDAttachmentList(attchmentID,itemID);
+                });
             }
             CommonBusinessLogic(sectionName, itemID, listDataArray);
             SaveLocalApprovalMatrix(sectionName, itemID, listname, isNewItem, oListItem, ListNames.APPROVALMATRIXLIST);
@@ -2780,4 +2791,35 @@ function checkDuplicateFileName(fileName) {
         }
     });
     return isDuplicate;
+}
+
+function updateRequestIDAttachmentList(attchmentID,itemID)
+{
+            var itemType = GetItemTypeForListName(ListNames.ATTACHMENTLIST);
+            var item = {
+                "__metadata": { "type": itemType },
+                "RequestIDId": itemID
+            };
+
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ATTACHMENTLIST + "')/items(" + attchmentID + ")",
+                type: "POST",
+                async:false,
+                data: JSON.stringify(item),
+                headers:
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "IF-MATCH": "*",
+                    "X-HTTP-Method": "MERGE"
+                },
+                success: function (data) {
+                    console.log("Item saved Successfully");
+                },
+                error: function (data) {
+                    debugger
+                    failure(data);
+                }
+            });
 }
