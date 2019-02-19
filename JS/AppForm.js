@@ -318,7 +318,7 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     // }
 
     if (listItemId > 0) {
-        BindURSAttachmentFiles();
+        BindURSEditAttachmentFiles();
      //   bindAttachments();
     }
 
@@ -493,60 +493,74 @@ function bindAssetName(department) {
 //     }
 // }
 
-function BindURSAttachmentFiles() {
-    fileURSArray = [];
-    var Requestorurl = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ATTACHMENTLIST + "')/items(" + listItemId + ")/AttachmentFiles";
-    if (!IsNullOrUndefined(mainListData.URSAttachment)) {
-        getListItems(Requestorurl, function (data) {
-            var results = data.d.results;
+function BindURSEditAttachmentFiles() {
+    var attachmentdata = [];
+    AjaxCall(
+        {
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ATTACHMENTLIST + "')/Items?$select=*&$filter=RequestID eq '" + listItemId + "'", 
+            httpmethod: 'GET',
+            calldatatype: 'JSON',
+            async: false,
+            headers:
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+            sucesscallbackfunction: function (data) {
+                /*Pooja Atkotiya */
+                attachmentdata = data.d.results;
+                attachmentdata.forEach(element => {
+                    if (element.Title == "URS") {
 
-            if (results.length > 0) {
-                results.forEach(element => {
-                    if (!IsNullOrUndefined(mainListData.URSAttachment) && element.FileName == mainListData.URSAttachment) {
                         var htmlStr = "";
-                        fileURSArray = previewFile(fileURSArray, element.ServerRelativeUrl, element.FileName, 1);
+                        var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + element.ID + "/" + element.FileName;
+
                         if (htmlStr === "") {
-                            htmlStr = "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a><a href=\"javascript:removeURSFile('" + element.FileName + "')\"> Remove</a></li>";
+                            htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a><a href=\"javascript:removeURSFile('" + element.ID + "')\"> Remove</a></li>";
                         }
                         else {
-                            htmlStr = htmlStr + "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a></li><a href=\"javascript:removeURSFile('" + element.FileName + "')\"> Remove</a></li>";
+                            htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a></li><a href=\"javascript:removeURSFile('" + element.FileName + "')\"> Remove</a></li>";
 
                         }
+                        fileCommonArray.push({
+                            "name": "URS",
+                            "id": element.ID,
+                            "filename": element.FileName
+                        });
                         $('#URSContainer').html(htmlStr);
                     }
-                    $('#URSContainer').html(htmlStr);
-                });
+              });
 
-                // $.each(data.d.results, function () {
+                attachmentdata.forEach(element => {
+                    
 
-
-                // });
-                var htmlStr = "";
-                results.forEach(element => {
-                    if (!IsNullOrUndefined(mainListData.SupportDocAttachment)) {
-                        var supportDocNames = [];
-                        supportDocNames = TrimComma(mainListData.SupportDocAttachment).split(",");
-
-                        var fileId = 0;
-                        supportDocNames.forEach(function (element1) {
-                            if (element.FileName == element1) {
-                                fileId++;
-                                fileSupportDocArray = previewFile(fileSupportDocArray, element.ServerRelativeUrl, element.FileName, fileId);
-                                if (htmlStr === "") {
-                                    htmlStr = "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a><a href=\"javascript:removeSupportFiles('" + element.FileName + "')\"> Remove</a></li>";
-
-                                }
-                                else {
-                                    htmlStr = htmlStr + "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
-                                }
-                            }
+                    if (element.Title == "Supportive") {
+                        var htmlStr = "";
+                        var checkFile = $('#fileListSupportiveDoc').html();
+                        var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + element.ID + "/" + element.FileName;
+    
+                        if (checkFile === "") {
+                            htmlStr = "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a><a id='Remove_" + element.ID + "' href=\"javascript:removeSupportiveFile('" + element.ID + "')\"> Remove</a></li>";
+                        }
+                        else {
+                            htmlStr = checkFile + "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a></li><a id='Remove_" + element.ID + "' href=\"javascript:removeSupportiveFile('" + element.ID + "')\"> Remove</a></li>";
+    
+                        }
+                        fileCommonArray.push({
+                            "name": "URS",
+                            "id": element.ID,
+                            "filename": element.FileName
                         });
-                        $('#SupportiveDocContainer').html(htmlStr);
+                       
+                        
+                        $('#fileListSupportiveDoc').html(htmlStr);
                     }
                 });
+
             }
         });
-    }
+   
 }
 function removeSupportFiles(fileName) {
     var ctx = SP.ClientContext.get_current();

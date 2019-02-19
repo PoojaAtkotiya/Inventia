@@ -124,7 +124,8 @@ function BindURSAttachmentFiles() {
                 var item = {
                     "__metadata": { "type": itemType },
                     "Title": "URS",
-                    "TypeOfAttachment": "URS"
+                    "TypeOfAttachment": "URS",
+                    "FileName":file.name
                 };
 
                 $.ajax({
@@ -252,7 +253,8 @@ function BindSupportDocAttachmentFiles() {
             var item = {
                 "__metadata": { "type": itemType },
                 "Title": "Supportive",
-                "TypeOfAttachment": "Supportive"
+                "TypeOfAttachment": "Supportive",
+                "FileName":file.name
             };
 
             $.ajax({
