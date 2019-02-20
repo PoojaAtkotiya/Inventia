@@ -125,7 +125,7 @@ function BindURSAttachmentFiles() {
                     "__metadata": { "type": itemType },
                     "Title": "URS",
                     "TypeOfAttachment": "URS",
-                    "FileName":file.name
+                    "FileName": file.name
                 };
 
                 $.ajax({
@@ -254,7 +254,7 @@ function BindSupportDocAttachmentFiles() {
                 "__metadata": { "type": itemType },
                 "Title": "Supportive",
                 "TypeOfAttachment": "Supportive",
-                "FileName":file.name
+                "FileName": file.name
             };
 
             $.ajax({
@@ -1254,23 +1254,23 @@ function ValidateForm(ele, saveCallBack) {
                     saveCallBack(activeSection);
                 }
             });
-            }
-            else{
-                ConfirmationDailog({
-                    title: "Confirm", message: attachmsg, okCallback: function (data) {
-                        saveCallBack(activeSection);
-                    }
-                });
-            }
-
-
-
         }
         else {
-            saveCallBack(activeSection);
+            ConfirmationDailog({
+                title: "Confirm", message: attachmsg, okCallback: function (data) {
+                    saveCallBack(activeSection);
+                }
+            });
         }
-        HideWaitDialog();
+
+
+
     }
+    else {
+        saveCallBack(activeSection);
+    }
+    HideWaitDialog();
+}
 
 
 /*Monal Shah */
@@ -1796,17 +1796,17 @@ function CommonBusinessLogic(sectionName, itemID, listDataArray) {
 function SaveActions(sectionName, itemID, actionPerformed) {
     var formFieldValues = [];
     var todayDate = new Date();
-    var year=todayDate.getFullYear();
-    var month=todayDate.getMonth()+1 
-    var day=todayDate.getDate();
-    var time=todayDate.getTime();
+    var year = todayDate.getFullYear();
+    var month = todayDate.getMonth() + 1
+    var day = todayDate.getDate();
+    var time = todayDate.getTime();
     //var formatted=year+"/"+month+"/"+day;
-    var formatted=day+"/"+month+"/"+year+" " + time +'IST';
+    var formatted = day + "/" + month + "/" + year + " " + time + 'IST';
     switch (sectionName) {
         case SectionNames.INITIATORSECTION:
             if (actionPerformed == "NextApproval") {
                 //formFieldValues['InitiatorAction'] = currentUser.Title + '-' + todayDate + '-' + "Submit";
-                formFieldValues['InitiatorAction'] = "Submited By"  + '\n' +  currentUser.Title  + '\n' +    formatted  ;
+                formFieldValues['InitiatorAction'] = "Submited By" + '\n' + currentUser.Title + '\n' + formatted;
             }
             else if (actionPerformed == "SaveAsDraft") {
                 formFieldValues['InitiatorAction'] = currentUser.Title + '-' + todayDate + '-' + "SaveAsDraft";
@@ -2350,9 +2350,33 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
         //  mailCustomValues.push("NextApproverName",GetUserNamesbyUserID(nextApproverIds));
 
         switch (actionPerformed) {
+            case ButtonActionStatus.SaveAsDraft:
+                break;
+            case ButtonActionStatus.SaveAndStatusUpdateWithEmail:
+            case ButtonActionStatus.SaveAndNoStatusUpdateWithEmail:
+            case ButtonActionStatus.Save:
+                debugger
+                if (!IsStrNullOrEmpty(strAllusers) && !IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
+                    debugger
+                    from = currentUser.Email;
+                    to = TrimComma(strAllusers);
+                    //  to = cleanArray(to);
+                    to = GetUserEmailsbyUserID(cleanArray(to));
+                    role = tempApproverMatrix.filter(p => parseInt(p.Levels) == currentLevel)[0].Role;
+                    tmplName = EmailTemplateName.NEWREQUESTMAIL;
+                    emailParam["TEMPLATENAME"] = tmplName;
+                    emailParam["FROM"] = from;
+                    emailParam["TO"] = to;
+                    emailParam["CC"] = cc;
+                    emailParam["ROLE"] = role;
+                    emailParam["BCC"] = "";
+                    email = GetEmailBody(tmplName, itemID, mainListName, mailCustomValues, role, emailParam);
+                }
+                break;
             case ButtonActionStatus.Delegate:
             case ButtonActionStatus.NextApproval:
-                if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.Count != 0) {
+                if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
+                    debugger
                     from = currentUser.Email;
                     var allToUsers = "";
                     tempApproverMatrix.forEach(temp => {
@@ -2361,12 +2385,12 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                         }
                     });
                     to = TrimComma(allToUsers).split(",");
-                    cleanArray(allToUsers);
+                    to = cleanArray(to);
                     to = GetUserEmailsbyUserID(to);
                     tempApproverMatrix.forEach(temp => {
                         if (temp.Role == Roles.CREATOR) {
                             cc = temp.ApproverId;
-                            //debugger                /////Pending to check for multi user field
+                            debugger                /////Pending to check for multi user field
                             cc = TrimComma(cc).split(",");
                             cleanArray(cc);
                             cc = GetUserEmailsbyUserID(cc);
@@ -2375,11 +2399,8 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                             role = temp.Role;
                         }
                     });
-                    // tempApproverMatrix.forEach(temp => {
-                    //     if (temp.Levels == currentLevel) {
-                    //         role = temp.Role;
-                    //     }
-                    // });
+                    // debugger
+                    // role = tempApproverMatrix.filter(p => parseInt(p.Levels) == currentLevel)[0].Role;
 
                     tmplName = EmailTemplateName.APPROVALMAIL;
                     emailParam["TEMPLATENAME"] = tmplName;
@@ -2393,7 +2414,91 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                     }
                 }
                 break;
+            case ButtonActionStatus.SendBack:
+            case ButtonActionStatus.BackToCreator:
+                if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
+                    from = currentUser.Email;
+                    var allToUsers = "";
+                    tempApproverMatrix.ForEach(temp => {
+                        if (temp.Levels == nextLevel && !IsNullOrUndefined(temp.ApproverId)) {
+                            allToUsers = allToUsers.trim() + "," + temp.ApproverId;
+                        }
+                        if (temp.Levels == currentLevel && !IsNullOrUndefined(temp.ApproverId)) {
+                            cc = TrimComma(cc) + "," + temp.ApproverId;
+                        }
+                    });
+                    to = TrimComma(allToUsers).split(",");
+                    // to = cleanArray(to);
+                    to = GetUserEmailsbyUserID(cleanArray(to));
 
+                    cc = (TrimComma(cc) + "," + TrimComma(tempApproverMatrix.filter(p => p.Role == Roles.CREATOR)[0].ApproverId));
+                    cc = TrimComma(cc).split(",");
+                    cc = GetUserEmailsbyUserID(cleanArray(cc));
+                    //  cc = GetUserEmailsbyUserID(cc);
+                    role = tempApproverMatrix.filter(p => parseInt(p.Levels) == currentLevel)[0].Role;
+                    tmplName = EmailTemplateName.SENDBACKMAIL;
+                    emailParam["TEMPLATENAME"] = tmplName;
+                    emailParam["FROM"] = from;
+                    emailParam["TO"] = to;
+                    emailParam["CC"] = cc;
+                    emailParam["ROLE"] = role;
+                    emailParam["BCC"] = "";
+                    email = GetEmailBody(tmplName, itemID, mainListName, mailCustomValues, role, emailParam);
+                }
+                break;
+            case ButtonActionStatus.Cancel:
+                if (!IsStrNullOrEmpty(strAllusers) && !IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
+                    from = currentUser.Email;
+                    to = TrimComma(strAllusers);
+                    // to = cleanArray(to);
+                    to = GetUserEmailsbyUserID(cleanArray(to));
+                    role = tempApproverMatrix.filter(p => parseInt(p.Levels) == nextLevel)[0].Role;
+                    tmplName = EmailTemplateName.REQUESTCANCELED;
+                    emailParam["TEMPLATENAME"] = tmplName;
+                    emailParam["FROM"] = from;
+                    emailParam["TO"] = to;
+                    emailParam["CC"] = cc;
+                    emailParam["ROLE"] = role;
+                    emailParam["BCC"] = "";
+                    email = GetEmailBody(tmplName, itemID, mainListName, mailCustomValues, role, emailParam);
+                }
+                break;
+            case ButtonActionStatus.Rejected:
+                if (!IsStrNullOrEmpty(strAllusers) && !IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
+                    from = currentUser.Email;
+                    to = TrimComma(strAllusers);
+                    // to = cleanArray(to);
+                    to = GetUserEmailsbyUserID(cleanArray(to));
+                    role = tempApproverMatrix.filter(p => parseInt(p.Levels) == nextLevel)[0].Role;
+                    tmplName = EmailTemplateName.REQUESTCANCELED;
+                    emailParam["TEMPLATENAME"] = tmplName;
+                    emailParam["FROM"] = from;
+                    emailParam["TO"] = to;
+                    emailParam["CC"] = cc;
+                    emailParam["ROLE"] = role;
+                    emailParam["BCC"] = "";
+                    email = GetEmailBody(tmplName, itemID, mainListName, mailCustomValues, role, emailParam);
+                }
+                break;
+            case ButtonActionStatus.Complete:
+                if (!IsStrNullOrEmpty(strAllusers) && !IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
+                    from = currentUser.Email;
+                    to = tempApproverMatrix.filter(p => p.Role == Roles.CREATOR).ApproverId;
+                    cc = TrimComma(strAllusers).split(",");
+                    cc = GetUserEmailsbyUserID(cleanArray(cc));
+                    role = tempApproverMatrix.filter(p => parseInt(p.Levels) == currentLevel)[0].Role;
+                    tmplName = EmailTemplateName.REQUESTCLOSERMAIL;
+                    emailParam["TEMPLATENAME"] = tmplName;
+                    emailParam["FROM"] = from;
+                    emailParam["TO"] = to;
+                    emailParam["CC"] = cc;
+                    emailParam["ROLE"] = role;
+                    emailParam["BCC"] = "";
+                    email = GetEmailBody(tmplName, itemID, mainListName, mailCustomValues, role, emailParam);
+                }
+                break;
+            default:
+                break;
         }
     }
     catch (ex) {
@@ -2769,38 +2874,6 @@ function IsGroupMember(groupName) {
         }
 
     }
-    // try {
-    //     if (!IsStrNullOrEmpty(groupName) && !IsNullOrUndefined(userID)) {
-
-    //         var url = "https://synoverge.sharepoint.com/sites/dev/_api/web/sitegroups/getbyname('" + groupName + "')/Users"
-    //         $.ajax({
-    //             url: url,
-    //             type: 'GET',
-    //             headers: {
-    //                 "Accept": "application/json;odata=verbose",
-    //                 "Content-Type": "application/json;odata=verbose",
-    //                 "X-RequestDigest": $("#__REQUESTDIGEST").val()
-    //             },
-    //             async: false,
-    //             success: function (data) {
-    //                 var users = data.d.results;
-    //                 debugger
-    //                 if (users.some(t => t.Id == parseInt(userID))) {
-    //                     isAuthorized = true;
-    //                 }
-
-    //             },
-    //             error: function (error) {
-    //                 console.log(error);
-    //             }
-    //         });
-
-    //     }
-    // }
-    // catch (exception) {
-    //     isAuthorized = false;
-    //     console.log(exception);
-    // }
 }
 
 /*Pooja Atkotiya */
@@ -2819,7 +2892,6 @@ function GetSPGroupIDByName(grpName, handleData) {
                         "X-RequestDigest": $("#__REQUESTDIGEST").val()
                     },
                 sucesscallbackfunction: function (data) {
-                    debugger
                     handleData(data.d.Id);
                 }
             });
