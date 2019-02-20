@@ -2347,15 +2347,13 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                         }
                     });
                     to = TrimComma(allToUsers).split(",");
-                    to = cleanArray(to);
-                    to = GetUserEmailsbyUserID(to);
+                    to = GetUserEmailsbyUserID(cleanArray(to));
                     tempApproverMatrix.forEach(temp => {
                         if (temp.Role == Roles.CREATOR) {
-                            cc = temp.ApproverId;
+                            cc = temp.ApproverId.results;
                             debugger                /////Pending to check for multi user field
                             cc = TrimComma(cc).split(",");
-                            cleanArray(cc);
-                            cc = GetUserEmailsbyUserID(cc);
+                            cc = GetUserEmailsbyUserID(cleanArray(cc));
                         }
                         if (temp.Levels == currentLevel) {
                             role = temp.Role;
@@ -2496,11 +2494,11 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
             calldatatype: 'JSON',
             async: false,
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json; odata=verbose",
-                "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json; odata=verbose",
+                    "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
+                },
             sucesscallbackfunction: function (data) {
                 emailTemplate.push({ "Subject": data.d.results[0].Subject });
                 emailTemplate.push({ "Body": data.d.results[0].Body });
@@ -2618,11 +2616,11 @@ function GetDatafromList(itemID, mainListName, subject, matchesSubject, body, ma
             calldatatype: 'JSON',
             async: false,
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json; odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val()
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json; odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
             sucesscallbackfunction: function (data) {
                 mainlistData = data.d;
                 ////replacement with list item values start
@@ -2848,16 +2846,12 @@ function GetSPGroupIDByName(grpName, handleData) {
                 calldatatype: 'JSON',
                 async: false,
                 headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+                    {
+                        "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                    },
                 sucesscallbackfunction: function (data) {
-<<<<<<< HEAD
-                    
-=======
->>>>>>> 9d7e195c2cd68a17025a08f3eddd7a20a35efe1a
                     handleData(data.d.Id);
                 }
             });
@@ -2888,13 +2882,13 @@ function updateRequestIDAttachmentList(attchmentID, itemID) {
         async: false,
         data: JSON.stringify(item),
         headers:
-        {
-            "Accept": "application/json;odata=verbose",
-            "Content-Type": "application/json;odata=verbose",
-            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-            "IF-MATCH": "*",
-            "X-HTTP-Method": "MERGE"
-        },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                "IF-MATCH": "*",
+                "X-HTTP-Method": "MERGE"
+            },
         success: function (data) {
             console.log("Item saved Successfully");
         },
