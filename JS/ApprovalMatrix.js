@@ -757,10 +757,11 @@ function SetItemPermission(requestId, listName, userWithRoles) {
 /*Pooja Atkotiya */
 // Break role inheritance on the list.
 function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
+
     var finalUserPermDic = [];
     userWithRoles.forEach((element) => {
 
-        var userIds = element.user;
+        var userIds = TrimComma(element.user);
         var permission = element.permission;
         var permId;
         if (permission == SharePointPermission.CONTRIBUTOR) {
@@ -771,22 +772,25 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
         }
         if (!IsNullOrUndefined(userIds) && !IsStrNullOrEmpty(userIds) && !IsNullOrUndefined(permission) && !IsStrNullOrEmpty(permission)) {
             var users = [];
-            //split users and remove ,
-            if (userIds.toString().indexOf(',') == 0) {
-                userIds = userIds.substring(1);
-                if (userIds.toString().indexOf(',') != -1 && userIds.toString().lastIndexOf(',') == userIds.toString().length - 1) {
-                    userIds = userIds.substring(userIds.toString().lastIndexOf(','))[0];
-                }
-            }
+            debugger
             if (!IsNullOrUndefined(userIds) && !IsStrNullOrEmpty(userIds)) {
                 var a = (userIds.toString().indexOf(',') != -1) ? userIds.split(',') : parseInt(userIds);
                 if (!IsNullOrUndefined(a)) {
-                    if (a.length == undefined) {
-                        users.push(a);
-                    } else {
+                    // if (a.length == undefined) {
+                    //     users.push(a);
+                    // } else {
+                    //     a.forEach(element => {
+                    //         users.push(parseInt(element));
+                    //     });
+                    // }
+
+                    if (IsArray(a)) {
                         a.forEach(element => {
                             users.push(parseInt(element));
                         });
+                    }
+                    else {
+                        users.push(a);
                     }
                 }
             }
@@ -937,13 +941,14 @@ function GetPermissionDictionary(tempApproverMatrix, nextLevel, isAllUserViewer,
                      * 1) who are pending on current level
                      */
                     if (isNewItem) {
+                        debugger
                         if (strContributer.indexOf(temp.ApproverId) == -1) {
-                            strContributer = strContributer.trim() + "," + temp.ApproverId;
+                            strContributer = TrimComma(strContributer.trim()) + "," + temp.ApproverId;
                         }
                     } else {
                         debugger
                         if (!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0 && strContributer.indexOf(temp.ApproverId.results) == -1) {
-                            strContributer = strContributer.trim() + "," + temp.ApproverId.results;
+                            strContributer = TrimComma(strContributer.trim()) + "," + temp.ApproverId.results;
                         }
                     }
                 }
@@ -955,12 +960,14 @@ function GetPermissionDictionary(tempApproverMatrix, nextLevel, isAllUserViewer,
                      * 2) who are not pending on current level
                      */
                     if (isNewItem) {
+                        debugger
                         if (strReader.indexOf(temp.ApproverId) == -1) {
-                            strReader = strReader.trim() + "," + temp.ApproverId;
+                            strReader = TrimComma(strReader.trim()) + "," + temp.ApproverId;
                         }
                     } else {
+                        debugger
                         if (!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0 && strReader.indexOf(temp.ApproverId.results) == -1) {
-                            strReader = strReader.trim() + "," + temp.ApproverId.results;
+                            strReader = TrimComma(strReader.trim()) + "," + temp.ApproverId.results;
                         }
                     }
                 }
@@ -968,23 +975,23 @@ function GetPermissionDictionary(tempApproverMatrix, nextLevel, isAllUserViewer,
             }
         });
 
-        if (strReader.trim() == strContributer.trim()) {
-            var user = strContributer.trim();
+        if (TrimComma(strReader.trim()) == TrimComma(strContributer.trim())) {
+            var user = TrimComma(strContributer.trim());
             var permission = isAllUserViewer ? 'Read' : 'Contribute';
             permissions.push({ user: user, permission: permission });
         }
         else {
             if (isAllUserViewer) {
-                var user = strReader.trim() + "," + strContributer.trim();
+                var user = TrimComma(strReader.trim()) + "," + TrimComma(strContributer.trim());
                 var permission = 'Read';
                 permissions.push({ user: user, permission: permission });
             }
             else {
-                var user = strReader.trim();
+                var user = TrimComma(strReader.trim());
                 var permission = 'Read';
                 permissions.push({ user: user, permission: permission });
 
-                var user1 = strContributer.trim();
+                var user1 = TrimComma(strContributer.trim());
                 var permission1 = isAllUserViewer ? 'Read' : 'Contribute';
                 permissions.push({ user: user1, permission: permission1 });
             }
