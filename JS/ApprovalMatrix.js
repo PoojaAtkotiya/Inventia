@@ -337,14 +337,15 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
     var sendBackTo = $("#SendBackTo").val();
     //var keys = Object.keys(ButtonActionStatus).filter(k => ButtonActionStatus[k] == actionStatus);
     //actionPerformed = keys.toString();
-    actionPerformed = parseInt(actionStatus);
 
-    ///Pending -- temporary
-    var param = {};
-    param[ConstantKeys.SENDTOLEVEL] = 0;                 // ConstantKeys.SENDTOLEVEL
-    param[ConstantKeys.SENDTOROLE] = sendToRole;
-    param[ConstantKeys.SENDBACKTO] = sendBackTo;
-    param[ConstantKeys.ACTIONPERFORMED] = actionPerformed;
+
+    ///Pending -- to test
+    param[ConstantKeys.SENDTOLEVEL] = ((ConstantKeys.SENDTOLEVEL in param) && !IsNullOrUndefined(param[ConstantKeys.SENDTOLEVEL])) ? param[ConstantKeys.SENDTOLEVEL] : 0;
+    param[ConstantKeys.SENDTOROLE] = ((ConstantKeys.SENDTOROLE in param) && !IsNullOrUndefined(param[ConstantKeys.SENDTOROLE])) ? param[ConstantKeys.SENDTOROLE] : sendToRole;
+    param[ConstantKeys.SENDBACKTO] = ((ConstantKeys.SENDBACKTO in param) && !IsNullOrUndefined(param[ConstantKeys.SENDBACKTO])) ? param[ConstantKeys.SENDBACKTO] : sendBackTo;
+    param[ConstantKeys.ACTIONPERFORMED] = ((ConstantKeys.ACTIONPERFORMED in param) && !IsNullOrUndefined(param[ConstantKeys.ACTIONPERFORMED])) ? param[ConstantKeys.ACTIONPERFORMED] : parseInt(actionStatus);
+
+    actionPerformed = param[ConstantKeys.ACTIONPERFORMED];
 
     var sendToLevel = ((ConstantKeys.SENDTOLEVEL in param) && !IsNullOrUndefined(param[ConstantKeys.SENDTOLEVEL])) ? param[ConstantKeys.SENDTOLEVEL] : null;
 
