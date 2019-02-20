@@ -311,17 +311,15 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     if (pendingWithRole == "Creator" || listItemId == "") {
         setFunctionbasedDept(department);
     }
-
     bindAssetName(department);
-    // if (mainListData.AssetName != undefined) {
-    //         var objSelect = document.getElementById("AssetName");
-    //         setSelectedValue(objSelect, mainListData.AssetName);
-    // }
-
     if (listItemId > 0) {
+       if(mainListData.Status =="Draft"){
         BindURSEditAttachmentFiles();
-        //   bindAttachments();
-    }
+     }
+     else
+     {
+        BindInitiatorAttachment
+     }
 
     if (mainListData.PendingWith == "Initiator HOD") {
         setVendorDropDown(department);
@@ -562,6 +560,67 @@ function BindURSEditAttachmentFiles() {
             }
         });
 
+}
+
+function BindInitiatorAttachment() {
+    var attachmentdata = [];
+    AjaxCall(
+        {
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ATTACHMENTLIST + "')/Items?$select=*&$filter=RequestID eq '" + listItemId + "'", 
+            httpmethod: 'GET',
+            calldatatype: 'JSON',
+            async: false,
+            headers:
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+            sucesscallbackfunction: function (data) {
+                /*Pooja Atkotiya */
+                attachmentdata = data.d.results;
+                attachmentdata.forEach(element => {
+                    if (element.Title == "URS") {
+
+                        var htmlStr = "";
+                        var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + element.ID + "/" + element.FileName;
+
+                        if (htmlStr === "") {
+                            htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
+                        }
+                        else {
+                            htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
+
+                        }
+                      
+                        $('#URSContainer').html(htmlStr);
+                    }
+              });
+
+                attachmentdata.forEach(element => {
+                    
+
+                    if (element.Title == "Supportive") {
+                        var htmlStr = "";
+                        var checkFile = $('#fileListSupportiveDoc').html();
+                        var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + element.ID + "/" + element.FileName;
+    
+                        if (checkFile === "") {
+                            htmlStr = "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li>";
+                        }
+                        else {
+                            htmlStr = checkFile + "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
+    
+                        }
+                      
+                        
+                        $('#fileListSupportiveDoc').html(htmlStr);
+                    }
+                });
+
+            }
+        });
+   
 }
 function removeSupportFiles(fileName) {
     var ctx = SP.ClientContext.get_current();
