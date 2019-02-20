@@ -315,15 +315,7 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     if (listItemId > 0) {
        if(mainListData.Status =="Draft"){
         BindURSEditAttachmentFiles();
-<<<<<<< HEAD
-       }
-       else
-       {
-           BindInitiatorAttachment();
-       }
-=======
         //   bindAttachments();
->>>>>>> 9d7e195c2cd68a17025a08f3eddd7a20a35efe1a
     }
 
     if (mainListData.PendingWith == "Initiator HOD") {
