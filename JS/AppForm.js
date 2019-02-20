@@ -325,8 +325,6 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
             BindInitiatorAttachment();
         }
         bindEditAssetName(mainListData.AssetClassification);
-<<<<<<< HEAD
-=======
     }
 
 
@@ -336,7 +334,6 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     }
     else if (mainListData.WorkflowStatus == "Closed" || mainListData.WorkflowStatus == "Rejected" || mainListData.WorkflowStatus == "Pending for Department Head" || mainListData.WorkflowStatus == "Pending for Function Head" || mainListData.WorkflowStatus == "Pending for management") {
         BindPurchaseAttachment();
->>>>>>> 1d06a5ec36a15b3bc835589930ff2d2a4154d84d
     }
 
     //Functions for Initiator HOD
@@ -357,13 +354,6 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
         BindHODAttachment();
     }
 
-<<<<<<< HEAD
-    displayAction();
-
-}
-function displayAction() {
-    if (!IsNullOrUndefined(mainListData.InitiatorAction) && !IsStrNullOrEmpty(mainListData.InitiatorAction)) {
-=======
     //common functions for all department
     if (!IsNullOrUndefined(listItemId) && listItemId > 0) {
         setImageSignature();
@@ -372,7 +362,6 @@ function displayAction() {
 }
 function displayAction() {
     if (mainListData.InitiatorAction !== undefined && mainListData.InitiatorAction != "") {
->>>>>>> 1d06a5ec36a15b3bc835589930ff2d2a4154d84d
         var initiatorActions = [];
         var html = "";
         initiatorActions = TrimComma(mainListData.InitiatorAction).split(",");
