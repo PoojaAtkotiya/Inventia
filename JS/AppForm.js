@@ -306,7 +306,8 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     if (pendingWithRole == "Creator" || listItemId == "") {
         setFunctionbasedDept(department);
     }
-    bindAssetName(department);
+    //bindAssetName(department);
+    bindAssetClassification();
     if (listItemId > 0) {
         if (mainListData.Status == "Draft") {
             BindURSEditAttachmentFiles();
@@ -314,6 +315,7 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
         else {
             BindInitiatorAttachment();
         }
+        bindEditAssetName(mainListData.AssetClassification);
     }
     if (mainListData.PendingWith == "Initiator HOD") {
         setVendorDropDown(department);
@@ -330,7 +332,7 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
 
 }
 function displayAction() {
-    if (mainListData.InitiatorAction !== null && mainListData.InitiatorAction != "") {
+    if (!IsNullOrUndefined(mainListData.InitiatorAction) && !IsStrNullOrEmpty(mainListData.InitiatorAction)) {
         var initiatorActions = [];
         var html = "";
         initiatorActions = TrimComma(mainListData.InitiatorAction).split(",");
@@ -394,11 +396,108 @@ function setFunctionbasedDept(department) {
             }
         });
 }
-
-function bindAssetName(department) {
+function bindAssetClassification() {
+    var functionValue = $('#Function').html();
     AjaxCall(
         {
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetName,Department/Title&$expand=Department/Title&$filter=Department/Title eq '" + department + "'",
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.DEPTFUNCTIONMASTER + "')/items?$select=Function/Title,AssetClassification/Title&$expand=Function/Title,AssetClassification/Title&$filter=Function/Title eq '" + functionValue + "'",
+            httpmethod: 'GET',
+            calldatatype: 'JSON',
+            async: false,
+            headers:
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+            sucesscallbackfunction: function (data) {
+                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
+                    var result = data.d.results;
+                    $('input[listname*=' + ListNames.DEPTFUNCTIONMASTER + '],select[listname*=' + ListNames.DEPTFUNCTIONMASTER + ']').each(function () {
+                        var elementId = $(this).attr('id');
+                        var elementType = $(this).attr('controlType');
+                        var valueBindingColumn = $(this).attr('valuebindingcolumn');
+                        var textBindingColumnn = $(this).attr('textbindingcolumnn');
+                        switch (elementType) {
+                            case "combo":
+                                $("#" + elementId).html('');
+                                $("#" + elementId).html("<option value=''>Select</option>");
+                                if (!IsNullOrUndefined(valueBindingColumn) && !IsNullOrUndefined(textBindingColumnn) && valueBindingColumn != '' && textBindingColumnn != '') {
+                                    var assetArray = result[0].AssetClassification;
+                                    $(assetArray.results).each(function (i, e) {
+                                        var cmditem = assetArray.results[i].Title;
+                                        var opt = $("<option/>");
+                                        opt.text(cmditem);
+                                        opt.attr("value", cmditem);
+                                        opt.appendTo($("#" + elementId));
+                                    });
+                                }
+
+                                break;
+
+                        }
+                    });
+                    if (mainListData.AssetClassification != undefined) {
+                        var objSelect = document.getElementById("AssetClassification");
+                        setSelectedValue(objSelect, mainListData.AssetClassification);
+                        // bindAssetName(mainListData.AssetClassification);
+
+                    }
+                }
+            }
+        });
+
+}
+function bindAssetName(assetclassification) {
+    AjaxCall(
+        {
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetName,AssetClassification/Title&$expand=AssetClassification/Title&$filter=AssetClassification/Title eq '" + assetclassification + "'",
+            httpmethod: 'GET',
+            calldatatype: 'JSON',
+            async: false,
+            headers:
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+            sucesscallbackfunction: function (data) {
+                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
+                    var result = data.d.results;
+
+                    $('input[listname*=' + ListNames.BUDGETMASTER + '],select[listname*=' + ListNames.BUDGETMASTER + ']').each(function () {
+                        var elementId = $(this).attr('id');
+                        var elementType = $(this).attr('controlType');
+                        var valueBindingColumn = $(this).attr('valuebindingcolumn');
+                        var textBindingColumnn = $(this).attr('textbindingcolumnn');
+                        switch (elementType) {
+                            case "combo":
+                                $("#" + elementId).html('');
+                                $("#" + elementId).html("<option value=''>Select</option>");
+                                if (!IsNullOrUndefined(valueBindingColumn) && !IsNullOrUndefined(textBindingColumnn) && valueBindingColumn != '' && textBindingColumnn != '') {
+                                    $(result).each(function (i, e) {
+                                        var cmditem = result[i];
+                                        var opt = $("<option/>");
+                                        opt.text(cmditem[textBindingColumnn]);
+                                        opt.attr("value", cmditem[valueBindingColumn]);
+                                        opt.appendTo($("#" + elementId));
+                                    });
+                                }
+
+                                break;
+
+                        }
+                    });
+
+
+                }
+            }
+        });
+}
+function bindEditAssetName(assetclassification) {
+    AjaxCall(
+        {
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetName,AssetClassification/Title&$expand=AssetClassification/Title&$filter=AssetClassification/Title eq '" + assetclassification + "'",
             httpmethod: 'GET',
             calldatatype: 'JSON',
             async: false,
@@ -439,6 +538,7 @@ function bindAssetName(department) {
                         var objSelect = document.getElementById("AssetName");
                         setSelectedValue(objSelect, mainListData.AssetName);
                     }
+
                 }
             }
         });
