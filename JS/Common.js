@@ -2897,10 +2897,6 @@ function GetSPGroupIDByName(grpName, handleData) {
                         "X-RequestDigest": $("#__REQUESTDIGEST").val()
                     },
                 sucesscallbackfunction: function (data) {
-<<<<<<< HEAD
-                    
-=======
->>>>>>> 9d7e195c2cd68a17025a08f3eddd7a20a35efe1a
                     handleData(data.d.Id);
                 }
             });
