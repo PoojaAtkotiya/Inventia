@@ -137,9 +137,24 @@ function FormBusinessLogic(activeSection) {
         if (activeSection == SectionNames.HODSECTION) {
             var actionStatus = $("#ActionStatus").val();
             if (actionStatus == ButtonActionStatus.NextApproval) {
+                var budgetValue = GetBudgetValue();
+                var utilizedValue = $('#TotalUtilizedValue').html();
+                if(budgetValue > utilizedValue){
                 param[ConstantKeys.ACTIONPERFORMED] = ButtonActionStatus.Complete;
+                UpdateBudget();
+                }
+                else{
+                    param[ConstantKeys.ACTIONPERFORMED] = ButtonActionStatus.NextApproval;
+                }
             }
         }
+        if (activeSection == SectionNames.MANAGEMENTSECTION) {
+            var actionStatus = $("#ActionStatus").val();
+            if (actionStatus == ButtonActionStatus.NextApproval ||actionStatus == ButtonActionStatus.Complete) {
+                   UpdateBudget();
+                }
+            }
+        
         /* Add final saved tran array to global tran array to save in list*/
 
         gTranArray.push({ "TranListArray": listTempGridDataArray, "TranListName": ListNames.CAPEXVENDORLIST });  ////Vendor tran added in global tran
@@ -610,62 +625,6 @@ function bindEditAssetName(assetclassification) {
         });
 }
 
-// function bindAttachments() {
-//     fileURSArray = [];
-//     var Requestorurl = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('CapexRequisition')/items(" + listItemId + ")/AttachmentFiles";
-//     if (!IsNullOrUndefined(mainListData.URSAttachment)) {
-//         getListItems(Requestorurl, function (data) {
-//             var results = data.d.results;
-
-//             if (results.length > 0) {
-//                 results.forEach(element => {
-//                     if (!IsNullOrUndefined(mainListData.URSAttachment) && element.FileName == mainListData.URSAttachment) {
-//                         var htmlStr = "";
-//                         fileURSArray = previewFile(fileURSArray, element.ServerRelativeUrl, element.FileName, 1);
-//                         if (htmlStr === "") {
-//                             htmlStr = "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a><a href=\"javascript:removeURSFile('" + element.FileName + "')\"> Remove</a></li>";
-//                         }
-//                         else {
-//                             htmlStr = htmlStr + "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a></li><a href=\"javascript:removeURSFile('" + element.FileName + "')\"> Remove</a></li>";
-
-//                         }
-//                         $('#URSContainer').html(htmlStr);
-//                     }
-//                     $('#URSContainer').html(htmlStr);
-//                 });
-
-//                 // $.each(data.d.results, function () {
-
-
-//                 // });
-//                 var htmlStr = "";
-//                 results.forEach(element => {
-//                     if (!IsNullOrUndefined(mainListData.SupportDocAttachment)) {
-//                         var supportDocNames = [];
-//                         supportDocNames = TrimComma(mainListData.SupportDocAttachment).split(",");
-
-//                         var fileId = 0;
-//                         supportDocNames.forEach(function (element1) {
-//                             if (element.FileName == element1) {
-//                                 fileId++;
-//                                 fileSupportDocArray = previewFile(fileSupportDocArray, element.ServerRelativeUrl, element.FileName, fileId);
-//                                 if (htmlStr === "") {
-//                                     htmlStr = "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a><a href=\"javascript:removeSupportFiles('" + element.FileName + "')\"> Remove</a></li>";
-
-//                                 }
-//                                 else {
-//                                     htmlStr = htmlStr + "<li><a id='attachment' href='" + element.ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
-//                                 }
-//                             }
-//                         });
-//                         $('#SupportiveDocContainer').html(htmlStr);
-//                     }
-//                 });
-//             }
-//         });
-//     }
-// }
-
 function BindURSEditAttachmentFiles() {
     var attachmentdata = [];
     AjaxCall(
@@ -854,7 +813,7 @@ function SetBudgetValue(department) {
         AjaxCall(
             {
 
-                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetName,Department/Title,BudgetedValue,UtilisedValue&$expand=Department/Title&$filter=Department/Title eq '" + department + "'and AssetName eq '" + mainListData.AssetName + "'",
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetName,AssetClassification/Title,BudgetedValue,UtilisedValue&$expand=Department/Title&$filter=AssetClassification/Title eq '" + mainListData.AssetClassification + "'and AssetName eq '" + mainListData.AssetName + "'",
                 httpmethod: 'GET',
                 calldatatype: 'JSON',
                 async: false,
@@ -875,6 +834,34 @@ function SetBudgetValue(department) {
             });
     }
 }
+function GetBudgetValue() {
+    var budgetedValue;
+    if (!IsNullOrUndefined()) {
+        AjaxCall(
+            {
+
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetName,AssetClassification/Title,BudgetedValue,UtilisedValue&$expand=Department/Title&$filter=AssetClassification/Title eq '" + mainListData.AssetClassification + "'and AssetName eq '" + mainListData.AssetName + "'",
+                httpmethod: 'GET',
+                calldatatype: 'JSON',
+                async: false,
+                headers:
+                    {
+
+                        "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                    },
+                sucesscallbackfunction: function (data) {
+                    if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
+                     //   $("#BudgetedValue").val(data.d.results[0].BudgetedValue);
+                      //  $("#UtilizedValue").val(data.d.results[0].UtilisedValue);
+                      budgetedValue= data.d.results[0].BudgetedValue;
+                    }
+                }
+            });
+    }
+    return budgetedValue;
+}
 
 function SetCurrentValue() {
     var vendorname = $("#SelectedVendor").val();
@@ -890,4 +877,32 @@ function SetCurrentValue() {
         });
     }
 
+}
+function UpdateBudget()
+{
+    var utilizedValue = $('#TotalUtilizedValue').html();
+    if(utilizedValue !=undefined){
+    var listName = ListNames.BUDGETMASTER;
+    var itemType = GetItemTypeForListName(listName);
+    var item = {
+        "__metadata": { "type": itemType },
+        "UtilisedValue": utilizedValue,
+    };
+    $.ajax({
+        url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetName,AssetClassification/Title,BudgetedValue,UtilisedValue&$expand=Department/Title&$filter=AssetClassification/Title eq '" + mainListData.AssetClassification + "'and AssetName eq '" + mainListData.AssetName + "'",
+        type: "POST",
+        contentType: "application/json;odata=verbose",
+        data: JSON.stringify(item),
+        headers: {
+            "Accept": "application/json;odata=verbose",
+            "X-RequestDigest": $("#__REQUESTDIGEST").val()
+        },
+        success: function (data) {
+            console.log(data);
+        },
+        error: function (data) {
+            console.log(data);
+        }
+    });
+}
 }
