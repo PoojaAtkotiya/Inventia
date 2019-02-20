@@ -318,9 +318,9 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
      }
      else
      {
-        BindInitiatorAttachment
+        BindInitiatorAttachment();
      }
-
+    }
     if (mainListData.PendingWith == "Initiator HOD") {
         setVendorDropDown(department);
         SetBudgetValue(department);
@@ -332,6 +332,23 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
         }
     }
 
+  displayAction();
+
+}
+function displayAction()
+{
+    if(mainListData.InitiatorAction !==null && mainListData.InitiatorAction!="")
+    {
+        var initiatorActions = [];
+        var html="";
+        initiatorActions= TrimComma(mainListData.InitiatorAction).split(",");
+        for (var i=0; i<initiatorActions.length; i++)
+        {
+            html = html + initiatorActions[i] + '<br />';
+           
+        }
+        $('#dispInitiatorAction').html(html);
+    }
 }
 function setSelectedValue(selectObj, valueToSet) {
     for (var i = 0; i < selectObj.options.length; i++) {

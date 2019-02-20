@@ -436,6 +436,8 @@ function setImageSignature() {
     if (!IsNullOrUndefined(item["InitiatorSignature"])) {
         var img = new Image();
         img.src = item["InitiatorSignature"];
+        img.width=200;
+        img.height=150;
         img_Intiator.appendChild(img);
     }
     if (!IsNullOrUndefined(item["HODSignature"])) {
