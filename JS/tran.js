@@ -33,11 +33,11 @@ function GetTranData(tranlistname, lookupId) {
                 calldatatype: 'JSON',
                 async: false,
                 headers:
-                    {
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json;odata=verbose",
-                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                    },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
                 sucesscallbackfunction: function (data) {
                     var item = data.d.results[0];
                     if (item != null && item != '' & item != undefined) {
@@ -49,9 +49,9 @@ function GetTranData(tranlistname, lookupId) {
                                 fieldName = $(this).attr("cParent");
                             else if (elementType == 'radiogroup')
                                 fieldName = $(this).attr("cParent");
-                            else if(elementType == 'checkbox')
-                                fieldName =  $("#" + elementId)[0].checked;
-                              //  $("#" + elementId)[0].checked = item[fieldName];
+                            else if (elementType == 'checkbox')
+                                fieldName = $("#" + elementId)[0].checked;
+                            //  $("#" + elementId)[0].checked = item[fieldName];
                             setFieldValue(elementId, item, elementType, fieldName);
                         });
                     }
@@ -97,7 +97,6 @@ function GetTranData(tranlistname, lookupId) {
 
 
 function SaveTranListData(lookupId) {
-    debugger
     TranListData(lookupId);
     tranListData = {};
     if (tranlistNameArray != null && tranlistNameArray.length > 0) {
@@ -113,7 +112,7 @@ function SetTranDataValues(tranlistname, lookupId) {
             $('input[listname*=' + tranlistname + '],select[listname*=' + tranlistname + '],radio[listname*=' + tranlistname + '],textarea[listname*=' + tranlistname + ']').each(function () {
                 var elementId = $(this).attr('id');
                 var elementType = $(this).attr('controlType');
-                tranListData = GetFormControlsValue(elementId, elementType, tranListData,elementvaluetype);
+                tranListData = GetFormControlsValue(elementId, elementType, tranListData, elementvaluetype);
                 //saveDataArray = GetFormControlsValue(elementId, elementType, saveDataArray,elementvaluetype);
             });
             SaveTranData(tranlistname, tranListData, lookupId);
@@ -244,7 +243,6 @@ function GetTranList(tranList, lookupId) {
             async: false,
             sucesscallbackfunction: function (data) {
                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.value) && IsArray(data.value) && data.value.length > 0) {
-                    debugger
                     var indexCount = 1;
                     (data.value).forEach(item => {
                         item.Status = ItemActionStatus.NOCHANGE;
@@ -279,7 +277,6 @@ function SaveAllTrans(requestId) {
                     var url = '';
                     var headers;
 
-                    debugger
                     switch (status) {
                         case ItemActionStatus.NEW:
                             url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + tranListName + "')/items";
@@ -320,7 +317,7 @@ function SaveAllTrans(requestId) {
                     //Column which not to be saved/not column in list are removed 
                     delete tranItem.Type;
                     delete tranItem.Index;
-                   // delete tranItem.ListName;
+                    // delete tranItem.ListName;
 
                     tranItem["__metadata"] = {
                         "type": GetItemTypeForListName(tranListName)

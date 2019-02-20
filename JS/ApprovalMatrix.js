@@ -1440,7 +1440,6 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
                 case ButtonActionStatus.Cancel:
                     break;
                 case ButtonActionStatus.Rejected:
-                    debugger
                     if (tempApproverMatrix.some(temp => temp.Levels == currentLevel && !IsNullOrUndefined(temp.ApproverId) && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1)))) {
                         var approvers = tempApproverMatrix.filter(temp => {
                             return (temp.Levels == currentLevel && !IsNullOrUndefined(temp.ApproverId) && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1)));
@@ -1451,7 +1450,6 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
                     }
                     break;
                 case ButtonActionStatus.Complete:
-                    debugger
                     if (tempApproverMatrix.some(temp => temp.Levels == currentLevel && !IsNullOrUndefined(temp.ApproverId) && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1)))) {
                         var approvers = tempApproverMatrix.filter(temp => {
                             return (temp.Levels == currentLevel && !IsNullOrUndefined(temp.ApproverId) && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1)));

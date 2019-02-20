@@ -6,20 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Content/font-awesome.min.css"
-    />
-    <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Content/datatable.css"
-    />
-    <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Content/bootstrap-datetimepicker.css"
-    />
-    <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/_catalogs/masterpage/Inventia/styles/main.css"
-    />
-    <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Content/style-responsive.css"
-    />
-    <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/CSSFiles/appMain.css"
-    />
-    <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/CSSFiles/skeleton.css"
-    />
+    <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Content/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Content/datatable.css" />
+    <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Content/bootstrap-datetimepicker.css" />
+    <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/_catalogs/masterpage/Inventia/styles/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Content/style-responsive.css" />
+    <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/CSSFiles/appMain.css" />
+    <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/CSSFiles/skeleton.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
@@ -61,7 +54,7 @@
             });
             $('#IsNewVendor').hide();
             $("#ProposedVendor").hide();
-          
+
             $("#AddVendor").click(function () {
                 $("#IsNewVendor").show();
                 $("#ProposedVendor").show();
@@ -70,42 +63,41 @@
             $("#NewVendorName").change(function () {
                 // if ($("#ProposedVendor").html() = " ") {
                 //     $("#ProposedVendor").append($("#NewVendorName").val());
-                       
+
                 // }
                 if ($("#ProposedVendor").html() != " ") {
-                    $("#ProposedVendor").append(','); 
-                       
+                    $("#ProposedVendor").append(',');
+
                 }
-               $("#ProposedVendor").append($("#NewVendorName").val());
+                $("#ProposedVendor").append($("#NewVendorName").val());
                 $("#NewVendorName").val('');
             });
             // $(document).on("change", "#UploadArtworkAttachment", function () {
             //     BindAttachmentFiles();
             // });
 
-              $(document).on("change", "#ReasonforSelection", function () {
-              var selectedReason=$("#ReasonforSelection").val();
-              if(selectedReason=="Others"){
-                $("#descriptionDiv").show();
+            $(document).on("change", "#ReasonforSelection", function () {
+                var selectedReason = $("#ReasonforSelection").val();
+                if (selectedReason == "Others") {
+                    $("#descriptionDiv").show();
 
-             
-             }
-              else
-              {
-                $("#descriptionDiv").hide();
-                $("#description").removeAttr( "required" );
-              
-              }
+
+                }
+                else {
+                    $("#descriptionDiv").hide();
+                    $("#description").removeAttr("required");
+
+                }
             });
             $(document).on("change", "#PayBackPeriod", function () {
                 var checkBox = document.getElementById("PayBackPeriod");
                 if (checkBox.checked == true) {
-                $("#PayBackPeriodDurationDiv").show();
+                    $("#PayBackPeriodDurationDiv").show();
                 } else {
-                 $("#PayBackPeriodDurationDiv").hide();
-                 $("#PayBackPeriodDuration").removeAttr( "required" );
-            }
-             
+                    $("#PayBackPeriodDurationDiv").hide();
+                    $("#PayBackPeriodDuration").removeAttr("required");
+                }
+
             });
             $('.form-control').change(function () {
                 var type = $(this).attr('controlType');
@@ -168,8 +160,8 @@
             // 	}
             //     return jsErrLog.trapErrors;
             // }
-    });
-    
+        });
+
 
     </script>
     <style>
@@ -215,8 +207,10 @@
                                         <i class="fa fa-chevron-down"></i>
                                     </div>
                                 </div>
-                                <myform enctype="multipart/form-data" id="form_InitiatorSection" method="post" novalidate="novalidate" autocomplete="off">
-                                    <div class="card-body disabled" id="InitiatorSection" section="Initiator Section" sectionOwner="" FillByRole="">
+                                <myform enctype="multipart/form-data" id="form_InitiatorSection" method="post"
+                                    novalidate="novalidate" autocomplete="off">
+                                    <div class="card-body disabled" id="InitiatorSection" section="Initiator Section"
+                                        sectionOwner="" FillByRole="">
                                         <div class="form-horizontal">
                                             <div class="row">
                                                 <div class="col-lg-6">
@@ -228,7 +222,8 @@
 
                                                         <!-- <label id="CapexRequisitionSrNo" class="col-md-8 labeltop">
                                                             12001/201902/001</label> -->
-                                                        <label id="CapitalAssetRequisitionNumber" class="col-md-8 static-control labeltop" controlType="text" listtype="main"></label>
+                                                        <label id="CapitalAssetRequisitionNumber" class="col-md-8 static-control labeltop"
+                                                            controlType="text" listtype="main"></label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -240,7 +235,8 @@
                                                             Raised By
                                                         </label>
                                                         <!-- <label id="RaisedBy" class="col-md-8 labeltop">Mayuri Shah</label> -->
-                                                        <label id="RaisedBy" class="col-md-8 static-control labeltop" controlType="person" listtype="main"></label>
+                                                        <label id="RaisedBy" class="col-md-8 static-control labeltop"
+                                                            controlType="person" listtype="main"></label>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
@@ -250,7 +246,8 @@
                                                             Raised On
                                                         </label>
                                                         <!-- <label id="RequestDate" class="col-md-8 labeltop">12-02-2019</label> -->
-                                                        <label id="RaisedOn" class="col-md-8 static-control labeltop" controlType="date" listtype="main"></label>
+                                                        <label id="RaisedOn" class="col-md-8 static-control labeltop"
+                                                            controlType="date" listtype="main"></label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -262,7 +259,8 @@
                                                             Department
                                                         </label>
                                                         <!-- <label id="Department" class="col-md-8 dynamic-control labeltop">IT</label> -->
-                                                        <label id="Department" class="col-md-8 static-control labeltop" controlType="text" listtype="main"></label>
+                                                        <label id="Department" class="col-md-8 static-control labeltop"
+                                                            controlType="text" listtype="main"></label>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
@@ -275,7 +273,8 @@
                                                         <!-- <label id="Function" class="col-md-8 dynamic-control labeltop"
                                                          controlType="text" listtype="main"> -->
 
-                                                        <label id="Function" class="col-md-8 static-control labeltop" controlType="text" listtype="main"></label>
+                                                        <label id="Function" class="col-md-8 static-control labeltop"
+                                                            controlType="text" listtype="main"></label>
                                                         </label>
 
                                                     </div>
@@ -290,9 +289,11 @@
                                                             Location
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <select class="form-control m-b-n-sm dynamic-control" id="Location" controlType="combo" listtype="master" reflisttype="main"
-                                                                listname="LocationMaster" data-selected="Location" valuebindingcolumn="Title"
-                                                                textbindingcolumnn="Title" name="Location" required="required">
+                                                            <select class="form-control m-b-n-sm dynamic-control" id="Location"
+                                                                controlType="combo" listtype="master" reflisttype="main"
+                                                                listname="LocationMaster" data-selected="Location"
+                                                                valuebindingcolumn="Title" textbindingcolumnn="Title"
+                                                                name="Location" required="required">
                                                             </select>
 
                                                         </div>
@@ -313,8 +314,10 @@
                                                                 listname="AssetMaster" data-selected="AssetName" valuebindingcolumn="Title"
                                                                 textbindingcolumnn="Title" name="AssetName" required="required">
                                                             </select> -->
-                                                            <select class="form-control m-b-n-sm dynamic-control" id="AssetName" controlType="combo" data-selected="AssetName" reflisttype="main"
-                                                                valuebindingcolumn="AssetName" listname="BudgetMaster" textbindingcolumnn="AssetName"
+                                                            <select class="form-control m-b-n-sm dynamic-control" id="AssetName"
+                                                                controlType="combo" data-selected="AssetName"
+                                                                reflisttype="main" valuebindingcolumn="AssetName"
+                                                                listname="BudgetMaster" textbindingcolumnn="AssetName"
                                                                 name="AssetName" required="required">
                                                             </select>
                                                         </div>
@@ -327,10 +330,11 @@
                                                             Asset Classification
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <select class="form-control m-b-n-sm dynamic-control" id="AssetClassification" controlType="combo" listtype="master" reflisttype="main"
+                                                            <select class="form-control m-b-n-sm dynamic-control" id="AssetClassification"
+                                                                controlType="combo" listtype="master" reflisttype="main"
                                                                 name="AssetClassification" data-selected="AssetClassification"
-                                                                valuebindingcolumn="Title" textbindingcolumnn="Title" listname="AssetClassificationMaster"
-                                                                required="required">
+                                                                valuebindingcolumn="Title" textbindingcolumnn="Title"
+                                                                listname="AssetClassificationMaster" required="required">
                                                             </select>
                                                         </div>
                                                     </div>
@@ -344,9 +348,10 @@
                                                             Number of Units
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <input type="text" id="NumberofUnits" class="form-control dynamic-control" placeholder="Number of Units" data="digit" controlType="text"
-                                                                listtype="main" maxlength="15" name="NumberofUnits" required="required"
-                                                            />
+                                                            <input type="text" id="NumberofUnits" class="form-control dynamic-control"
+                                                                placeholder="Number of Units" data="digit" controlType="text"
+                                                                listtype="main" maxlength="15" name="NumberofUnits"
+                                                                required="required" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -357,7 +362,8 @@
                                                             Life of Asset(Years)
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <input type="text" id="AssetLife" class="form-control dynamic-control" placeholder="Life of Asset" controlType="text" name="AssetLife"
+                                                            <input type="text" id="AssetLife" class="form-control dynamic-control"
+                                                                placeholder="Life of Asset" controlType="text" name="AssetLife"
                                                                 maxlength="255" listtype="main" required="required" />
                                                         </div>
                                                     </div>
@@ -373,8 +379,8 @@
                                                         <div class="col-md-8 ">
                                                             <!-- <input type="checkbox" id="Imported"  class="form-control dynamic-control"
                                                              required="required" name="Imported" controlType="multicheckbox" /> -->
-                                                            <input type="checkbox" id="Imported" class="form-control dynamic-control" name="Imported" controlType="checkbox" listtype="main"
-                                                            />
+                                                            <input type="checkbox" id="Imported" class="form-control dynamic-control"
+                                                                name="Imported" controlType="checkbox" listtype="main" />
                                                             <!-- <input type="hidden" id="IsNewVendor" /> -->
                                                         </div>
                                                     </div>
@@ -386,7 +392,8 @@
                                                             Cost Center
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <input type="text" id="CostCenter" class="form-control dynamic-control" placeholder="Cost Center" controlType="text" maxlength="255"
+                                                            <input type="text" id="CostCenter" class="form-control dynamic-control"
+                                                                placeholder="Cost Center" controlType="text" maxlength="255"
                                                                 name="CostCenter" listtype="main" required="required" />
                                                         </div>
                                                     </div>
@@ -401,8 +408,9 @@
                                                             <span class="text-danger text-default-light">*</span>
                                                             Justification for Purchase</label>
                                                         <div class="col-md-8">
-                                                            <input type="text" id="JustificationforPurchase" class="form-control dynamic-control" placeholder="Justification for Purchase"
-                                                                controlType="text" maxlength="255" name="JustificationforPurchase"
+                                                            <input type="text" id="JustificationforPurchase" class="form-control dynamic-control"
+                                                                placeholder="Justification for Purchase" controlType="text"
+                                                                maxlength="255" name="JustificationforPurchase"
                                                                 listtype="main" required="required" />
                                                         </div>
                                                     </div>
@@ -414,7 +422,8 @@
                                                             Justification Comment
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <textarea id="JustificationComment" class="form-control dynamic-control" placeholder="Justification Comment" controlType="multitext"
+                                                            <textarea id="JustificationComment" class="form-control dynamic-control"
+                                                                placeholder="Justification Comment" controlType="multitext"
                                                                 listtype="main" maxlength="1000" name="JustificationComment"
                                                                 required="required"></textarea>
                                                         </div>
@@ -429,7 +438,8 @@
                                                         <label class="col-md-4 control-label">
                                                             Proposed Vendor(s)
                                                         </label>
-                                                        <label id="ProposedVendor" class="col-md-8 static-control labeltop" controlType="text" listtype="main"></label>
+                                                        <label id="ProposedVendor" class="col-md-8 static-control labeltop"
+                                                            controlType="text" listtype="main"></label>
 
                                                     </div>
                                                 </div>
@@ -437,7 +447,8 @@
                                                     <div class="form-group">
                                                         <label class="col-md-4 control-label"> </label>
                                                         <div class="col-md-8">
-                                                            <a class="btn btn-primary pull-left" value="Add Proposed Vendor" id="AddVendor" onclick="">Add Proposed Vendor</a>
+                                                            <a class="btn btn-primary pull-left" value="Add Proposed Vendor"
+                                                                id="AddVendor" onclick="">Add Proposed Vendor</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -450,7 +461,8 @@
                                                             Vendor Name
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <input type="text" id="NewVendorName" class="form-control dynamic-control" placeholder="Vendor Name" controlType="text" maxlength="255"
+                                                            <input type="text" id="NewVendorName" class="form-control dynamic-control"
+                                                                placeholder="Vendor Name" controlType="text" maxlength="255"
                                                                 name="VendorName" listtype="main" />
                                                             <input type="hidden" id="isVendorAdded" />
                                                         </div>
@@ -466,7 +478,8 @@
                                                             Comment(s)
                                                         </label>
                                                         <div class="col-md-10">
-                                                            <textarea id="InitiatorSection_Comments" class="form-control approver-control" maxlength="1000" controlType="multitext" listname="main"
+                                                            <textarea id="InitiatorSection_Comments" class="form-control approver-control"
+                                                                maxlength="1000" controlType="multitext" listname="main"
                                                                 name="InitiatorSection_Comments"></textarea>
                                                         </div>
                                                     </div>
@@ -481,14 +494,14 @@
                                                             URS Attachment
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <input type="file" class="form-control dynamic-control" id="UploadURSAttachment" name="myfiles" controlType="file" accept=
-                                                            "application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+                                                            <input type="file" class="form-control dynamic-control" id="UploadURSAttachment"
+                                                                name="myfiles" controlType="file" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
                                                             text/plain, application/pdf, image/*">
                                                             <br>
                                                             <div id="URSContainer"></div>
                                                             <br>
                                                             <ul id="fileListURS"></ul>
-                                                          </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
@@ -498,10 +511,10 @@
                                                             Supportive Documents
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <input type="file" class="form-control dynamic-control" id="UploadSupportiveDocAttachment" name="myfiles" controlType="file" accept=
-                                                            "application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
-                                                            text/plain, application/pdf, image/*" >
-                                                           <br>
+                                                            <input type="file" class="form-control dynamic-control" id="UploadSupportiveDocAttachment"
+                                                                name="myfiles" controlType="file" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+                                                            text/plain, application/pdf, image/*">
+                                                            <br>
                                                             <ul id="fileListSupportiveDoc"></ul>
                                                         </div>
                                                     </div>
@@ -517,18 +530,18 @@
 
                                                         </label>
                                                         <div class="col-md-8 ">
-                                                            <div id="img_Intiator" class="col-md-8 parent"></div>
+                                                            <div id="img_Intiator" class="col-md-8"></div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
                                                         <label class="col-md-4 control-label">
-
-
                                                         </label>
-                                                        <div class="col-md-4">
-                                                            <label id="InitiatorAction" class="col-md-8 static-control labeltop" listtype="main" controlType="text" ></label>
+                                                        <div class="col-md-8">
+                                                            <label id="dispInitiatorAction" class="col-md-8 labeltop"></label>
+                                                            <input type="hidden" id="InitiatorAction" class="static-control"
+                                                                listtype="main" controlType="text"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -551,8 +564,10 @@
                                         <i class="fa fa-chevron-down"></i>
                                     </div>
                                 </div>
-                                <myform enctype="multipart/form-data" id="form_PurchaseSection" method="post" novalidate="novalidate" autocomplete="off">
-                                    <div class="card-body disabled" id="PurchaseSection" section="Purchase Section" sectionOwner="" FillByRole="">
+                                <myform enctype="multipart/form-data" id="form_PurchaseSection" method="post"
+                                    novalidate="novalidate" autocomplete="off">
+                                    <div class="card-body disabled" id="PurchaseSection" section="Purchase Section"
+                                        sectionOwner="" FillByRole="">
                                         <div data-include="VendorInventia"></div>
                                         <div class="form-horizontal">
                                             <div class="row">
@@ -562,7 +577,8 @@
                                                             Comment(s)
                                                         </label>
                                                         <div class="col-md-10">
-                                                            <textarea class="form-control approver-control" maxlength="1000" controlType="multitext" listname="" name="Comments" id="PurchaseSection_Comments"
+                                                            <textarea class="form-control approver-control" maxlength="1000"
+                                                                controlType="multitext" listname="" name="Comments" id="PurchaseSection_Comments"
                                                                 name="PurchaseSection_Comments"></textarea>
                                                         </div>
                                                     </div>
@@ -604,7 +620,8 @@
 
                                                         </label>
                                                         <div class="col-md-8">
-                                                                <label id="PurchaseAction" class="col-md-8 static-control labeltop" listtype="main" controlType="text" ></label>
+                                                            <label id="PurchaseAction" class="col-md-8 static-control labeltop"
+                                                                listtype="main" controlType="text"></label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -622,9 +639,11 @@
                                         <i class="fa fa-chevron-down"></i>
                                     </div>
                                 </div>
-                                <myform enctype="multipart/form-data" id="form_HodSection" method="post" novalidate="novalidate" autocomplete="off">
+                                <myform enctype="multipart/form-data" id="form_HodSection" method="post" novalidate="novalidate"
+                                    autocomplete="off">
                                     <!-- <div class="card-body" id="HodSection" section="HOD Section" sectionOwner="" -->
-                                    <div class="card-body disabled " id="HodSection" section="Initiator HOD Section" sectionOwner="" FillByRole="">
+                                    <div class="card-body disabled " id="HodSection" section="Initiator HOD Section"
+                                        sectionOwner="" FillByRole="">
                                         <div class="form-horizontal">
                                             <div class="row">
                                                 <div class="col-lg-6">
@@ -633,17 +652,15 @@
                                                             <span class="text-danger text-default-light">*</span>
                                                             Selected Vendor
                                                         </label>
-                                                       <div class="col-md-8">
+                                                        <div class="col-md-8">
                                                             <select class="form-control m-b-n-sm dynamic-control" id="SelectedVendor"
-                                                                        controlType="combo"  listtype="main"
-                                                                        data-selected="SelectedVendor"
-                                                                        name="SelectedVendor"
-                                                                        required="required" onchange="SetCurrentValue()">
+                                                                controlType="combo" listtype="main" data-selected="SelectedVendor"
+                                                                name="SelectedVendor" required="required" onchange="SetCurrentValue()">
                                                             </select>
 
-                                                           
-                                                        </div> 
-                                                       
+
+                                                        </div>
+
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
@@ -657,15 +674,15 @@
                                                             <span class="text-danger text-default-light">*</span>
                                                             Reason for Selection
                                                         </label>
-                                                         <div class="col-md-8">
-                                                                <select class="form-control m-b-n-sm dynamic-control" id="ReasonforSelection"
+                                                        <div class="col-md-8">
+                                                            <select class="form-control m-b-n-sm dynamic-control" id="ReasonforSelection"
                                                                 controlType="combo" listtype="master" reflisttype="main"
                                                                 listname="ReasonMaster" data-selected="ReasonMaster"
-                                                                valuebindingcolumn="Title" textbindingcolumnn="Title" name="ReasonforSelection"
-                                                                required="required">
-                                                                </select>
-                                                        </div> 
-                                                       
+                                                                valuebindingcolumn="Title" textbindingcolumnn="Title"
+                                                                name="ReasonforSelection" required="required">
+                                                            </select>
+                                                        </div>
+
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
@@ -675,8 +692,9 @@
                                                             Description
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <input type="text" id="Description" class="form-control dynamic-control" placeholder="Description" controlType="text" name="Description"
-                                                                listtype="main"  required="required"  />
+                                                            <input type="text" id="Description" class="form-control dynamic-control"
+                                                                placeholder="Description" controlType="text" name="Description"
+                                                                listtype="main" required="required" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -690,7 +708,8 @@
                                                             Pay Back Period Applicable?
                                                         </label>
                                                         <div class="col-md-8 ">
-                                                            <input type="checkbox" id="PayBackPeriod" class="form-control dynamic-control" name="PayBackPeriod"  controlType="checkbox" listtype="main" />
+                                                            <input type="checkbox" id="PayBackPeriod" class="form-control dynamic-control"
+                                                                name="PayBackPeriod" controlType="checkbox" listtype="main" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -701,9 +720,9 @@
                                                             Pay Back Period(Years)
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <input type="text" id="PayBackPeriodDuration" class="form-control dynamic-control" placeholder="Pay Back Period" controlType="text"
-                                                                name="PayBackPeriodDuration " listtype="main" data="digit" required="required"
-                                                            />
+                                                            <input type="text" id="PayBackPeriodDuration" class="form-control dynamic-control"
+                                                                placeholder="Pay Back Period" controlType="text" name="PayBackPeriodDuration "
+                                                                listtype="main" data="digit" required="required" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -711,49 +730,59 @@
                                             <hr>
                                             <br>
                                             <div class="table-wrapper">
-                                                    <div class="table-responsive">
+                                                <div class="table-responsive">
 
-                                                            <table class="table table-hover table-bordered someTable">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th width='20%'>Budgeted Value (Rupee in Lakhs)</th>
-                                                                            <th width='20%'>Utilised Value(Rupee in Lakhs)</th>
-                                                                            <th width='20%'>Current Value(Rupee in Lakhs)</th>
-                                                                            <th width='20%'>Total Utilised Value(Rupee in Lakhs)</th>
-                                                                            <th width='20%'>Balance(Rupee in Lakhs)</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr>
-                                                                            <td class="col-md-2">
-                                                                                    <input id="BudgetedValue" class="form-control dynamic-control disabled" name="BudgetedValue" placeholder="Budgeted Value" type="text"
-                                                                                         controlType="text" data="digit" maxlength="15" listtype="main"  />   
-                                                                            </td >
-                                                                            <td class="col-md-2">
-                                                                                    <input id="UtilizedValue" class="form-control dynamic-control disabled" name="UtilizedValue" placeholder="Utilised Value" type="text"
-                                                                                     controlType="text" data="digit" maxlength="15" listtype="main" />
-                                                                            </td>
-                                                                            <td class="col-md-2">
-                                                                                    <input id="CurrentValue" class="form-control dynamic-control disabled" name="CurrentValue" placeholder="Current Value" type="text"
-                                                                                    controlType="combo" data="digit" maxlength="15" listtype="main" />
-                                                                            </td>
-                                                                            <td class="col-md-2">
-                                                                                    <input id="TotalUtilizedValue" class="form-control dynamic-control disabled" name="TotalUtilizedValue" placeholder="Total Utilised Value"
-                                                                                    type="text"  controlType="text" listtype="main" data="digit" maxlength="15" />
-                                                                            </td>
-                                                                            <td class="col-md-2"> 
-                                                                                    <input id="Balance" class="form-control dynamic-control disabled" name="Balance" placeholder="Balance Value" type="text" 
-                                                                                    controlType="text" listtype="main" data="digit" maxlength="15" />
-                                                                            </td>
+                                                    <table class="table table-hover table-bordered someTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th width='20%'>Budgeted Value (Rupee in Lakhs)</th>
+                                                                <th width='20%'>Utilised Value(Rupee in Lakhs)</th>
+                                                                <th width='20%'>Current Value(Rupee in Lakhs)</th>
+                                                                <th width='20%'>Total Utilised Value(Rupee in Lakhs)</th>
+                                                                <th width='20%'>Balance(Rupee in Lakhs)</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="col-md-2">
+                                                                    <input id="BudgetedValue" class="form-control dynamic-control disabled"
+                                                                        name="BudgetedValue" placeholder="Budgeted Value"
+                                                                        type="text" controlType="text" data="digit"
+                                                                        maxlength="15" listtype="main" />
+                                                                </td>
+                                                                <td class="col-md-2">
+                                                                    <input id="UtilizedValue" class="form-control dynamic-control disabled"
+                                                                        name="UtilizedValue" placeholder="Utilised Value"
+                                                                        type="text" controlType="text" data="digit"
+                                                                        maxlength="15" listtype="main" />
+                                                                </td>
+                                                                <td class="col-md-2">
+                                                                    <input id="CurrentValue" class="form-control dynamic-control disabled"
+                                                                        name="CurrentValue" placeholder="Current Value"
+                                                                        type="text" controlType="combo" data="digit"
+                                                                        maxlength="15" listtype="main" />
+                                                                </td>
+                                                                <td class="col-md-2">
+                                                                    <input id="TotalUtilizedValue" class="form-control dynamic-control disabled"
+                                                                        name="TotalUtilizedValue" placeholder="Total Utilised Value"
+                                                                        type="text" controlType="text" listtype="main"
+                                                                        data="digit" maxlength="15" />
+                                                                </td>
+                                                                <td class="col-md-2">
+                                                                    <input id="Balance" class="form-control dynamic-control disabled"
+                                                                        name="Balance" placeholder="Balance Value" type="text"
+                                                                        controlType="text" listtype="main" data="digit"
+                                                                        maxlength="15" />
+                                                                </td>
 
-                                                                        </tr>
+                                                            </tr>
 
 
 
-                                                                    </tbody>
-                                                                </table>
-                                                    </div>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
+                                            </div>
                                             <!-- <div class="row">
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
@@ -832,7 +861,8 @@
                                                         </label>
                                                         <div class="col-md-10">
 
-                                                            <textarea class="form-control approver-control" maxlength="1000" controlType="multitext" listname="" name="Comments" id="HodSection_Comments"
+                                                            <textarea class="form-control approver-control" maxlength="1000"
+                                                                controlType="multitext" listname="" name="Comments" id="HodSection_Comments"
                                                                 name="HodSection_Comments"></textarea>
                                                         </div>
                                                     </div>
@@ -878,7 +908,8 @@
 
                                                         </label>
                                                         <div class="col-md-8">
-                                                                <label id="HODAction" class="col-md-8 static-control labeltop" listtype="main" controlType="text" ></label>
+                                                            <label id="HODAction" class="col-md-8 static-control labeltop"
+                                                                listtype="main" controlType="text"></label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -896,9 +927,11 @@
                                         <i class="fa fa-chevron-down"></i>
                                     </div>
                                 </div>
-                                <myform enctype="multipart/form-data" id="form_FunctionHead" method="post" novalidate="novalidate" autocomplete="off">
+                                <myform enctype="multipart/form-data" id="form_FunctionHead" method="post" novalidate="novalidate"
+                                    autocomplete="off">
                                     <!-- <div class="card-body" id="FunctionHead" section="HOD Section" sectionOwner="" -->
-                                    <div class="card-body disabled" id="FunctionHead" section="Function Head Section" sectionOwner="" FillByRole="">
+                                    <div class="card-body disabled" id="FunctionHead" section="Function Head Section"
+                                        sectionOwner="" FillByRole="">
                                         <div class="form-horizontal">
                                             <div class="row">
                                                 <div class="col-lg-6">
@@ -909,7 +942,8 @@
                                                         </label>
                                                         <div class="col-md-8">
 
-                                                            <textarea class="form-control approver-control" maxlength="1000" controlType="multitext" listname="" name="Comments" id="FunctionHead_Comments"
+                                                            <textarea class="form-control approver-control" maxlength="1000"
+                                                                controlType="multitext" listname="" name="Comments" id="FunctionHead_Comments"
                                                                 name="FunctionHead_Comments"></textarea>
                                                         </div>
                                                     </div>
@@ -924,7 +958,8 @@
 
                                                             </label>
                                                             <div class="col-md-8">
-                                                                <div id="img_FunctionHead" class="col-md-8" width="100" height="100"></div>
+                                                                <div id="img_FunctionHead" class="col-md-8" width="100"
+                                                                    height="100"></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -935,7 +970,8 @@
 
                                                             </label>
                                                             <div class="col-md-8">
-                                                                    <label id="FunctionHeadAction" class="col-md-8 static-control labeltop" listtype="main" controlType="text" ></label>
+                                                                <label id="FunctionHeadAction" class="col-md-8 static-control labeltop"
+                                                                    listtype="main" controlType="text"></label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -952,8 +988,10 @@
                                         <i class="fa fa-chevron-down"></i>
                                     </div>
                                 </div>
-                                <myform enctype="multipart/form-data" id="form_ManagementSection" method="post" novalidate="novalidate" autocomplete="off">
-                                    <div class="card-body disabled" id="ManagementSection" section="Management Section" sectionOwner="" FillByRole="">
+                                <myform enctype="multipart/form-data" id="form_ManagementSection" method="post"
+                                    novalidate="novalidate" autocomplete="off">
+                                    <div class="card-body disabled" id="ManagementSection" section="Management Section"
+                                        sectionOwner="" FillByRole="">
                                         <div class="form-horizontal">
                                             <div class="row">
                                                 <div class="col-lg-6">
@@ -963,7 +1001,8 @@
                                                             Comment(s)
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <textarea class="form-control approver-control" maxlength="1000" controlType="multitext" listname="" name="Comments" id="ManagementSection_Comments"
+                                                            <textarea class="form-control approver-control" maxlength="1000"
+                                                                controlType="multitext" listname="" name="Comments" id="ManagementSection_Comments"
                                                                 name="ManagementSection_Comments"></textarea>
                                                         </div>
                                                     </div>
@@ -976,7 +1015,8 @@
                                                             <label class="col-md-4 control-label">
                                                             </label>
                                                             <div class="col-md-8">
-                                                                <div id="img_Management" class="col-md-8" width="100" height="100"></div>
+                                                                <div id="img_Management" class="col-md-8" width="100"
+                                                                    height="100"></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -987,7 +1027,8 @@
 
                                                             </label>
                                                             <div class="col-md-8">
-                                                                    <label id="ManagementAction" class="col-md-8 static-control labeltop" listtype="main" controlType="text" ></label>
+                                                                <label id="ManagementAction" class="col-md-8 static-control labeltop"
+                                                                    listtype="main" controlType="text"></label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1010,8 +1051,7 @@
     <div id="loading">
         <div id="pageLoading">
         </div>
-        <img id="loadingimage" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/loading.gif" alt="Please Wait"
-        />
+        <img id="loadingimage" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/loading.gif" alt="Please Wait" />
     </div>
 </body>
 

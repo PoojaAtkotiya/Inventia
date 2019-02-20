@@ -26,6 +26,7 @@ function GetSetFormData() {
     //GetTranListData(listItemId);
     GetAllTranlists(listItemId);
     var mainListName = $($('div').find('[mainlistname]')).attr('mainlistname');
+    
     AjaxCall(
         {
             url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + mainListName + "')/items(" + listItemId + ")?$select=RaisedBy/Title,*&$expand=RaisedBy",
@@ -112,16 +113,19 @@ function setCustomApprovers(tempApproverMatrix) {
 
 /*Monal Shah */
 function Capex_SaveData(ele) {
-   // gTranArray.push({ "TranListArray": listTempGridDataArray, "TranListName": ListNames.CAPEXVENDORLIST });  ////Vendor tran added in global tran
-        
+    if (activeSectionName == SectionNames.PURCHASESECTION) {
+        // gTranArray.push({ "TranListArray": listTempGridDataArray, "TranListName": ListNames.CAPEXVENDORLIST });  ////Vendor tran added in global tran
+        if (listTempGridDataArray.length < 3) {
+            AlertModal('Error', "Max 3 vendor required");
+            return false;
+        }
+    }
     ValidateForm(ele, SaveDataCallBack);
-    // if(gTranArray.length <3){
-    //     AlertModal('Error', "Max 3 vendor required");
-    // }
+
     function SaveDataCallBack(activeSection) {
         var isError = FormBusinessLogic(activeSection);
-       
-        
+
+
         if (!isError) {
             SaveForm(activeSection, ele);
         }
@@ -132,13 +136,10 @@ function Capex_SaveData(ele) {
 function FormBusinessLogic(activeSection) {
     var isError = false;
     try {
-        
+
         /* Add final saved tran array to global tran array to save in list*/
 
-         gTranArray.push({ "TranListArray": listTempGridDataArray, "TranListName": ListNames.CAPEXVENDORLIST });  ////Vendor tran added in global tran
-        // if(gTranArray.length <3){
-        //     AlertModal('Error', "Max 3 vendor required");
-        // }
+        gTranArray.push({ "TranListArray": listTempGridDataArray, "TranListName": ListNames.CAPEXVENDORLIST });  ////Vendor tran added in global tran
 
         //     //check if there any delegate user fillby section owner        
         //     ////Pending to make it dynamic
@@ -160,9 +161,9 @@ function SaveForm(activeSection, ele) {
     try {
         SaveFormData(activeSection, ele);
     }
-     catch (Exception) {
-         console.log("Error occured in SaveForm" + Exception);
-     }
+    catch (Exception) {
+        console.log("Error occured in SaveForm" + Exception);
+    }
 }
 
 /*Priya Rane */
@@ -198,11 +199,11 @@ function SaveForm(activeSection, ele) {
 
 function AddURSAttachments(listname, itemID) {
     $('#divCapexForm').find('div[section]').not(".disabled").each(function (i, e) {
-         $(e).find('input[type="file"]').each(function () {
-     
-           
+        $(e).find('input[type="file"]').each(function () {
+
+
             if (!IsNullOrUndefined(fileURSArray)) {
-               
+
                 var formFieldValues = [];
                 fileURSArray.forEach(element => {
                     var fileName = element.name;
@@ -218,7 +219,7 @@ function AddURSAttachments(listname, itemID) {
                 });
                 SaveFormFields(formFieldValues, itemID);
             }
-          
+
 
         });
     });
@@ -314,11 +315,15 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     if (listItemId > 0) {
        if(mainListData.Status =="Draft"){
         BindURSEditAttachmentFiles();
+<<<<<<< HEAD
        }
        else
        {
            BindInitiatorAttachment();
        }
+=======
+        //   bindAttachments();
+>>>>>>> 9d7e195c2cd68a17025a08f3eddd7a20a35efe1a
     }
 
     if (mainListData.PendingWith == "Initiator HOD") {
@@ -374,11 +379,11 @@ function setFunctionbasedDept(department) {
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
                     $("#Function").html(data.d.results[0].Function.Title);
@@ -395,11 +400,11 @@ function bindAssetName(department) {
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
                     var result = data.d.results;
@@ -496,16 +501,16 @@ function BindURSEditAttachmentFiles() {
     var attachmentdata = [];
     AjaxCall(
         {
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ATTACHMENTLIST + "')/Items?$select=*&$filter=RequestID eq '" + listItemId + "'", 
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ATTACHMENTLIST + "')/Items?$select=*&$filter=RequestID eq '" + listItemId + "'",
             httpmethod: 'GET',
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 /*Pooja Atkotiya */
                 attachmentdata = data.d.results;
@@ -529,37 +534,37 @@ function BindURSEditAttachmentFiles() {
                         });
                         $('#URSContainer').html(htmlStr);
                     }
-              });
+                });
 
                 attachmentdata.forEach(element => {
-                    
+
 
                     if (element.Title == "Supportive") {
                         var htmlStr = "";
                         var checkFile = $('#fileListSupportiveDoc').html();
                         var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + element.ID + "/" + element.FileName;
-    
+
                         if (checkFile === "") {
                             htmlStr = "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a><a id='Remove_" + element.ID + "' href=\"javascript:removeSupportiveFile('" + element.ID + "')\"> Remove</a></li>";
                         }
                         else {
                             htmlStr = checkFile + "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a></li><a id='Remove_" + element.ID + "' href=\"javascript:removeSupportiveFile('" + element.ID + "')\"> Remove</a></li>";
-    
+
                         }
                         fileCommonArray.push({
                             "name": "URS",
                             "id": element.ID,
                             "filename": element.FileName
                         });
-                       
-                        
+
+
                         $('#fileListSupportiveDoc').html(htmlStr);
                     }
                 });
 
             }
         });
-   
+
 }
 
 function BindInitiatorAttachment() {
@@ -685,12 +690,12 @@ function SetBudgetValue(department) {
                 calldatatype: 'JSON',
                 async: false,
                 headers:
-                    {
+                {
 
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json;odata=verbose",
-                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                    },
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
                 sucesscallbackfunction: function (data) {
                     if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
                         $("#BudgetedValue").val(data.d.results[0].BudgetedValue);
