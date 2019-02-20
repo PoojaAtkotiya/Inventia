@@ -315,8 +315,11 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     if (listItemId > 0) {
        if(mainListData.Status =="Draft"){
         BindURSEditAttachmentFiles();
-        //   bindAttachments();
-    }
+     }
+     else
+     {
+        BindInitiatorAttachment
+     }
 
     if (mainListData.PendingWith == "Initiator HOD") {
         setVendorDropDown(department);
