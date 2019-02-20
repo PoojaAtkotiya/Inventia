@@ -87,12 +87,12 @@ function setCustomApprovers() {
     debugger
     if (!IsNullOrUndefined(location) && !IsStrNullOrEmpty(location) && !IsNullOrUndefined(activeSectionName) && !IsStrNullOrEmpty(activeSectionName) && !IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != -1) {
         if (activeSectionName == SectionNames.INITIATORSECTION) {
-            tempApproverMatrix.filter(function (app) {
+            tempApproverMatrix.filter(function (temp) {
                 if (temp.Role == Roles.MANAGEMENT && temp.Status != "Not Required") {
                     approverMaster.filter(app => {
-                        if (app.Role == app.Role && app.UserSelection == true && !IsNullOrUndefined(app.Location) && !IsNullOrUndefined(app.Location.results) && app.Location.results.length > 0 && app.Location.results.some(l => l.Title == location)) {
+                        if (temp.Role == app.Role && app.UserSelection == true && !IsNullOrUndefined(app.Location) && !IsStrNullOrEmpty(app.Location.Title) && app.Location.Title == location) {
                             if (app.UserNameId.results.length > 0) {
-                                app.ApproverId = app.UserNameId.results;
+                                temp.ApproverId = app.UserNameId.results;
                             }
                         }
                     });

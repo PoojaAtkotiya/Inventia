@@ -79,7 +79,13 @@ function SetApprovalMatrix(id, mainListName) {
             // if (!IsStrNullOrEmpty(currentUserRole)) {
             GetEnableSectionNames(id);
             tempApproverMatrix = localApprovalMatrixdata;
+            tempApproverMatrix = tempApproverMatrix.sort(function (a, b) {
+                return a.Levels - b.Levels;
+            });
             SetApproversInApprovalMatrix(id);
+            if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length > 0) {
+                DisplayApplicationStatus(tempApproverMatrix);
+            }
             //}
         }).fail(function () {
             console.log("Execute  second after the retrieve list items  failed");
@@ -103,11 +109,15 @@ function SetApprovalMatrix(id, mainListName) {
             temp.ReasonForChange = "";
             temp.IsHOLD = "";
         });
+        tempApproverMatrix = tempApproverMatrix.sort(function (a, b) {
+            return a.Levels - b.Levels;
+        });
         SetApproversInApprovalMatrix(id);
+        if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length > 0) {
+            DisplayApplicationStatus(tempApproverMatrix);
+        }
     }
-    if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length > 0) {
-        DisplayApplicationStatus(tempApproverMatrix);
-    }
+
 }
 
 /*Pooja Atkotiya */
@@ -256,7 +266,7 @@ function SetApproversInApprovalMatrix(id) {
     var initiatorDept = department;
     // GetMasterData(ListNames.APPROVERMASTERLIST);
     //var approverMaster = masterDataArray;
-    
+
     // GetApproverMaster(function (approverListItems) {
     //     approverMaster = approverListItems;
     // });
