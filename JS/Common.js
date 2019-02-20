@@ -2395,8 +2395,14 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                     to = GetUserEmailsbyUserID(cleanArray(to));
                     tempApproverMatrix.forEach(temp => {
                         if (temp.Role == Roles.CREATOR) {
-                            cc = temp.ApproverId.results;
-                            debugger                /////Pending to check for multi user field
+                            debugger
+                            if (!IsNullOrUndefined(temp.ApproverId)) {
+                                cc = temp.ApproverId;
+                            }
+                            else if (!IsNullOrUndefined(temp.ApproverId.results)) {
+                                cc = temp.ApproverId.results;
+                            }
+                            /////Pending to check for multi user field
                             cc = TrimComma(cc).split(",");
                             cc = GetUserEmailsbyUserID(cleanArray(cc));
                         }
