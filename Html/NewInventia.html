@@ -52,6 +52,12 @@
             $(document).on("change", "#UploadSupportiveDocAttachment", function () {
                 BindSupportDocAttachmentFiles();
             });
+            $(document).on("change", "#UploadPurchaseAttachment", function () {
+                BindPurchaseAttachmentFiles();
+            });
+            $(document).on("change", "#UploadHODAttachment", function () {
+                BindHODAttachmentFiles();
+            });
           
             $(document).on("change", "#AssetClassification", function () {
                 var selectedReason = $("#AssetClassification").val();
@@ -71,10 +77,6 @@
             });
 
             $("#NewVendorName").change(function () {
-                // if ($("#ProposedVendor").html() = " ") {
-                //     $("#ProposedVendor").append($("#NewVendorName").val());
-
-                // }
                 if ($("#ProposedVendor").html() != " ") {
                     $("#ProposedVendor").append(',');
 
@@ -82,21 +84,14 @@
                 $("#ProposedVendor").append($("#NewVendorName").val());
                 $("#NewVendorName").val('');
             });
-            // $(document).on("change", "#UploadArtworkAttachment", function () {
-            //     BindAttachmentFiles();
-            // });
-
             $(document).on("change", "#ReasonforSelection", function () {
                 var selectedReason = $("#ReasonforSelection").val();
                 if (selectedReason == "Others") {
                     $("#descriptionDiv").show();
-
-
                 }
                 else {
                     $("#descriptionDiv").hide();
                     $("#description").removeAttr("required");
-
                 }
             });
             $(document).on("change", "#PayBackPeriod", function () {
@@ -608,7 +603,11 @@
                                                             Attachments
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <a class="btn btn-primary pull-left" value="Attach" onclick="">Attach</a>
+                                                                <input type="file" class="form-control dynamic-control" id="UploadPurchaseAttachment"
+                                                                name="myfiles" controlType="file" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+                                                            text/plain, application/pdf, image/*">
+                                                            <br>
+                                                            <div id="purchaseContainer"></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -892,7 +891,11 @@
                                                             Attachments
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <a class="btn btn-primary pull-left" value="Attach" onclick="">Attach</a>
+                                                                <input type="file" class="form-control dynamic-control" id="UploadHODAttachment"
+                                                                name="myfiles" controlType="file" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+                                                            text/plain, application/pdf, image/*">
+                                                            <br>
+                                                            <div id="HODContainer"></div>
                                                         </div>
                                                     </div>
                                                 </div>
