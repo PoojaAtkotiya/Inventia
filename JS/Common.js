@@ -43,51 +43,6 @@ jQuery(document).ready(function () {
 
 });
 
-/*Priya Rane */
-// function BindURSAttachmentFiles() {
-//     var output = [];
-
-//     //Get the File Upload control id
-//     var input = document.getElementById("UploadURSAttachment");
-//     var fileCount = input.files.length;
-//     for (var i = 0; i < fileCount; i++) {
-//         var fileName = input.files[i].name;
-//         var duplicate = true;
-//       //  duplicate = checkDuplicateFileName(fileName);
-//         if(duplicate){
-
-//         fileIdCounter++;
-//         var fileId = fileIdCounter;
-//         var file = input.files[i];
-//         var reader = new FileReader();
-//         reader.onload = (function (file) {
-//             return function (e) {
-//                 console.log(file.name);
-//                 //Push the converted file into array
-//                 fileURSArray.push({
-//                     "name": file.name,
-//                     "content": e.target.result,
-//                     "id": fileId
-//                 });
-
-
-//             }
-//         })(file);
-//         reader.readAsArrayBuffer(file);
-//         var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeURSFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\"> Remove</a>";
-//         output = [];
-//         output.push("<li><strong>", escape(file.name), removeLink, "</li> ");
-//     }
-//     else{
-//         alert("Same file is present");
-//     }
-//     }
-//     $('#fileListURS').empty();
-//     $('#UploadURSAttachment').next().next().next().next().append(output.join(""));
-
-//     //End of for loop
-// }
-
 function BindURSAttachmentFiles() {
     var output = [];
     var fileName;
