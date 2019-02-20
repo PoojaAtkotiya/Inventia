@@ -2041,7 +2041,7 @@ function SaveActions(sectionName, itemID, actionPerformed) {
             break;
         case SectionNames.MANAGEMENTSECTION:
             if (actionPerformed == "NextApproval") {
-                formFieldValues['ManagementAction'] ="Approved By " + "," + currentUser.Title + "," + formatted;
+                formFieldValues['ManagementAction'] = "Approved By " + "," + currentUser.Title + "," + formatted;
             }
             else if (actionPerformed == "Rejected") {
                 formFieldValues['ManagementAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted;
@@ -2487,13 +2487,13 @@ function AjaxCall(options) {
                 // }
                 // else {
                 console.log(xhr);
-              //  jsErrLog.info = xhr.statusText;
+                //  jsErrLog.info = xhr.statusText;
                 //jsErrLog.url = "https://synoverge.sharepoint.com/sites/dev/";
                 debugger
                 AlertModal("Error", "Oops! Something went wrong");
                 //throw "Error";
                 //}
-                if (errorcallbackfunction != '') {
+                if (!IsNullOrUndefined(errorcallbackfunction)) {
                     errorcallbackfunction(xhr);
                 }
             }
