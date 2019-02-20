@@ -65,7 +65,7 @@ function SetApprovalMatrix(id, mainListName) {
     if (id > 0) {
         //set role name from local approval matrix
         GetCurrentUserRole(id, mainListName).done(function () {
-            if (IsStrNullOrEmpty(currentUserRole)) {
+            if (IsStrNullOrEmpty(currentUserRole) || IsNullOrUndefined(currentUserRole)) {
                 isSuperAdmin = IsGroupMember(Roles.ADMIN);
                 if (isSuperAdmin) {
                     currentUserRole = "Capex Admin";
@@ -104,12 +104,22 @@ function SetApprovalMatrix(id, mainListName) {
         });
         SetApproversInApprovalMatrix(id);
     }
+    if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length > 0) {
+        DisplayApplicationStatus(tempApproverMatrix);
+    }
 }
 
 /*Pooja Atkotiya */
 function SetApproversInApprovalMatrix(id) {
-    GetMasterData(ListNames.APPROVERMASTERLIST);
-    var approverMaster = masterDataArray;
+    debugger
+    var initiatorDept = department;
+    // GetMasterData(ListNames.APPROVERMASTERLIST);
+    //var approverMaster = masterDataArray;
+    var approverMaster;
+    GetApproverMaster(function (approverListItems) {
+        approverMaster = approverListItems;
+    });
+
     //set status(of all levels) and approver(current)
     if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length > 0) {
         ////Get all roles which have FillByRole = currentUserRole
@@ -117,10 +127,34 @@ function SetApproversInApprovalMatrix(id) {
             if (!IsNullOrUndefined(t.FillByRole) && !IsNullOrUndefined(currentUserRole) && t.FillByRole == currentUserRole) {
                 if (!IsNullOrUndefined(approverMaster) && approverMaster.length > 0) {
                     approverMaster.filter(function (a) {
-                        if (t.Role == a.Role && a.UserSelection == true) {
-                            if (a.UserNameId.results.length > 0) {
-                                t.ApproverId = a.UserNameId.results;
+                        // if (t.Role == a.Role && a.UserSelection == true) {
+                        //     if (a.UserNameId.results.length > 0) {
+                        //         t.ApproverId = a.UserNameId.results;
+                        //     }
+                        // }
+                        if (t.Role == Roles.CREATOR) {
+
+                        } else if (t.Role == Roles.PURCHASE) {
+                            if (t.Role == a.Role && a.UserSelection == true) {
+                                if (a.UserNameId.results.length > 0) {
+                                    t.ApproverId = a.UserNameId.results;
+                                }
                             }
+                        } else if (t.Role == Roles.INITIATORHOD) {
+                            if (t.Role == a.Role && a.UserSelection == true && !IsNullOrUndefined(a.Department) && !IsNullOrUndefined(a.Department.results) && a.Department.results.length > 0 && a.Department.results.some(d => d.Title == initiatorDept)) {
+                                if (a.UserNameId.results.length > 0) {
+                                    t.ApproverId = a.UserNameId.results;
+                                }
+                            }
+                        } else if (t.Role == Roles.FUNCTIONHEAD) {
+                            if (t.Role == a.Role && a.UserSelection == true && !IsNullOrUndefined(a.Department) && !IsNullOrUndefined(a.Department.results) && a.Department.results.length > 0 && a.Department.results.some(d => d.Title == initiatorDept)) {
+                                if (a.UserNameId.results.length > 0) {
+                                    t.ApproverId = a.UserNameId.results;
+                                }
+                            }
+                        }
+                        else if (t.Role == Roles.MANAGEMENT) {
+
                         }
                     });
                 }
@@ -129,7 +163,7 @@ function SetApproversInApprovalMatrix(id) {
                 t.Status = "Not Assigned";
             }
         });
-        DisplayApplicationStatus(tempApproverMatrix);
+        //  DisplayApplicationStatus(tempApproverMatrix);
     }
 }
 
@@ -671,9 +705,6 @@ function SetItemPermission(requestId, listName, userWithRoles) {
 
 }
 
-
-//////////////////////////////////////////////////////////////
-
 /*
   console.log("Inheritance Broken Successfully!");
             var roleDefBindingColl = null;
@@ -752,7 +783,6 @@ function SetItemPermission(requestId, listName, userWithRoles) {
                 }
             });
 */
-//////////////////////////////////////////////////////////////
 
 /*Pooja Atkotiya */
 // Break role inheritance on the list.

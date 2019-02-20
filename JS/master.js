@@ -1,5 +1,7 @@
 var masterlistNameArray = [];
 
+//#region Core Logic
+
 function GetAllMasterData() {
     $('input[listtype*=master],select[listtype*=master]').each(function () {
         var listType = $(this).attr('listtype');
@@ -66,6 +68,33 @@ function GetMasterData(masterlistname) {
         console.log("Master List Name is undefined.");
     }
 }
+
+//#endregion
+
+//#region Custom Logic
+/*Pooja Atkotiya */
+function GetApproverMaster(handleData) {
+    AjaxCall(
+        {
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.APPROVERMASTERLIST + "')/items?$select=*,Department/Title,Location/Title&$expand=Department/Title,Location/Title",
+            httpmethod: 'GET',
+            calldatatype: 'JSON',
+            async: false,
+            headers:
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+            sucesscallbackfunction: function (data) {
+                handleData(data.d.results);
+            }
+        });
+}
+
+//#endregion
+
+
 
 // function OnGetDataSucceeded(filterBy,filterValue,textBindingColumnn,valueBindingColumn) {
 //     var listItemInfo = [];

@@ -387,6 +387,9 @@ function onloadConstantsSuccess(sender, args) {
     if (listItemId == "" || IsNullOrUndefined(listItemId)) {
         GetUserDepartment();
     }
+    else if (listItemId > 0) {
+        department = mainListData.Department;
+    }
     GetAllMasterData();
 
     if (!IsNullOrUndefined(listItemId) && listItemId > 0) {
@@ -436,8 +439,8 @@ function setImageSignature() {
     if (!IsNullOrUndefined(item["InitiatorSignature"])) {
         var img = new Image();
         img.src = item["InitiatorSignature"];
-        img.width=200;
-        img.height=150;
+        img.width = 200;
+        img.height = 150;
         img_Intiator.appendChild(img);
     }
     if (!IsNullOrUndefined(item["HODSignature"])) {
