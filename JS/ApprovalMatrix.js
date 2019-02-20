@@ -8,7 +8,9 @@ var tempApproverMatrix;
 var tcurrentLevel;
 var permItem = null;
 
+//#region Get Data
 
+//#region Core Logic
 /*Himil Jani */
 function GetGlobalApprovalMatrix(id) {
     // GetFormDigest().then(function (data) {
@@ -29,7 +31,6 @@ function GetGlobalApprovalMatrix(id) {
                 /*Pooja Atkotiya */
                 SetSectionWiseRoles(id = 0);
                 SetApprovalMatrix(id, '');
-                //setCustomApprovers(tempApproverMatrix);
                 GetButtons(id, currentUserRole, 'New');
             }
         });
@@ -106,64 +107,6 @@ function SetApprovalMatrix(id, mainListName) {
     }
     if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length > 0) {
         DisplayApplicationStatus(tempApproverMatrix);
-    }
-}
-
-/*Pooja Atkotiya */
-function SetApproversInApprovalMatrix(id) {
-    debugger
-    var initiatorDept = department;
-    // GetMasterData(ListNames.APPROVERMASTERLIST);
-    //var approverMaster = masterDataArray;
-    var approverMaster;
-    GetApproverMaster(function (approverListItems) {
-        approverMaster = approverListItems;
-    });
-
-    //set status(of all levels) and approver(current)
-    if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length > 0) {
-        ////Get all roles which have FillByRole = currentUserRole
-        tempApproverMatrix.filter(function (t) {
-            if (!IsNullOrUndefined(t.FillByRole) && !IsNullOrUndefined(currentUserRole) && t.FillByRole == currentUserRole) {
-                if (!IsNullOrUndefined(approverMaster) && approverMaster.length > 0) {
-                    approverMaster.filter(function (a) {
-                        // if (t.Role == a.Role && a.UserSelection == true) {
-                        //     if (a.UserNameId.results.length > 0) {
-                        //         t.ApproverId = a.UserNameId.results;
-                        //     }
-                        // }
-                        if (t.Role == Roles.CREATOR) {
-
-                        } else if (t.Role == Roles.PURCHASE) {
-                            if (t.Role == a.Role && a.UserSelection == true) {
-                                if (a.UserNameId.results.length > 0) {
-                                    t.ApproverId = a.UserNameId.results;
-                                }
-                            }
-                        } else if (t.Role == Roles.INITIATORHOD) {
-                            if (t.Role == a.Role && a.UserSelection == true && !IsNullOrUndefined(a.Department) && !IsNullOrUndefined(a.Department.results) && a.Department.results.length > 0 && a.Department.results.some(d => d.Title == initiatorDept)) {
-                                if (a.UserNameId.results.length > 0) {
-                                    t.ApproverId = a.UserNameId.results;
-                                }
-                            }
-                        } else if (t.Role == Roles.FUNCTIONHEAD) {
-                            if (t.Role == a.Role && a.UserSelection == true && !IsNullOrUndefined(a.Department) && !IsNullOrUndefined(a.Department.results) && a.Department.results.length > 0 && a.Department.results.some(d => d.Title == initiatorDept)) {
-                                if (a.UserNameId.results.length > 0) {
-                                    t.ApproverId = a.UserNameId.results;
-                                }
-                            }
-                        }
-                        else if (t.Role == Roles.MANAGEMENT) {
-
-                        }
-                    });
-                }
-            }
-            if (id == 0) {
-                t.Status = "Not Assigned";
-            }
-        });
-        //  DisplayApplicationStatus(tempApproverMatrix);
     }
 }
 
@@ -262,6 +205,113 @@ function GetEnableSectionNames(id) {
 
     }
 }
+
+/*Pooja Atkotiya */
+function SetSectionWiseRoles(id) {
+    var formNames = $($('div').find('[mainlistname]')).attr('id');
+    if (id == 0) {
+        ////Get data from global approval matrix
+        if (!IsNullOrUndefined(globalApprovalMatrix) && globalApprovalMatrix.length > 0) {
+            ////Compare by Section Name
+            globalApprovalMatrix.filter(function (g) {
+                $('#' + formNames).find('div.card-body').each(function () {
+                    var divSection = $(this).attr('section');
+                    var sectionName = getTermFromManagedColumn(g.SectionName);
+                    if (!IsNullOrUndefined(divSection) && sectionName == divSection) {
+                        //// if section name are same, get Role and FillByRole
+                        $(this).attr('sectionOwner', g.Role);
+                        $(this).attr('FillByRole', g.FillByRole);
+                    }
+                });
+            });
+        }
+    } else if (id > 0) {
+        ////Get data from local approval matrix
+        if (!IsNullOrUndefined(localApprovalMatrixdata) && localApprovalMatrixdata.length > 0) {
+            ////Compare by Section Name
+            localApprovalMatrixdata.filter(function (l) {
+                $('#' + formNames).find('div.card-body').each(function () {
+                    var divSection = $(this).attr('section');
+                    if (!IsNullOrUndefined(divSection) && !IsNullOrUndefined(l.SectionName) && l.SectionName == divSection) {
+                        //// if section name are same, get Role and FillByRole
+                        $(this).attr('sectionOwner', l.Role);
+                        $(this).attr('FillByRole', l.FillByRole);
+                        var divId = $(this).attr('id');
+                        if (!IsNullOrUndefined(l.Comments) && !IsStrNullOrEmpty(l.Comments)) {
+                            $('#' + divId + '_Comments').val(l.Comments);
+                        }
+                    }
+                });
+            });
+        }
+    }
+}
+
+//#endregion
+
+//#region Custom Logic here
+/*Pooja Atkotiya */
+function SetApproversInApprovalMatrix(id) {
+    debugger
+    var initiatorDept = department;
+    // GetMasterData(ListNames.APPROVERMASTERLIST);
+    //var approverMaster = masterDataArray;
+    
+    // GetApproverMaster(function (approverListItems) {
+    //     approverMaster = approverListItems;
+    // });
+
+    //set status(of all levels) and approver(current)
+    if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length > 0) {
+        ////Get all roles which have FillByRole = currentUserRole
+        tempApproverMatrix.filter(function (t) {
+            if (!IsNullOrUndefined(t.FillByRole) && !IsNullOrUndefined(currentUserRole) && t.FillByRole == currentUserRole) {
+                if (!IsNullOrUndefined(approverMaster) && approverMaster.length > 0) {
+                    approverMaster.filter(function (a) {
+                        // if (t.Role == a.Role && a.UserSelection == true) {
+                        //     if (a.UserNameId.results.length > 0) {
+                        //         t.ApproverId = a.UserNameId.results;
+                        //     }
+                        // }
+                        if (t.Role == Roles.CREATOR) {
+
+                        } else if (t.Role == Roles.PURCHASE) {
+                            if (t.Role == a.Role && a.UserSelection == true) {
+                                if (a.UserNameId.results.length > 0) {
+                                    t.ApproverId = a.UserNameId.results;
+                                }
+                            }
+                        } else if (t.Role == Roles.INITIATORHOD) {
+                            if (t.Role == a.Role && a.UserSelection == true && !IsNullOrUndefined(a.Department) && !IsNullOrUndefined(a.Department.results) && a.Department.results.length > 0 && a.Department.results.some(d => d.Title == initiatorDept)) {
+                                if (a.UserNameId.results.length > 0) {
+                                    t.ApproverId = a.UserNameId.results;
+                                }
+                            }
+                        } else if (t.Role == Roles.FUNCTIONHEAD) {
+                            if (t.Role == a.Role && a.UserSelection == true && !IsNullOrUndefined(a.Department) && !IsNullOrUndefined(a.Department.results) && a.Department.results.length > 0 && a.Department.results.some(d => d.Title == initiatorDept)) {
+                                if (a.UserNameId.results.length > 0) {
+                                    t.ApproverId = a.UserNameId.results;
+                                }
+                            }
+                        }
+                        else if (t.Role == Roles.MANAGEMENT) {
+
+                        }
+                    });
+                }
+            }
+            if (id == 0) {
+                t.Status = "Not Assigned";
+            }
+        });
+        //  DisplayApplicationStatus(tempApproverMatrix);
+    }
+}
+//#endregion
+
+//#endregion
+
+//#region Save Data
 
 /*Pooja Atkotiya */
 function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem, mainListItem, approvalMatrixListName) {
@@ -641,6 +691,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
     SendMail(actionPerformed, currentUser.Id, requestId, tempApproverMatrix, ListNames.MAINLIST, nextLevel, currentLevel, param, isNewItem);
 }
 
+//#region Permission Related Methods
 /*Pooja Atkotiya */
 function SetItemPermission(requestId, listName, userWithRoles) {
     breakRoleInheritanceOfList(listName, requestId, userWithRoles);
@@ -881,20 +932,6 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
     });
 }
 
-/*Pooja Atkotiya */
-function FormatRow() {
-    try {
-        var content = this;
-        for (var i = 0; i < arguments.length; i++) {
-            var replacement = '{' + i + '}';
-            content = content.replace(replacement, arguments[i]);
-        }
-        return content;
-    }
-    catch (e) {
-        console.log("Error occurred in FormatRow " + e.message);
-    }
-}
 
 /*Pooja Atkotiya */
 function SetCustomPermission(userWithRoles, requestId, listName) {
@@ -1030,6 +1067,8 @@ function GetPermissionDictionary(tempApproverMatrix, nextLevel, isAllUserViewer,
     return permissions;
 }
 
+//#endregion
+
 var stringifyData = function (isNewItem, approvalMatrixListName, temp, approverResults) {
     var stringifyData;
     if (isNewItem) {
@@ -1103,6 +1142,21 @@ var stringifyData = function (isNewItem, approvalMatrixListName, temp, approverR
     return stringifyData;
 
 }
+
+/*Pooja Atkotiya */
+/*function FormatRow() {
+    try {
+        var content = this;
+        for (var i = 0; i < arguments.length; i++) {
+            var replacement = '{' + i + '}';
+            content = content.replace(replacement, arguments[i]);
+        }
+        return content;
+    }
+    catch (e) {
+        console.log("Error occurred in FormatRow " + e.message);
+    }
+}*/
 
 /*Pooja Atkotiya */
 function SaveApprovalMatrixInList(tempApproverMatrix, approvalMatrixListName, isNewItem) {
@@ -1302,47 +1356,6 @@ function UpdateWorkflowStatus(formFieldValues) {
 }
 
 /*Pooja Atkotiya */
-function SetSectionWiseRoles(id) {
-    var formNames = $($('div').find('[mainlistname]')).attr('id');
-    if (id == 0) {
-        ////Get data from global approval matrix
-        if (!IsNullOrUndefined(globalApprovalMatrix) && globalApprovalMatrix.length > 0) {
-            ////Compare by Section Name
-            globalApprovalMatrix.filter(function (g) {
-                $('#' + formNames).find('div.card-body').each(function () {
-                    var divSection = $(this).attr('section');
-                    var sectionName = getTermFromManagedColumn(g.SectionName);
-                    if (!IsNullOrUndefined(divSection) && sectionName == divSection) {
-                        //// if section name are same, get Role and FillByRole
-                        $(this).attr('sectionOwner', g.Role);
-                        $(this).attr('FillByRole', g.FillByRole);
-                    }
-                });
-            });
-        }
-    } else if (id > 0) {
-        ////Get data from local approval matrix
-        if (!IsNullOrUndefined(localApprovalMatrixdata) && localApprovalMatrixdata.length > 0) {
-            ////Compare by Section Name
-            localApprovalMatrixdata.filter(function (l) {
-                $('#' + formNames).find('div.card-body').each(function () {
-                    var divSection = $(this).attr('section');
-                    if (!IsNullOrUndefined(divSection) && !IsNullOrUndefined(l.SectionName) && l.SectionName == divSection) {
-                        //// if section name are same, get Role and FillByRole
-                        $(this).attr('sectionOwner', l.Role);
-                        $(this).attr('FillByRole', l.FillByRole);
-                        var divId = $(this).attr('id');
-                        if (!IsNullOrUndefined(l.Comments) && !IsStrNullOrEmpty(l.Comments)) {
-                            $('#' + divId + '_Comments').val(l.Comments);
-                        }
-                    }
-                });
-            });
-        }
-    }
-}
-
-/*Pooja Atkotiya */
 function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previousLevel, actionPerformed, param) {
     if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length > 0 && !IsNullOrUndefined(currentUser.Id)) {
         if (currentLevel != previousLevel) {
@@ -1533,3 +1546,5 @@ function GetDueDate(startDate, days) {
         return null;
     }
 }
+
+//#endregion

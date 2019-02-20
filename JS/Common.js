@@ -1,3 +1,4 @@
+var listItemId;
 var returnUrl = "";
 var currentUser;
 var approverMaster;
@@ -40,6 +41,10 @@ jQuery(document).ready(function () {
         $('myform').renameTag('form');
     }
     KeyPressNumericValidation();
+
+    GetApproverMaster(function (approverListItems) {
+        approverMaster = approverListItems;
+    });
 
 });
 
@@ -1415,25 +1420,6 @@ function GetFormControlsValueAndType(id, elementType, elementProperty, listActiv
             break;
     }
     return listActivityLogDataArray;
-}
-
-/*Pooja Atkotiya */
-function GetApproverMaster() {
-    AjaxCall(
-        {
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.APPROVERMASTERLIST + "')/items",
-            httpmethod: 'GET',
-            calldatatype: 'JSON',
-            async: false,
-            headers: {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val()
-            },
-            sucesscallbackfunction: function (data) {
-                approverMaster = data.d.results;
-            }
-        });
 }
 
 function GetActivityLog(activityLogListName, lookupId, tableId) {

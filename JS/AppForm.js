@@ -26,7 +26,7 @@ function GetSetFormData() {
     //GetTranListData(listItemId);
     GetAllTranlists(listItemId);
     var mainListName = $($('div').find('[mainlistname]')).attr('mainlistname');
-    
+
     AjaxCall(
         {
             url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + mainListName + "')/items(" + listItemId + ")?$select=RaisedBy/Title,*&$expand=RaisedBy",
@@ -82,29 +82,21 @@ function onGetSetFormDataSuccess(data) {
 }
 
 /*Pooja Atkotiya */
-function setCustomApprovers(tempApproverMatrix) {
-    if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != -1) {
-        var smsIncharge = null;
-        var smsDelegate = null;
-        tempApproverMatrix.filter(function (temp) {
-            if (temp.Role == "SMS Incharge" && !IsNullOrUndefined(temp.ApproverId)) {
-                smsIncharge = temp.ApproverId;
-            }
-            else if (temp.Role == "SMS Delegate" && !IsNullOrUndefined(temp.ApproverId)) {
-                smsDelegate = temp.ApproverId;
-            }
-        });
-        if (!IsNullOrUndefined(smsIncharge)) {
-            tempApproverMatrix.filter(function (temp) {
-                if (temp.Role == "Final SMS Incharge" && temp.Status != "Not Required") {
-                    temp.ApproverId = smsIncharge;
-                }
-            });
-        }
-        if (!IsNullOrUndefined(smsDelegate)) {
-            tempApproverMatrix.filter(function (temp) {
-                if (temp.Role == "Final SMS Delegate" && temp.Status != "Not Required") {
-                    temp.ApproverId = smsDelegate;
+function setCustomApprovers() {
+    var location = $('#Location').val();
+    debugger
+    if (!IsNullOrUndefined(location) && !IsStrNullOrEmpty(location) && !IsNullOrUndefined(activeSectionName) && !IsStrNullOrEmpty(activeSectionName) && !IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != -1) {
+        if (activeSectionName == SectionNames.INITIATORSECTION) {
+            tempApproverMatrix.filter(function (app) {
+                if (temp.Role == Roles.MANAGEMENT && temp.Status != "Not Required") {
+                    approverMaster.filter(app => {
+                        if (app.Role == app.Role && app.UserSelection == true && !IsNullOrUndefined(app.Location) && !IsNullOrUndefined(app.Location.results) && app.Location.results.length > 0 && app.Location.results.some(l => l.Title == location)) {
+                            if (app.UserNameId.results.length > 0) {
+                                app.ApproverId = app.UserNameId.results;
+                            }
+                        }
+                    });
+
                 }
             });
         }
@@ -140,6 +132,9 @@ function FormBusinessLogic(activeSection) {
         /* Add final saved tran array to global tran array to save in list*/
 
         gTranArray.push({ "TranListArray": listTempGridDataArray, "TranListName": ListNames.CAPEXVENDORLIST });  ////Vendor tran added in global tran
+
+        debugger
+        setCustomApprovers(listItemId);
 
         //     //check if there any delegate user fillby section owner        
         //     ////Pending to make it dynamic
@@ -313,13 +308,12 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     }
     bindAssetName(department);
     if (listItemId > 0) {
-       if(mainListData.Status =="Draft"){
-        BindURSEditAttachmentFiles();
-     }
-     else
-     {
-        BindInitiatorAttachment();
-     }
+        if (mainListData.Status == "Draft") {
+            BindURSEditAttachmentFiles();
+        }
+        else {
+            BindInitiatorAttachment();
+        }
     }
     if (mainListData.PendingWith == "Initiator HOD") {
         setVendorDropDown(department);
@@ -332,20 +326,17 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
         }
     }
 
-  displayAction();
+    displayAction();
 
 }
-function displayAction()
-{
-    if(mainListData.InitiatorAction !==null && mainListData.InitiatorAction!="")
-    {
+function displayAction() {
+    if (mainListData.InitiatorAction !== null && mainListData.InitiatorAction != "") {
         var initiatorActions = [];
-        var html="";
-        initiatorActions= TrimComma(mainListData.InitiatorAction).split(",");
-        for (var i=0; i<initiatorActions.length; i++)
-        {
+        var html = "";
+        initiatorActions = TrimComma(mainListData.InitiatorAction).split(",");
+        for (var i = 0; i < initiatorActions.length; i++) {
             html = html + initiatorActions[i] + '<br />';
-           
+
         }
         $('#dispInitiatorAction').html(html);
     }
@@ -391,11 +382,11 @@ function setFunctionbasedDept(department) {
             calldatatype: 'JSON',
             async: false,
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val()
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
             sucesscallbackfunction: function (data) {
                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
                     $("#Function").html(data.d.results[0].Function.Title);
@@ -412,11 +403,11 @@ function bindAssetName(department) {
             calldatatype: 'JSON',
             async: false,
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val()
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
             sucesscallbackfunction: function (data) {
                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
                     var result = data.d.results;
@@ -518,11 +509,11 @@ function BindURSEditAttachmentFiles() {
             calldatatype: 'JSON',
             async: false,
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val()
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
             sucesscallbackfunction: function (data) {
                 /*Pooja Atkotiya */
                 attachmentdata = data.d.results;
@@ -583,7 +574,7 @@ function BindInitiatorAttachment() {
     var attachmentdata = [];
     AjaxCall(
         {
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ATTACHMENTLIST + "')/Items?$select=*&$filter=RequestID eq '" + listItemId + "'", 
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ATTACHMENTLIST + "')/Items?$select=*&$filter=RequestID eq '" + listItemId + "'",
             httpmethod: 'GET',
             calldatatype: 'JSON',
             async: false,
@@ -609,35 +600,35 @@ function BindInitiatorAttachment() {
                             htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
 
                         }
-                      
+
                         $('#URSContainer').html(htmlStr);
                     }
-              });
+                });
 
                 attachmentdata.forEach(element => {
-                    
+
 
                     if (element.Title == "Supportive") {
                         var htmlStr = "";
                         var checkFile = $('#fileListSupportiveDoc').html();
                         var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + element.ID + "/" + element.FileName;
-    
+
                         if (checkFile === "") {
                             htmlStr = "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li>";
                         }
                         else {
                             htmlStr = checkFile + "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
-    
+
                         }
-                      
-                        
+
+
                         $('#fileListSupportiveDoc').html(htmlStr);
                     }
                 });
 
             }
         });
-   
+
 }
 function removeSupportFiles(fileName) {
     var ctx = SP.ClientContext.get_current();
@@ -702,12 +693,12 @@ function SetBudgetValue(department) {
                 calldatatype: 'JSON',
                 async: false,
                 headers:
-                {
+                    {
 
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+                        "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                    },
                 sucesscallbackfunction: function (data) {
                     if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
                         $("#BudgetedValue").val(data.d.results[0].BudgetedValue);
