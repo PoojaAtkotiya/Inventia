@@ -351,6 +351,51 @@ function displayAction()
         }
         $('#dispInitiatorAction').html(html);
     }
+    if(mainListData.PurchaseAction !==undefined && mainListData.PurchaseAction!="")
+    {
+        var PurchaseActions = [];
+        var html="";
+        PurchaseActions= TrimComma(mainListData.PurchaseAction).split(",");
+        for (var i=0; i<PurchaseActions.length; i++)
+        {
+            html = html + PurchaseActions[i] + '<br />';
+        }
+        $('#PurchaseAction').html(html);
+    }
+    if(mainListData.HODAction !==undefined && mainListData.HODAction!="")
+    {
+        var HODActions = [];
+        var html="";
+        HODActions= TrimComma(mainListData.HODAction).split(",");
+        for (var i=0; i<HODActions.length; i++)
+        {
+            html = html + HODActions[i] + '<br />';
+           
+        }
+        $('#HODAction').html(html);
+    }
+    if(mainListData.FunctionHeadAction !==undefined && mainListData.FunctionHeadAction!="")
+    {
+        var functionHeadActions = [];
+        var html="";
+        functionHeadActions= TrimComma(mainListData.FunctionHeadAction).split(",");
+        for (var i=0; i<functionHeadActions.length; i++)
+        {
+            html = html + functionHeadActions[i] + '<br />';
+        }
+        $('#FunctionHeadAction').html(html);
+    }
+    if(mainListData.ManagementAction !==undefined && mainListData.ManagementAction!="")
+    {
+        var managementActions = [];
+        var html="";
+        managementActions= TrimComma(mainListData.ManagementAction).split(",");
+        for (var i=0; i<managementActions.length; i++)
+        {
+            html = html + managementActions[i] + '<br />';
+        }
+        $('#ManagementAction').html(html);
+    }
 }
 function setSelectedValue(selectObj, valueToSet) {
     for (var i = 0; i < selectObj.options.length; i++) {

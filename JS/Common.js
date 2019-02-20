@@ -446,21 +446,29 @@ function setImageSignature() {
     if (!IsNullOrUndefined(item["HODSignature"])) {
         var img = new Image();
         img.src = item["HODSignature"];
+        img.width = 200;
+        img.height = 150;
         img_HOD.appendChild(img);
     }
     if (!IsNullOrUndefined(item["PurchaseSignature"])) {
         var img = new Image();
         img.src = item["PurchaseSignature"];
+        img.width = 200;
+        img.height = 150;
         img_Purchase.appendChild(img);
     }
     if (!IsNullOrUndefined(item["FunctionHeadSignature"])) {
         var img = new Image();
         img.src = item["FunctionHeadSignature"];
+        img.width = 200;
+        img.height = 150;
         img_FunctionHead.appendChild(img);
     }
     if (!IsNullOrUndefined(item["ManagementSignature"])) {
         var img = new Image();
         img.src = item["ManagementSignature"];
+        img.width = 200;
+        img.height = 150;
         img_Management.appendChild(img);
     }
 }
