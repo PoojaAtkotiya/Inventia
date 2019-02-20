@@ -6,6 +6,7 @@ var formData = {};
 var mainListData = {};
 var sendToLevel = 0;
 var collListItem = null;
+var param = {};
 
 $(document).ready(function () {
 
@@ -129,6 +130,16 @@ function FormBusinessLogic(activeSection) {
     var isError = false;
     try {
 
+        // param[ConstantKeys.SENDTOLEVEL] = 0;                 // ConstantKeys.SENDTOLEVEL
+        // param[ConstantKeys.SENDTOROLE] = "";
+        // param[ConstantKeys.SENDBACKTO] = "";
+        // param[ConstantKeys.ACTIONPERFORMED] = actionPerformed;
+        if (activeSection == SectionNames.HODSECTION) {
+            var actionStatus = $("#ActionStatus").val();
+            if (actionStatus == ButtonActionStatus.NextApproval) {
+                param[ConstantKeys.ACTIONPERFORMED] = ButtonActionStatus.Complete;
+            }
+        }
         /* Add final saved tran array to global tran array to save in list*/
 
         gTranArray.push({ "TranListArray": listTempGridDataArray, "TranListName": ListNames.CAPEXVENDORLIST });  ////Vendor tran added in global tran
@@ -291,23 +302,21 @@ function SaveItemWiseAttachments(listname, itemID) {
 function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     var sectionName;
     var pendingWithRole; //from mainListData
-    if (mainListData.length == 0) {
+    if (mainListData.length == 0 || mainListData.Status == "Draft") {
         pendingWithRole = "Creator";
     }
+
+    //Functions for Initiator
     if (IsNullOrUndefined(department)) {
         department = mainListData.Department;
     }
     if (listItemId == 0) {
         setNewFormParamters(department)
     }
-    if (!IsNullOrUndefined(listItemId) && listItemId > 0) {
-        setImageSignature();
-    }
     if (pendingWithRole == "Creator" || listItemId == "") {
         setFunctionbasedDept(department);
+        bindAssetClassification();
     }
-    //bindAssetName(department);
-    bindAssetClassification();
     if (listItemId > 0) {
         if (mainListData.Status == "Draft") {
             BindURSEditAttachmentFiles();
@@ -316,7 +325,21 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
             BindInitiatorAttachment();
         }
         bindEditAssetName(mainListData.AssetClassification);
+<<<<<<< HEAD
+=======
     }
+
+
+    //Functions for Purchase
+    if (mainListData.WorkflowStatus == "Pending for Purchase") {
+        BindPurchaseEditAttachmentFiles();
+    }
+    else if (mainListData.WorkflowStatus == "Closed" || mainListData.WorkflowStatus == "Rejected" || mainListData.WorkflowStatus == "Pending for Department Head" || mainListData.WorkflowStatus == "Pending for Function Head" || mainListData.WorkflowStatus == "Pending for management") {
+        BindPurchaseAttachment();
+>>>>>>> 1d06a5ec36a15b3bc835589930ff2d2a4154d84d
+    }
+
+    //Functions for Initiator HOD
     if (mainListData.PendingWith == "Initiator HOD") {
         setVendorDropDown(department);
         SetBudgetValue(department);
@@ -327,12 +350,29 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
             setSelectedValue(objSelect, mainListData.SelectedVendor);
         }
     }
+    if (mainListData.WorkflowStatus == "Pending for Department Head") {
+        BindHODEditAttachmentFiles();
+    }
+    else if (mainListData.WorkflowStatus == "Closed" || mainListData.WorkflowStatus == "Rejected" || mainListData.WorkflowStatus == "Pending for Function Head" || mainListData.WorkflowStatus == "Pending for management") {
+        BindHODAttachment();
+    }
 
+<<<<<<< HEAD
     displayAction();
 
 }
 function displayAction() {
     if (!IsNullOrUndefined(mainListData.InitiatorAction) && !IsStrNullOrEmpty(mainListData.InitiatorAction)) {
+=======
+    //common functions for all department
+    if (!IsNullOrUndefined(listItemId) && listItemId > 0) {
+        setImageSignature();
+        displayAction();
+    }
+}
+function displayAction() {
+    if (mainListData.InitiatorAction !== undefined && mainListData.InitiatorAction != "") {
+>>>>>>> 1d06a5ec36a15b3bc835589930ff2d2a4154d84d
         var initiatorActions = [];
         var html = "";
         initiatorActions = TrimComma(mainListData.InitiatorAction).split(",");
@@ -341,6 +381,43 @@ function displayAction() {
 
         }
         $('#dispInitiatorAction').html(html);
+    }
+    if (mainListData.PurchaseAction !== undefined && mainListData.PurchaseAction != "") {
+        var PurchaseActions = [];
+        var html = "";
+        PurchaseActions = TrimComma(mainListData.PurchaseAction).split(",");
+        for (var i = 0; i < PurchaseActions.length; i++) {
+            html = html + PurchaseActions[i] + '<br />';
+        }
+        $('#PurchaseAction').html(html);
+    }
+    if (mainListData.HODAction !== undefined && mainListData.HODAction != "") {
+        var HODActions = [];
+        var html = "";
+        HODActions = TrimComma(mainListData.HODAction).split(",");
+        for (var i = 0; i < HODActions.length; i++) {
+            html = html + HODActions[i] + '<br />';
+
+        }
+        $('#HODAction').html(html);
+    }
+    if (mainListData.FunctionHeadAction !== undefined && mainListData.FunctionHeadAction != "") {
+        var functionHeadActions = [];
+        var html = "";
+        functionHeadActions = TrimComma(mainListData.FunctionHeadAction).split(",");
+        for (var i = 0; i < functionHeadActions.length; i++) {
+            html = html + functionHeadActions[i] + '<br />';
+        }
+        $('#FunctionHeadAction').html(html);
+    }
+    if (mainListData.ManagementAction !== undefined && mainListData.ManagementAction != "") {
+        var managementActions = [];
+        var html = "";
+        managementActions = TrimComma(mainListData.ManagementAction).split(",");
+        for (var i = 0; i < managementActions.length; i++) {
+            html = html + managementActions[i] + '<br />';
+        }
+        $('#ManagementAction').html(html);
     }
 }
 function setSelectedValue(selectObj, valueToSet) {
@@ -405,11 +482,11 @@ function bindAssetClassification() {
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
                     var result = data.d.results;
@@ -679,11 +756,11 @@ function BindInitiatorAttachment() {
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 /*Pooja Atkotiya */
                 attachmentdata = data.d.results;

@@ -303,6 +303,250 @@ function removeSupportiveFile(itemId) {
 
 
 }
+
+function BindPurchaseAttachmentFiles() {
+    var output = [];
+    var fileName;
+    var checkFile = $('#PurchaseContainer').html();
+    if (checkFile == "") {
+        //Get the File Upload control id
+        var input = document.getElementById("UploadPurchaseAttachment");
+        if (input.files.length > 0) {
+            var fileCount = input.files.length;
+            for (var i = 0; i < fileCount; i++) {
+                fileName = input.files[i].name;
+                fileIdCounter++;
+                var fileId = fileIdCounter;
+                var file = input.files[i];
+                var reader = new FileReader();
+                reader.onload = (function (file) {
+                    return function (e) {
+                        console.log(file.name);
+                        //Push the converted file into array
+                        fileURSArray.push({
+                            "name": file.name,
+                            "content": e.target.result,
+                            "id": fileId
+                        });
+
+                    }
+                })(file);
+                reader.readAsArrayBuffer(file);
+            }
+
+            if (!IsNullOrUndefined(fileURSArray)) {
+                var listName = "Attachments";
+                var itemType = GetItemTypeForListName(listName);
+                var item = {
+                    "__metadata": { "type": itemType },
+                    "Title": "Purchase",
+                    "TypeOfAttachment": "Purchase",
+                    "FileName": file.name
+                };
+
+                $.ajax({
+                    url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('" + listName + "')/items",
+                    type: "POST",
+                    contentType: "application/json;odata=verbose",
+                    data: JSON.stringify(item),
+                    headers: {
+                        "Accept": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                    },
+                    success: function (data) {
+                        var itemId = data.d.Id;
+                        var item = $pnp.sp.web.lists.getByTitle("Attachments").items.getById(itemId);
+                        item.attachmentFiles.addMultiple(fileURSArray).then(v => {
+                            console.log("files saved successfully in list = " + listName + "for listItemId = " + itemId);
+
+                            var htmlStr = "";
+                            var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + itemId + "/" + fileName;
+
+                            if (htmlStr === "") {
+                                htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + fileName + "</a><a href=\"javascript:removePurchaseFile('" + itemId + "')\"> Remove</a></li>";
+                            }
+                            else {
+                                htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + fileName + "</a></li><a href=\"javascript:removePurchaseFile('" + fileName + "')\"> Remove</a></li>";
+
+                            }
+                            fileCommonArray.push({
+                                "name": "Purchase",
+                                "id": itemId,
+                                "filename": fileName
+                            });
+
+                            fileURSArray = [];
+                            $('#purchaseContainer').html(htmlStr);
+                        }).catch(function (err) {
+                            console.log(err);
+                            fileURSArray = [];
+                            console.log("error while save attachment ib list = " + listName + "for listItemId = " + itemId)
+                        });
+                    },
+                    error: function (data) {
+                        alert("Error");
+                    }
+                });
+            }
+        }
+    }
+    else {
+        AlertModal('Error', "Remove existing URS file to add New");
+    }
+}
+
+function removePurchaseFile(itemId) {
+    $.ajax(
+        {
+            url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('Attachments')/items('" + itemId + "')",
+            type: "DELETE",
+            headers: {
+                "accept": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                "IF-MATCH": "*"
+            },
+            success: function (data) {
+                var index;
+                fileCommonArray.forEach(element => {
+                    if (element.id == itemId) {
+                        index = fileCommonArray.indexOf(element);
+
+                    }
+                });
+                if (index !== -1) fileCommonArray.splice(index, 1);
+                var htmlStr = "";
+                $('#purchaseContainer').html(htmlStr);
+            },
+            error: function (err) {
+                alert(JSON.stringify(err));
+            }
+        }
+    );
+
+
+}
+
+function BindHODAttachmentFiles() {
+    var output = [];
+    var fileName;
+    var checkFile = $('#HODContainer').html();
+    if (checkFile == "") {
+        //Get the File Upload control id
+        var input = document.getElementById("UploadHODAttachment");
+        if (input.files.length > 0) {
+            var fileCount = input.files.length;
+            for (var i = 0; i < fileCount; i++) {
+                fileName = input.files[i].name;
+                fileIdCounter++;
+                var fileId = fileIdCounter;
+                var file = input.files[i];
+                var reader = new FileReader();
+                reader.onload = (function (file) {
+                    return function (e) {
+                        console.log(file.name);
+                        //Push the converted file into array
+                        fileURSArray.push({
+                            "name": file.name,
+                            "content": e.target.result,
+                            "id": fileId
+                        });
+
+                    }
+                })(file);
+                reader.readAsArrayBuffer(file);
+            }
+
+            if (!IsNullOrUndefined(fileURSArray)) {
+                var listName = "Attachments";
+                var itemType = GetItemTypeForListName(listName);
+                var item = {
+                    "__metadata": { "type": itemType },
+                    "Title": "HOD",
+                    "TypeOfAttachment": "HOD",
+                    "FileName": file.name
+                };
+
+                $.ajax({
+                    url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('" + listName + "')/items",
+                    type: "POST",
+                    contentType: "application/json;odata=verbose",
+                    data: JSON.stringify(item),
+                    headers: {
+                        "Accept": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                    },
+                    success: function (data) {
+                        var itemId = data.d.Id;
+                        var item = $pnp.sp.web.lists.getByTitle("Attachments").items.getById(itemId);
+                        item.attachmentFiles.addMultiple(fileURSArray).then(v => {
+                            console.log("files saved successfully in list = " + listName + "for listItemId = " + itemId);
+
+                            var htmlStr = "";
+                            var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + itemId + "/" + fileName;
+
+                            if (htmlStr === "") {
+                                htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + fileName + "</a><a href=\"javascript:removeHODFile('" + itemId + "')\"> Remove</a></li>";
+                            }
+                            else {
+                                htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + fileName + "</a></li><a href=\"javascript:removeHODFile('" + fileName + "')\"> Remove</a></li>";
+
+                            }
+                            fileCommonArray.push({
+                                "name": "HOD",
+                                "id": itemId,
+                                "filename": fileName
+                            });
+
+                            fileURSArray = [];
+                            $('#HODContainer').html(htmlStr);
+                        }).catch(function (err) {
+                            console.log(err);
+                            fileURSArray = [];
+                            console.log("error while save attachment ib list = " + listName + "for listItemId = " + itemId)
+                        });
+                    },
+                    error: function (data) {
+                        alert("Error");
+                    }
+                });
+            }
+        }
+    }
+    else {
+        AlertModal('Error', "Remove existing URS file to add New");
+    }
+}
+
+function removeHODFile(itemId) {
+    $.ajax(
+        {
+            url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('Attachments')/items('" + itemId + "')",
+            type: "DELETE",
+            headers: {
+                "accept": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                "IF-MATCH": "*"
+            },
+            success: function (data) {
+                var index;
+                fileCommonArray.forEach(element => {
+                    if (element.id == itemId) {
+                        index = fileCommonArray.indexOf(element);
+
+                    }
+                });
+                if (index !== -1) fileCommonArray.splice(index, 1);
+                var htmlStr = "";
+                $('#HODContainer').html(htmlStr);
+            },
+            error: function (err) {
+                alert(JSON.stringify(err));
+            }
+        }
+    );
+
+
+}
 // function BindSupportDocAttachmentFiles() {
 //     var output = [];
 
@@ -451,21 +695,29 @@ function setImageSignature() {
     if (!IsNullOrUndefined(item["HODSignature"])) {
         var img = new Image();
         img.src = item["HODSignature"];
+        img.width = 200;
+        img.height = 150;
         img_HOD.appendChild(img);
     }
     if (!IsNullOrUndefined(item["PurchaseSignature"])) {
         var img = new Image();
         img.src = item["PurchaseSignature"];
+        img.width = 200;
+        img.height = 150;
         img_Purchase.appendChild(img);
     }
     if (!IsNullOrUndefined(item["FunctionHeadSignature"])) {
         var img = new Image();
         img.src = item["FunctionHeadSignature"];
+        img.width = 200;
+        img.height = 150;
         img_FunctionHead.appendChild(img);
     }
     if (!IsNullOrUndefined(item["ManagementSignature"])) {
         var img = new Image();
         img.src = item["ManagementSignature"];
+        img.width = 200;
+        img.height = 150;
         img_Management.appendChild(img);
     }
 }
