@@ -2815,7 +2815,7 @@ function GetSPGroupIDByName(grpName, handleData) {
                         "X-RequestDigest": $("#__REQUESTDIGEST").val()
                     },
                 sucesscallbackfunction: function (data) {
-                    debugger
+                    
                     handleData(data.d.Id);
                 }
             });
