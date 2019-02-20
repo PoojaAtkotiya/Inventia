@@ -1265,10 +1265,17 @@ function ValidateForm(ele, saveCallBack) {
 
 
 
+<<<<<<< HEAD
     }
     else {
         saveCallBack(activeSection);
     }
+=======
+    }
+    else {
+        saveCallBack(activeSection);
+    }
+>>>>>>> 73f78a579b24c863d8736456c0aa72fb9bc8e42a
     HideWaitDialog();
 }
 
@@ -1793,20 +1800,37 @@ function CommonBusinessLogic(sectionName, itemID, listDataArray) {
     }
 
 }
+function addZero(i) {
+    if (i < 10) {
+        i = "0" + i;
+    }
+    return i;
+}
 function SaveActions(sectionName, itemID, actionPerformed) {
     var formFieldValues = [];
     var todayDate = new Date();
     var year = todayDate.getFullYear();
     var month = todayDate.getMonth() + 1
     var day = todayDate.getDate();
+<<<<<<< HEAD
     var time = todayDate.getTime();
     //var formatted=year+"/"+month+"/"+day;
     var formatted = day + "/" + month + "/" + year + " " + time + 'IST';
+=======
+    var amOrPm = (todayDate.getHours() < 12) ? "AM" : "PM";
+    var hour = addZero(todayDate.getHours());
+    var minute = addZero(todayDate.getMinutes());
+    var formatted = day + "/" + month + "/" + year + " " + hour + ":" + minute + " " + amOrPm + " " + 'IST';
+>>>>>>> 73f78a579b24c863d8736456c0aa72fb9bc8e42a
     switch (sectionName) {
         case SectionNames.INITIATORSECTION:
             if (actionPerformed == "NextApproval") {
                 //formFieldValues['InitiatorAction'] = currentUser.Title + '-' + todayDate + '-' + "Submit";
+<<<<<<< HEAD
                 formFieldValues['InitiatorAction'] = "Submited By" + '\n' + currentUser.Title + '\n' + formatted;
+=======
+                formFieldValues['InitiatorAction'] = "Submitted By " + "," + currentUser.Title + "," + formatted;
+>>>>>>> 73f78a579b24c863d8736456c0aa72fb9bc8e42a
             }
             else if (actionPerformed == "SaveAsDraft") {
                 formFieldValues['InitiatorAction'] = currentUser.Title + '-' + todayDate + '-' + "SaveAsDraft";
@@ -2534,11 +2558,11 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json; odata=verbose",
-                    "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json; odata=verbose",
+                "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
+            },
             sucesscallbackfunction: function (data) {
                 emailTemplate.push({ "Subject": data.d.results[0].Subject });
                 emailTemplate.push({ "Body": data.d.results[0].Body });
@@ -2656,11 +2680,11 @@ function GetDatafromList(itemID, mainListName, subject, matchesSubject, body, ma
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json; odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json; odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 mainlistData = data.d;
                 ////replacement with list item values start
@@ -2886,11 +2910,11 @@ function GetSPGroupIDByName(grpName, handleData) {
                 calldatatype: 'JSON',
                 async: false,
                 headers:
-                    {
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json;odata=verbose",
-                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                    },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
                 sucesscallbackfunction: function (data) {
                     handleData(data.d.Id);
                 }
@@ -2922,13 +2946,13 @@ function updateRequestIDAttachmentList(attchmentID, itemID) {
         async: false,
         data: JSON.stringify(item),
         headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                "IF-MATCH": "*",
-                "X-HTTP-Method": "MERGE"
-            },
+        {
+            "Accept": "application/json;odata=verbose",
+            "Content-Type": "application/json;odata=verbose",
+            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+            "IF-MATCH": "*",
+            "X-HTTP-Method": "MERGE"
+        },
         success: function (data) {
             console.log("Item saved Successfully");
         },

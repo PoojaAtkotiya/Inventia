@@ -26,6 +26,7 @@ function GetSetFormData() {
     //GetTranListData(listItemId);
     GetAllTranlists(listItemId);
     var mainListName = $($('div').find('[mainlistname]')).attr('mainlistname');
+    
     AjaxCall(
         {
             url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + mainListName + "')/items(" + listItemId + ")?$select=RaisedBy/Title,*&$expand=RaisedBy",
