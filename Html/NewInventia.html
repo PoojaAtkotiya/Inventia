@@ -52,6 +52,16 @@
             $(document).on("change", "#UploadSupportiveDocAttachment", function () {
                 BindSupportDocAttachmentFiles();
             });
+          
+            $(document).on("change", "#AssetClassification", function () {
+                var selectedReason = $("#AssetClassification").val();
+                if (selectedReason != "Select") {
+                    bindAssetName(selectedReason);
+            }
+               
+            });
+
+            
             $('#IsNewVendor').hide();
             $("#ProposedVendor").hide();
 
@@ -303,6 +313,29 @@
                                             <hr>
                                             <br>
                                             <div class="row">
+                                               
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label">
+                                                            <span class="text-danger text-default-light">*</span>
+                                                            Asset Classification
+                                                        </label>
+                                                        <div class="col-md-8">
+                                                            <!-- <select class="form-control m-b-n-sm dynamic-control" id="AssetClassification"
+                                                                controlType="combo" listtype="master" reflisttype="main"
+                                                                name="AssetClassification" data-selected="AssetClassification"
+                                                                valuebindingcolumn="Title" textbindingcolumnn="Title"
+                                                                listname="AssetClassificationMaster" required="required">
+                                                            </select> -->
+                                                            <select class="form-control m-b-n-sm dynamic-control" id="AssetClassification"
+                                                            controlType="combo" data-selected="AssetClassification"
+                                                            reflisttype="main" valuebindingcolumn="AssetClassification"
+                                                            listname="DepartmentFunctionMappingMaster" textbindingcolumnn="AssetClassification"
+                                                            name="AssetClassification" required="required">
+                                                        </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
                                                         <label class="col-md-4 control-label">
@@ -319,22 +352,6 @@
                                                                 reflisttype="main" valuebindingcolumn="AssetName"
                                                                 listname="BudgetMaster" textbindingcolumnn="AssetName"
                                                                 name="AssetName" required="required">
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                            <span class="text-danger text-default-light">*</span>
-                                                            Asset Classification
-                                                        </label>
-                                                        <div class="col-md-8">
-                                                            <select class="form-control m-b-n-sm dynamic-control" id="AssetClassification"
-                                                                controlType="combo" listtype="master" reflisttype="main"
-                                                                name="AssetClassification" data-selected="AssetClassification"
-                                                                valuebindingcolumn="Title" textbindingcolumnn="Title"
-                                                                listname="AssetClassificationMaster" required="required">
                                                             </select>
                                                         </div>
                                                     </div>
