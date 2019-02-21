@@ -523,6 +523,9 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
             currentLevel = previousLevel;
             formFieldValues['Status'] = "Draft";
             formFieldValues['NextApprover'] = currentUser.Id;
+            formFieldValues['PendingWith'] = (!IsNullOrUndefined(mainListData.PendingWith) && !IsStrNullOrEmpty(mainListData.PendingWith)) ? mainListData.PendingWith : currentUserRole;
+            formFieldValues['LastActionBy'] = currentUser.Id;
+            formFieldValues['LastActionByRole'] = currentUserRole;
             break;
         case ButtonActionStatus.SaveAndStatusUpdate:
         case ButtonActionStatus.SaveAndStatusUpdateWithEmail:
