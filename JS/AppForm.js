@@ -109,7 +109,7 @@ function Capex_SaveData(ele) {
     if (activeSectionName == SectionNames.PURCHASESECTION) {
         // gTranArray.push({ "TranListArray": listTempGridDataArray, "TranListName": ListNames.CAPEXVENDORLIST });  ////Vendor tran added in global tran
         if (listTempGridDataArray.length < 3) {
-            AlertModal('Error', "Max 3 vendor required");
+            AlertModal('Error', "Minimum 3 vendor required");
             return false;
         }
     }
@@ -379,7 +379,9 @@ function displayAction() {
     if (mainListData.InitiatorAction !== undefined && mainListData.InitiatorAction != "") {
         var initiatorActions = [];
         var html = "";
-        initiatorActions = TrimComma(mainListData.InitiatorAction).split(",");
+        if (!IsStrNullOrEmpty(mainListData.InitiatorAction) && !IsNullOrUndefined(mainListData.InitiatorAction)) {
+            initiatorActions = TrimComma(mainListData.InitiatorAction).split(",");
+        }
         for (var i = 0; i < initiatorActions.length; i++) {
             html = html + initiatorActions[i] + '<br />';
 
@@ -389,7 +391,9 @@ function displayAction() {
     if (mainListData.PurchaseAction !== undefined && mainListData.PurchaseAction != "") {
         var PurchaseActions = [];
         var html = "";
-        PurchaseActions = TrimComma(mainListData.PurchaseAction).split(",");
+        if (!IsStrNullOrEmpty(mainListData.PurchaseAction) && !IsNullOrUndefined(mainListData.PurchaseAction)) {
+            PurchaseActions = TrimComma(mainListData.PurchaseAction).split(",");
+        }
         for (var i = 0; i < PurchaseActions.length; i++) {
             html = html + PurchaseActions[i] + '<br />';
         }
@@ -398,7 +402,9 @@ function displayAction() {
     if (mainListData.HODAction !== undefined && mainListData.HODAction != "") {
         var HODActions = [];
         var html = "";
-        HODActions = TrimComma(mainListData.HODAction).split(",");
+        if (!IsStrNullOrEmpty(mainListData.HODAction) && !IsNullOrUndefined(mainListData.HODAction)) {
+            HODActions = TrimComma(mainListData.HODAction).split(",");
+        }
         for (var i = 0; i < HODActions.length; i++) {
             html = html + HODActions[i] + '<br />';
 
@@ -408,7 +414,9 @@ function displayAction() {
     if (mainListData.FunctionHeadAction !== undefined && mainListData.FunctionHeadAction != "") {
         var functionHeadActions = [];
         var html = "";
-        functionHeadActions = TrimComma(mainListData.FunctionHeadAction).split(",");
+        if (!IsStrNullOrEmpty(mainListData.FunctionHeadAction) && !IsNullOrUndefined(mainListData.FunctionHeadAction)) {
+            functionHeadActions = TrimComma(mainListData.FunctionHeadAction).split(",");
+        }
         for (var i = 0; i < functionHeadActions.length; i++) {
             html = html + functionHeadActions[i] + '<br />';
         }
@@ -417,7 +425,9 @@ function displayAction() {
     if (mainListData.ManagementAction !== undefined && mainListData.ManagementAction != "") {
         var managementActions = [];
         var html = "";
-        managementActions = TrimComma(mainListData.ManagementAction).split(",");
+        if (!IsStrNullOrEmpty(mainListData.ManagementAction) && !IsNullOrUndefined(mainListData.ManagementAction)) {
+            managementActions = TrimComma(mainListData.ManagementAction).split(",");
+        }
         for (var i = 0; i < managementActions.length; i++) {
             html = html + managementActions[i] + '<br />';
         }
@@ -486,11 +496,11 @@ function bindAssetClassification() {
             calldatatype: 'JSON',
             async: false,
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val()
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
             sucesscallbackfunction: function (data) {
                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
                     var result = data.d.results;
@@ -704,11 +714,11 @@ function BindInitiatorAttachment() {
             calldatatype: 'JSON',
             async: false,
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val()
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
             sucesscallbackfunction: function (data) {
                 /*Pooja Atkotiya */
                 attachmentdata = data.d.results;

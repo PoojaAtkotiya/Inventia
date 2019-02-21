@@ -337,14 +337,15 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
     var sendBackTo = $("#SendBackTo").val();
     //var keys = Object.keys(ButtonActionStatus).filter(k => ButtonActionStatus[k] == actionStatus);
     //actionPerformed = keys.toString();
-    actionPerformed = parseInt(actionStatus);
 
-    ///Pending -- temporary
-    var param = {};
-    param[ConstantKeys.SENDTOLEVEL] = 0;                 // ConstantKeys.SENDTOLEVEL
-    param[ConstantKeys.SENDTOROLE] = sendToRole;
-    param[ConstantKeys.SENDBACKTO] = sendBackTo;
-    param[ConstantKeys.ACTIONPERFORMED] = actionPerformed;
+
+    ///Pending -- to test
+    param[ConstantKeys.SENDTOLEVEL] = ((ConstantKeys.SENDTOLEVEL in param) && !IsNullOrUndefined(param[ConstantKeys.SENDTOLEVEL])) ? param[ConstantKeys.SENDTOLEVEL] : 0;
+    param[ConstantKeys.SENDTOROLE] = ((ConstantKeys.SENDTOROLE in param) && !IsNullOrUndefined(param[ConstantKeys.SENDTOROLE])) ? param[ConstantKeys.SENDTOROLE] : sendToRole;
+    param[ConstantKeys.SENDBACKTO] = ((ConstantKeys.SENDBACKTO in param) && !IsNullOrUndefined(param[ConstantKeys.SENDBACKTO])) ? param[ConstantKeys.SENDBACKTO] : sendBackTo;
+    param[ConstantKeys.ACTIONPERFORMED] = ((ConstantKeys.ACTIONPERFORMED in param) && !IsNullOrUndefined(param[ConstantKeys.ACTIONPERFORMED])) ? param[ConstantKeys.ACTIONPERFORMED] : parseInt(actionStatus);
+
+    actionPerformed = param[ConstantKeys.ACTIONPERFORMED];
 
     var sendToLevel = ((ConstantKeys.SENDTOLEVEL in param) && !IsNullOrUndefined(param[ConstantKeys.SENDTOLEVEL])) ? param[ConstantKeys.SENDTOLEVEL] : null;
 
@@ -574,7 +575,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
                 formFieldValues['NextApprover'] = '';
                 formFieldValues['FormLevel'] = currentLevel + "|" + currentLevel;
                 formFieldValues['ApprovalStatus'] = "Completed";
-                formFieldValues['Status'] = "Completed";
+                formFieldValues['Status'] = WFStatus.COMPLETED; // "Completed";
                 makeAllUsersViewer = true;
                 isTaskAssignMailSend = true;
             }
@@ -606,7 +607,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
             break;
         case ButtonActionStatus.Complete:
             formFieldValues['ApprovalStatus'] = "Completed";
-            formFieldValues['Status'] = "Completed";
+            formFieldValues['Status'] = WFStatus.COMPLETED;// "Completed";
             formFieldValues['FormLevel'] = currentLevel + "|" + currentLevel;
             formFieldValues['NextApprover'] = '';
             formFieldValues['PendingWith'] = '';
@@ -1012,8 +1013,7 @@ function GetPermissionDictionary(tempApproverMatrix, nextLevel, isAllUserViewer,
         var strContributer = '';
         tempApproverMatrix.forEach(temp => {
             if (!IsNullOrUndefined(temp.ApproverId)) {
-                if (temp.Levels == nextLevel && temp.Status == "Pending") //ApproverStatus.PENDING)
-                {
+                if (temp.Levels == nextLevel && temp.Status == ApproverStatus.PENDING) {
                     /* All users 
                      * 1) who are pending on current level
                      */
@@ -1352,7 +1352,8 @@ function UpdateWorkflowStatus(formFieldValues) {
     if (!IsNullOrUndefined(formStatus) && !IsStrNullOrEmpty(formStatus)) {
         switch (formStatus) {
             case "Submitted":
-                wfStatus = "Pending With " + pendingWithRole;
+                //  wfStatus = "Pending With " + pendingWithRole;
+                wfStatus = WFStatus.PENDINGWITH + pendingWithRole;
                 break;
             case "Sent Back":
                 wfStatus = "Sent back by " + lastActionByRole;
