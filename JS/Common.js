@@ -121,6 +121,7 @@ function BindURSAttachmentFiles() {
 
                             fileURSArray = [];
                             $('#URSContainer').html(htmlStr);
+                            $("#UploadURSAttachment").removeAttr("required");
                         }).catch(function (err) {
                             console.log(err);
                             fileURSArray = [];
@@ -160,6 +161,7 @@ function removeURSFile(itemId) {
                 if (index !== -1) fileCommonArray.splice(index, 1);
                 var htmlStr = "";
                 $('#URSContainer').html(htmlStr);
+                $("#UploadURSAttachment").attr("required", true);
             },
             error: function (err) {
                 alert(JSON.stringify(err));
