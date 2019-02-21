@@ -68,9 +68,9 @@
             });
 
             $(document).on("change", "#AssetClassification", function () {
-                var selectedReason = $("#AssetClassification").val();
-                if (selectedReason != "Select") {
-                    bindAssetName(selectedReason);
+                var selectedAssetCode = $("#AssetClassification").val();
+                if (selectedAssetCode != "Select") {
+                    bindAssetName(selectedAssetCode);
                 }
 
             });
@@ -162,33 +162,11 @@
                         break;
                 }
             });
-            //DatePickerControl('#date');
-
-            // Js error log
-            //         window.onerror = function(msg, file_loc, line_no, col_no){
-            // 	jsErrLog.errorTrap(msg, file_loc, line_no, col_no);
-            // 	if(typeof(jsErrLog.fnPreviousOnErrorHandler) == "function") {
-            // 		// process any existing onerror handler
-            // 		jsErrLog.fnPreviousOnErrorHandler(msg, file_loc, line_no, col_no);
-            // 	}
-            //     return jsErrLog.trapErrors;
-            // }
         });
 
 
     </script>
-    <style>
-        /* .ui-autocomplete{
-        z-index:1050 !important;
-
-    } */
-
-        /* .pac-container{
-    z-index: 999999;
-  } */
-
-        /* .ui-autocomplete-input, .ui-menu, .ui-menu-item {  z-index: 2006; background: black; } */
-    </style>
+  
 </head>
 
 <body>
@@ -230,9 +208,6 @@
                                                             <span class="text-danger text-default-light">*</span>
                                                             Capex Requisition Sr No.
                                                         </label>
-
-                                                        <!-- <label id="CapexRequisitionSrNo" class="col-md-8 labeltop">
-                                                            12001/201902/001</label> -->
                                                         <label id="CapitalAssetRequisitionNumber" class="col-md-8 static-control labeltop" controlType="text" listtype="main"></label>
                                                     </div>
                                                 </div>
@@ -244,7 +219,7 @@
                                                             <span class="text-danger text-default-light">*</span>
                                                             Raised By
                                                         </label>
-                                                        <!-- <label id="RaisedBy" class="col-md-8 labeltop">Mayuri Shah</label> -->
+                                                        
                                                         <label id="RaisedBy" class="col-md-8 static-control labeltop" controlType="person" listtype="main"></label>
                                                     </div>
                                                 </div>
@@ -254,8 +229,6 @@
                                                             <span class="text-danger text-default-light">*</span>
                                                             Raised On
                                                         </label>
-                                                        <!-- <label id="RequestDate" class="col-md-8 labeltop">12-02-2019</label> -->
-                                                        <!-- <label id="RaisedOn" class="col-md-8 static-control labeltop" controlType="date" listtype="main"></label> -->
                                                         <label id="RaisedOnDisplay" class="col-md-8 labeltop"></label>
                                                         <label id="RaisedOn" class="static-control" listtype="main" controlType="date" style="display: none" />
                                                     </div>
@@ -278,10 +251,6 @@
                                                             <span class="text-danger text-default-light">*</span>
                                                             Function
                                                         </label>
-
-                                                        <!-- <label id="Function" class="col-md-8 dynamic-control labeltop"
-                                                         controlType="text" listtype="main"> -->
-
                                                         <label id="Function" class="col-md-8 static-control labeltop" controlType="text" listtype="main"></label>
                                                         </label>
 
@@ -317,13 +286,7 @@
                                                             Asset Classification
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <!-- <select class="form-control m-b-n-sm dynamic-control" id="AssetClassification"
-                                                                controlType="combo" listtype="master" reflisttype="main"
-                                                                name="AssetClassification" data-selected="AssetClassification"
-                                                                valuebindingcolumn="Title" textbindingcolumnn="Title"
-                                                                listname="AssetClassificationMaster" required="required">
-                                                            </select> -->
-                                                            <select class="form-control m-b-n-sm dynamic-control requiredOnDraft" id="AssetClassification" controlType="combo" data-selected="AssetClassification"
+                                                           <select class="form-control m-b-n-sm dynamic-control requiredOnDraft" id="AssetClassification" controlType="combo" data-selected="AssetClassification"
                                                                 reflisttype="main" valuebindingcolumn="AssetClassification" listname="DepartmentFunctionMappingMaster"
                                                                 textbindingcolumnn="AssetClassification" name="AssetClassification"
                                                                 required="required">
@@ -338,10 +301,6 @@
                                                             Asset Name
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <!-- <select class="form-control m-b-n-sm dynamic-control" id="AssetName" controlType="combo" listtype="master" reflisttype="main"
-                                                                listname="AssetMaster" data-selected="AssetName" valuebindingcolumn="Title"
-                                                                textbindingcolumnn="Title" name="AssetName" required="required">
-                                                            </select> -->
                                                             <select class="form-control m-b-n-sm dynamic-control requiredOnDraft" id="AssetName" controlType="combo" data-selected="AssetName"
                                                                 reflisttype="main" valuebindingcolumn="AssetName" listname="BudgetMaster"
                                                                 textbindingcolumnn="AssetName" name="AssetName" required="required">
@@ -400,8 +359,12 @@
                                                             Cost Center
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <input type="text" id="CostCenter" class="form-control dynamic-control" placeholder="Cost Center" controlType="text" maxlength="255"
-                                                                name="CostCenter" listtype="main" required="required" />
+                                                            <!-- <input type="text" id="CostCenter" class="form-control dynamic-control" placeholder="Cost Center" controlType="text" maxlength="255"
+                                                                name="CostCenter" listtype="main" required="required" /> -->
+                                                                <select class="form-control m-b-n-sm dynamic-control" id="CostCenter" controlType="combo" listtype="master" reflisttype="main"
+                                                                listname="CostCenter" data-selected="CostCenter" valuebindingcolumn="Title"
+                                                                textbindingcolumnn="Title" name="CostCenter" required="required">
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
