@@ -2,6 +2,7 @@ var globalApprovalMatrix;
 var currentUserRole;
 var localApprovalMatrixdata;
 var activeSectionName = "";
+var currentSectionName = "";
 var web, clientContext, oList, perMask;
 var currentApproverList;
 var tempApproverMatrix;
@@ -176,6 +177,7 @@ function GetEnableSectionNames(id) {
         var activeSectionItem = globalApprovalMatrix.filter(function (i) {
             return (i.ApplicationName.Label == CommonConstant.APPLICATIONNAME && i.FormName.Label == CommonConstant.FORMNAME && i.Role == currentUserRole);
         })[0];
+        currentSectionName = getTermFromManagedColumn(activeSectionItem.SectionName);
         activeSectionName = getTermFromManagedColumn(activeSectionItem.SectionName);
 
         $(formNames).find('div.card-body').filter(function () {
@@ -193,10 +195,18 @@ function GetEnableSectionNames(id) {
     }
     else if (id > 0) {
         //get active section name
-        var activeSectionItem = localApprovalMatrixdata.filter(function (l) {
+        var currentSectionItem = localApprovalMatrixdata.filter(function (l) {
             return (l.ApplicationName == CommonConstant.APPLICATIONNAME && l.FormName == CommonConstant.FORMNAME && l.Levels == tcurrentLevel && l.Role == currentUserRole);
         })[0];
+        currentSectionName = !IsNullOrUndefined(currentSectionItem) ? currentSectionItem.SectionName : '';
 
+        var pendingWithRole = [];
+        if (!IsNullOrUndefined(mainListData) && !IsStrNullOrEmpty(mainListData.PendingWith) && !IsNullOrUndefined(mainListData.PendingWith)) {
+            pendingWithRole = mainListData.PendingWith.split(",");
+        }
+        var activeSectionItem = localApprovalMatrixdata.filter(function (l) {
+            return (l.SectionName == currentSectionName && l.Levels == tcurrentLevel && pendingWithRole.some(p => p == currentUserRole) && !IsNullOrUndefined(l.ApproverId) && !IsNullOrUndefined(l.ApproverId.results) && l.ApproverId.results.length > 0 && l.Status != ApproverStatus.NOTREQUIRED);
+        })[0];
         activeSectionName = !IsNullOrUndefined(activeSectionItem) ? activeSectionItem.SectionName : '';
         if (activeSectionName) {
             $(formNames).find('div.card-body').filter(function () {
