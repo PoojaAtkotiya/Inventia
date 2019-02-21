@@ -394,7 +394,47 @@ function BindPurchaseAttachmentFiles() {
         AlertModal('Error', "Remove existing URS file to add New");
     }
 }
+function BindPurchaseEditAttachmentFiles(){
+    var attachmentdata = [];
+    AjaxCall(
+        {
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ATTACHMENTLIST + "')/Items?$select=*&$filter=RequestID eq '" + listItemId + "'",
+            httpmethod: 'GET',
+            calldatatype: 'JSON',
+            async: false,
+            headers:
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+            sucesscallbackfunction: function (data) {
+                /*Pooja Atkotiya */
+                attachmentdata = data.d.results;
+                attachmentdata.forEach(element => {
+                    if (element.Title == "Purchase") {
 
+                        var htmlStr = "";
+                        var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + element.ID + "/" + element.FileName;
+
+                        if (htmlStr === "") {
+                            htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a><a href=\"javascript:removeURSFile('" + element.ID + "')\"> Remove</a></li>";
+                        }
+                        else {
+                            htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a></li><a href=\"javascript:removeURSFile('" + element.FileName + "')\"> Remove</a></li>";
+
+                        }
+                        fileCommonArray.push({
+                            "name": "Purchase",
+                            "id": element.ID,
+                            "filename": element.FileName
+                        });
+                        $('#purchaseContainer').html(htmlStr);
+                    }
+                });
+             }
+        });
+}
 function removePurchaseFile(itemId) {
     $.ajax(
         {
@@ -425,7 +465,47 @@ function removePurchaseFile(itemId) {
 
 
 }
+function BindHODEditAttachmentFiles(){
+    var attachmentdata = [];
+    AjaxCall(
+        {
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ATTACHMENTLIST + "')/Items?$select=*&$filter=RequestID eq '" + listItemId + "'",
+            httpmethod: 'GET',
+            calldatatype: 'JSON',
+            async: false,
+            headers:
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+            sucesscallbackfunction: function (data) {
+                /*Pooja Atkotiya */
+                attachmentdata = data.d.results;
+                attachmentdata.forEach(element => {
+                    if (element.Title == "HOD") {
 
+                        var htmlStr = "";
+                        var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + element.ID + "/" + element.FileName;
+
+                        if (htmlStr === "") {
+                            htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a><a href=\"javascript:removeURSFile('" + element.ID + "')\"> Remove</a></li>";
+                        }
+                        else {
+                            htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a></li><a href=\"javascript:removeURSFile('" + element.FileName + "')\"> Remove</a></li>";
+
+                        }
+                        fileCommonArray.push({
+                            "name": "HOD",
+                            "id": element.ID,
+                            "filename": element.FileName
+                        });
+                        $('#HODContainer').html(htmlStr);
+                    }
+                });
+             }
+        });
+}
 function BindHODAttachmentFiles() {
     var output = [];
     var fileName;

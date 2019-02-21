@@ -255,7 +255,9 @@
                                                             Raised On
                                                         </label>
                                                         <!-- <label id="RequestDate" class="col-md-8 labeltop">12-02-2019</label> -->
-                                                        <label id="RaisedOn" class="col-md-8 static-control labeltop" controlType="date" listtype="main"></label>
+                                                        <!-- <label id="RaisedOn" class="col-md-8 static-control labeltop" controlType="date" listtype="main"></label> -->
+                                                        <label id="RaisedOnDisplay" class="col-md-8 labeltop"></label>
+                                                        <label id="RaisedOn" class="static-control" listtype="main" controlType="date" style="display: none" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -494,11 +496,10 @@
                                                         </label>
                                                         <div class="col-md-8">
                                                             <input type="file" class="form-control dynamic-control" id="UploadURSAttachment" name="myfiles" controlType="file" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
-                                                            text/plain, application/pdf, image/*">
+                                                            text/plain, application/pdf, image/*" required="required">
                                                             <br>
                                                             <div id="URSContainer"></div>
-                                                            <br>
-                                                            <ul id="fileListURS"></ul>
+                                                           
                                                         </div>
                                                     </div>
                                                 </div>

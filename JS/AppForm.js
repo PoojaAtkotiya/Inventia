@@ -328,6 +328,9 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     if (listItemId == 0) {
         setNewFormParamters(department)
     }
+    else{
+        $("#RaisedOnDisplay").html(new Date(mainListData.RaisedOn).format("dd-MM-yyyy"));
+    }
     if (pendingWithRole == "Creator" || listItemId == "") {
         setFunctionbasedDept(department);
         bindAssetClassification();
@@ -446,8 +449,11 @@ function setSelectedValue(selectObj, valueToSet) {
 function setNewFormParamters(department) {
     $("#RaisedBy").html(currentUser.Title);
     $("#InitiatorName").html(currentUser.Title);
-    var today = new Date().format("dd-MM-yyyy");
+   // var today = new Date().format("dd-MM-yyyy");
+    var today = new Date().format("MM-dd-yyyy");
+    var todaydisplay = new Date().format("dd-MM-yyyy");
     $("#RaisedOn").html(today);
+    $("#RaisedOnDisplay").html(todaydisplay);
     $("#WorkflowStatus").html("New");
     $("#Department").html(department);
 }
