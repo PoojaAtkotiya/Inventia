@@ -1478,13 +1478,7 @@ function ValidateForm(ele, saveCallBack) {
                 }
             });
         }
-
-
-
     }
-    // else {
-    //     saveCallBack(activeSection);
-    // }
     HideWaitDialog();
 }
 
