@@ -1465,7 +1465,6 @@ function ValidateForm(ele, saveCallBack) {
             if ($(formList).find("div[data-appname]").length != 0 && $(formList).find("div[data-appname]").find("ul li").length == 0 && dataAction == "11") {
                 attachmsg = "Are you sure to '" + $.trim($(ele).text()) + "' without attachment?";
             }
-            //if(listTempGridDataArray.length >= 3){
             ConfirmationDailog({
                 title: "Confirm", message: attachmsg, okCallback: function (data) {
                     saveCallBack(activeSection);
@@ -1483,9 +1482,9 @@ function ValidateForm(ele, saveCallBack) {
 
 
     }
-    else {
-        saveCallBack(activeSection);
-    }
+    // else {
+    //     saveCallBack(activeSection);
+    // }
     HideWaitDialog();
 }
 
