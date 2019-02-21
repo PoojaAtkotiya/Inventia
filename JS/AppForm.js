@@ -347,7 +347,7 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     if (mainListData.WorkflowStatus == "Pending for Purchase") {
         BindPurchaseEditAttachmentFiles();
     }
-    else if (mainListData.WorkflowStatus == "Closed" || mainListData.WorkflowStatus == "Rejected" || mainListData.WorkflowStatus == "Pending for Department Head" || mainListData.WorkflowStatus == "Pending for Function Head" || mainListData.WorkflowStatus == "Pending for management") {
+    else if (mainListData.WorkflowStatus == "Closed" || mainListData.WorkflowStatus == "Rejected" || mainListData.PendingWith == Roles.INITIATORHOD || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
         BindPurchaseAttachment();
     }
 
@@ -362,10 +362,10 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
             setSelectedValue(objSelect, mainListData.SelectedVendor);
         }
     }
-    if (mainListData.WorkflowStatus == "Pending for Department Head") {
+    if (mainListData.PendingWith == Roles.INITIATORHOD) {
         BindHODEditAttachmentFiles();
     }
-    else if (mainListData.WorkflowStatus == "Closed" || mainListData.WorkflowStatus == "Rejected" || mainListData.WorkflowStatus == "Pending for Function Head" || mainListData.WorkflowStatus == "Pending for management") {
+    else if (mainListData.WorkflowStatus == "Closed" || mainListData.WorkflowStatus == "Rejected" || mainListData.PendingWith == Roles.INITIATORHOD || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
         BindHODAttachment();
     }
 
@@ -436,7 +436,7 @@ function setSelectedValue(selectObj, valueToSet) {
 function setNewFormParamters(department) {
     $("#RaisedBy").html(currentUser.Title);
     $("#InitiatorName").html(currentUser.Title);
-    var today = new Date().format("MM-dd-yyyy");
+    var today = new Date().format("dd-MM-yyyy");
     $("#RaisedOn").html(today);
     $("#WorkflowStatus").html("New");
     $("#Department").html(department);
