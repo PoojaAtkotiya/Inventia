@@ -575,7 +575,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
                 formFieldValues['NextApprover'] = '';
                 formFieldValues['FormLevel'] = currentLevel + "|" + currentLevel;
                 formFieldValues['ApprovalStatus'] = "Completed";
-                formFieldValues['Status'] = "Completed";
+                formFieldValues['Status'] = WFStatus.COMPLETED; // "Completed";
                 makeAllUsersViewer = true;
                 isTaskAssignMailSend = true;
             }
@@ -607,7 +607,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
             break;
         case ButtonActionStatus.Complete:
             formFieldValues['ApprovalStatus'] = "Completed";
-            formFieldValues['Status'] = "Completed";
+            formFieldValues['Status'] = WFStatus.COMPLETED;// "Completed";
             formFieldValues['FormLevel'] = currentLevel + "|" + currentLevel;
             formFieldValues['NextApprover'] = '';
             formFieldValues['PendingWith'] = '';
@@ -1013,8 +1013,7 @@ function GetPermissionDictionary(tempApproverMatrix, nextLevel, isAllUserViewer,
         var strContributer = '';
         tempApproverMatrix.forEach(temp => {
             if (!IsNullOrUndefined(temp.ApproverId)) {
-                if (temp.Levels == nextLevel && temp.Status == "Pending") //ApproverStatus.PENDING)
-                {
+                if (temp.Levels == nextLevel && temp.Status == ApproverStatus.PENDING) {
                     /* All users 
                      * 1) who are pending on current level
                      */
@@ -1353,7 +1352,8 @@ function UpdateWorkflowStatus(formFieldValues) {
     if (!IsNullOrUndefined(formStatus) && !IsStrNullOrEmpty(formStatus)) {
         switch (formStatus) {
             case "Submitted":
-                wfStatus = "Pending With " + pendingWithRole;
+                //  wfStatus = "Pending With " + pendingWithRole;
+                wfStatus = WFStatus.PENDINGWITH + pendingWithRole;
                 break;
             case "Sent Back":
                 wfStatus = "Sent back by " + lastActionByRole;
