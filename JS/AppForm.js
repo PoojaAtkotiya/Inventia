@@ -157,10 +157,6 @@ function FormBusinessLogic(activeSection) {
         /* Add final saved tran array to global tran array to save in list*/
 
         gTranArray.push({ "TranListArray": listTempGridDataArray, "TranListName": ListNames.CAPEXVENDORLIST });  ////Vendor tran added in global tran
-<<<<<<< HEAD
-
-=======
->>>>>>> 57214f22306d92fa68b5f57992a83b67e99d7238
         setCustomApprovers(listItemId);
     }
     catch (Exception) {
