@@ -709,14 +709,11 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
                 "April", "May", "June",
                 "July", "August", "September",
                 "October", "November", "December"
-            ];
-            
+            ];            
             Date.prototype.getMonthName = function() {
                 return this.monthNames[this.getMonth()];
-            };
-           
+            };           
             formFieldValues["Month"] = (new Date().getMonthName()).toString();
-
             formFieldValues["Year"] = (new Date().getFullYear()).toString();
         }
 
