@@ -42,7 +42,7 @@ function GetGlobalApprovalMatrix(id) {
 function GetLocalApprovalMatrixData(id, mainListName) {
     AjaxCall(
         {
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.APPROVALMATRIXLIST + "')/Items?$select=*,Approver/UserName&$expand=Approver&$filter=RequestID eq '" + id + "'&$orderby= Levels asc",
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.APPROVALMATRIXLIST + "')/Items?$select=*,Approver/Title&$expand=Approver&$filter=RequestID eq '" + id + "'&$orderby= Levels asc",
             httpmethod: 'GET',
             calldatatype: 'JSON',
             async: false,
