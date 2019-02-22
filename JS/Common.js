@@ -1,3 +1,4 @@
+var listItemId;
 var returnUrl = "";
 var currentUser;
 var approverMaster;
@@ -41,375 +42,11 @@ jQuery(document).ready(function () {
     }
     KeyPressNumericValidation();
 
+    GetApproverMaster(function (approverListItems) {
+        approverMaster = approverListItems;
+    });
+
 });
-
-/*Priya Rane */
-// function BindURSAttachmentFiles() {
-//     var output = [];
-
-//     //Get the File Upload control id
-//     var input = document.getElementById("UploadURSAttachment");
-//     var fileCount = input.files.length;
-//     for (var i = 0; i < fileCount; i++) {
-//         var fileName = input.files[i].name;
-//         var duplicate = true;
-//       //  duplicate = checkDuplicateFileName(fileName);
-//         if(duplicate){
-
-//         fileIdCounter++;
-//         var fileId = fileIdCounter;
-//         var file = input.files[i];
-//         var reader = new FileReader();
-//         reader.onload = (function (file) {
-//             return function (e) {
-//                 console.log(file.name);
-//                 //Push the converted file into array
-//                 fileURSArray.push({
-//                     "name": file.name,
-//                     "content": e.target.result,
-//                     "id": fileId
-//                 });
-
-
-//             }
-//         })(file);
-//         reader.readAsArrayBuffer(file);
-//         var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeURSFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\"> Remove</a>";
-//         output = [];
-//         output.push("<li><strong>", escape(file.name), removeLink, "</li> ");
-//     }
-//     else{
-//         alert("Same file is present");
-//     }
-//     }
-//     $('#fileListURS').empty();
-//     $('#UploadURSAttachment').next().next().next().next().append(output.join(""));
-
-//     //End of for loop
-// }
-
-function BindURSAttachmentFiles() {
-    var output = [];
-    var fileName;
-    var checkFile = $('#URSContainer').html();
-    if (checkFile == "") {
-        //Get the File Upload control id
-        var input = document.getElementById("UploadURSAttachment");
-        if (input.files.length > 0) {
-            var fileCount = input.files.length;
-            for (var i = 0; i < fileCount; i++) {
-                fileName = input.files[i].name;
-                fileIdCounter++;
-                var fileId = fileIdCounter;
-                var file = input.files[i];
-                var reader = new FileReader();
-                reader.onload = (function (file) {
-                    return function (e) {
-                        console.log(file.name);
-                        //Push the converted file into array
-                        fileURSArray.push({
-                            "name": file.name,
-                            "content": e.target.result,
-                            "id": fileId
-                        });
-
-                    }
-                })(file);
-                reader.readAsArrayBuffer(file);
-            }
-
-            if (!IsNullOrUndefined(fileURSArray)) {
-                var listName = "Attachments";
-                var itemType = GetItemTypeForListName(listName);
-                var item = {
-                    "__metadata": { "type": itemType },
-                    "Title": "URS",
-                    "TypeOfAttachment": "URS",
-                    "FileName": file.name
-                };
-
-                $.ajax({
-                    url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('" + listName + "')/items",
-                    type: "POST",
-                    contentType: "application/json;odata=verbose",
-                    data: JSON.stringify(item),
-                    headers: {
-                        "Accept": "application/json;odata=verbose",
-                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                    },
-                    success: function (data) {
-                        var itemId = data.d.Id;
-                        var item = $pnp.sp.web.lists.getByTitle("Attachments").items.getById(itemId);
-                        item.attachmentFiles.addMultiple(fileURSArray).then(v => {
-                            console.log("files saved successfully in list = " + listName + "for listItemId = " + itemId);
-
-                            var htmlStr = "";
-                            var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + itemId + "/" + fileName;
-
-                            if (htmlStr === "") {
-                                htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + fileName + "</a><a href=\"javascript:removeURSFile('" + itemId + "')\"> Remove</a></li>";
-                            }
-                            else {
-                                htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + fileName + "</a></li><a href=\"javascript:removeURSFile('" + fileName + "')\"> Remove</a></li>";
-
-                            }
-                            fileCommonArray.push({
-                                "name": "URS",
-                                "id": itemId,
-                                "filename": fileName
-                            });
-
-                            fileURSArray = [];
-                            $('#URSContainer').html(htmlStr);
-                        }).catch(function (err) {
-                            console.log(err);
-                            fileURSArray = [];
-                            console.log("error while save attachment ib list = " + listName + "for listItemId = " + itemId)
-                        });
-                    },
-                    error: function (data) {
-                        alert("Error");
-                    }
-                });
-            }
-        }
-    }
-    else {
-        AlertModal('Error', "Remove existing URS file to add New");
-    }
-}
-
-function removeURSFile(itemId) {
-    $.ajax(
-        {
-            url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('Attachments')/items('" + itemId + "')",
-            type: "DELETE",
-            headers: {
-                "accept": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                "IF-MATCH": "*"
-            },
-            success: function (data) {
-                var index;
-                fileCommonArray.forEach(element => {
-                    if (element.id == itemId) {
-                        index = fileCommonArray.indexOf(element);
-
-                    }
-                });
-                if (index !== -1) fileCommonArray.splice(index, 1);
-                var htmlStr = "";
-                $('#URSContainer').html(htmlStr);
-            },
-            error: function (err) {
-                alert(JSON.stringify(err));
-            }
-        }
-    );
-
-
-}
-
-function BindSupportDocAttachmentFiles() {
-    var output = [];
-    var fileName;
-
-    //Get the File Upload control id
-    var input = document.getElementById("UploadSupportiveDocAttachment");
-    var fileCount = input.files.length;
-    if (input.files.length > 0) {
-        for (var i = 0; i < fileCount; i++) {
-            fileName = input.files[i].name;
-            fileIdCounter++;
-            var fileId = fileIdCounter;
-            var file = input.files[i];
-            var reader = new FileReader();
-            reader.onload = (function (file) {
-                return function (e) {
-                    console.log(file.name);
-                    var duplicate = true;
-                    // duplicate= checkDuplicateFileName(file.name);
-                    //Push the converted file into array
-                    // if(duplicate){
-                    fileURSArray.push({
-                        "name": file.name,
-                        "content": e.target.result,
-                        "id": fileId
-                    });
-                    // }
-                    //  else
-                    //  {
-                    //     alert("Duplicate file");
-                    //  }
-
-                }
-            })(file);
-            reader.readAsArrayBuffer(file);
-        }
-
-        if (!IsNullOrUndefined(fileURSArray)) {
-            var listName = "Attachments";
-            var itemType = GetItemTypeForListName(listName);
-            var item = {
-                "__metadata": { "type": itemType },
-                "Title": "Supportive",
-                "TypeOfAttachment": "Supportive",
-                "FileName": file.name
-            };
-
-            $.ajax({
-                url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('" + listName + "')/items",
-                type: "POST",
-                contentType: "application/json;odata=verbose",
-                data: JSON.stringify(item),
-                headers: {
-                    "Accept": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
-                success: function (data) {
-                    var itemId = data.d.Id;
-                    var item = $pnp.sp.web.lists.getByTitle("Attachments").items.getById(itemId);
-                    item.attachmentFiles.addMultiple(fileURSArray).then(v => {
-                        console.log("files saved successfully in list = " + listName + "for listItemId = " + itemId);
-
-                        var htmlStr = "";
-                        // var checkFile = $('#UploadSupportiveDocAttachment').next().next().html();
-                        var checkFile = $('#fileListSupportiveDoc').html();
-                        var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + itemId + "/" + fileName;
-
-                        if (checkFile === "") {
-                            htmlStr = "<li id=li_" + itemId + "><a id='attachment_" + itemId + "' href='" + ServerRelativeUrl + "' target='_blank'>" + fileName + "</a><a id='Remove_" + itemId + "' href=\"javascript:removeSupportiveFile('" + itemId + "')\"> Remove</a></li>";
-                        }
-                        else {
-                            htmlStr = checkFile + "<li id=li_" + itemId + "><a id='attachment_" + itemId + "' href='" + ServerRelativeUrl + "'>" + fileName + "</a></li><a id='Remove_" + itemId + "' href=\"javascript:removeSupportiveFile('" + itemId + "')\"> Remove</a></li>";
-
-                        }
-                        fileCommonArray.push({
-                            "name": "Supportive",
-                            "id": itemId,
-                            "filename": fileName
-                        });
-                        fileURSArray = [];
-                        // $('#SupportiveDocContainer').html(htmlStr);
-                        $('#fileListSupportiveDoc').html(htmlStr);
-
-                        // $('#UploadSupportiveDocAttachment').next().append(htmlStr.join(""));
-                    }).catch(function (err) {
-                        console.log(err);
-                        fileURSArray = [];
-                        console.log("error while save attachment ib list = " + listName + "for listItemId = " + itemId)
-                    });
-                },
-                error: function (data) {
-                    alert("Error");
-                }
-            });
-        }
-    }
-}
-function removeSupportiveFile(itemId) {
-
-    var checkFile = $('#SupportiveDocContainer').html();
-    $.ajax(
-        {
-            url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('Attachments')/items('" + itemId + "')",
-            type: "DELETE",
-            headers: {
-                "accept": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                "IF-MATCH": "*"
-            },
-            success: function (data) {
-                var index;
-                fileCommonArray.forEach(element => {
-                    if (element.id == itemId) {
-                        index = fileCommonArray.indexOf(element);
-
-                    }
-                });
-                if (index !== -1) fileCommonArray.splice(index, 1);
-                var element = "#li_" + itemId;
-                var ele = "Remove_" + itemId;
-                $(element).children().remove();
-                $(element).remove();
-                $(ele).remove();
-
-            },
-            error: function (err) {
-                alert(JSON.stringify(err));
-            }
-        }
-    );
-
-
-}
-// function BindSupportDocAttachmentFiles() {
-//     var output = [];
-
-//     //Get the File Upload control id
-//     var input = document.getElementById("UploadSupportiveDocAttachment");
-//     var fileCount = input.files.length;
-//     console.log(fileCount);
-//     for (var i = 0; i < fileCount; i++) {
-//         var fileName = input.files[i].name;
-//         var duplicate = true;
-//        // duplicate = checkDuplicateFileName(fileName);
-//         if(duplicate){
-//         fileIdCounter++;
-//         var fileId = fileIdCounter;
-//         var file = input.files[i];
-//         var reader = new FileReader();
-//         reader.onload = (function (file) {
-//             return function (e) {
-
-//                 //Push the converted file into array
-//                 fileSupportDocArray.push({
-//                     "name": file.name,
-//                     "content": e.target.result,
-//                     "id": fileId
-//                 });
-//                 fileCommonArray.push({
-//                     "name": file.name,
-//                 });
-//             }
-//         })(file);
-//         reader.readAsArrayBuffer(file);
-
-//         var removeLink = "<a id =\"removeFile_" + fileId + "\" href=\"javascript:removeSupportDocFiles(" + fileId + ")\" data-fileid=\"" + fileId + "\"> Remove</a>";
-//         output.push("<li><strong>", escape(file.name), removeLink, "</li> ");
-//     }
-//     else{
-//         alert("Same file is present");
-//     }
-//     }
-//     $('#UploadSupportiveDocAttachment').next().next().append(output.join(""));
-
-//     //End of for loop
-// }
-
-/*Priya Rane */
-// function removeURSFiles(fileId) {
-
-//     for (var i = 0; i < fileURSArray.length; ++i) {
-//         if (fileURSArray[i].id === fileId)
-//             fileURSArray.splice(i, 1);
-//     }
-//     var item = document.getElementById("fileListURS");
-//     fileId--;
-//     item.children[fileId].remove();
-
-// }
-// function removeSupportDocFiles(fileId) {
-
-//     for (var i = 0; i < fileSupportDocArray.length; ++i) {
-//         if (fileSupportDocArray[i].id === fileId)
-//             fileSupportDocArray.splice(i, 1);
-//     }
-//     var item = document.getElementById("fileListSupportiveDoc");
-//     fileId--;
-//     item.children[fileId].remove();
-
-// }
 
 /*Priya Rane */
 function loadConstants() {
@@ -431,6 +68,9 @@ function onloadConstantsSuccess(sender, args) {
     ExecuteOrDelayUntilScriptLoaded(GetCurrentUserDetails, "sp.js");
     if (listItemId == "" || IsNullOrUndefined(listItemId)) {
         GetUserDepartment();
+    }
+    else if (listItemId > 0) {
+        department = mainListData.Department;
     }
     GetAllMasterData();
 
@@ -481,26 +121,36 @@ function setImageSignature() {
     if (!IsNullOrUndefined(item["InitiatorSignature"])) {
         var img = new Image();
         img.src = item["InitiatorSignature"];
+        img.width = 150;
+        img.height = 75;
         img_Intiator.appendChild(img);
     }
     if (!IsNullOrUndefined(item["HODSignature"])) {
         var img = new Image();
         img.src = item["HODSignature"];
+        img.width = 150;
+        img.height = 75;
         img_HOD.appendChild(img);
     }
     if (!IsNullOrUndefined(item["PurchaseSignature"])) {
         var img = new Image();
         img.src = item["PurchaseSignature"];
+        img.width = 150;
+        img.height = 75;
         img_Purchase.appendChild(img);
     }
     if (!IsNullOrUndefined(item["FunctionHeadSignature"])) {
         var img = new Image();
         img.src = item["FunctionHeadSignature"];
+        img.width = 150;
+        img.height = 75;
         img_FunctionHead.appendChild(img);
     }
     if (!IsNullOrUndefined(item["ManagementSignature"])) {
         var img = new Image();
         img.src = item["ManagementSignature"];
+        img.width = 200;
+        img.height = 150;
         img_Management.appendChild(img);
     }
 }
@@ -1248,7 +898,6 @@ function ValidateForm(ele, saveCallBack) {
             if ($(formList).find("div[data-appname]").length != 0 && $(formList).find("div[data-appname]").find("ul li").length == 0 && dataAction == "11") {
                 attachmsg = "Are you sure to '" + $.trim($(ele).text()) + "' without attachment?";
             }
-            //if(listTempGridDataArray.length >= 3){
             ConfirmationDailog({
                 title: "Confirm", message: attachmsg, okCallback: function (data) {
                     saveCallBack(activeSection);
@@ -1262,12 +911,6 @@ function ValidateForm(ele, saveCallBack) {
                 }
             });
         }
-
-
-
-    }
-    else {
-        saveCallBack(activeSection);
     }
     HideWaitDialog();
 }
@@ -1455,25 +1098,6 @@ function GetFormControlsValueAndType(id, elementType, elementProperty, listActiv
             break;
     }
     return listActivityLogDataArray;
-}
-
-/*Pooja Atkotiya */
-function GetApproverMaster() {
-    AjaxCall(
-        {
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.APPROVERMASTERLIST + "')/items",
-            httpmethod: 'GET',
-            calldatatype: 'JSON',
-            async: false,
-            headers: {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val()
-            },
-            sucesscallbackfunction: function (data) {
-                approverMaster = data.d.results;
-            }
-        });
 }
 
 function GetActivityLog(activityLogListName, lookupId, tableId) {
@@ -1816,44 +1440,36 @@ function SaveActions(sectionName, itemID, actionPerformed) {
                 formFieldValues['InitiatorAction'] = "Submitted By " + "," + currentUser.Title + "," + formatted;
             }
             else if (actionPerformed == "SaveAsDraft") {
-                //formFieldValues['InitiatorAction'] = currentUser.Title + '-' + todayDate + '-' + "SaveAsDraft";
-                formFieldValues['InitiatorAction'] = "Save As Draft " + "," + currentUser.Title + "," + formatted;
+                formFieldValues['InitiatorAction'] = "Save As Draft By " + "," + currentUser.Title + "," + formatted;
             }
             break;
         case SectionNames.HODSECTION:
             if (actionPerformed == "NextApproval") {
-               // formFieldValues['HODAction'] = currentUser.Title + '-' + todayDate + '-' + "Approve";
-               formFieldValues['HODAction'] = "Approve By " + "," + currentUser.Title + "," + formatted;
+                formFieldValues['HODAction'] = "Approved By " + "," + currentUser.Title + "," + formatted;
             }
             else if (actionPerformed == "Rejected") {
-                //formFieldValues['HODAction'] = currentUser.Title + '-' + todayDate + '-' + "Rejected";
                 formFieldValues['HODAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted;
             }
             break;
         case SectionNames.PURCHASESECTION:
             if (actionPerformed == "NextApproval") {
-                //formFieldValues['PurchaseAction'] = currentUser.Title + '-' + todayDate + '-' + "Submit";
                 formFieldValues['PurchaseAction'] = "Submitted By " + "," + currentUser.Title + "," + formatted;
             }
 
             break;
         case SectionNames.FUNCTIONHEADSECTION:
             if (actionPerformed == "NextApproval") {
-                //formFieldValues['FuctionHeadAction'] = currentUser.Title + '-' + todayDate + '-' + "Approve";
-                formFieldValues['FuctionHeadAction'] = "Approve By " + "," + currentUser.Title + "," + formatted;
+                formFieldValues['FuctionHeadAction'] = "Approved By " + "," + currentUser.Title + "," + formatted;
             }
             else if (actionPerformed == "Rejected") {
-                //formFieldValues['FuctionHeadAction'] = currentUser.Title + '-' + todayDate + '-' + "Rejected";
                 formFieldValues['FuctionHeadAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted;
             }
             break;
         case SectionNames.MANAGEMENTSECTION:
             if (actionPerformed == "NextApproval") {
-                //formFieldValues['ManagementAction'] = currentUser.Title + '-' + todayDate + '-' + "Approve";
-                formFieldValues['ManagementAction'] = "Approve By " + "," + currentUser.Title + "," + formatted;
+                formFieldValues['ManagementAction'] = "Approved By " + "," + currentUser.Title + "," + formatted;
             }
             else if (actionPerformed == "Rejected") {
-                //formFieldValues['ManagementAction'] = currentUser.Title + '-' + todayDate + '-' + "Rejected";
                 formFieldValues['ManagementAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted;
             }
             break;
@@ -2297,13 +1913,13 @@ function AjaxCall(options) {
                 // }
                 // else {
                 console.log(xhr);
-                jsErrLog.info = xhr.statusText;
+                //  jsErrLog.info = xhr.statusText;
                 //jsErrLog.url = "https://synoverge.sharepoint.com/sites/dev/";
                 debugger
                 AlertModal("Error", "Oops! Something went wrong");
                 //throw "Error";
                 //}
-                if (errorcallbackfunction != '') {
+                if (!IsNullOrUndefined(errorcallbackfunction)) {
                     errorcallbackfunction(xhr);
                 }
             }
@@ -2365,9 +1981,33 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
         //  mailCustomValues.push("NextApproverName",GetUserNamesbyUserID(nextApproverIds));
 
         switch (actionPerformed) {
+            case ButtonActionStatus.SaveAsDraft:
+                break;
+            case ButtonActionStatus.SaveAndStatusUpdateWithEmail:
+            case ButtonActionStatus.SaveAndNoStatusUpdateWithEmail:
+            case ButtonActionStatus.Save:
+                debugger
+                if (!IsStrNullOrEmpty(strAllusers) && !IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
+                    debugger
+                    from = currentUser.Email;
+                    to = TrimComma(strAllusers);
+                    //  to = cleanArray(to);
+                    to = GetUserEmailsbyUserID(cleanArray(to));
+                    role = tempApproverMatrix.filter(p => parseInt(p.Levels) == currentLevel)[0].Role;
+                    tmplName = EmailTemplateName.NEWREQUESTMAIL;
+                    emailParam["TEMPLATENAME"] = tmplName;
+                    emailParam["FROM"] = from;
+                    emailParam["TO"] = to;
+                    emailParam["CC"] = cc;
+                    emailParam["ROLE"] = role;
+                    emailParam["BCC"] = "";
+                    email = GetEmailBody(tmplName, itemID, mainListName, mailCustomValues, role, emailParam);
+                }
+                break;
             case ButtonActionStatus.Delegate:
             case ButtonActionStatus.NextApproval:
-                if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.Count != 0) {
+                if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
+                    debugger
                     from = currentUser.Email;
                     var allToUsers = "";
                     tempApproverMatrix.forEach(temp => {
@@ -2376,25 +2016,26 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                         }
                     });
                     to = TrimComma(allToUsers).split(",");
-                    cleanArray(allToUsers);
-                    to = GetUserEmailsbyUserID(to);
+                    to = GetUserEmailsbyUserID(cleanArray(to));
                     tempApproverMatrix.forEach(temp => {
                         if (temp.Role == Roles.CREATOR) {
-                            cc = temp.ApproverId;
-                            //debugger                /////Pending to check for multi user field
+                            debugger
+                            if (!IsNullOrUndefined(temp.ApproverId)) {
+                                cc = temp.ApproverId;
+                            }
+                            else if (!IsNullOrUndefined(temp.ApproverId.results)) {
+                                cc = temp.ApproverId.results;
+                            }
+                            /////Pending to check for multi user field
                             cc = TrimComma(cc).split(",");
-                            cleanArray(cc);
-                            cc = GetUserEmailsbyUserID(cc);
+                            cc = GetUserEmailsbyUserID(cleanArray(cc));
                         }
                         if (temp.Levels == currentLevel) {
                             role = temp.Role;
                         }
                     });
-                    // tempApproverMatrix.forEach(temp => {
-                    //     if (temp.Levels == currentLevel) {
-                    //         role = temp.Role;
-                    //     }
-                    // });
+                    // debugger
+                    // role = tempApproverMatrix.filter(p => parseInt(p.Levels) == currentLevel)[0].Role;
 
                     tmplName = EmailTemplateName.APPROVALMAIL;
                     emailParam["TEMPLATENAME"] = tmplName;
@@ -2408,7 +2049,91 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                     }
                 }
                 break;
+            case ButtonActionStatus.SendBack:
+            case ButtonActionStatus.BackToCreator:
+                if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
+                    from = currentUser.Email;
+                    var allToUsers = "";
+                    tempApproverMatrix.ForEach(temp => {
+                        if (temp.Levels == nextLevel && !IsNullOrUndefined(temp.ApproverId)) {
+                            allToUsers = allToUsers.trim() + "," + temp.ApproverId;
+                        }
+                        if (temp.Levels == currentLevel && !IsNullOrUndefined(temp.ApproverId)) {
+                            cc = TrimComma(cc) + "," + temp.ApproverId;
+                        }
+                    });
+                    to = TrimComma(allToUsers).split(",");
+                    // to = cleanArray(to);
+                    to = GetUserEmailsbyUserID(cleanArray(to));
 
+                    cc = (TrimComma(cc) + "," + TrimComma(tempApproverMatrix.filter(p => p.Role == Roles.CREATOR)[0].ApproverId));
+                    cc = TrimComma(cc).split(",");
+                    cc = GetUserEmailsbyUserID(cleanArray(cc));
+                    //  cc = GetUserEmailsbyUserID(cc);
+                    role = tempApproverMatrix.filter(p => parseInt(p.Levels) == currentLevel)[0].Role;
+                    tmplName = EmailTemplateName.SENDBACKMAIL;
+                    emailParam["TEMPLATENAME"] = tmplName;
+                    emailParam["FROM"] = from;
+                    emailParam["TO"] = to;
+                    emailParam["CC"] = cc;
+                    emailParam["ROLE"] = role;
+                    emailParam["BCC"] = "";
+                    email = GetEmailBody(tmplName, itemID, mainListName, mailCustomValues, role, emailParam);
+                }
+                break;
+            case ButtonActionStatus.Cancel:
+                if (!IsStrNullOrEmpty(strAllusers) && !IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
+                    from = currentUser.Email;
+                    to = TrimComma(strAllusers);
+                    // to = cleanArray(to);
+                    to = GetUserEmailsbyUserID(cleanArray(to));
+                    role = tempApproverMatrix.filter(p => parseInt(p.Levels) == nextLevel)[0].Role;
+                    tmplName = EmailTemplateName.REQUESTCANCELED;
+                    emailParam["TEMPLATENAME"] = tmplName;
+                    emailParam["FROM"] = from;
+                    emailParam["TO"] = to;
+                    emailParam["CC"] = cc;
+                    emailParam["ROLE"] = role;
+                    emailParam["BCC"] = "";
+                    email = GetEmailBody(tmplName, itemID, mainListName, mailCustomValues, role, emailParam);
+                }
+                break;
+            case ButtonActionStatus.Rejected:
+                if (!IsStrNullOrEmpty(strAllusers) && !IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
+                    from = currentUser.Email;
+                    to = TrimComma(strAllusers);
+                    // to = cleanArray(to);
+                    to = GetUserEmailsbyUserID(cleanArray(to));
+                    role = tempApproverMatrix.filter(p => parseInt(p.Levels) == nextLevel)[0].Role;
+                    tmplName = EmailTemplateName.REQUESTCANCELED;
+                    emailParam["TEMPLATENAME"] = tmplName;
+                    emailParam["FROM"] = from;
+                    emailParam["TO"] = to;
+                    emailParam["CC"] = cc;
+                    emailParam["ROLE"] = role;
+                    emailParam["BCC"] = "";
+                    email = GetEmailBody(tmplName, itemID, mainListName, mailCustomValues, role, emailParam);
+                }
+                break;
+            case ButtonActionStatus.Complete:
+                if (!IsStrNullOrEmpty(strAllusers) && !IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
+                    from = currentUser.Email;
+                    to = tempApproverMatrix.filter(p => p.Role == Roles.CREATOR).ApproverId;
+                    cc = TrimComma(strAllusers).split(",");
+                    cc = GetUserEmailsbyUserID(cleanArray(cc));
+                    role = tempApproverMatrix.filter(p => parseInt(p.Levels) == currentLevel)[0].Role;
+                    tmplName = EmailTemplateName.REQUESTCLOSERMAIL;
+                    emailParam["TEMPLATENAME"] = tmplName;
+                    emailParam["FROM"] = from;
+                    emailParam["TO"] = to;
+                    emailParam["CC"] = cc;
+                    emailParam["ROLE"] = role;
+                    emailParam["BCC"] = "";
+                    email = GetEmailBody(tmplName, itemID, mainListName, mailCustomValues, role, emailParam);
+                }
+                break;
+            default:
+                break;
         }
     }
     catch (ex) {
@@ -2444,11 +2169,11 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
             calldatatype: 'JSON',
             async: false,
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json; odata=verbose",
-                "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json; odata=verbose",
+                    "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
+                },
             sucesscallbackfunction: function (data) {
                 emailTemplate.push({ "Subject": data.d.results[0].Subject });
                 emailTemplate.push({ "Body": data.d.results[0].Body });
@@ -2566,11 +2291,11 @@ function GetDatafromList(itemID, mainListName, subject, matchesSubject, body, ma
             calldatatype: 'JSON',
             async: false,
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json; odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val()
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json; odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
             sucesscallbackfunction: function (data) {
                 mainlistData = data.d;
                 ////replacement with list item values start
@@ -2784,38 +2509,6 @@ function IsGroupMember(groupName) {
         }
 
     }
-    // try {
-    //     if (!IsStrNullOrEmpty(groupName) && !IsNullOrUndefined(userID)) {
-
-    //         var url = "https://synoverge.sharepoint.com/sites/dev/_api/web/sitegroups/getbyname('" + groupName + "')/Users"
-    //         $.ajax({
-    //             url: url,
-    //             type: 'GET',
-    //             headers: {
-    //                 "Accept": "application/json;odata=verbose",
-    //                 "Content-Type": "application/json;odata=verbose",
-    //                 "X-RequestDigest": $("#__REQUESTDIGEST").val()
-    //             },
-    //             async: false,
-    //             success: function (data) {
-    //                 var users = data.d.results;
-    //                 debugger
-    //                 if (users.some(t => t.Id == parseInt(userID))) {
-    //                     isAuthorized = true;
-    //                 }
-
-    //             },
-    //             error: function (error) {
-    //                 console.log(error);
-    //             }
-    //         });
-
-    //     }
-    // }
-    // catch (exception) {
-    //     isAuthorized = false;
-    //     console.log(exception);
-    // }
 }
 
 /*Pooja Atkotiya */
@@ -2828,13 +2521,12 @@ function GetSPGroupIDByName(grpName, handleData) {
                 calldatatype: 'JSON',
                 async: false,
                 headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+                    {
+                        "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                    },
                 sucesscallbackfunction: function (data) {
-                    debugger
                     handleData(data.d.Id);
                 }
             });
@@ -2865,13 +2557,13 @@ function updateRequestIDAttachmentList(attchmentID, itemID) {
         async: false,
         data: JSON.stringify(item),
         headers:
-        {
-            "Accept": "application/json;odata=verbose",
-            "Content-Type": "application/json;odata=verbose",
-            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-            "IF-MATCH": "*",
-            "X-HTTP-Method": "MERGE"
-        },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                "IF-MATCH": "*",
+                "X-HTTP-Method": "MERGE"
+            },
         success: function (data) {
             console.log("Item saved Successfully");
         },

@@ -2,13 +2,16 @@ var globalApprovalMatrix;
 var currentUserRole;
 var localApprovalMatrixdata;
 var activeSectionName = "";
+var currentSectionName = "";
 var web, clientContext, oList, perMask;
 var currentApproverList;
 var tempApproverMatrix;
 var tcurrentLevel;
 var permItem = null;
 
+//#region Get Data
 
+//#region Core Logic
 /*Himil Jani */
 function GetGlobalApprovalMatrix(id) {
     // GetFormDigest().then(function (data) {
@@ -29,7 +32,6 @@ function GetGlobalApprovalMatrix(id) {
                 /*Pooja Atkotiya */
                 SetSectionWiseRoles(id = 0);
                 SetApprovalMatrix(id, '');
-                //setCustomApprovers(tempApproverMatrix);
                 GetButtons(id, currentUserRole, 'New');
             }
         });
@@ -65,7 +67,7 @@ function SetApprovalMatrix(id, mainListName) {
     if (id > 0) {
         //set role name from local approval matrix
         GetCurrentUserRole(id, mainListName).done(function () {
-            if (IsStrNullOrEmpty(currentUserRole)) {
+            if (IsStrNullOrEmpty(currentUserRole) || IsNullOrUndefined(currentUserRole)) {
                 isSuperAdmin = IsGroupMember(Roles.ADMIN);
                 if (isSuperAdmin) {
                     currentUserRole = "Capex Admin";
@@ -78,7 +80,13 @@ function SetApprovalMatrix(id, mainListName) {
             // if (!IsStrNullOrEmpty(currentUserRole)) {
             GetEnableSectionNames(id);
             tempApproverMatrix = localApprovalMatrixdata;
+            tempApproverMatrix = tempApproverMatrix.sort(function (a, b) {
+                return a.Levels - b.Levels;
+            });
             SetApproversInApprovalMatrix(id);
+            if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length > 0) {
+                DisplayApplicationStatus(tempApproverMatrix);
+            }
             //}
         }).fail(function () {
             console.log("Execute  second after the retrieve list items  failed");
@@ -102,35 +110,15 @@ function SetApprovalMatrix(id, mainListName) {
             temp.ReasonForChange = "";
             temp.IsHOLD = "";
         });
-        SetApproversInApprovalMatrix(id);
-    }
-}
-
-/*Pooja Atkotiya */
-function SetApproversInApprovalMatrix(id) {
-    GetMasterData(ListNames.APPROVERMASTERLIST);
-    var approverMaster = masterDataArray;
-    //set status(of all levels) and approver(current)
-    if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length > 0) {
-        ////Get all roles which have FillByRole = currentUserRole
-        tempApproverMatrix.filter(function (t) {
-            if (!IsNullOrUndefined(t.FillByRole) && !IsNullOrUndefined(currentUserRole) && t.FillByRole == currentUserRole) {
-                if (!IsNullOrUndefined(approverMaster) && approverMaster.length > 0) {
-                    approverMaster.filter(function (a) {
-                        if (t.Role == a.Role && a.UserSelection == true) {
-                            if (a.UserNameId.results.length > 0) {
-                                t.ApproverId = a.UserNameId.results;
-                            }
-                        }
-                    });
-                }
-            }
-            if (id == 0) {
-                t.Status = "Not Assigned";
-            }
+        tempApproverMatrix = tempApproverMatrix.sort(function (a, b) {
+            return a.Levels - b.Levels;
         });
-        DisplayApplicationStatus(tempApproverMatrix);
+        SetApproversInApprovalMatrix(id);
+        if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length > 0) {
+            DisplayApplicationStatus(tempApproverMatrix);
+        }
     }
+
 }
 
 /*Pooja Atkotiya */
@@ -189,6 +177,7 @@ function GetEnableSectionNames(id) {
         var activeSectionItem = globalApprovalMatrix.filter(function (i) {
             return (i.ApplicationName.Label == CommonConstant.APPLICATIONNAME && i.FormName.Label == CommonConstant.FORMNAME && i.Role == currentUserRole);
         })[0];
+        currentSectionName = getTermFromManagedColumn(activeSectionItem.SectionName);
         activeSectionName = getTermFromManagedColumn(activeSectionItem.SectionName);
 
         $(formNames).find('div.card-body').filter(function () {
@@ -206,10 +195,18 @@ function GetEnableSectionNames(id) {
     }
     else if (id > 0) {
         //get active section name
-        var activeSectionItem = localApprovalMatrixdata.filter(function (l) {
+        var currentSectionItem = localApprovalMatrixdata.filter(function (l) {
             return (l.ApplicationName == CommonConstant.APPLICATIONNAME && l.FormName == CommonConstant.FORMNAME && l.Levels == tcurrentLevel && l.Role == currentUserRole);
         })[0];
+        currentSectionName = !IsNullOrUndefined(currentSectionItem) ? currentSectionItem.SectionName : '';
 
+        var pendingWithRole = [];
+        if (!IsNullOrUndefined(mainListData) && !IsStrNullOrEmpty(mainListData.PendingWith) && !IsNullOrUndefined(mainListData.PendingWith)) {
+            pendingWithRole = mainListData.PendingWith.split(",");
+        }
+        var activeSectionItem = localApprovalMatrixdata.filter(function (l) {
+            return (l.SectionName == currentSectionName && l.Levels == tcurrentLevel && pendingWithRole.some(p => p == currentUserRole) && !IsNullOrUndefined(l.ApproverId) && !IsNullOrUndefined(l.ApproverId.results) && l.ApproverId.results.length > 0 && l.Status != ApproverStatus.NOTREQUIRED);
+        })[0];
         activeSectionName = !IsNullOrUndefined(activeSectionItem) ? activeSectionItem.SectionName : '';
         if (activeSectionName) {
             $(formNames).find('div.card-body').filter(function () {
@@ -230,6 +227,113 @@ function GetEnableSectionNames(id) {
 }
 
 /*Pooja Atkotiya */
+function SetSectionWiseRoles(id) {
+    var formNames = $($('div').find('[mainlistname]')).attr('id');
+    if (id == 0) {
+        ////Get data from global approval matrix
+        if (!IsNullOrUndefined(globalApprovalMatrix) && globalApprovalMatrix.length > 0) {
+            ////Compare by Section Name
+            globalApprovalMatrix.filter(function (g) {
+                $('#' + formNames).find('div.card-body').each(function () {
+                    var divSection = $(this).attr('section');
+                    var sectionName = getTermFromManagedColumn(g.SectionName);
+                    if (!IsNullOrUndefined(divSection) && sectionName == divSection) {
+                        //// if section name are same, get Role and FillByRole
+                        $(this).attr('sectionOwner', g.Role);
+                        $(this).attr('FillByRole', g.FillByRole);
+                    }
+                });
+            });
+        }
+    } else if (id > 0) {
+        ////Get data from local approval matrix
+        if (!IsNullOrUndefined(localApprovalMatrixdata) && localApprovalMatrixdata.length > 0) {
+            ////Compare by Section Name
+            localApprovalMatrixdata.filter(function (l) {
+                $('#' + formNames).find('div.card-body').each(function () {
+                    var divSection = $(this).attr('section');
+                    if (!IsNullOrUndefined(divSection) && !IsNullOrUndefined(l.SectionName) && l.SectionName == divSection) {
+                        //// if section name are same, get Role and FillByRole
+                        $(this).attr('sectionOwner', l.Role);
+                        $(this).attr('FillByRole', l.FillByRole);
+                        var divId = $(this).attr('id');
+                        if (!IsNullOrUndefined(l.Comments) && !IsStrNullOrEmpty(l.Comments)) {
+                            $('#' + divId + '_Comments').val(l.Comments);
+                        }
+                    }
+                });
+            });
+        }
+    }
+}
+
+//#endregion
+
+//#region Custom Logic here
+/*Pooja Atkotiya */
+function SetApproversInApprovalMatrix(id) {
+    debugger
+    var initiatorDept = department;
+    // GetMasterData(ListNames.APPROVERMASTERLIST);
+    //var approverMaster = masterDataArray;
+
+    // GetApproverMaster(function (approverListItems) {
+    //     approverMaster = approverListItems;
+    // });
+
+    //set status(of all levels) and approver(current)
+    if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length > 0) {
+        ////Get all roles which have FillByRole = currentUserRole
+        tempApproverMatrix.filter(function (t) {
+            if (!IsNullOrUndefined(t.FillByRole) && !IsNullOrUndefined(currentUserRole) && t.FillByRole == currentUserRole) {
+                if (!IsNullOrUndefined(approverMaster) && approverMaster.length > 0) {
+                    approverMaster.filter(function (a) {
+                        // if (t.Role == a.Role && a.UserSelection == true) {
+                        //     if (a.UserNameId.results.length > 0) {
+                        //         t.ApproverId = a.UserNameId.results;
+                        //     }
+                        // }
+                        if (t.Role == Roles.CREATOR) {
+
+                        } else if (t.Role == Roles.PURCHASE) {
+                            if (t.Role == a.Role && a.UserSelection == true) {
+                                if (a.UserNameId.results.length > 0) {
+                                    t.ApproverId = a.UserNameId.results;
+                                }
+                            }
+                        } else if (t.Role == Roles.INITIATORHOD) {
+                            if (t.Role == a.Role && a.UserSelection == true && !IsNullOrUndefined(a.Department) && !IsNullOrUndefined(a.Department.results) && a.Department.results.length > 0 && a.Department.results.some(d => d.Title == initiatorDept)) {
+                                if (a.UserNameId.results.length > 0) {
+                                    t.ApproverId = a.UserNameId.results;
+                                }
+                            }
+                        } else if (t.Role == Roles.FUNCTIONHEAD) {
+                            if (t.Role == a.Role && a.UserSelection == true && !IsNullOrUndefined(a.Department) && !IsNullOrUndefined(a.Department.results) && a.Department.results.length > 0 && a.Department.results.some(d => d.Title == initiatorDept)) {
+                                if (a.UserNameId.results.length > 0) {
+                                    t.ApproverId = a.UserNameId.results;
+                                }
+                            }
+                        }
+                        else if (t.Role == Roles.MANAGEMENT) {
+
+                        }
+                    });
+                }
+            }
+            if (id == 0) {
+                t.Status = "Not Assigned";
+            }
+        });
+        //  DisplayApplicationStatus(tempApproverMatrix);
+    }
+}
+//#endregion
+
+//#endregion
+
+//#region Save Data
+
+/*Pooja Atkotiya */
 function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem, mainListItem, approvalMatrixListName) {
     var nextApprover = [], nextApproverRole = '';
     var previousLevel = mainListItem.get_item('FormLevel').split("|")[0];
@@ -243,14 +347,15 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
     var sendBackTo = $("#SendBackTo").val();
     //var keys = Object.keys(ButtonActionStatus).filter(k => ButtonActionStatus[k] == actionStatus);
     //actionPerformed = keys.toString();
-    actionPerformed = parseInt(actionStatus);
 
-    ///Pending -- temporary
-    var param = {};
-    param[ConstantKeys.SENDTOLEVEL] = 0;                 // ConstantKeys.SENDTOLEVEL
-    param[ConstantKeys.SENDTOROLE] = sendToRole;
-    param[ConstantKeys.SENDBACKTO] = sendBackTo;
-    param[ConstantKeys.ACTIONPERFORMED] = actionPerformed;
+
+    ///Pending -- to test
+    param[ConstantKeys.SENDTOLEVEL] = ((ConstantKeys.SENDTOLEVEL in param) && !IsNullOrUndefined(param[ConstantKeys.SENDTOLEVEL])) ? param[ConstantKeys.SENDTOLEVEL] : 0;
+    param[ConstantKeys.SENDTOROLE] = ((ConstantKeys.SENDTOROLE in param) && !IsNullOrUndefined(param[ConstantKeys.SENDTOROLE])) ? param[ConstantKeys.SENDTOROLE] : sendToRole;
+    param[ConstantKeys.SENDBACKTO] = ((ConstantKeys.SENDBACKTO in param) && !IsNullOrUndefined(param[ConstantKeys.SENDBACKTO])) ? param[ConstantKeys.SENDBACKTO] : sendBackTo;
+    param[ConstantKeys.ACTIONPERFORMED] = ((ConstantKeys.ACTIONPERFORMED in param) && !IsNullOrUndefined(param[ConstantKeys.ACTIONPERFORMED])) ? param[ConstantKeys.ACTIONPERFORMED] : parseInt(actionStatus);
+
+    actionPerformed = param[ConstantKeys.ACTIONPERFORMED];
 
     var sendToLevel = ((ConstantKeys.SENDTOLEVEL in param) && !IsNullOrUndefined(param[ConstantKeys.SENDTOLEVEL])) ? param[ConstantKeys.SENDTOLEVEL] : null;
 
@@ -418,6 +523,9 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
             currentLevel = previousLevel;
             formFieldValues['Status'] = "Draft";
             formFieldValues['NextApprover'] = currentUser.Id;
+            formFieldValues['PendingWith'] = (!IsNullOrUndefined(mainListData.PendingWith) && !IsStrNullOrEmpty(mainListData.PendingWith)) ? mainListData.PendingWith : currentUserRole;
+            formFieldValues['LastActionBy'] = currentUser.Id;
+            formFieldValues['LastActionByRole'] = currentUserRole;
             break;
         case ButtonActionStatus.SaveAndStatusUpdate:
         case ButtonActionStatus.SaveAndStatusUpdateWithEmail:
@@ -480,7 +588,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
                 formFieldValues['NextApprover'] = '';
                 formFieldValues['FormLevel'] = currentLevel + "|" + currentLevel;
                 formFieldValues['ApprovalStatus'] = "Completed";
-                formFieldValues['Status'] = "Completed";
+                formFieldValues['Status'] = WFStatus.COMPLETED; // "Completed";
                 makeAllUsersViewer = true;
                 isTaskAssignMailSend = true;
             }
@@ -512,7 +620,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
             break;
         case ButtonActionStatus.Complete:
             formFieldValues['ApprovalStatus'] = "Completed";
-            formFieldValues['Status'] = "Completed";
+            formFieldValues['Status'] = WFStatus.COMPLETED;// "Completed";
             formFieldValues['FormLevel'] = currentLevel + "|" + currentLevel;
             formFieldValues['NextApprover'] = '';
             formFieldValues['PendingWith'] = '';
@@ -607,6 +715,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
     SendMail(actionPerformed, currentUser.Id, requestId, tempApproverMatrix, ListNames.MAINLIST, nextLevel, currentLevel, param, isNewItem);
 }
 
+//#region Permission Related Methods
 /*Pooja Atkotiya */
 function SetItemPermission(requestId, listName, userWithRoles) {
     breakRoleInheritanceOfList(listName, requestId, userWithRoles);
@@ -670,9 +779,6 @@ function SetItemPermission(requestId, listName, userWithRoles) {
 
 
 }
-
-
-//////////////////////////////////////////////////////////////
 
 /*
   console.log("Inheritance Broken Successfully!");
@@ -752,15 +858,15 @@ function SetItemPermission(requestId, listName, userWithRoles) {
                 }
             });
 */
-//////////////////////////////////////////////////////////////
 
 /*Pooja Atkotiya */
 // Break role inheritance on the list.
 function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
+
     var finalUserPermDic = [];
     userWithRoles.forEach((element) => {
 
-        var userIds = element.user;
+        var userIds = TrimComma(element.user);
         var permission = element.permission;
         var permId;
         if (permission == SharePointPermission.CONTRIBUTOR) {
@@ -771,22 +877,25 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
         }
         if (!IsNullOrUndefined(userIds) && !IsStrNullOrEmpty(userIds) && !IsNullOrUndefined(permission) && !IsStrNullOrEmpty(permission)) {
             var users = [];
-            //split users and remove ,
-            if (userIds.toString().indexOf(',') == 0) {
-                userIds = userIds.substring(1);
-                if (userIds.toString().indexOf(',') != -1 && userIds.toString().lastIndexOf(',') == userIds.toString().length - 1) {
-                    userIds = userIds.substring(userIds.toString().lastIndexOf(','))[0];
-                }
-            }
+            debugger
             if (!IsNullOrUndefined(userIds) && !IsStrNullOrEmpty(userIds)) {
                 var a = (userIds.toString().indexOf(',') != -1) ? userIds.split(',') : parseInt(userIds);
                 if (!IsNullOrUndefined(a)) {
-                    if (a.length == undefined) {
-                        users.push(a);
-                    } else {
+                    // if (a.length == undefined) {
+                    //     users.push(a);
+                    // } else {
+                    //     a.forEach(element => {
+                    //         users.push(parseInt(element));
+                    //     });
+                    // }
+
+                    if (IsArray(a)) {
                         a.forEach(element => {
                             users.push(parseInt(element));
                         });
+                    }
+                    else {
+                        users.push(a);
                     }
                 }
             }
@@ -847,20 +956,6 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
     });
 }
 
-/*Pooja Atkotiya */
-function FormatRow() {
-    try {
-        var content = this;
-        for (var i = 0; i < arguments.length; i++) {
-            var replacement = '{' + i + '}';
-            content = content.replace(replacement, arguments[i]);
-        }
-        return content;
-    }
-    catch (e) {
-        console.log("Error occurred in FormatRow " + e.message);
-    }
-}
 
 /*Pooja Atkotiya */
 function SetCustomPermission(userWithRoles, requestId, listName) {
@@ -931,19 +1026,19 @@ function GetPermissionDictionary(tempApproverMatrix, nextLevel, isAllUserViewer,
         var strContributer = '';
         tempApproverMatrix.forEach(temp => {
             if (!IsNullOrUndefined(temp.ApproverId)) {
-                if (temp.Levels == nextLevel && temp.Status == "Pending") //ApproverStatus.PENDING)
-                {
+                if (temp.Levels == nextLevel && temp.Status == ApproverStatus.PENDING) {
                     /* All users 
                      * 1) who are pending on current level
                      */
                     if (isNewItem) {
+                        debugger
                         if (strContributer.indexOf(temp.ApproverId) == -1) {
-                            strContributer = strContributer.trim() + "," + temp.ApproverId;
+                            strContributer = TrimComma(strContributer.trim()) + "," + temp.ApproverId;
                         }
                     } else {
                         debugger
                         if (!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0 && strContributer.indexOf(temp.ApproverId.results) == -1) {
-                            strContributer = strContributer.trim() + "," + temp.ApproverId.results;
+                            strContributer = TrimComma(strContributer.trim()) + "," + temp.ApproverId.results;
                         }
                     }
                 }
@@ -955,12 +1050,14 @@ function GetPermissionDictionary(tempApproverMatrix, nextLevel, isAllUserViewer,
                      * 2) who are not pending on current level
                      */
                     if (isNewItem) {
+                        debugger
                         if (strReader.indexOf(temp.ApproverId) == -1) {
-                            strReader = strReader.trim() + "," + temp.ApproverId;
+                            strReader = TrimComma(strReader.trim()) + "," + temp.ApproverId;
                         }
                     } else {
+                        debugger
                         if (!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0 && strReader.indexOf(temp.ApproverId.results) == -1) {
-                            strReader = strReader.trim() + "," + temp.ApproverId.results;
+                            strReader = TrimComma(strReader.trim()) + "," + temp.ApproverId.results;
                         }
                     }
                 }
@@ -968,23 +1065,23 @@ function GetPermissionDictionary(tempApproverMatrix, nextLevel, isAllUserViewer,
             }
         });
 
-        if (strReader.trim() == strContributer.trim()) {
-            var user = strContributer.trim();
+        if (TrimComma(strReader.trim()) == TrimComma(strContributer.trim())) {
+            var user = TrimComma(strContributer.trim());
             var permission = isAllUserViewer ? 'Read' : 'Contribute';
             permissions.push({ user: user, permission: permission });
         }
         else {
             if (isAllUserViewer) {
-                var user = strReader.trim() + "," + strContributer.trim();
+                var user = TrimComma(strReader.trim()) + "," + TrimComma(strContributer.trim());
                 var permission = 'Read';
                 permissions.push({ user: user, permission: permission });
             }
             else {
-                var user = strReader.trim();
+                var user = TrimComma(strReader.trim());
                 var permission = 'Read';
                 permissions.push({ user: user, permission: permission });
 
-                var user1 = strContributer.trim();
+                var user1 = TrimComma(strContributer.trim());
                 var permission1 = isAllUserViewer ? 'Read' : 'Contribute';
                 permissions.push({ user: user1, permission: permission1 });
             }
@@ -992,6 +1089,8 @@ function GetPermissionDictionary(tempApproverMatrix, nextLevel, isAllUserViewer,
     }
     return permissions;
 }
+
+//#endregion
 
 var stringifyData = function (isNewItem, approvalMatrixListName, temp, approverResults) {
     var stringifyData;
@@ -1066,6 +1165,21 @@ var stringifyData = function (isNewItem, approvalMatrixListName, temp, approverR
     return stringifyData;
 
 }
+
+/*Pooja Atkotiya */
+/*function FormatRow() {
+    try {
+        var content = this;
+        for (var i = 0; i < arguments.length; i++) {
+            var replacement = '{' + i + '}';
+            content = content.replace(replacement, arguments[i]);
+        }
+        return content;
+    }
+    catch (e) {
+        console.log("Error occurred in FormatRow " + e.message);
+    }
+}*/
 
 /*Pooja Atkotiya */
 function SaveApprovalMatrixInList(tempApproverMatrix, approvalMatrixListName, isNewItem) {
@@ -1251,7 +1365,8 @@ function UpdateWorkflowStatus(formFieldValues) {
     if (!IsNullOrUndefined(formStatus) && !IsStrNullOrEmpty(formStatus)) {
         switch (formStatus) {
             case "Submitted":
-                wfStatus = "Pending With " + pendingWithRole;
+                //  wfStatus = "Pending With " + pendingWithRole;
+                wfStatus = WFStatus.PENDINGWITH + pendingWithRole;
                 break;
             case "Sent Back":
                 wfStatus = "Sent back by " + lastActionByRole;
@@ -1262,47 +1377,6 @@ function UpdateWorkflowStatus(formFieldValues) {
         }
     }
     formFieldValues['WorkflowStatus'] = wfStatus;
-}
-
-/*Pooja Atkotiya */
-function SetSectionWiseRoles(id) {
-    var formNames = $($('div').find('[mainlistname]')).attr('id');
-    if (id == 0) {
-        ////Get data from global approval matrix
-        if (!IsNullOrUndefined(globalApprovalMatrix) && globalApprovalMatrix.length > 0) {
-            ////Compare by Section Name
-            globalApprovalMatrix.filter(function (g) {
-                $('#' + formNames).find('div.card-body').each(function () {
-                    var divSection = $(this).attr('section');
-                    var sectionName = getTermFromManagedColumn(g.SectionName);
-                    if (!IsNullOrUndefined(divSection) && sectionName == divSection) {
-                        //// if section name are same, get Role and FillByRole
-                        $(this).attr('sectionOwner', g.Role);
-                        $(this).attr('FillByRole', g.FillByRole);
-                    }
-                });
-            });
-        }
-    } else if (id > 0) {
-        ////Get data from local approval matrix
-        if (!IsNullOrUndefined(localApprovalMatrixdata) && localApprovalMatrixdata.length > 0) {
-            ////Compare by Section Name
-            localApprovalMatrixdata.filter(function (l) {
-                $('#' + formNames).find('div.card-body').each(function () {
-                    var divSection = $(this).attr('section');
-                    if (!IsNullOrUndefined(divSection) && !IsNullOrUndefined(l.SectionName) && l.SectionName == divSection) {
-                        //// if section name are same, get Role and FillByRole
-                        $(this).attr('sectionOwner', l.Role);
-                        $(this).attr('FillByRole', l.FillByRole);
-                        var divId = $(this).attr('id');
-                        if (!IsNullOrUndefined(l.Comments) && !IsStrNullOrEmpty(l.Comments)) {
-                            $('#' + divId + '_Comments').val(l.Comments);
-                        }
-                    }
-                });
-            });
-        }
-    }
 }
 
 /*Pooja Atkotiya */
@@ -1496,3 +1570,5 @@ function GetDueDate(startDate, days) {
         return null;
     }
 }
+
+//#endregion
