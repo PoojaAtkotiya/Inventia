@@ -273,58 +273,59 @@ function SetSectionWiseRoles(id) {
 /*Pooja Atkotiya */
 function SetApproversInApprovalMatrix(id) {
     var initiatorDept = department;
-    // GetMasterData(ListNames.APPROVERMASTERLIST);
-    //var approverMaster = masterDataArray;
-
-    // GetApproverMaster(function (approverListItems) {
-    //     approverMaster = approverListItems;
-    // });
-
-    //set status(of all levels) and approver(current)
-    if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length > 0) {
-        ////Get all roles which have FillByRole = currentUserRole
-        tempApproverMatrix.filter(function (t) {
-            if (!IsNullOrUndefined(t.FillByRole) && !IsNullOrUndefined(currentUserRole) && t.FillByRole == currentUserRole) {
-                if (!IsNullOrUndefined(approverMaster) && approverMaster.length > 0) {
-                    approverMaster.filter(function (a) {
-                        // if (t.Role == a.Role && a.UserSelection == true) {
-                        //     if (a.UserNameId.results.length > 0) {
-                        //         t.ApproverId = a.UserNameId.results;
-                        //     }
-                        // }
-                        if (t.Role == Roles.CREATOR) {
-
-                        } else if (t.Role == Roles.PURCHASE) {
-                            if (t.Role == a.Role && a.UserSelection == true) {
-                                if (a.UserNameId.results.length > 0) {
-                                    t.ApproverId = a.UserNameId.results;
-                                }
-                            }
-                        } else if (t.Role == Roles.INITIATORHOD) {
-                            if (t.Role == a.Role && a.UserSelection == true && !IsNullOrUndefined(a.Department) && !IsNullOrUndefined(a.Department.results) && a.Department.results.length > 0 && a.Department.results.some(d => d.Title == initiatorDept)) {
-                                if (a.UserNameId.results.length > 0) {
-                                    t.ApproverId = a.UserNameId.results;
-                                }
-                            }
-                        } else if (t.Role == Roles.FUNCTIONHEAD) {
-                            if (t.Role == a.Role && a.UserSelection == true && !IsNullOrUndefined(a.Department) && !IsNullOrUndefined(a.Department.results) && a.Department.results.length > 0 && a.Department.results.some(d => d.Title == initiatorDept)) {
-                                if (a.UserNameId.results.length > 0) {
-                                    t.ApproverId = a.UserNameId.results;
-                                }
-                            }
-                        }
-                        else if (t.Role == Roles.MANAGEMENT) {
-
-                        }
-                    });
-                }
-            }
-            if (id == 0) {
-                t.Status = "Not Assigned";
-            }
-        });
-        //  DisplayApplicationStatus(tempApproverMatrix);
+    if (!IsStrNullOrEmpty(currentUserRole) && currentUserRole == Roles.CREATOR) {
+        if (IsStrNullOrEmpty(initiatorDept) ) {
+            var errMessage = "Dear Initiator, you cannot create request as your Deparment is not defined.It would be ideal if you contact your Admin for same.";
+            AlertModal('Validation', errMessage, true);
+        }
     }
+    else {
+        //set status(of all levels) and approver(current)
+        if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length > 0) {
+            ////Get all roles which have FillByRole = currentUserRole
+            tempApproverMatrix.filter(function (t) {
+                if (!IsNullOrUndefined(t.FillByRole) && !IsNullOrUndefined(currentUserRole) && t.FillByRole == currentUserRole) {
+                    if (!IsNullOrUndefined(approverMaster) && approverMaster.length > 0) {
+                        approverMaster.filter(function (a) {
+                            // if (t.Role == a.Role && a.UserSelection == true) {
+                            //     if (a.UserNameId.results.length > 0) {
+                            //         t.ApproverId = a.UserNameId.results;
+                            //     }
+                            // }
+                            if (t.Role == Roles.CREATOR) {
+
+                            } else if (t.Role == Roles.PURCHASE) {
+                                if (t.Role == a.Role && a.UserSelection == true) {
+                                    if (a.UserNameId.results.length > 0) {
+                                        t.ApproverId = a.UserNameId.results;
+                                    }
+                                }
+                            } else if (t.Role == Roles.INITIATORHOD) {
+                                if (t.Role == a.Role && a.UserSelection == true && !IsNullOrUndefined(a.Department) && !IsNullOrUndefined(a.Department.results) && a.Department.results.length > 0 && a.Department.results.some(d => d.Title == initiatorDept)) {
+                                    if (a.UserNameId.results.length > 0) {
+                                        t.ApproverId = a.UserNameId.results;
+                                    }
+                                }
+                            } else if (t.Role == Roles.FUNCTIONHEAD) {
+                                if (t.Role == a.Role && a.UserSelection == true && !IsNullOrUndefined(a.Department) && !IsNullOrUndefined(a.Department.results) && a.Department.results.length > 0 && a.Department.results.some(d => d.Title == initiatorDept)) {
+                                    if (a.UserNameId.results.length > 0) {
+                                        t.ApproverId = a.UserNameId.results;
+                                    }
+                                }
+                            }
+                            else if (t.Role == Roles.MANAGEMENT) {
+
+                            }
+                        });
+                    }
+                }
+                if (id == 0) {
+                    t.Status = "Not Assigned";
+                }
+            });
+        }
+    }
+
 }
 //#endregion
 

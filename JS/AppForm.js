@@ -107,7 +107,7 @@ function setCustomApprovers() {
 function Capex_SaveData(ele) {
     if (activeSectionName == SectionNames.PURCHASESECTION) {
         // gTranArray.push({ "TranListArray": listTempGridDataArray, "TranListName": ListNames.CAPEXVENDORLIST });  ////Vendor tran added in global tran
-      
+
         if (listTempGridDataArray.length < 3) {
             AlertModal('Error', "Minimum 3 vendor required");
             return false;
@@ -137,27 +137,27 @@ function FormBusinessLogic(activeSection) {
         if (activeSectionName == SectionNames.FUNCTIONHEADSECTION) {
             var actionStatus = $("#ActionStatus").val();
             if (actionStatus == ButtonActionStatus.NextApproval) {
-                var budgetValue=[];
-                 budgetValue = GetBudgetValue();
+                var budgetValue = [];
+                budgetValue = GetBudgetValue();
                 var utilizedValue = $('#TotalUtilizedValue').val();
-                if(budgetValue[0] > utilizedValue){
-                param[ConstantKeys.ACTIONPERFORMED] = ButtonActionStatus.Complete;
-                UpdateBudget(budgetValue[1]);
+                if (budgetValue[0] > utilizedValue) {
+                    param[ConstantKeys.ACTIONPERFORMED] = ButtonActionStatus.Complete;
+                    UpdateBudget(budgetValue[1]);
                 }
-                else{
+                else {
                     param[ConstantKeys.ACTIONPERFORMED] = ButtonActionStatus.NextApproval;
                 }
             }
         }
         if (activeSectionName == SectionNames.MANAGEMENTSECTION) {
             var actionStatus = $("#ActionStatus").val();
-            if (actionStatus == ButtonActionStatus.NextApproval ||actionStatus == ButtonActionStatus.Complete) {
-                var budgetValue=[];
+            if (actionStatus == ButtonActionStatus.NextApproval || actionStatus == ButtonActionStatus.Complete) {
+                var budgetValue = [];
                 budgetValue = GetBudgetValue();
-                   UpdateBudget(budgetValue[1]);
-                }
+                UpdateBudget(budgetValue[1]);
             }
-        
+        }
+
         /* Add final saved tran array to global tran array to save in list*/
 
         gTranArray.push({ "TranListArray": listTempGridDataArray, "TranListName": ListNames.CAPEXVENDORLIST });  ////Vendor tran added in global tran
@@ -321,25 +321,26 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     if (listItemId == 0) {
         setNewFormParamters(department)
     }
-    else{
+    else {
         $("#RaisedOnDisplay").html(new Date(mainListData.RaisedOn).format("dd-MM-yyyy"));
     }
     if (pendingWithRole == "Creator" || listItemId == "") {
         setFunctionbasedDept(department);
         bindAssetClassification();
+        $('#btnAddVendor').hide();
     }
     if (listItemId > 0) {
         if (mainListData.Status == "Draft") {
             BindInitiatorEditAttachmentFiles();
+            $('#btnAddVendor').hide();
         }
         else {
             BindInitiatorAttachment();
         }
-        if(mainListData.Status == "Submitted" ||mainListData.Status == "Completed" ||mainListData.Status =="Rejected")
-        {
+        if (mainListData.Status == "Submitted" || mainListData.Status == "Completed" || mainListData.Status == "Rejected") {
             if (mainListData.AssetClassification != undefined) {
                 bindEditAssetClassification();
-             }
+            }
         }
         bindEditAssetName(mainListData.AssetClassification);
     }
@@ -450,7 +451,7 @@ function setSelectedValue(selectObj, valueToSet) {
 function setNewFormParamters(department) {
     $("#RaisedBy").html(currentUser.Title);
     $("#InitiatorName").html(currentUser.Title);
-   // var today = new Date().format("dd-MM-yyyy");
+    // var today = new Date().format("dd-MM-yyyy");
     var today = new Date().format("MM-dd-yyyy");
     var todaydisplay = new Date().format("dd-MM-yyyy");
     $("#RaisedOn").html(today);
@@ -488,7 +489,7 @@ function setFunctionbasedDept(department) {
                     "X-RequestDigest": $("#__REQUESTDIGEST").val()
                 },
             sucesscallbackfunction: function (data) {
-                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
+                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results) && data.d.results.length > 0) {
                     $("#Function").html(data.d.results[0].Title);
                 }
             }
@@ -514,7 +515,7 @@ function bindAssetClassification() {
                     $("#AssetClassification").html('');
                     $("#AssetClassification").html("<option value=''>Select</option>");
                     $(result).each(function (i, e) {
-                        var cmditem = result[i].Title +'-'+ result[i].AssetClassDescription;
+                        var cmditem = result[i].Title + '-' + result[i].AssetClassDescription;
                         var opt = $("<option/>");
                         opt.text(cmditem);
                         opt.attr("value", cmditem);
@@ -551,7 +552,7 @@ function bindEditAssetClassification() {
                     $("#AssetClassification").html('');
                     $("#AssetClassification").html("<option value=''>Select</option>");
                     $(result).each(function (i, e) {
-                        var cmditem = result[i].Title +'-'+ result[i].AssetClassDescription;
+                        var cmditem = result[i].Title + '-' + result[i].AssetClassDescription;
                         var opt = $("<option/>");
                         opt.text(cmditem);
                         opt.attr("value", cmditem);
@@ -569,73 +570,73 @@ function bindEditAssetClassification() {
 
 }
 function bindAssetName(assetclassification) {
-    if(assetclassification !=undefined){
-   var assetCode =TrimComma(assetclassification).split("-");
-    AjaxCall(
-        {
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.ASSETNUMBERMASTER + "')/Items?$select=AssetClass,Description&$filter=AssetClass eq '" + assetCode[0] + "'",
-            httpmethod: 'GET',
-            calldatatype: 'JSON',
-            async: false,
-            headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
-            sucesscallbackfunction: function (data) {
-                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
-                    var result = data.d.results;
-                    $("#AssetName").html('');
-                    $("#AssetName").html("<option value=''>Select</option>");
-                    $(result).each(function (i, e) {
-                        var cmditem = result[i].Description;
-                        var opt = $("<option/>");
-                        opt.text(cmditem);
-                        opt.attr("value", cmditem);
-                        opt.appendTo($("#AssetName"));
-                    });
+    if (assetclassification != undefined) {
+        var assetCode = TrimComma(assetclassification).split("-");
+        AjaxCall(
+            {
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.ASSETNUMBERMASTER + "')/Items?$select=AssetClass,Description&$filter=AssetClass eq '" + assetCode[0] + "'",
+                httpmethod: 'GET',
+                calldatatype: 'JSON',
+                async: false,
+                headers:
+                    {
+                        "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                    },
+                sucesscallbackfunction: function (data) {
+                    if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
+                        var result = data.d.results;
+                        $("#AssetName").html('');
+                        $("#AssetName").html("<option value=''>Select</option>");
+                        $(result).each(function (i, e) {
+                            var cmditem = result[i].Description;
+                            var opt = $("<option/>");
+                            opt.text(cmditem);
+                            opt.attr("value", cmditem);
+                            opt.appendTo($("#AssetName"));
+                        });
+                    }
                 }
-            }
-        });
+            });
     }
 }
 function bindEditAssetName(assetclassification) {
-    if(assetclassification !=undefined){
-        var assetCode =TrimComma(assetclassification).split("-");
-         AjaxCall(
-             {
-                 url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.ASSETNUMBERMASTER + "')/Items?$select=AssetClass,Description&$filter=AssetClass eq '" + assetCode[0] + "'",
-                 httpmethod: 'GET',
-                 calldatatype: 'JSON',
-                 async: false,
-                 headers:
-                     {
-                         "Accept": "application/json;odata=verbose",
-                         "Content-Type": "application/json;odata=verbose",
-                         "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                     },
-                 sucesscallbackfunction: function (data) {
-                     if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
-                         var result = data.d.results;
-                         $("#AssetName").html('');
-                         $("#AssetName").html("<option value=''>Select</option>");
-                         $(result).each(function (i, e) {
-                             var cmditem = result[i].Description;
-                             var opt = $("<option/>");
-                             opt.text(cmditem);
-                             opt.attr("value", cmditem);
-                             opt.appendTo($("#AssetName"));
-                         });
-                     }
-                 }
-             });
-         
-                    if (mainListData.AssetName != undefined) {
-                        var objSelect = document.getElementById("AssetName");
-                        setSelectedValue(objSelect, mainListData.AssetName);
+    if (assetclassification != undefined) {
+        var assetCode = TrimComma(assetclassification).split("-");
+        AjaxCall(
+            {
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.ASSETNUMBERMASTER + "')/Items?$select=AssetClass,Description&$filter=AssetClass eq '" + assetCode[0] + "'",
+                httpmethod: 'GET',
+                calldatatype: 'JSON',
+                async: false,
+                headers:
+                    {
+                        "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                    },
+                sucesscallbackfunction: function (data) {
+                    if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
+                        var result = data.d.results;
+                        $("#AssetName").html('');
+                        $("#AssetName").html("<option value=''>Select</option>");
+                        $(result).each(function (i, e) {
+                            var cmditem = result[i].Description;
+                            var opt = $("<option/>");
+                            opt.text(cmditem);
+                            opt.attr("value", cmditem);
+                            opt.appendTo($("#AssetName"));
+                        });
                     }
                 }
+            });
+
+        if (mainListData.AssetName != undefined) {
+            var objSelect = document.getElementById("AssetName");
+            setSelectedValue(objSelect, mainListData.AssetName);
+        }
+    }
 
 }
 
@@ -698,10 +699,10 @@ function BindURSAttachmentFiles() {
                             var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + itemId + "/" + fileName;
 
                             if (htmlStr === "") {
-                                htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + fileName + "</a><a href=\"javascript:removeURSFile('" + itemId + "')\"> Remove</a></li>";
+                                htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + fileName + "</a><a style='color:brown' href=\"javascript:removeURSFile('" + itemId + "')\"> Remove</a></li>";
                             }
                             else {
-                                htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + fileName + "</a></li><a href=\"javascript:removeURSFile('" + fileName + "')\"> Remove</a></li>";
+                                htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + fileName + "</a></li><a style='color:brown' href=\"javascript:removeURSFile('" + fileName + "')\"> Remove</a></li>";
 
                             }
                             fileCommonArray.push({
@@ -712,7 +713,7 @@ function BindURSAttachmentFiles() {
 
                             fileURSArray = [];
                             $('#URSContainer').html(htmlStr);
-                           
+
                         }).catch(function (err) {
                             console.log(err);
                             fileURSArray = [];
@@ -755,10 +756,10 @@ function BindInitiatorEditAttachmentFiles() {
                         var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + element.ID + "/" + element.FileName;
 
                         if (htmlStr === "") {
-                            htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a><a href=\"javascript:removeURSFile('" + element.ID + "')\"> Remove</a></li>";
+                            htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a><a style='color:brown' href=\"javascript:removeURSFile('" + element.ID + "')\"> Remove</a></li>";
                         }
                         else {
-                            htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a></li><a href=\"javascript:removeURSFile('" + element.FileName + "')\"> Remove</a></li>";
+                            htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a></li><a style='color:brown' href=\"javascript:removeURSFile('" + element.FileName + "')\"> Remove</a></li>";
 
                         }
                         fileCommonArray.push({
@@ -780,10 +781,10 @@ function BindInitiatorEditAttachmentFiles() {
                         var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + element.ID + "/" + element.FileName;
 
                         if (checkFile === "") {
-                            htmlStr = "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a><a id='Remove_" + element.ID + "' href=\"javascript:removeSupportiveFile('" + element.ID + "')\"> Remove</a></li>";
+                            htmlStr = "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a><a style='color:brown' id='Remove_" + element.ID + "' href=\"javascript:removeSupportiveFile('" + element.ID + "')\"> Remove</a></li>";
                         }
                         else {
-                            htmlStr = checkFile + "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a></li><a id='Remove_" + element.ID + "' href=\"javascript:removeSupportiveFile('" + element.ID + "')\"> Remove</a></li>";
+                            htmlStr = checkFile + "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li><a style='color:brown' id='Remove_" + element.ID + "' href=\"javascript:removeSupportiveFile('" + element.ID + "')\"> Remove</a></li>";
 
                         }
                         fileCommonArray.push({
@@ -827,10 +828,10 @@ function BindInitiatorAttachment() {
                         var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + element.ID + "/" + element.FileName;
 
                         if (htmlStr === "") {
-                            htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
+                            htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li>";
                         }
                         else {
-                            htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
+                            htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li>";
 
                         }
 
@@ -850,7 +851,7 @@ function BindInitiatorAttachment() {
                             htmlStr = "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li>";
                         }
                         else {
-                            htmlStr = checkFile + "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
+                            htmlStr = checkFile + "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li>";
 
                         }
 
@@ -886,6 +887,7 @@ function removeURSFile(itemId) {
                 var htmlStr = "";
                 $('#URSContainer').html(htmlStr);
                 $("#UploadURSAttachment").attr("required", true);
+                $("#UploadURSAttachment").val('');
             },
             error: function (err) {
                 alert(JSON.stringify(err));
@@ -964,10 +966,10 @@ function BindSupportDocAttachmentFiles() {
                         var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + itemId + "/" + fileName;
 
                         if (checkFile === "") {
-                            htmlStr = "<li id=li_" + itemId + "><a id='attachment_" + itemId + "' href='" + ServerRelativeUrl + "' target='_blank'>" + fileName + "</a><a id='Remove_" + itemId + "' href=\"javascript:removeSupportiveFile('" + itemId + "')\"> Remove</a></li>";
+                            htmlStr = "<li id=li_" + itemId + "><a id='attachment_" + itemId + "' href='" + ServerRelativeUrl + "' target='_blank'>" + fileName + "</a><a style='color:brown' id='Remove_" + itemId + "' href=\"javascript:removeSupportiveFile('" + itemId + "')\"> Remove</a></li>";
                         }
                         else {
-                            htmlStr = checkFile + "<li id=li_" + itemId + "><a id='attachment_" + itemId + "' href='" + ServerRelativeUrl + "'>" + fileName + "</a></li><a id='Remove_" + itemId + "' href=\"javascript:removeSupportiveFile('" + itemId + "')\"> Remove</a></li>";
+                            htmlStr = checkFile + "<li id=li_" + itemId + "><a id='attachment_" + itemId + "' href='" + ServerRelativeUrl + "' target='_blank'>" + fileName + "</a></li><a style='color:brown' id='Remove_" + itemId + "' href=\"javascript:removeSupportiveFile('" + itemId + "')\"> Remove</a></li>";
 
                         }
                         fileCommonArray.push({
@@ -1036,7 +1038,7 @@ function BindPurchaseAttachmentFiles() {
     var output = [];
     var fileName;
     var checkFile = $('#purchaseContainer').html();
-    if (checkFile == ""||checkFile==undefined) {
+    if (checkFile == "" || checkFile == undefined) {
         //Get the File Upload control id
         var input = document.getElementById("UploadPurchaseAttachment");
         if (input.files.length > 0) {
@@ -1091,10 +1093,10 @@ function BindPurchaseAttachmentFiles() {
                             var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + itemId + "/" + fileName;
 
                             if (htmlStr === "") {
-                                htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + fileName + "</a><a href=\"javascript:removePurchaseFile('" + itemId + "')\"> Remove</a></li>";
+                                htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + fileName + "</a><a href=\"javascript:removePurchaseFile('" + itemId + "')\"> Remove</a></li>";
                             }
                             else {
-                                htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + fileName + "</a></li><a href=\"javascript:removePurchaseFile('" + fileName + "')\"> Remove</a></li>";
+                                htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + fileName + "</a></li><a href=\"javascript:removePurchaseFile('" + fileName + "')\"> Remove</a></li>";
 
                             }
                             fileCommonArray.push({
@@ -1122,7 +1124,7 @@ function BindPurchaseAttachmentFiles() {
         AlertModal('Error', "Remove existing Purchase file to add New");
     }
 }
-function BindPurchaseEditAttachmentFiles(){
+function BindPurchaseEditAttachmentFiles() {
     var attachmentdata = [];
     AjaxCall(
         {
@@ -1146,10 +1148,10 @@ function BindPurchaseEditAttachmentFiles(){
                         var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + element.ID + "/" + element.FileName;
 
                         if (htmlStr === "") {
-                            htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a><a href=\"javascript:removePurchaseFile('" + element.ID + "')\"> Remove</a></li>";
+                            htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a><a href=\"javascript:removePurchaseFile('" + element.ID + "')\"> Remove</a></li>";
                         }
                         else {
-                            htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a></li><a href=\"javascript:removePurchaseFile('" + element.FileName + "')\"> Remove</a></li>";
+                            htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li><a href=\"javascript:removePurchaseFile('" + element.FileName + "')\"> Remove</a></li>";
 
                         }
                         fileCommonArray.push({
@@ -1160,7 +1162,7 @@ function BindPurchaseEditAttachmentFiles(){
                         $('#purchaseContainer').html(htmlStr);
                     }
                 });
-             }
+            }
         });
 }
 function removePurchaseFile(itemId) {
@@ -1210,7 +1212,7 @@ function BindPurchaseAttachment() {
                     "X-RequestDigest": $("#__REQUESTDIGEST").val()
                 },
             sucesscallbackfunction: function (data) {
-                
+
                 attachmentdata = data.d.results;
                 attachmentdata.forEach(element => {
                     if (element.Title == "Purchase") {
@@ -1219,10 +1221,10 @@ function BindPurchaseAttachment() {
                         var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + element.ID + "/" + element.FileName;
 
                         if (htmlStr === "") {
-                            htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
+                            htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li>";
                         }
                         else {
-                            htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
+                            htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li>";
 
                         }
 
@@ -1234,7 +1236,7 @@ function BindPurchaseAttachment() {
 
 }
 
-function BindHODEditAttachmentFiles(){
+function BindHODEditAttachmentFiles() {
     var attachmentdata = [];
     AjaxCall(
         {
@@ -1258,10 +1260,10 @@ function BindHODEditAttachmentFiles(){
                         var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + element.ID + "/" + element.FileName;
 
                         if (htmlStr === "") {
-                            htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a><a href=\"javascript:removeURSFile('" + element.ID + "')\"> Remove</a></li>";
+                            htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a><a href=\"javascript:removeURSFile('" + element.ID + "')\"> Remove</a></li>";
                         }
                         else {
-                            htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a></li><a href=\"javascript:removeURSFile('" + element.FileName + "')\"> Remove</a></li>";
+                            htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li><a href=\"javascript:removeURSFile('" + element.FileName + "')\"> Remove</a></li>";
 
                         }
                         fileCommonArray.push({
@@ -1272,14 +1274,14 @@ function BindHODEditAttachmentFiles(){
                         $('#HODContainer').html(htmlStr);
                     }
                 });
-             }
+            }
         });
 }
 function BindHODAttachmentFiles() {
     var output = [];
     var fileName;
     var checkFile = $('#HODContainer').html();
-    if (checkFile == ""||checkFile ==undefined) {
+    if (checkFile == "" || checkFile == undefined) {
         //Get the File Upload control id
         var input = document.getElementById("UploadHODAttachment");
         if (input.files.length > 0) {
@@ -1334,10 +1336,10 @@ function BindHODAttachmentFiles() {
                             var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + itemId + "/" + fileName;
 
                             if (htmlStr === "") {
-                                htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + fileName + "</a><a href=\"javascript:removeHODFile('" + itemId + "')\"> Remove</a></li>";
+                                htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + fileName + "</a><a href=\"javascript:removeHODFile('" + itemId + "')\"> Remove</a></li>";
                             }
                             else {
-                                htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + fileName + "</a></li><a href=\"javascript:removeHODFile('" + fileName + "')\"> Remove</a></li>";
+                                htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + fileName + "</a></li><a href=\"javascript:removeHODFile('" + fileName + "')\"> Remove</a></li>";
 
                             }
                             fileCommonArray.push({
@@ -1381,7 +1383,7 @@ function BindHODAttachment() {
                     "X-RequestDigest": $("#__REQUESTDIGEST").val()
                 },
             sucesscallbackfunction: function (data) {
-                
+
                 attachmentdata = data.d.results;
                 attachmentdata.forEach(element => {
                     if (element.Title == "HOD") {
@@ -1390,10 +1392,10 @@ function BindHODAttachment() {
                         var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + element.ID + "/" + element.FileName;
 
                         if (htmlStr === "") {
-                            htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
+                            htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li>";
                         }
                         else {
-                            htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "'>" + element.FileName + "</a></li>";
+                            htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li>";
 
                         }
 
@@ -1469,55 +1471,55 @@ function previewFile(fileArray, url, fileName, fileID) {
     return fileArray;
 }
 function SetBudgetValue() {
-        var assetClassification =TrimComma(mainListData.AssetClassification).split("-");
-        AjaxCall(
-            {
+    var assetClassification = TrimComma(mainListData.AssetClassification).split("-");
+    AjaxCall(
+        {
 
-                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue&$expand=AssetClassification/AssetClassDescription&$filter=AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "'",
-                httpmethod: 'GET',
-                calldatatype: 'JSON',
-                async: false,
-                headers:
-                    {
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue&$expand=AssetClassification/AssetClassDescription&$filter=AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "'",
+            httpmethod: 'GET',
+            calldatatype: 'JSON',
+            async: false,
+            headers:
+                {
 
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json;odata=verbose",
-                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                    },
-                sucesscallbackfunction: function (data) {
-                    if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
-                        $("#BudgetedValue").val(data.d.results[0].BudgetedValue);
-                        $("#UtilizedValue").val(data.d.results[0].UtilisedValue);
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+            sucesscallbackfunction: function (data) {
+                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
+                    $("#BudgetedValue").val(data.d.results[0].BudgetedValue);
+                    $("#UtilizedValue").val(data.d.results[0].UtilisedValue);
 
-                    }
                 }
-            });
-    
+            }
+        });
+
 }
 function GetBudgetValue() {
-    var budgetedValue=[];
-    var assetClassification =TrimComma(mainListData.AssetClassification).split("-");
-        AjaxCall(
-            {
-                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue&$expand=AssetClassification/AssetClassDescription&$filter=AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "'",
-                httpmethod: 'GET',
-                calldatatype: 'JSON',
-                async: false,
-                headers:
-                    {
+    var budgetedValue = [];
+    var assetClassification = TrimComma(mainListData.AssetClassification).split("-");
+    AjaxCall(
+        {
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue&$expand=AssetClassification/AssetClassDescription&$filter=AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "'",
+            httpmethod: 'GET',
+            calldatatype: 'JSON',
+            async: false,
+            headers:
+                {
 
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json;odata=verbose",
-                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                    },
-                sucesscallbackfunction: function (data) {
-                    if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
-                      budgetedValue[0]= data.d.results[0].BudgetedValue;
-                      budgetedValue[1]= data.d.results[0].ID;
-                    }
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+            sucesscallbackfunction: function (data) {
+                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
+                    budgetedValue[0] = data.d.results[0].BudgetedValue;
+                    budgetedValue[1] = data.d.results[0].ID;
                 }
-            });
-    
+            }
+        });
+
     return budgetedValue;
 }
 
@@ -1536,38 +1538,37 @@ function SetCurrentValue() {
     }
 
 }
-function UpdateBudget(Id)
-{
-    var assetClassification =TrimComma(mainListData.AssetClassification).split("-");
+function UpdateBudget(Id) {
+    var assetClassification = TrimComma(mainListData.AssetClassification).split("-");
     var utilizedValue = $('#TotalUtilizedValue').val();
-    if(utilizedValue !=undefined){
-    var listName = ListNames.BUDGETMASTER;
-    var itemType = GetItemTypeForListName(listName);
-    var item = {
-        "__metadata": { "type": itemType },
-        "UtilisedValue": utilizedValue,
-    };
-    $.ajax({
-  
-        url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.BUDGETMASTER + "')/items(" + Id + ")",
-        type: "POST",
-        async: false,
-        data: JSON.stringify(item),
-        headers:
-        {
-            "Accept": "application/json;odata=verbose",
-            "Content-Type": "application/json;odata=verbose",
-            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-            "IF-MATCH": "*",
-            "X-HTTP-Method": "MERGE"
-        },
-        success: function (data) {
-            console.log(data);
-        },
-        error: function (data) {
-            debugger;
-            console.log(data);
-        }
-    });
-}
+    if (utilizedValue != undefined) {
+        var listName = ListNames.BUDGETMASTER;
+        var itemType = GetItemTypeForListName(listName);
+        var item = {
+            "__metadata": { "type": itemType },
+            "UtilisedValue": utilizedValue,
+        };
+        $.ajax({
+
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.BUDGETMASTER + "')/items(" + Id + ")",
+            type: "POST",
+            async: false,
+            data: JSON.stringify(item),
+            headers:
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "IF-MATCH": "*",
+                    "X-HTTP-Method": "MERGE"
+                },
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (data) {
+                debugger;
+                console.log(data);
+            }
+        });
+    }
 }
