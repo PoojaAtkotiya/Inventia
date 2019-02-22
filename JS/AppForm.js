@@ -85,7 +85,6 @@ function onGetSetFormDataSuccess(data) {
 /*Pooja Atkotiya */
 function setCustomApprovers() {
     var location = $('#Location').val();
-    debugger
     if (!IsNullOrUndefined(location) && !IsStrNullOrEmpty(location) && !IsNullOrUndefined(activeSectionName) && !IsStrNullOrEmpty(activeSectionName) && !IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != -1) {
         if (activeSectionName == SectionNames.INITIATORSECTION) {
             tempApproverMatrix.filter(function (temp) {
@@ -159,7 +158,6 @@ function FormBusinessLogic(activeSection) {
 
         gTranArray.push({ "TranListArray": listTempGridDataArray, "TranListName": ListNames.CAPEXVENDORLIST });  ////Vendor tran added in global tran
 
-        debugger
         setCustomApprovers(listItemId);
 
         //     //check if there any delegate user fillby section owner        

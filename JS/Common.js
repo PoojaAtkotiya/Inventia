@@ -2566,7 +2566,6 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
             case ButtonActionStatus.SaveAndStatusUpdateWithEmail:
             case ButtonActionStatus.SaveAndNoStatusUpdateWithEmail:
             case ButtonActionStatus.Save:
-                debugger
                 if (!IsStrNullOrEmpty(strAllusers) && !IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
                     debugger
                     from = currentUser.Email;

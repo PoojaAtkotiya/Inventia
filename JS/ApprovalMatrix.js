@@ -272,7 +272,6 @@ function SetSectionWiseRoles(id) {
 //#region Custom Logic here
 /*Pooja Atkotiya */
 function SetApproversInApprovalMatrix(id) {
-    debugger
     var initiatorDept = department;
     // GetMasterData(ListNames.APPROVERMASTERLIST);
     //var approverMaster = masterDataArray;
@@ -392,6 +391,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
             var listofNextApprovers = tempApproverMatrix.filter(temp => temp.Levels == nextLevel);
 
             listofNextApprovers.forEach(next => {
+                //////Update to check with all by approverid and approverid.result in if else
                 if (isNewItem) {
                     if (!IsNullOrUndefined(next.ApproverId)) {
                         if (nextApprover == '') {
@@ -406,16 +406,21 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
                         }
                     }
                 } else {
-                    if (!IsNullOrUndefined(next) && !IsNullOrUndefined(next.ApproverId) && !IsNullOrUndefined(next.ApproverId.results) && next.ApproverId.results.length > 0) {
-                        if (nextApprover == '') {
-                            nextApproverRole = next.Role;
-                            nextApprover = next.ApproverId.results;
-                        } else {
-                            ////Pending to handle multiple approvers from local approval matrix
-                            if (nextApprover.indexOf(next.ApproverId) == -1) // !Contains
-                            {
-                                nextApproverRole = nextApproverRole.trim() + "," + next.Role;
-                                nextApprover = nextApprover.trim() + "," + next.ApproverId;
+                    if (!IsNullOrUndefined(next) && ((!IsNullOrUndefined(next.ApproverId) && !IsNullOrUndefined(next.ApproverId.results)) ? next.ApproverId.results.length > 0 : (!IsNullOrUndefined(next.ApproverId) && !IsStrNullOrEmpty(next.ApproverId)))) {
+
+                        var nextUsers = (!IsNullOrUndefined(next.ApproverId) && !IsNullOrUndefined(next.ApproverId.results) && next.ApproverId.results.length > 0) ? next.ApproverId.results : ((!IsNullOrUndefined(next.ApproverId) && !IsStrNullOrEmpty(next.ApproverId)) ? next.ApproverId : null)
+                        if (!IsNullOrUndefined(nextUsers)) {
+                            if (nextApprover == '') {
+                                nextApproverRole = next.Role;
+                                nextApprover = nextUsers;// next.ApproverId.results;
+                            } else {
+                                ////Pending to handle multiple approvers from local approval matrix
+                                //  if (nextApprover.indexOf(next.ApproverId) == -1) // !Contains
+                                if (nextApprover.indexOf(nextUsers) == -1) // !Contains
+                                {
+                                    nextApproverRole = nextApproverRole.trim() + "," + next.Role;
+                                    nextApprover = nextApprover.trim() + "," + nextUsers;
+                                }
                             }
                         }
                     }
@@ -1423,7 +1428,7 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
                     var nextLevelRow = tempApproverMatrix.sort(function (a, b) {
                         return a.Levels - b.Levels;
                     }).filter(function (temp) {
-                        return (temp.Status != "Not Required" && !IsNullOrUndefined(temp.ApproverId) && temp.Levels > currentLevel);
+                        return (temp.Status != "Not Required" && ((!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results)) ? temp.ApproverId.results.length > 0 : (!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId))) && temp.Levels > currentLevel);
                     })[0];
                     nextLevel = (!IsNullOrUndefined(nextLevelRow)) ? nextLevelRow.Levels : nextLevel;
                     //var dueDate = null;
