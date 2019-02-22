@@ -1972,8 +1972,10 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
         }
         var strAllUsers = GetEmailUsers(tempApproverMatrix, nextLevel, isNewItem);
         tempApproverMatrix.forEach(temp => {
-            if (temp.Levels == nextLevel && !IsNullOrUndefined(temp.ApproverId) && temp.Status != "Not Required") {
-                nextApproverIds = nextApproverIds + "," + temp.ApproverId;
+            debugger
+            var approvers = (!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results : ((!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId)) ? temp.ApproverId : null);
+            if (temp.Levels == nextLevel && !IsNullOrUndefined(approvers) && temp.Status != "Not Required") {
+                nextApproverIds = nextApproverIds + "," + approvers;//temp.ApproverId;
             }
         });
         nextApproverIds = TrimComma(nextApproverIds);
@@ -2010,21 +2012,23 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                     from = currentUser.Email;
                     var allToUsers = "";
                     tempApproverMatrix.forEach(temp => {
-                        if (temp.Levels == nextLevel && !IsNullOrUndefined(temp.ApproverId) && temp.Status == ApproverStatus.PENDING) {
-                            allToUsers = allToUsers.trim() + "," + temp.ApproverId;
+                        var approvers = (!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results : ((!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId)) ? temp.ApproverId : null);
+                        if (temp.Levels == nextLevel && !IsNullOrUndefined(approvers) && temp.Status == ApproverStatus.PENDING) {
+                            allToUsers = allToUsers.trim() + "," + approvers;//temp.ApproverId;
                         }
                     });
                     to = TrimComma(allToUsers).split(",");
                     to = GetUserEmailsbyUserID(cleanArray(to));
                     tempApproverMatrix.forEach(temp => {
+                        var approvers = (!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results : ((!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId)) ? temp.ApproverId : null);
                         if (temp.Role == Roles.CREATOR) {
                             debugger
-                            if (!IsNullOrUndefined(temp.ApproverId)) {
-                                cc = temp.ApproverId;
+                            if (!IsNullOrUndefined(approvers)) {
+                                cc = approvers; //temp.ApproverId;
                             }
-                            else if (!IsNullOrUndefined(temp.ApproverId.results)) {
-                                cc = temp.ApproverId.results;
-                            }
+                            // else if (!IsNullOrUndefined(temp.ApproverId.results)) {
+                            //     cc = temp.ApproverId.results;
+                            // }
                             /////Pending to check for multi user field
                             cc = TrimComma(cc).split(",");
                             cc = GetUserEmailsbyUserID(cleanArray(cc));
@@ -2054,17 +2058,18 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                     from = currentUser.Email;
                     var allToUsers = "";
                     tempApproverMatrix.ForEach(temp => {
-                        if (temp.Levels == nextLevel && !IsNullOrUndefined(temp.ApproverId)) {
-                            allToUsers = allToUsers.trim() + "," + temp.ApproverId;
+                        var approvers = (!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results : ((!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId)) ? temp.ApproverId : null);
+                        if (temp.Levels == nextLevel && !IsNullOrUndefined(approvers)) {
+                            allToUsers = allToUsers.trim() + "," + approvers;//temp.ApproverId;
                         }
-                        if (temp.Levels == currentLevel && !IsNullOrUndefined(temp.ApproverId)) {
-                            cc = TrimComma(cc) + "," + temp.ApproverId;
+                        if (temp.Levels == currentLevel && !IsNullOrUndefined(approvers)) {
+                            cc = TrimComma(cc) + "," + approvers;// temp.ApproverId;
                         }
                     });
                     to = TrimComma(allToUsers).split(",");
                     // to = cleanArray(to);
                     to = GetUserEmailsbyUserID(cleanArray(to));
-
+                    debugger
                     cc = (TrimComma(cc) + "," + TrimComma(tempApproverMatrix.filter(p => p.Role == Roles.CREATOR)[0].ApproverId));
                     cc = TrimComma(cc).split(",");
                     cc = GetUserEmailsbyUserID(cleanArray(cc));
@@ -2117,6 +2122,7 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
             case ButtonActionStatus.Complete:
                 if (!IsStrNullOrEmpty(strAllusers) && !IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
                     from = currentUser.Email;
+                    debugger
                     to = tempApproverMatrix.filter(p => p.Role == Roles.CREATOR).ApproverId;
                     cc = TrimComma(strAllusers).split(",");
                     cc = GetUserEmailsbyUserID(cleanArray(cc));
