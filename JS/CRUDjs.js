@@ -88,6 +88,7 @@ function ViewVendorDetails(obj) {
 
             setFieldValue(elementId, item, elementType, fieldName);
         });
+       
         $("#CRUDVendorModal *").attr("disabled", "disabled");
         $("#CRUDVendorModal").find(".modal-footer").find("button").remove("onclick");
         $("#CRUDVendorModal").find('.modal-header').find("button").removeAttr("disabled");
