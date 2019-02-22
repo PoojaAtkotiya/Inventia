@@ -1,6 +1,7 @@
 var data = null;
 var listTempGridDataArray = [];
 
+
 $(document).ready(function () {
     GetVendorDetails();
     $(document).on('shown.bs.modal', "#CRUDVendorModal", function () {
@@ -67,13 +68,11 @@ function ViewVendorDetails(obj) {
     var id = jQuery(obj).attr('id').split('_')[2].trim();
     var index = jQuery(obj).attr('id').split('_')[1].trim();
     listTempGridDataArray.forEach(function (arrayItem) {
-        console.log(arrayItem);
         if (arrayItem.Index == index) {
             item = arrayItem;
         }
     });
-    // var id = jQuery(obj).attr('id').split('_')[1].trim();
-    //  var item = GetVendorDetailsById(id);
+   
     if (!IsNullOrUndefined(item)) {
         $("#CRUDVendorModal").modal('show');
         $("#spanTitle").html('Vendor Detail');
@@ -130,7 +129,7 @@ function EditVendorDetails(obj) {
         }
     });
 
-    // var item = GetVendorDetailsById(id);
+  
     if ($('myform').length > 0)
         $('myform').renameTag('form');
     if (!IsNullOrUndefined(item)) {

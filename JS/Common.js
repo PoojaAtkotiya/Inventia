@@ -1415,10 +1415,6 @@ function CommonBusinessLogic(sectionName, itemID, listDataArray) {
     if (sectionName == SectionNames.INITIATORSECTION && actionPerformed == "NextApproval") {
         SaveCapitalAssetRequisitionNumber(itemID, listDataArray, actionPerformed);
     }
-    if (sectionName == SectionNames.INITIATORSECTION) {
-        SavehrefColumn(itemID);
-    }
-
 }
 function addZero(i) {
     if (i < 10) {
