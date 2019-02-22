@@ -408,11 +408,11 @@ function displayAction() {
         }
         $('#HODAction').html(html);
     }
-    if (mainListData.FunctionHeadAction !== undefined && mainListData.FunctionHeadAction != "") {
+    if (mainListData.FuctionHeadAction !== undefined && mainListData.FuctionHeadAction != "") {
         var functionHeadActions = [];
         var html = "";
-        if (!IsStrNullOrEmpty(mainListData.FunctionHeadAction) && !IsNullOrUndefined(mainListData.FunctionHeadAction)) {
-            functionHeadActions = TrimComma(mainListData.FunctionHeadAction).split(",");
+        if (!IsStrNullOrEmpty(mainListData.FuctionHeadAction) && !IsNullOrUndefined(mainListData.FuctionHeadAction)) {
+            functionHeadActions = TrimComma(mainListData.FuctionHeadAction).split(",");
         }
         for (var i = 0; i < functionHeadActions.length; i++) {
             html = html + functionHeadActions[i] + '<br />';
@@ -1462,11 +1462,11 @@ function previewFile(fileArray, url, fileName, fileID) {
     return fileArray;
 }
 function SetBudgetValue() {
-    
+        var assetClassification =TrimComma(mainListData.AssetClassification).split("-");
         AjaxCall(
             {
 
-                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetName,AssetClassification/Title,BudgetedValue,UtilisedValue&$expand=AssetClassification/Title&$filter=AssetClassification/Title eq '" + mainListData.AssetClassification + "'and AssetName eq '" + mainListData.AssetName + "'",
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetName,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue&$expand=AssetClassification/AssetClassDescription&$filter=AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "'",
                 httpmethod: 'GET',
                 calldatatype: 'JSON',
                 async: false,
@@ -1489,11 +1489,10 @@ function SetBudgetValue() {
 }
 function GetBudgetValue() {
     var budgetedValue;
-
+    var assetClassification =TrimComma(mainListData.AssetClassification).split("-");
         AjaxCall(
             {
-
-                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetName,AssetClassification/Title,BudgetedValue,UtilisedValue&$expand=AssetClassification/Title&$filter=AssetClassification/Title eq '" + mainListData.AssetClassification + "'and AssetName eq '" + mainListData.AssetName + "'",
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetName,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue&$expand=AssetClassification/AssetClassDescription&$filter=AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "'",
                 httpmethod: 'GET',
                 calldatatype: 'JSON',
                 async: false,
@@ -1506,8 +1505,6 @@ function GetBudgetValue() {
                     },
                 sucesscallbackfunction: function (data) {
                     if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
-                     //   $("#BudgetedValue").val(data.d.results[0].BudgetedValue);
-                      //  $("#UtilizedValue").val(data.d.results[0].UtilisedValue);
                       budgetedValue= data.d.results[0].BudgetedValue;
                     }
                 }
@@ -1533,6 +1530,7 @@ function SetCurrentValue() {
 }
 function UpdateBudget()
 {
+    var assetClassification =TrimComma(mainListData.AssetClassification).split("-");
     var utilizedValue = $('#TotalUtilizedValue').val();
     if(utilizedValue !=undefined){
     var listName = ListNames.BUDGETMASTER;
@@ -1542,7 +1540,7 @@ function UpdateBudget()
         "UtilisedValue": utilizedValue,
     };
     $.ajax({
-        url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetName,AssetClassification/Title,BudgetedValue,UtilisedValue&$expand=AssetClassification/Title&$filter=AssetClassification/Title eq '" + mainListData.AssetClassification + "'and AssetName eq '" + mainListData.AssetName + "'",
+        url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetName,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue&$expand=AssetClassification/AssetClassDescription&$filter=AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "'",
         type: "POST",
         async: false,
         data: JSON.stringify(item),
