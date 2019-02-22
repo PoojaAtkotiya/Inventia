@@ -905,6 +905,7 @@ function ValidateForm(ele, saveCallBack) {
             });
         }
         else {
+            var attachmsg = "Are you sure to '" + $.trim($(ele).text()) + "'?";
             ConfirmationDailog({
                 title: "Confirm", message: attachmsg, okCallback: function (data) {
                     saveCallBack(activeSection);
