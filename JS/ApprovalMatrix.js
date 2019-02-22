@@ -22,11 +22,11 @@ function GetGlobalApprovalMatrix(id) {
             calldatatype: 'JSON',
             async: false,
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json; odata=verbose",
-                "X-RequestDigest": gRequestDigestValue// data.d.GetContextWebInformation.FormDigestValue
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json; odata=verbose",
+                    "X-RequestDigest": gRequestDigestValue// data.d.GetContextWebInformation.FormDigestValue
+                },
             sucesscallbackfunction: function (data) {
                 globalApprovalMatrix = data.d.results;
                 /*Pooja Atkotiya */
@@ -47,11 +47,11 @@ function GetLocalApprovalMatrixData(id, mainListName) {
             calldatatype: 'JSON',
             async: false,
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val()
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
             sucesscallbackfunction: function (data) {
                 /*Pooja Atkotiya */
                 localApprovalMatrixdata = data.d.results;
@@ -273,19 +273,17 @@ function SetSectionWiseRoles(id) {
 /*Pooja Atkotiya */
 function SetApproversInApprovalMatrix(id) {
     var initiatorDept = department;
-    if (!IsStrNullOrEmpty(currentUserRole) && currentUserRole == Roles.CREATOR) {
-        if (IsStrNullOrEmpty(initiatorDept)) {
-            var errMessage = "Dear Initiator, you cannot create request as your Deparment is not defined.It would be ideal if you contact your Admin for same.";
-            AlertModal('Validation', errMessage, true);
-        }
-        else if (approverMaster.some(app => (app.Role == Roles.FUNCTIONHEAD || app.Role == Roles.INITIATORHOD) && (!IsNullOrUndefined(app.Department) && !IsNullOrUndefined(app.Department.results) && app.Department.results <= 0))) {
-            var errMessage = "Dear Initiator, you cannot create request as Deparment is not defined for Role '" + Roles.FUNCTIONHEAD + "'/'" + Roles.INITIATORHOD + "' in Approver Master.It would be ideal if you contact your Admin for same.";
-            AlertModal('Validation', errMessage, true);
-        }
-        else if (approverMaster.some(app => (app.Role == Roles.MANAGEMENT) && IsStrNullOrEmpty(app.Location.Title))) {
-            var errMessage = "Dear Initiator, you cannot create request as Location is not defined for Role '" + Roles.MANAGEMENT + "' in Approver Master.It would be ideal if you contact your Admin for same.";
-            AlertModal('Validation', errMessage, true);
-        }
+    if (IsStrNullOrEmpty(initiatorDept) && !IsStrNullOrEmpty(currentUserRole) && currentUserRole == Roles.CREATOR) {
+        var errMessage = "Dear Initiator, you cannot create request as your Deparment is not defined.It would be ideal if you contact your Admin for same.";
+        AlertModal('Validation', errMessage, true);
+    }
+    else if (!IsStrNullOrEmpty(currentUserRole) && currentUserRole == Roles.CREATOR && approverMaster.some(app => (app.Role == Roles.FUNCTIONHEAD || app.Role == Roles.INITIATORHOD) && (!IsNullOrUndefined(app.Department) && !IsNullOrUndefined(app.Department.results) && app.Department.results <= 0))) {
+        var errMessage = "Dear Initiator, you cannot create request as Deparment is not defined for Role '" + Roles.FUNCTIONHEAD + "'/'" + Roles.INITIATORHOD + "' in Approver Master.It would be ideal if you contact your Admin for same.";
+        AlertModal('Validation', errMessage, true);
+    }
+    else if (!IsStrNullOrEmpty(currentUserRole) && currentUserRole == Roles.CREATOR && approverMaster.some(app => (app.Role == Roles.MANAGEMENT) && IsStrNullOrEmpty(app.Location.Title))) {
+        var errMessage = "Dear Initiator, you cannot create request as Location is not defined for Role '" + Roles.MANAGEMENT + "' in Approver Master.It would be ideal if you contact your Admin for same.";
+        AlertModal('Validation', errMessage, true);
     }
     else {
         //set status(of all levels) and approver(current)
@@ -390,11 +388,20 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
         });
         if (actionPerformed != ButtonActionStatus.SendBack && actionPerformed != ButtonActionStatus.Forward && tempApproverMatrix.some(t => t.Levels != currentLevel)) {
             ////Get Next Level
-            var nextLevelRow = tempApproverMatrix.sort(function (a, b) {
+
+
+
+            var tempItems = tempApproverMatrix.filter(function (temp) {
+
+                var nextUsers = (!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results : ((!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId)) ? temp.ApproverId : null);
+
+                return (temp.Status != "Not Required" && !IsNullOrUndefined(nextUsers) && temp.Levels > currentLevel);
+            });
+
+            var nextLevelRow = tempItems.sort(function (a, b) {
                 return a.Levels - b.Levels;
-            }).filter(function (temp) {
-                return (temp.Status != "Not Required" && ((!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results)) ? temp.ApproverId.results.length > 0 : (!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId))) && temp.Levels > currentLevel);
             })[0];
+
             nextLevel = (!IsNullOrUndefined(nextLevelRow)) ? nextLevelRow.Levels : nextLevel;
 
             var listofNextApprovers = tempApproverMatrix.filter(temp => temp.Levels == nextLevel);
@@ -711,16 +718,16 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
         }
 
         if (actionPerformed == ButtonActionStatus.NextApproval || actionPerformed == ButtonActionStatus.Delegate) {
-           
+
             Date.prototype.monthNames = [
                 "January", "February", "March",
                 "April", "May", "June",
                 "July", "August", "September",
                 "October", "November", "December"
-            ];            
-            Date.prototype.getMonthName = function() {
+            ];
+            Date.prototype.getMonthName = function () {
                 return this.monthNames[this.getMonth()];
-            };           
+            };
             formFieldValues["Month"] = (new Date().getMonthName()).toString();
             formFieldValues["Year"] = (new Date().getFullYear()).toString();
         }
@@ -1414,13 +1421,13 @@ function SaveFormFields(formFieldValues, requestId) {
                 postData: JSON.stringify(mainlistDataArray),
                 async: false,
                 headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                    "IF-MATCH": "*",
-                    "X-Http-Method": "MERGE", //PATCH
-                },
+                    {
+                        "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                        "IF-MATCH": "*",
+                        "X-Http-Method": "MERGE", //PATCH
+                    },
                 sucesscallbackfunction: function (data) {
                     console.log("Item saved Successfully");
                 }
