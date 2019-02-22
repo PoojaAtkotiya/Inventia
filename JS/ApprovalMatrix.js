@@ -715,9 +715,9 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
                 return this.monthNames[this.getMonth()];
             };
            
-            formFieldValues["Month"] = new Date().getMonthName();
+            formFieldValues["Month"] = (new Date().getMonthName()).toString();
 
-            formFieldValues["Year"] = new Date().getFullYear();
+            formFieldValues["Year"] = (new Date().getFullYear()).toString();
         }
 
         ////saveFormFields in Main List
