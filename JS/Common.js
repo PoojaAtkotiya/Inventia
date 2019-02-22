@@ -149,8 +149,8 @@ function setImageSignature() {
     if (!IsNullOrUndefined(item["ManagementSignature"])) {
         var img = new Image();
         img.src = item["ManagementSignature"];
-        img.width = 200;
-        img.height = 150;
+        img.width = 150;
+        img.height = 75;
         img_Management.appendChild(img);
     }
 }
@@ -1466,7 +1466,7 @@ function SaveActions(sectionName, itemID, actionPerformed) {
             }
             break;
         case SectionNames.MANAGEMENTSECTION:
-            if (actionPerformed == "NextApproval") {
+            if (actionPerformed == "Complete") {
                 formFieldValues['ManagementAction'] = "Approved By " + "," + currentUser.Title + "," + formatted;
             }
             else if (actionPerformed == "Rejected") {

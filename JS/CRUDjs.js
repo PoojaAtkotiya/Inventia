@@ -352,3 +352,50 @@ function GetVendorDetails(listTempGridDataArray) {
         });
     }
 }
+
+
+function GetVendorDetailsForViewMode(listTempGridDataArray) {
+    $('#tblVendor tbody').empty();
+    if (!IsNullOrUndefined(listTempGridDataArray)) {
+        var indexCount = 1;
+        listTempGridDataArray.forEach(function (arrayItem) {
+            if (arrayItem.Status != ItemActionStatus.DELETED)   ////skip deleted rows
+            {
+                if (IsNullOrUndefined(arrayItem.Index)) {
+                    arrayItem.Index = indexCount;
+                    indexCount++;
+                }
+                if (IsStrNullOrEmpty(arrayItem.Type)) {
+                    arrayItem.Type = "Edit";
+                }
+
+                var recommended = "No";
+                if (arrayItem.Recommended) {
+                    recommended = "Yes";
+                }
+                var Negotiated = "No";
+                if (arrayItem.NegotiatedNonNegotiated) {
+                    Negotiated = "Yes";
+                }
+
+                console.log(arrayItem);
+                tr = $('<tr/>');
+
+                tr.append("<td width='10%'>" + arrayItem.VendorName + "</td>");
+                tr.append("<td width='10%'>" + arrayItem.VendorEmailID + "</td>");
+                // tr.append("<td width='20%'>" + arrayItem.Specifications + "</td>");
+                tr.append("<td width='10%'>" + arrayItem.GrossValue + "</td>");
+                tr.append("<td width='10%'>" + arrayItem.LessDiscount + "</td>");
+                tr.append("<td width='10%'>" + arrayItem.NetValue + "</td>");
+                tr.append("<td width='10%'>" + arrayItem.TotalValue + "</td>");
+                tr.append("<td width='10%'>" + arrayItem.DeliveryPeriod + "</td>");
+                tr.append("<td width='10%'>" + Negotiated + "</td>");
+                tr.append("<td width='10%'>" + recommended + "</td>");
+
+                tr.append("<td width='12%'>" +
+                    "<a class='view' id='ViewVendor_" + arrayItem.Index + '_' + arrayItem.ID + "' title='View' data-toggle='tooltip'><i class='material-icons'>&#xE417;</i></a></td>");
+                $('#tblVendor').append(tr);
+            }
+        });
+    }
+}
