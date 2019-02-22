@@ -22,11 +22,11 @@ function GetGlobalApprovalMatrix(id) {
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json; odata=verbose",
-                    "X-RequestDigest": gRequestDigestValue// data.d.GetContextWebInformation.FormDigestValue
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json; odata=verbose",
+                "X-RequestDigest": gRequestDigestValue// data.d.GetContextWebInformation.FormDigestValue
+            },
             sucesscallbackfunction: function (data) {
                 globalApprovalMatrix = data.d.results;
                 /*Pooja Atkotiya */
@@ -47,11 +47,11 @@ function GetLocalApprovalMatrixData(id, mainListName) {
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 /*Pooja Atkotiya */
                 localApprovalMatrixdata = data.d.results;
@@ -710,6 +710,21 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
             UpdateWorkflowStatus(formFieldValues);
         }
 
+        if (actionPerformed == ButtonActionStatus.NextApproval || actionPerformed == ButtonActionStatus.Delegate) {
+           
+            Date.prototype.monthNames = [
+                "January", "February", "March",
+                "April", "May", "June",
+                "July", "August", "September",
+                "October", "November", "December"
+            ];            
+            Date.prototype.getMonthName = function() {
+                return this.monthNames[this.getMonth()];
+            };           
+            formFieldValues["Month"] = (new Date().getMonthName()).toString();
+            formFieldValues["Year"] = (new Date().getFullYear()).toString();
+        }
+
         ////saveFormFields in Main List
         SaveFormFields(formFieldValues, requestId);
     }
@@ -1311,6 +1326,12 @@ function SaveFormFields(formFieldValues, requestId) {
     if (!IsNullOrUndefined(formFieldValues['RaisedBy'])) {
         mainlistDataArray['RaisedById'] = formFieldValues['RaisedBy'];
     }
+    if (!IsNullOrUndefined(formFieldValues['Month'])) {
+        mainlistDataArray['Month'] = formFieldValues['Month'];
+    }
+    if (!IsNullOrUndefined(formFieldValues['Year'])) {
+        mainlistDataArray['Year'] = formFieldValues['Year'];
+    }
     if (!IsNullOrUndefined(formFieldValues["FormLevel"])) {
         mainlistDataArray['FormLevel'] = formFieldValues["FormLevel"].toString();
     }
@@ -1393,13 +1414,13 @@ function SaveFormFields(formFieldValues, requestId) {
                 postData: JSON.stringify(mainlistDataArray),
                 async: false,
                 headers:
-                    {
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json;odata=verbose",
-                        "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                        "IF-MATCH": "*",
-                        "X-Http-Method": "MERGE", //PATCH
-                    },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "IF-MATCH": "*",
+                    "X-Http-Method": "MERGE", //PATCH
+                },
                 sucesscallbackfunction: function (data) {
                     console.log("Item saved Successfully");
                 }
