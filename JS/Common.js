@@ -1415,6 +1415,9 @@ function CommonBusinessLogic(sectionName, itemID, listDataArray) {
     if (sectionName == SectionNames.INITIATORSECTION && actionPerformed == "NextApproval") {
         SaveCapitalAssetRequisitionNumber(itemID, listDataArray, actionPerformed);
     }
+    if (sectionName == SectionNames.INITIATORSECTION) {
+        SavehrefColumn(itemID);
+    }
 
 }
 function addZero(i) {
@@ -1481,6 +1484,12 @@ function SaveCapitalAssetRequisitionNumber(itemID, listDataArray, actionPerforme
     var formFieldValues = [];
     var todayDate = new Date();
     formFieldValues['CapitalAssetRequisitionNumber'] = listDataArray.CostCenter + '/' + todayDate.getFullYear() + ("0" + (todayDate.getMonth() + 1)).slice(-2) + '/' + itemID;
+    SaveFormFields(formFieldValues, itemID);
+}
+
+function SavehrefColumn(itemID) {
+    var formFieldValues = [];
+    formFieldValues['ViewRequest'] ="<a href='https://synoverge.sharepoint.com/sites/dev/Pages/InventiaNew.aspx?ID=' "+ itemID + ">View<a>";
     SaveFormFields(formFieldValues, itemID);
 }
 /*Priya Rane */
