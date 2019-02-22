@@ -384,7 +384,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
             var nextLevelRow = tempApproverMatrix.sort(function (a, b) {
                 return a.Levels - b.Levels;
             }).filter(function (temp) {
-                return (temp.Status != "Not Required" && !IsNullOrUndefined(temp.ApproverId) && temp.Levels > currentLevel);
+                return (temp.Status != "Not Required" && ((!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results)) ? temp.ApproverId.results.length > 0 : (!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId))) && temp.Levels > currentLevel);
             })[0];
             nextLevel = (!IsNullOrUndefined(nextLevelRow)) ? nextLevelRow.Levels : nextLevel;
 
@@ -430,7 +430,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
             if (actionPerformed == ButtonActionStatus.NextApproval || actionPerformed == ButtonActionStatus.Delegate) {
                 var approvers = tempApproverMatrix.sort(function (a, b) {
                     return a.Levels - b.Levels;
-                }).filter(a => a.Levels > currentLevel && !IsNullOrUndefined(a.ApproverId) && a.Status != "Not Required")[0];
+                }).filter(a => a.Levels > currentLevel && ((!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results)) ? temp.ApproverId.results.length > 0 : (!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId))) && a.Status != "Not Required")[0];
                 if (!IsNullOrUndefined(approvers)) {
                     var listofNextApprovers = tempApproverMatrix.filter(temp => (temp.Levels == nextLevel && temp.Status == "Pending"));
 
@@ -605,6 +605,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
                 formFieldValues['FormLevel'] = currentLevel + "|" + currentLevel;
                 formFieldValues['ApprovalStatus'] = "Completed";
                 formFieldValues['Status'] = WFStatus.COMPLETED; // "Completed";
+                formFieldValues['PendingWith'] = '';
                 makeAllUsersViewer = true;
                 isTaskAssignMailSend = true;
             }
@@ -707,17 +708,32 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
     ////save attachment
 
     ////Set value in CurrentApprover
-    tempApproverMatrix.filter(function (temp) {
-        if (temp.Role == currentUserRole && temp.Levels == currentLevel && !IsNullOrUndefined(temp.ApproveById) && (temp.ApproveById.toString().indexOf(currentUser.Id) != -1)) {
+    if (actionPerformed == ButtonActionStatus.SaveAsDraft) {
+        tempApproverMatrix.filter(function (temp) {
+            if (temp.Role == currentUserRole && temp.Levels == nextLevel) {
 
-            temp.Comments = currentApproverDetails[CurrentApprover.COMMENTS];
-            currentApproverDetails[CurrentApprover.APPROVERID] = temp.ApproverId;
-            currentApproverDetails[CurrentApprover.STATUS] = temp.Status;
-            currentApproverDetails[CurrentApprover.ASSIGNDATE] = temp.AssignDate;
-            currentApproverDetails[CurrentApprover.DUEDATE] = temp.DueDate;
-            currentApproverDetails[CurrentApprover.APPROVEBYID] = temp.ApproveById;
-        }
-    });
+                temp.Comments = currentApproverDetails[CurrentApprover.COMMENTS];
+                currentApproverDetails[CurrentApprover.APPROVERID] = temp.ApproverId;
+                currentApproverDetails[CurrentApprover.STATUS] = temp.Status;
+                currentApproverDetails[CurrentApprover.ASSIGNDATE] = temp.AssignDate;
+                currentApproverDetails[CurrentApprover.DUEDATE] = temp.DueDate;
+                currentApproverDetails[CurrentApprover.APPROVEBYID] = temp.ApproveById;
+            }
+        });
+    }
+    else {
+        tempApproverMatrix.filter(function (temp) {
+            if (temp.Role == currentUserRole && temp.Levels == currentLevel && !IsNullOrUndefined(temp.ApproveById) && (temp.ApproveById.toString().indexOf(currentUser.Id) != -1)) {
+
+                temp.Comments = currentApproverDetails[CurrentApprover.COMMENTS];
+                currentApproverDetails[CurrentApprover.APPROVERID] = temp.ApproverId;
+                currentApproverDetails[CurrentApprover.STATUS] = temp.Status;
+                currentApproverDetails[CurrentApprover.ASSIGNDATE] = temp.AssignDate;
+                currentApproverDetails[CurrentApprover.DUEDATE] = temp.DueDate;
+                currentApproverDetails[CurrentApprover.APPROVEBYID] = temp.ApproveById;
+            }
+        });
+    }
 
     ////set permission 
     var userWithRoles = GetPermissionDictionary(tempApproverMatrix, nextLevel, makeAllUsersViewer, isNewItem);
@@ -1351,7 +1367,7 @@ function SaveFormFields(formFieldValues, requestId) {
     if (!IsNullOrUndefined(formFieldValues["ViewRequest"])) {
         mainlistDataArray['ViewRequest'] = formFieldValues["ViewRequest"].toString();
     }
-   
+
     //ApprovalStatus : formFieldValues["ApprovalStatus"],
     //LastactionPerformed : formFieldValues["LastactionPerformed"],
     //IsReschedule: formFieldValues["IsReschedule"],
