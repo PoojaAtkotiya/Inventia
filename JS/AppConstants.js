@@ -1,8 +1,10 @@
 const CommonConstant = {
     SPSITEURL: _spPageContextInfo.webAbsoluteUrl,
     ROOTURL: "https://synoverge.sharepoint.com/sites/dms",
-    SPHOST: "https://synoverge.sharepoint.com/sites/dev",
-    HOSTWEBURL: "https://synoverge.sharepoint.com/sites/dev",
+    // SPHOST: "https://synoverge.sharepoint.com/sites/dev",
+    // HOSTWEBURL: "https://synoverge.sharepoint.com/sites/dev",
+     SPHOST: "https://synoverge.sharepoint.com/sites/QACapex",
+     HOSTWEBURL: "https://synoverge.sharepoint.com/sites/QACapex",
     APPLICATIONSHORTNAME: "Capex",
     APPLICATIONNAME: "Capex",
     FORMNAME: "Capex Requisition Form",
