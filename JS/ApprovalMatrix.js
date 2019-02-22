@@ -274,8 +274,16 @@ function SetSectionWiseRoles(id) {
 function SetApproversInApprovalMatrix(id) {
     var initiatorDept = department;
     if (!IsStrNullOrEmpty(currentUserRole) && currentUserRole == Roles.CREATOR) {
-        if (IsStrNullOrEmpty(initiatorDept) ) {
+        if (IsStrNullOrEmpty(initiatorDept)) {
             var errMessage = "Dear Initiator, you cannot create request as your Deparment is not defined.It would be ideal if you contact your Admin for same.";
+            AlertModal('Validation', errMessage, true);
+        }
+        else if (approverMaster.some(app => (app.Role == Roles.FUNCTIONHEAD || app.Role == Roles.INITIATORHOD) && (!IsNullOrUndefined(app.Department) && !IsNullOrUndefined(app.Department.results) && app.Department.results <= 0))) {
+            var errMessage = "Dear Initiator, you cannot create request as Deparment is not defined for Role '" + Roles.FUNCTIONHEAD + "'/'" + Roles.INITIATORHOD + "' in Approver Master.It would be ideal if you contact your Admin for same.";
+            AlertModal('Validation', errMessage, true);
+        }
+        else if (approverMaster.some(app => (app.Role == Roles.MANAGEMENT) && IsStrNullOrEmpty(app.Location.Title))) {
+            var errMessage = "Dear Initiator, you cannot create request as Location is not defined for Role '" + Roles.MANAGEMENT + "' in Approver Master.It would be ideal if you contact your Admin for same.";
             AlertModal('Validation', errMessage, true);
         }
     }
