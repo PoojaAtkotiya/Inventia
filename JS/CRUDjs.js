@@ -185,22 +185,11 @@ function SaveVendorData(listDataArray) {
         // listTempGridDataArray.push(listDataArray);
     }
 
-    // if (listDataArray.Recommended = true) {
-    //     listTempGridDataArray.forEach(function  (element1) {
-    //         element1.Recommended = false;
-    //     });
-    // }
-    if (listDataArray.Recommended = false) {
+    if (listDataArray.Recommended = true && listDataArray.Recommended !=" ") {
         listTempGridDataArray.forEach(function  (element1) {
-            element1.Recommended = true;
+            element1.Recommended = false;
         });
     }
-    else if (listDataArray.Recommended = true) {
-            listTempGridDataArray.forEach(function  (element1) {
-                element1.Recommended = false;
-            });
-        }
-
 
     listTempGridDataArray.push(listDataArray);
     listTempGridDataArray.sort(function (a, b) {
@@ -335,10 +324,6 @@ function GetVendorDetails(listTempGridDataArray) {
                 if (arrayItem.Recommended) {
                     recommended = "Yes";
                 }
-                // var recommended = "Yes";
-                // if (arrayItem.Recommended) {
-                //     recommended = "No";
-                // }
                 var Negotiated = "No";
                 if (arrayItem.NegotiatedNonNegotiated) {
                     Negotiated = "Yes";
