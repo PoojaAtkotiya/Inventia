@@ -1416,7 +1416,7 @@ function CommonBusinessLogic(sectionName, itemID, listDataArray) {
         SaveCapitalAssetRequisitionNumber(itemID, listDataArray, actionPerformed);
     }
     if (sectionName == SectionNames.INITIATORSECTION) {
-        SaveCapitalAssetRequisitionNumber(itemID, listDataArray, actionPerformed);
+        SavehrefColumn(itemID);
     }
 
 }
