@@ -1466,7 +1466,7 @@ function SaveActions(sectionName, itemID, actionPerformed) {
             }
             break;
         case SectionNames.MANAGEMENTSECTION:
-            if (actionPerformed == "NextApproval") {
+            if (actionPerformed == "Complete") {
                 formFieldValues['ManagementAction'] = "Approved By " + "," + currentUser.Title + "," + formatted;
             }
             else if (actionPerformed == "Rejected") {
