@@ -29,7 +29,7 @@ jQuery(document).ready(function () {
         console.log("Execute  second after the retrieve list items  failed");
     });
 
-    var scriptbase = CommonConstant.HOSTWEBURL + "/_layouts/15/";
+    var scriptbase = CommonConstant.SPSITEURL + "/_layouts/15/";
     // Load the js files and continue to
     // the execOperation function.
     $.getScript(scriptbase + "SP.Runtime.js",
@@ -50,7 +50,7 @@ jQuery(document).ready(function () {
 
 /*Priya Rane */
 function loadConstants() {
-    var clientContext = new SP.ClientContext(CommonConstant.HOSTWEBURL);
+    var clientContext = new SP.ClientContext(CommonConstant.SPSITEURL);
     this.oWebsite = clientContext.get_web();
     clientContext.load(this.oWebsite);
     clientContext.executeQueryAsync(
@@ -452,7 +452,7 @@ function ValidateFormControls(divObjectId, IgnoreBlankValues) {
 function GetCurrentUserDetails() {
     AjaxCall(
         {
-            url: CommonConstant.HOSTWEBURL + "/_api/web/currentuser/?$expand=groups",
+            url: CommonConstant.SPSITEURL + "/_api/web/currentuser/?$expand=groups",
             httpmethod: 'GET',
             calldatatype: 'JSON',
             async: false,
@@ -731,7 +731,7 @@ function AlertModal(title, msg, isExit, callback) {
 /*Monal Shah */
 function Exit() {
     try {
-        parent.postMessage(CommonConstant.HOSTWEBURL, CommonConstant.SPHOST);
+        parent.postMessage(CommonConstant.SPSITEURL, CommonConstant.SPSITEURL);
     }
     catch (e) {
         parent.postMessage($("#hdnSPHOSTURL").val(), $("#hdnSPHOST").val());

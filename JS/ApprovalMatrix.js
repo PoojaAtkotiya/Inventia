@@ -1004,7 +1004,7 @@ function SetCustomPermission(userWithRoles, requestId, listName) {
     //1073741827 - contribute
     // 1073741829, Full Control
     // 1073741826, Read
-    var endPointUrlRoleAssignment = CommonConstant.HOSTWEBURL + "/_api/web/lists/getByTitle('" + listName + "')/items(" + requestId + ")/roleassignments/addroleassignment(principalid=20,roleDefId=1073741827)";
+    var endPointUrlRoleAssignment = CommonConstant.SPSITEURL + "/_api/web/lists/getByTitle('" + listName + "')/items(" + requestId + ")/roleassignments/addroleassignment(principalid=20,roleDefId=1073741827)";
     var call = jQuery.ajax(
         {
             url: endPointUrlRoleAssignment,
