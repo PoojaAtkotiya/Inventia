@@ -107,6 +107,7 @@ function setCustomApprovers() {
 function Capex_SaveData(ele) {
     if (activeSectionName == SectionNames.PURCHASESECTION) {
         // gTranArray.push({ "TranListArray": listTempGridDataArray, "TranListName": ListNames.CAPEXVENDORLIST });  ////Vendor tran added in global tran
+      
         if (listTempGridDataArray.length < 3) {
             AlertModal('Error', "Minimum 3 vendor required");
             return false;
