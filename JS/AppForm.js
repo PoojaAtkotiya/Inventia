@@ -347,6 +347,9 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     }
     else if (mainListData.WorkflowStatus == "Closed" || mainListData.WorkflowStatus == "Rejected" || mainListData.PendingWith == Roles.INITIATORHOD || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
         BindPurchaseAttachment();
+        $('[id*="EditVendor_"]').hide();
+        $('[id*="DeleteVendor_"]').hide();
+        $('#btnAddVendor').hide();
     }
 
     //Functions for Initiator HOD
