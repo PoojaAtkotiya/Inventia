@@ -113,6 +113,16 @@ function Capex_SaveData(ele) {
             return false;
         }
     }
+    
+    if (activeSectionName == SectionNames.INITIATORSECTION) {
+        var budgetValue = [];
+        budgetValue = GetBudgetValue();
+        if(budgetValue == null && budgetValue==undefined)
+        {
+            var errMessage = "Dear Initiator, There is no budget for selected Asset Classification.Please contact Admin";
+            AlertModal('Validation', errMessage, true);
+        }
+    }
     ValidateForm(ele, SaveDataCallBack);
 
     function SaveDataCallBack(activeSection) {
@@ -1498,6 +1508,10 @@ function SetBudgetValue() {
 }
 function GetBudgetValue() {
     var budgetedValue = [];
+    if(mainListData.AssetClassification == undefined){
+        mainListData.AssetClassification= $('#AssetClassification').val();
+    }
+    if(mainListData.AssetClassification != undefined){
     var assetClassification = TrimComma(mainListData.AssetClassification).split("-");
     AjaxCall(
         {
@@ -1513,13 +1527,13 @@ function GetBudgetValue() {
                     "X-RequestDigest": $("#__REQUESTDIGEST").val()
                 },
             sucesscallbackfunction: function (data) {
-                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
+                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results) && data.d.results.length !=0) {
                     budgetedValue[0] = data.d.results[0].BudgetedValue;
                     budgetedValue[1] = data.d.results[0].ID;
                 }
             }
         });
-
+    }
     return budgetedValue;
 }
 
