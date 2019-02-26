@@ -900,9 +900,9 @@ function ValidateForm(ele, saveCallBack) {
         ShowWaitDialog();
         if (buttonCaption != "save as draft") {
             //confirm file Attachment need attach or not
-            var attachmsg = "Are you sure to '" + $.trim($(ele).text()) + "'?";
+            var attachmsg = "Are you sure to " + $.trim($(ele).text()) + "?";
             if ($(formList).find("div[data-appname]").length != 0 && $(formList).find("div[data-appname]").find("ul li").length == 0 && dataAction == "11") {
-                attachmsg = "Are you sure to '" + $.trim($(ele).text()) + "' without attachment?";
+                attachmsg = "Are you sure to " + $.trim($(ele).text()) + " without attachment?";
             }
             ConfirmationDailog({
                 title: "Confirm", message: attachmsg, okCallback: function (data) {
@@ -911,7 +911,7 @@ function ValidateForm(ele, saveCallBack) {
             });
         }
         else {
-            var attachmsg = "Are you sure to '" + $.trim($(ele).text()) + "'?";
+            var attachmsg = "Are you sure to " + $.trim($(ele).text()) + "?";
             ConfirmationDailog({
                 title: "Confirm", message: attachmsg, okCallback: function (data) {
                     saveCallBack(activeSection);
@@ -1303,7 +1303,6 @@ function SaveFormData(activeSection, ele) {
             var elementvaluetype = $(this).attr('controlvaluetype');
 
             listDataArray = GetStaticFormControlValue(elementId, elementType, listDataArray, elementvaluetype);
-            //listActivityLogDataArray = GetFormControlsValueAndType(elementId, elementType, elementProperty, listActivityLogDataArray);
         });
         $(activeSection).find('.approver-control').each(function () {
             var currAppArray = {};
@@ -1431,7 +1430,10 @@ function OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCap
                 data.IsSucceed = true;
                 data.Messages = "Data saved successfully";
             }
-            if (buttonCaption.toLowerCase() == "save as draft" || buttonCaption.toLowerCase() == "resume") {
+            // if (buttonCaption.toLowerCase() == "save as draft" || buttonCaption.toLowerCase() == "resume") {
+            //     OnSuccessNoRedirect(data);
+            // }
+            if (buttonCaption.toLowerCase() == "resume") {
                 OnSuccessNoRedirect(data);
             }
             else if (buttonCaption.toLowerCase() == "complete" && !isPageRedirect) {
@@ -1939,7 +1941,7 @@ function AjaxCall(options) {
         async: async,
         success: function (data) {
             if (data && data.Status != undefined && data.Status == "VALIDATION_ERROR") {
-                debugger
+                
                 ShowError(data.Data);
             }
             else {
@@ -2019,7 +2021,7 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
         }
         var strAllUsers = GetEmailUsers(tempApproverMatrix, nextLevel, isNewItem);
         tempApproverMatrix.forEach(temp => {
-            debugger
+          
             var approvers = (!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results : ((!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId)) ? temp.ApproverId : null);
             if (temp.Levels == nextLevel && !IsNullOrUndefined(approvers) && temp.Status != "Not Required") {
                 nextApproverIds = nextApproverIds + "," + approvers;//temp.ApproverId;
@@ -2036,7 +2038,7 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
             case ButtonActionStatus.SaveAndNoStatusUpdateWithEmail:
             case ButtonActionStatus.Save:
                 if (!IsStrNullOrEmpty(strAllusers) && !IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
-                    debugger
+                 
                     from = currentUser.Email;
                     to = TrimComma(strAllusers);
                     //  to = cleanArray(to);
@@ -2055,7 +2057,7 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
             case ButtonActionStatus.Delegate:
             case ButtonActionStatus.NextApproval:
                 if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
-                    debugger
+                    
                     from = currentUser.Email;
                     var allToUsers = "";
                     tempApproverMatrix.forEach(temp => {
@@ -2069,7 +2071,7 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                     tempApproverMatrix.forEach(temp => {
                         var approvers = (!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results : ((!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId)) ? temp.ApproverId : null);
                         if (temp.Role == Roles.CREATOR) {
-                            debugger
+                           
                             if (!IsNullOrUndefined(approvers)) {
                                 cc = approvers; //temp.ApproverId;
                             }
@@ -2116,7 +2118,7 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                     to = TrimComma(allToUsers).split(",");
                     // to = cleanArray(to);
                     to = GetUserEmailsbyUserID(cleanArray(to));
-                    debugger
+                    
                     cc = (TrimComma(cc) + "," + TrimComma(tempApproverMatrix.filter(p => p.Role == Roles.CREATOR)[0].ApproverId));
                     cc = TrimComma(cc).split(",");
                     cc = GetUserEmailsbyUserID(cleanArray(cc));
@@ -2169,7 +2171,7 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
             case ButtonActionStatus.Complete:
                 if (!IsStrNullOrEmpty(strAllusers) && !IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
                     from = currentUser.Email;
-                    debugger
+                   
                     to = tempApproverMatrix.filter(p => p.Role == Roles.CREATOR).ApproverId;
                     cc = TrimComma(strAllusers).split(",");
                     cc = GetUserEmailsbyUserID(cleanArray(cc));
@@ -2229,8 +2231,8 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
             sucesscallbackfunction: function (data) {
                 emailTemplate.push({ "Subject": data.d.results[0].Subject });
                 emailTemplate.push({ "Body": data.d.results[0].Body });
-                mailCustomValues.push({ "ItemLink": "#URL" + "https://synoverge.sharepoint.com/sites/dev/Pages/Home.aspx?ID=" + itemID });
-                mailCustomValues.push({ "ItemLinkClickHere": "<a href='#URL" + "https://synoverge.sharepoint.com/sites/dev/Pages/Home.aspx?ID=" + itemID + "' >Click Here</a>" });
+                mailCustomValues.push({ "ItemLink": "#URL" + "https://synoverge.sharepoint.com/sites/QACapex/Pages/Home.aspx?ID=" + itemID });
+                mailCustomValues.push({ "ItemLinkClickHere": "<a href='https://synoverge.sharepoint.com/sites/QACapex/Lists/CapexRequisition/DispForm.aspx?ID=" + itemID + "' >Click Here</a>" });
                 emailTemplate = CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, emailParam);
             }
         });
@@ -2310,11 +2312,10 @@ function CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, 
                     body.replace(regex, function (matchbody) {
                         matchesBody.push(matchbody);
                     });
+
                 }
             }
-
         });
-
         GetDatafromList(itemID, mainListName, subject, matchesSubject, body, matchesBody, emailParam);
 
     }
@@ -2326,7 +2327,12 @@ function GetFieldsValueString(matches, mainlistData) {
     var replacedValues = [];
     matches.forEach(temp => {
         var columnName = temp.slice(1, -1);
-        replacedValues.push({ [columnName]: mainlistData[columnName] });/*Pooja Atkotiya */
+        if(columnName.localeCompare("RaisedById")==0)
+        {
+            var raisebyUseName=GetUserNamebyUserID(mainlistData.RaisedById);
+            replacedValues.push({ [columnName]: raisebyUseName});
+        }
+       replacedValues.push({ [columnName]: mainlistData[columnName] });/*Pooja Atkotiya */
     });
     return replacedValues;
 }

@@ -272,7 +272,9 @@ function SetSectionWiseRoles(id) {
 //#region Custom Logic here
 /*Pooja Atkotiya */
 function SetApproversInApprovalMatrix(id) {
-    var initiatorDept = department;
+    var initiatorDept = $('#Department').html();
+    if(initiatorDept == undefined || initiatorDept ==null ||initiatorDept=="")
+    {initiatorDept = department;}
     if (IsStrNullOrEmpty(initiatorDept) && !IsStrNullOrEmpty(currentUserRole) && currentUserRole == Roles.CREATOR) {
         var errMessage = "Dear Initiator, you cannot create request as your Deparment is not defined.It would be ideal if you contact your Admin for same.";
         AlertModal('Validation', errMessage, true);
@@ -461,9 +463,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
                             }
                             else {
                                 if (nextApprover.indexOf(nextUsers) == -1) {
-
-                                    debugger;
-                                    if (nextApproverRole.lastIndexOf(',') != -1) {
+                                     if (nextApproverRole.lastIndexOf(',') != -1) {
                                         nextApproverRole = TrimComma(nextApproverRole.trim());
                                         // nextApproverRole = nextApproverRole.trim().substring(0, nextApproverRole.lastIndexOf(','));
                                     }
@@ -498,7 +498,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
                     }
                     else {
                         if (nextApprover.indexOf(nextUsers) == -1) {
-                            debugger;
+                            
                             if (nextApproverRole.lastIndexOf(',') != -1) {
                                 // nextApproverRole = nextApproverRole.trim().substring(0, nextApproverRole.lastIndexOf(','));
                                 nextApproverRole = TrimComma(nextApproverRole.trim());
@@ -940,7 +940,7 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
         }
         if (!IsNullOrUndefined(userIds) && !IsStrNullOrEmpty(userIds) && !IsNullOrUndefined(permission) && !IsStrNullOrEmpty(permission)) {
             var users = [];
-            debugger
+            
             if (!IsNullOrUndefined(userIds) && !IsStrNullOrEmpty(userIds)) {
                 var a = (userIds.toString().indexOf(',') != -1) ? userIds.split(',') : parseInt(userIds);
                 if (!IsNullOrUndefined(a)) {
@@ -1098,12 +1098,12 @@ function GetPermissionDictionary(tempApproverMatrix, nextLevel, isAllUserViewer,
                      * 1) who are pending on current level
                      */
                     if (isNewItem) {
-                        debugger
+                       
                         if (strContributer.indexOf(temp.ApproverId) == -1) {
                             strContributer = TrimComma(strContributer.trim()) + "," + temp.ApproverId;
                         }
                     } else {
-                        debugger
+                      
                         // if (!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0 && strContributer.indexOf(temp.ApproverId.results) == -1) {
                         strContributer = TrimComma(strContributer.trim()) + "," + approvers;//temp.ApproverId.results;
                         //}
@@ -1117,12 +1117,12 @@ function GetPermissionDictionary(tempApproverMatrix, nextLevel, isAllUserViewer,
                      * 2) who are not pending on current level
                      */
                     if (isNewItem) {
-                        debugger
+                       
                         if (strReader.indexOf(temp.ApproverId) == -1) {
                             strReader = TrimComma(strReader.trim()) + "," + temp.ApproverId;
                         }
                     } else {
-                        debugger
+                        
                         // if (!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0 && strReader.indexOf(temp.ApproverId.results) == -1) {
                         strReader = TrimComma(strReader.trim()) + "," + approvers;// temp.ApproverId.results;
                         //}
@@ -1284,7 +1284,7 @@ function SaveApprovalMatrixInList(tempApproverMatrix, approvalMatrixListName, is
             });
         }
         else {
-            debugger
+           
             var approvers = (!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results : ((!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId)) ? temp.ApproverId : null);
 
             if (!IsNullOrUndefined(approvers)) {
@@ -1528,7 +1528,7 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
                 case ButtonActionStatus.BackToCreator:
                 case ButtonActionStatus.SendBack:
                     var sendtoRole = '';
-                    debugger;
+                   
                     if ((ConstantKeys.SENDTOLEVEL in param) && !IsNullOrUndefined(param[ConstantKeys.SENDTOLEVEL])) {
                         nextLevel = parseInt(param[ConstantKeys.SENDTOLEVEL]);
                     }
@@ -1557,7 +1557,7 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
                     });
                     break;
                 case ButtonActionStatus.SendForward:
-                    debugger
+                    
                     if ((ConstantKeys.SENDTOLEVEL in param) && !IsNullOrUndefined(param[ConstantKeys.SENDTOLEVEL])) {
                         nextLevel = parseInt(param[ConstantKeys.SENDTOLEVEL]);
                         ////Get Next Level
