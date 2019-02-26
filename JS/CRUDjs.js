@@ -187,7 +187,7 @@ function SaveVendorData(listDataArray) {
     }
 
     if (listDataArray.Recommended = true && listDataArray.Recommended !=" ") {
-        listTempGridDataArray.forEach(function  (element1) {
+        listTempGridDataArray.forEach(function Â (element1) {
             element1.Recommended = false;
         });
     }
@@ -245,7 +245,7 @@ function ValidateModalForm() {
                 var error_element=$("span", element.parent());
                     if (!valid){error_element.removeClass("error").addClass("error_show"); error_free=false;}
                     else{error_element.removeClass("error_show").addClass("error");}
-                    //validateEmail(emailField);
+                   
                 $("#" + errorItem.element.id).removeClass("valid");
                 $("#" + errorItem.element.id).next().remove();
                 console.log("{ '" + errorItem.element.id + "' : '" + errorItem.message + "'}");
