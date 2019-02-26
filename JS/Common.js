@@ -282,6 +282,7 @@ function Digit(objTextbox, event) {
         return false;
     }
 }
+
 function Integer(objTextbox, event) {
     var keyCode = (event.which) ? event.which : (window.event) ? window.event.keyCode : -1;
     if (keyCode >= 48 && keyCode <= 57 || keyCode == 45) {
