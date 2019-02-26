@@ -58,7 +58,7 @@ function AddVendorDetails() {
     $("#CRUDVendorModal *").removeAttr("disabled");
     $("#CRUDVendorModal").find('input,textarea,select,checkbox').val('');
     $("#CRUDVendorModal").modal('show');
-    $("#spanTitle").html('Add Vendor Detail');
+    $("#spanTitle").html('Add Vendor Details');
     $('input[type=checkbox]').prop('checked', false);
 
 }
@@ -240,6 +240,11 @@ function ValidateModalForm() {
             $(validator.errorList).each(function (i, errorItem) {
                 //  AlertModal("Validation", errorItem.element.id + "' : '" + errorItem.message);
                 $("#" + errorItem.element.id).addClass("error");
+                
+                var error_element=$("span", element.parent());
+                    if (!valid){error_element.removeClass("error").addClass("error_show"); error_free=false;}
+                    else{error_element.removeClass("error_show").addClass("error");}
+                    //validateEmail(emailField);
                 $("#" + errorItem.element.id).removeClass("valid");
                 $("#" + errorItem.element.id).next().remove();
                 console.log("{ '" + errorItem.element.id + "' : '" + errorItem.message + "'}");
@@ -261,16 +266,21 @@ function SaveVendorDetails() {
         var elementvaluetype = $(this).attr('controlvaluetype');
         saveDataArray = GetFormControlsValue(elementId, elementType, saveDataArray, elementvaluetype);
     });
-
+    var isemailValid = validateEmail(VendorEmailID);
     var isValid = ValidateModalForm();
-    if (isValid) {
+    if (isValid && isemailValid==true) {
         SaveVendorData(saveDataArray);
 
         //}
     }
 }
 function validateEmail(emailField) {
-    var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+   // var isemailValid = true;
+   // $('#form_VendorSection').valid();
+   // if (!$(form_VendorSection).valid()) {
+    //    isemailValid = false;
+   // var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    var reg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
     if (reg.test(emailField.value) == false) {
         document.getElementById('invalidemail').innerHTML = "This is invalid EmailID ";
@@ -279,7 +289,9 @@ function validateEmail(emailField) {
     else {
         document.getElementById('invalidemail').innerHTML = " ";
     }
+   
     return true;
+   
 
 }
 
