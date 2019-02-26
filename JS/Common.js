@@ -282,6 +282,7 @@ function Digit(objTextbox, event) {
         return false;
     }
 }
+
 function Integer(objTextbox, event) {
     var keyCode = (event.which) ? event.which : (window.event) ? window.event.keyCode : -1;
     if (keyCode >= 48 && keyCode <= 57 || keyCode == 45) {
@@ -874,8 +875,14 @@ function ValidateForm(ele, saveCallBack) {
                 try {
                     var validator = $(this).validate();
                     $(validator.errorList).each(function (i, errorItem) {
+                        var error_free=true;
                         //  AlertModal("Validation", errorItem.element.id + "' : '" + errorItem.message);
                         $("#" + errorItem.element.id).addClass("error");
+
+                         var error_element=$("span", element.parent());
+                          if (!valid){error_element.removeClass("error").addClass("error_show"); error_free=false;}
+                          else{error_element.removeClass("error_show").addClass("error");}
+                        
                         $("#" + errorItem.element.id).removeClass("valid");
                         $("#" + errorItem.element.id).next().remove();
                         console.log("{ '" + errorItem.element.id + "' : '" + errorItem.message + "'}");
@@ -1056,9 +1063,13 @@ function GetFormControlsValueAndType(id, elementType, elementProperty, listActiv
             break;
         case "combo":
 
-            if (elementProperty == 'peoplepicker') {
-                listActivityLogDataArray.push({ id: id, value: $(obj).val(), type: 'peoplepicker' });
-            }
+            // if (elementProperty == 'peoplepicker') {
+            //     listActivityLogDataArray.push({ id: id, value: $(obj).val(), type: 'peoplepicker' });
+            // }
+            // if (IsNullOrUndefined($(obj).val()) || IsStrNullOrEmpty($(obj).val())) {
+            //     $(obj).val(0);
+            // }
+            listActivityLogDataArray.push({ id: id, value: $(obj).val(), type: 'text' });
             break;
         case "multitext":
             listActivityLogDataArray.push({ id: id, value: $(obj).val(), type: 'multitext' });
@@ -1146,15 +1157,43 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
         var tr, tdValue;
         for (var i = 0; i < activity.length; i++) {
             var item = activity[i];
+           // if (!IsNullOrUndefined(item) && item.split('\t').length == 2) {
+            //    var itemDetails = item.split('\t');
             /* Condition Changed by Hirvita */
             if (item.split(' ').length > 1) {
                 if (!IsNullOrUndefined(item)) {
                     var itemDetails = item.split(' ');
                     if (itemDetails[0] != "RaisedBy" && itemDetails[0] != "Files") {
                         tr = $('<tr/>');
-                        tr.append('<td>' + itemDetails[0] + '</td>');
-
-                        var value = itemDetails[1];
+                        tr.append('<td>' + itemDetails[0]  +'</td>');
+                       // var length = itemDetails.length;
+                       // var value;
+                       
+                        // for(var i=1;i<length;i++)
+                        // {
+                        //   for(var j=1;j<=i;j++) {
+                           
+                        //     if(value==undefined){
+                        //      value = itemDetails[j];
+                        //     }
+                        //     else
+                        //     {
+                                
+                        //         value =value + ' ' + itemDetails[j];
+                               
+                        //     }
+                        // }
+                        // } 
+                        itemDetails.forEach(value1 => {
+                           
+                            var value2 = value1;
+                            
+                        }
+                        );
+                         testslice =itemDetails.slice(1);
+                           var value= testslice;
+                       
+                       // var value = itemDetails[1];
                         try {
                             if (value.toLowerCase() == "true" || value.toLowerCase() == "false") {
                                 tdValue = value.toLowerCase() == "true" ? "Yes" : "No";
@@ -1178,8 +1217,11 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
                         tr.append('<td>' + tdValue + '</td>');
                         $('#tblActivityChanges tbody').append(tr);
                     }
+                
                 }
             }
+
+           
         }
     }
 }

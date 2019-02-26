@@ -5,8 +5,6 @@
     -webkit-animation: spin 2s infinite linear;
     animation: spin 2s infinite linear;
 }
-
-
 .no-border-radius {
     -webkit-border-radius: 0 !important;
     -moz-border-radius: 0 !important;
@@ -9471,10 +9469,20 @@ h2 {
     padding-top: 7px;
 }
 /*End */
+/* This is comented due to show Validation message that this field is required */
+/* label.error{	
+    display: block!important;
+}	 */
+/* .error{
+    display: block;
+    border: 1px solid #dc6767!important;
+    margin-left: 10px;
+}		 */
 
-label.error{	
-    display: none!important;
-}	
+/* .error_show{
+    color: red;
+    margin-left: 10px;
+} */
 
 .error{
     display: block;  
