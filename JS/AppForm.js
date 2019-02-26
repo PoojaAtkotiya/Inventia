@@ -106,9 +106,14 @@ function setCustomApprovers() {
 /*Monal Shah */
 function Capex_SaveData(ele) {
     if (activeSectionName == SectionNames.PURCHASESECTION) {
-        // gTranArray.push({ "TranListArray": listTempGridDataArray, "TranListName": ListNames.CAPEXVENDORLIST });  ////Vendor tran added in global tran
+        var length=0;
+        $(listTempGridDataArray).each(function (i, e) {
+            var statusOfTrans = listTempGridDataArray[i].Status;
+            if(statusOfTrans != "Deleted")
+            length++;
+        });
 
-        if (listTempGridDataArray.length < 3) {
+        if (length < 3) {
             AlertModal('Error', "Minimum 3 vendor required");
             return false;
         }
@@ -294,7 +299,7 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
         setNewFormParamters(department)
     }
     else {
-        $("#RaisedOnDisplay").html(new Date(mainListData.RaisedOn).format("dd-MM-yyyy"));
+        $("#RaisedOnDisplay").html(new Date(mainListData.RaisedOn).format("dd/MM/yyyy"));
     }
     if (pendingWithRole == "Creator" || listItemId == "") {
         setFunctionbasedDept(department);
@@ -425,7 +430,7 @@ function setNewFormParamters(department) {
     $("#InitiatorName").html(currentUser.Title);
     // var today = new Date().format("dd-MM-yyyy");
     var today = new Date().format("MM-dd-yyyy");
-    var todaydisplay = new Date().format("dd-MM-yyyy");
+    var todaydisplay = new Date().format("dd/MM/yyyy");
     $("#RaisedOn").html(today);
     $("#RaisedOnDisplay").html(todaydisplay);
     $("#WorkflowStatus").html("New");
