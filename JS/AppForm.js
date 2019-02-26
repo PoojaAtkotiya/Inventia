@@ -139,12 +139,7 @@ function Capex_SaveData(ele) {
 function FormBusinessLogic(activeSection) {
     var isError = false;
     try {
-
-        // param[ConstantKeys.SENDTOLEVEL] = 0;                 // ConstantKeys.SENDTOLEVEL
-        // param[ConstantKeys.SENDTOROLE] = "";
-        // param[ConstantKeys.SENDBACKTO] = "";
-        // param[ConstantKeys.ACTIONPERFORMED] = actionPerformed;
-        if (activeSectionName == SectionNames.FUNCTIONHEADSECTION) {
+         if (activeSectionName == SectionNames.FUNCTIONHEADSECTION) {
             var actionStatus = $("#ActionStatus").val();
             if (actionStatus == ButtonActionStatus.NextApproval) {
                 var budgetValue = [];
@@ -190,43 +185,10 @@ function SaveForm(activeSection, ele) {
     }
 }
 
-/*Priya Rane */
-// function AddURSAttachments(listname, itemID) {
-//     $('#divCapexForm').find('div[section]').not(".disabled").each(function (i, e) {
-
-//         $(e).find('input[type="file"]').each(function () {
-//             var elementId = $(this).attr('id');
-//             var controlType = $(this).attr('controlType');
-//             // if (controlType == "file") {
-//             if (!IsNullOrUndefined(fileURSArray)) {
-//                 // SaveItemWiseAttachments(listname, itemID);
-//                 var formFieldValues = [];
-//                 fileURSArray.forEach(element => {
-//                     var fileName = element.name;
-//                     formFieldValues['URSAttachment'] = fileName;
-//                 });
-//                 var item = $pnp.sp.web.lists.getByTitle(listname).items.getById(itemID);
-
-//                 item.attachmentFiles.addMultiple(fileURSArray).then(v => {
-//                     console.log("files saved successfully in list = " + listname + "for listItemId = " + itemID);
-//                 }).catch(function (err) {
-//                     console.log(err);
-//                     console.log("error while save attachment ib list = " + listname + "for listItemId = " + itemID)
-//                 });
-//                 SaveFormFields(formFieldValues, itemID);
-//             }
-//             // }
-
-//         });
-//     });
-// }
-
 function AddURSAttachments(listname, itemID) {
     $('#divCapexForm').find('div[section]').not(".disabled").each(function (i, e) {
         $(e).find('input[type="file"]').each(function () {
-
-
-            if (!IsNullOrUndefined(fileURSArray)) {
+             if (!IsNullOrUndefined(fileURSArray)) {
 
                 var formFieldValues = [];
                 fileURSArray.forEach(element => {
@@ -926,19 +888,13 @@ function BindSupportDocAttachmentFiles() {
                 return function (e) {
                     console.log(file.name);
                     var duplicate = true;
-                    // duplicate= checkDuplicateFileName(file.name);
-                    //Push the converted file into array
-                    // if(duplicate){
+                    
                     fileURSArray.push({
                         "name": file.name,
                         "content": e.target.result,
                         "id": fileId
                     });
-                    // }
-                    //  else
-                    //  {
-                    //     alert("Duplicate file");
-                    //  }
+                   
 
                 }
             })(file);
@@ -1481,11 +1437,15 @@ function previewFile(fileArray, url, fileName, fileID) {
     return fileArray;
 }
 function SetBudgetValue() {
+    var raisedDateYear;
     var assetClassification = TrimComma(mainListData.AssetClassification).split("-");
+    var d = new Date(mainListData.RaisedOn);
+    raisedDateYear=d.getFullYear();
     AjaxCall(
         {
 
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue&$expand=AssetClassification/AssetClassDescription&$filter=AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "'",
+            //url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue&$expand=AssetClassification/AssetClassDescription&$filter=AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "'",
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue&$expand=AssetClassification/AssetClassDescription&$filter=((AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "') and (FinancialYear eq '" + raisedDateYear + "'))",
             httpmethod: 'GET',
             calldatatype: 'JSON',
             async: false,
@@ -1508,14 +1468,20 @@ function SetBudgetValue() {
 }
 function GetBudgetValue() {
     var budgetedValue = [];
+    var raisedDateYear;
     if(mainListData.AssetClassification == undefined){
         mainListData.AssetClassification= $('#AssetClassification').val();
+        var d = new Date(mainListData.RaisedOn);
+        raisedDateYear=d.getFullYear();
     }
     if(mainListData.AssetClassification != undefined){
     var assetClassification = TrimComma(mainListData.AssetClassification).split("-");
+    var d = new Date(mainListData.RaisedOn);
+    raisedDateYear=d.getFullYear();
     AjaxCall(
         {
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue&$expand=AssetClassification/AssetClassDescription&$filter=AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "'",
+          // url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue&$expand=AssetClassification/AssetClassDescription&$filter=AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "'",
+          url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue&$expand=AssetClassification/AssetClassDescription&$filter=((AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "') and (FinancialYear eq '" + raisedDateYear + "'))",
             httpmethod: 'GET',
             calldatatype: 'JSON',
             async: false,
@@ -1585,4 +1551,19 @@ function UpdateBudget(Id) {
             }
         });
     }
+}
+
+function ValidateSize(file) {
+    var isValid=false;
+    if(file.files[0] !=undefined){
+    var FileSize = file.files[0].size / 1024 / 1024; // in MB
+    if (FileSize > 2) {
+        $(file).val('');
+        AlertModal('Error', "File size exceeds 2 MB");
+        
+    } else {
+        isValid=true;
+    }
+}
+return isValid;
 }

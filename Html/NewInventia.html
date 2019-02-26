@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- #region QA-->
     <!---->
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Content/font-awesome.min.css"
     />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Content/datatable.css"
@@ -42,14 +42,14 @@
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/master.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/tran.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/AppForm.js"></script>
-    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script> -->
     <!-- <script type="text/javascript" src="https://jserrlog.appspot.com/jserrlog.js"></script> -->
     <!-- <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/jserrlog.js"></script> -->
 
     <!-- #endregion -->
 
     <!-- #region Dev -->
-    <!--
+   
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Content/font-awesome.min.css"
     />
@@ -87,7 +87,7 @@
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/tran.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/AppForm.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script>
-    -->
+    
     <!-- #endregion -->
 
     <script type="text/javascript">
@@ -100,7 +100,10 @@
                 $(this).load(file);
             });
             $(document).on("change", "#UploadURSAttachment", function () {
+                var isValid=ValidateSize(this);
+                if(isValid){
                 BindURSAttachmentFiles();
+                }
             });
             $(document).on("change", "#UploadSupportiveDocAttachment", function () {
                 BindSupportDocAttachmentFiles();
@@ -219,7 +222,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
         <div class="page-header pull-left">
-            <div class="page-title">CAPEX REQUISITION FORM</div>
+            <div class="page-title">Capital Asset Requisition Form</div>
 
         </div>
         <ul class="header-nav header-nav-options nav navbar-nav navbar-right" id="dynamicButtonli"></ul>

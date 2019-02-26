@@ -894,9 +894,9 @@ function ValidateForm(ele, saveCallBack) {
         ShowWaitDialog();
         if (buttonCaption != "save as draft") {
             //confirm file Attachment need attach or not
-            var attachmsg = "Are you sure to '" + $.trim($(ele).text()) + "'?";
+            var attachmsg = "Are you sure to " + $.trim($(ele).text()) + "?";
             if ($(formList).find("div[data-appname]").length != 0 && $(formList).find("div[data-appname]").find("ul li").length == 0 && dataAction == "11") {
-                attachmsg = "Are you sure to '" + $.trim($(ele).text()) + "' without attachment?";
+                attachmsg = "Are you sure to " + $.trim($(ele).text()) + " without attachment?";
             }
             ConfirmationDailog({
                 title: "Confirm", message: attachmsg, okCallback: function (data) {
@@ -905,7 +905,7 @@ function ValidateForm(ele, saveCallBack) {
             });
         }
         else {
-            var attachmsg = "Are you sure to '" + $.trim($(ele).text()) + "'?";
+            var attachmsg = "Are you sure to " + $.trim($(ele).text()) + "?";
             ConfirmationDailog({
                 title: "Confirm", message: attachmsg, okCallback: function (data) {
                     saveCallBack(activeSection);
@@ -1389,7 +1389,10 @@ function OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCap
                 data.IsSucceed = true;
                 data.Messages = "Data saved successfully";
             }
-            if (buttonCaption.toLowerCase() == "save as draft" || buttonCaption.toLowerCase() == "resume") {
+            // if (buttonCaption.toLowerCase() == "save as draft" || buttonCaption.toLowerCase() == "resume") {
+            //     OnSuccessNoRedirect(data);
+            // }
+            if (buttonCaption.toLowerCase() == "resume") {
                 OnSuccessNoRedirect(data);
             }
             else if (buttonCaption.toLowerCase() == "complete" && !isPageRedirect) {
@@ -2187,8 +2190,8 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
             sucesscallbackfunction: function (data) {
                 emailTemplate.push({ "Subject": data.d.results[0].Subject });
                 emailTemplate.push({ "Body": data.d.results[0].Body });
-                mailCustomValues.push({ "ItemLink": "#URL" + "https://synoverge.sharepoint.com/sites/dev/Pages/Home.aspx?ID=" + itemID });
-                mailCustomValues.push({ "ItemLinkClickHere": "<a href='#URL" + "https://synoverge.sharepoint.com/sites/dev/Pages/Home.aspx?ID=" + itemID + "' >Click Here</a>" });
+                mailCustomValues.push({ "ItemLink": "#URL" + "https://synoverge.sharepoint.com/sites/QACapex/Pages/Home.aspx?ID=" + itemID });
+                mailCustomValues.push({ "ItemLinkClickHere": "<a href='https://synoverge.sharepoint.com/sites/QACapex/Lists/CapexRequisition/DispForm.aspx?ID=" + itemID + "' >Click Here</a>" });
                 emailTemplate = CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, emailParam);
             }
         });
@@ -2268,11 +2271,10 @@ function CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, 
                     body.replace(regex, function (matchbody) {
                         matchesBody.push(matchbody);
                     });
+
                 }
             }
-
         });
-
         GetDatafromList(itemID, mainListName, subject, matchesSubject, body, matchesBody, emailParam);
 
     }
@@ -2286,11 +2288,10 @@ function GetFieldsValueString(matches, mainlistData) {
         var columnName = temp.slice(1, -1);
         if(columnName.localeCompare("RaisedById")==0)
         {
-            
             var raisebyUseName=GetUserNamebyUserID(mainlistData.RaisedById);
             replacedValues.push({ [columnName]: raisebyUseName});
         }
-        replacedValues.push({ [columnName]: mainlistData[columnName] });/*Pooja Atkotiya */
+       replacedValues.push({ [columnName]: mainlistData[columnName] });/*Pooja Atkotiya */
     });
     return replacedValues;
 }
