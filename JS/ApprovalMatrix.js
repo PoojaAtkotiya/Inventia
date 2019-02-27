@@ -741,7 +741,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
     ////save attachment
 
     ////Set value in CurrentApprover
-    if (actionPerformed == ButtonActionStatus.SaveAsDraft) {
+    if (actionPerformed == ButtonActionStatus.SaveAsDraft || actionPerformed == ButtonActionStatus.SaveAsDraftactionPerformed == ButtonActionStatus.SaveAndNoStatusUpdate) {
         tempApproverMatrix.filter(function (temp) {
             if (temp.Role == currentUserRole && temp.Levels == nextLevel) {
 

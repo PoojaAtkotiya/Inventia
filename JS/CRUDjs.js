@@ -276,10 +276,7 @@ function SaveVendorDetails() {
     }
 }
 function validateEmail(emailField) {
-   // var isemailValid = true;
-   // $('#form_VendorSection').valid();
-   // if (!$(form_VendorSection).valid()) {
-    //    isemailValid = false;
+   
    // var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
     var reg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
@@ -292,6 +289,9 @@ function validateEmail(emailField) {
     }
    
     return true;
+    // var is_email=reg.test(input.val());
+	// if(is_email){input.removeClass("invalid").addClass("valid");}
+	// else{input.removeClass("valid").addClass("invalid");}
    
 
 }
