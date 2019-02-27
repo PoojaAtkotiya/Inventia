@@ -1018,8 +1018,10 @@ function GetStaticFormControlValue(id, elementType, listDataArray, elementvaluet
             listDataArray[id] = metaObject;
             break;
         case "date":
-            listDataArray[id] = new Date($(obj).text()).format("yyyy-MM-ddTHH:mm:ssZ");
-            break;
+           // listDataArray[id] = new Date($(obj).text()).format("yyyy-MM-ddTHH:mm:ssZ");
+     
+           listDataArray[id] = ($(obj).text());
+           break;
         // case "checkbox":
         //     listDataArray[id] = $(obj)[0]['checked'];
         //     break;

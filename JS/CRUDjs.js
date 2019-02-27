@@ -286,6 +286,7 @@ function validateEmail(emailField) {
     }
     else {
         document.getElementById('invalidemail').innerHTML = " ";
+        
     }
    
     return true;

@@ -739,7 +739,8 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
     ////save attachment
 
     ////Set value in CurrentApprover
-    if (actionPerformed == ButtonActionStatus.SaveAsDraft || actionPerformed == ButtonActionStatus.SaveAsDraftactionPerformed == ButtonActionStatus.SaveAndNoStatusUpdate) {
+   // if (actionPerformed == ButtonActionStatus.SaveAsDraft || actionPerformed == ButtonActionStatus.SaveAsDraftactionPerformed == ButtonActionStatus.SaveAndNoStatusUpdate) {
+    if (actionPerformed == ButtonActionStatus.SaveAsDraft || actionPerformed == ButtonActionStatus.SaveAsDraftactionPerformed || actionPerformed == ButtonActionStatus.SaveAndNoStatusUpdate) {
         tempApproverMatrix.filter(function (temp) {
             if (temp.Role == currentUserRole && temp.Levels == nextLevel) {
 
