@@ -5,13 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- #region QA-->
-<<<<<<< HEAD
-    <!--
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
-=======
     <!---->
     <!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
->>>>>>> 1eb2ff561822aebcaa2722c2d4993bf3ed0d6d2b
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Content/font-awesome.min.css"
     />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Content/datatable.css"
@@ -52,13 +47,9 @@
     <!-- <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/jserrlog.js"></script> -->
 
     <!-- #endregion -->
--->
+
     <!-- #region Dev -->
-<<<<<<< HEAD
-    <!-- -->
-=======
    
->>>>>>> 1eb2ff561822aebcaa2722c2d4993bf3ed0d6d2b
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Content/font-awesome.min.css"
     />
@@ -115,13 +106,22 @@
                 }
             });
             $(document).on("change", "#UploadSupportiveDocAttachment", function () {
+                var isValid=ValidateSize(this);
+                if(isValid){
                 BindSupportDocAttachmentFiles();
+                }
             });
             $(document).on("change", "#UploadPurchaseAttachment", function () {
+                var isValid=ValidateSize(this);
+                if(isValid){
                 BindPurchaseAttachmentFiles();
+                }
             });
             $(document).on("change", "#UploadHODAttachment", function () {
+                var isValid=ValidateSize(this);
+                if(isValid){
                 BindHODAttachmentFiles();
+                }
             });
 
             $(document).on("change", "#AssetClassification", function () {
@@ -143,10 +143,9 @@
 
             $("#NewVendorName").change(function () {
                 if ($("#ProposedVendor").html() != "") {
-                    $("#ProposedVendor").append(',');
-
-                }
-                $("#ProposedVendor").append($("#NewVendorName").val());
+                    $("#ProposedVendor").append(','); }
+                if($("#NewVendorName").val() !=null || $("#NewVendorName").val()!="")
+                { $("#ProposedVendor").append($("#NewVendorName").val()); }
                 $("#NewVendorName").val('');
             });
             $(document).on("change", "#ReasonforSelection", function () {
@@ -325,12 +324,7 @@
                                                         <div class="col-md-8">
                                                             <select class="form-control m-b-n-sm dynamic-control" id="Location" controlType="combo" listtype="master" reflisttype="main"
                                                                 listname="LocationMaster" data-selected="Location" valuebindingcolumn="Title"
-<<<<<<< HEAD
-                                                                textbindingcolumnn="Title" name="Location" required>
-                                                                <!-- <span class="error">This field is required</span> -->
-=======
                                                                 textbindingcolumnn="Title" name="Location" required="required" required>
->>>>>>> 1eb2ff561822aebcaa2722c2d4993bf3ed0d6d2b
                                                             </select>
 
                                                         </div>

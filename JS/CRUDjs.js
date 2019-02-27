@@ -187,7 +187,7 @@ function SaveVendorData(listDataArray) {
     }
 
     if (listDataArray.Recommended = true && listDataArray.Recommended !=" ") {
-        listTempGridDataArray.forEach(function  (element1) {
+        listTempGridDataArray.forEach(function Â (element1) {
             element1.Recommended = false;
         });
     }
