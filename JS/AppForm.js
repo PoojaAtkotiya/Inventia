@@ -438,6 +438,7 @@ function setNewFormParamters(department) {
     // var today = new Date().format("dd-MM-yyyy");
     var today = new Date().format("MM-dd-yyyy");
     var todaydisplay = new Date().format("dd/MM/yyyy");
+  
     $("#RaisedOn").html(today);
     $("#RaisedOnDisplay").html(todaydisplay);
     $("#WorkflowStatus").html("New");
