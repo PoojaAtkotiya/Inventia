@@ -334,7 +334,7 @@ function SaveAllTrans(requestId) {
                                 async: false,
                                 postData: JSON.stringify(tranItem),
                                 sucesscallbackfunction: function (data) {
-                                    console.log("SaveAllTrans - Item saved Successfully for ID = " + data.d.ID);
+                                   // console.log("SaveAllTrans - Item saved Successfully for ID = " + data.d.ID);
                                 },
                                 error: function (jQxhr, errorCode, errorThrown) {
                                     console.log(errorThrown);

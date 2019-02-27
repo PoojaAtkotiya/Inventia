@@ -34,7 +34,8 @@ const ListNames = {
     ASSETCLASSIFICATIONMASTER: "AssetClassificationMaster",
     BUDGETMASTER: "BudgetMaster",
     ATTACHMENTLIST: "Attachments",
-    ASSETNUMBERMASTER: "AssetNumberMaster"
+    ASSETNUMBERMASTER: "AssetNumberMaster",
+    ERRORList:"ErrorLog"
 }
 Object.freeze(ListNames);
 

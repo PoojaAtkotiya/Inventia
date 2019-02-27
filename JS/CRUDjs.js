@@ -4,12 +4,7 @@ var listTempGridDataArray = [];
 
 $(document).ready(function () {
     GetVendorDetails();
-    $(document).on('shown.bs.modal', "#CRUDVendorModal", function () {
-        if ($('myform').length > 0)
-            $('myform').renameTag('form');
-        KeyPressNumericValidation();
-        $("#IsNewVendor").val("unchecked");
-    });
+  
     $(document).on('click', 'a[id="btnAddVendor"]', function () {
         AddVendorDetails();
     });
@@ -23,12 +18,12 @@ $(document).ready(function () {
         DeleteVendorDetails(jQuery(this));
     });
 
-    // $('#tblVendor').DataTable({
-    //     "columnDefs": [{
-    //         "targets": 'no-sort',
-    //         "orderable": false
-    //     }]
-    // });
+    $(document).on('shown.bs.modal', "#CRUDVendorModal", function () {
+        if ($('myform').length > 0)
+            $('myform').renameTag('form');
+        KeyPressNumericValidation();
+        $("#IsNewVendor").val("unchecked");
+    });
 });
 
 function showLabel(event, ui) {
@@ -58,10 +53,15 @@ function onchangecheckBox() {
 function AddVendorDetails() {
     $("#CRUDVendorModal *").removeAttr("disabled");
     $("#CRUDVendorModal").find('input,textarea,select,checkbox').val('');
+    $("#CRUDVendorModal").find('input,textarea,select,checkbox').removeClass("error");
+    var x = document.getElementsByClassName("error");
+    var i;
+    for (i = 0; i < x.length; i++) {
+     x[i].style.display = "none";
+    }
     $("#CRUDVendorModal").modal('show');
     $("#spanTitle").html('Add Vendor Details');
     $('input[type=checkbox]').prop('checked', false);
-
 }
 
 function ViewVendorDetails(obj) {
@@ -239,7 +239,7 @@ function ValidateModalForm() {
         try {
             var validator = $(form_VendorSection).validate();
             $(validator.errorList).each(function (i, errorItem) {
-                //  AlertModal("Validation", errorItem.element.id + "' : '" + errorItem.message);
+               
                 $("#" + errorItem.element.id).addClass("error");
                 
                 var error_element=$("span", element.parent());
@@ -248,7 +248,7 @@ function ValidateModalForm() {
                    
                 $("#" + errorItem.element.id).removeClass("valid");
                 $("#" + errorItem.element.id).next().remove();
-                console.log("{ '" + errorItem.element.id + "' : '" + errorItem.message + "'}");
+                
             });
         }
         catch (e1) {
@@ -367,48 +367,48 @@ function GetVendorDetails(listTempGridDataArray) {
 }
 
 
-function GetVendorDetailsForViewMode(listTempGridDataArray) {
-    $('#tblVendor tbody').empty();
-    if (!IsNullOrUndefined(listTempGridDataArray)) {
-        var indexCount = 1;
-        listTempGridDataArray.forEach(function (arrayItem) {
-            if (arrayItem.Status != ItemActionStatus.DELETED)   ////skip deleted rows
-            {
-                if (IsNullOrUndefined(arrayItem.Index)) {
-                    arrayItem.Index = indexCount;
-                    indexCount++;
-                }
-                if (IsStrNullOrEmpty(arrayItem.Type)) {
-                    arrayItem.Type = "Edit";
-                }
+// function GetVendorDetailsForViewMode(listTempGridDataArray) {
+//     $('#tblVendor tbody').empty();
+//     if (!IsNullOrUndefined(listTempGridDataArray)) {
+//         var indexCount = 1;
+//         listTempGridDataArray.forEach(function (arrayItem) {
+//             if (arrayItem.Status != ItemActionStatus.DELETED)   ////skip deleted rows
+//             {
+//                 if (IsNullOrUndefined(arrayItem.Index)) {
+//                     arrayItem.Index = indexCount;
+//                     indexCount++;
+//                 }
+//                 if (IsStrNullOrEmpty(arrayItem.Type)) {
+//                     arrayItem.Type = "Edit";
+//                 }
 
-                var recommended = "No";
-                if (arrayItem.Recommended) {
-                    recommended = "Yes";
-                }
-                var Negotiated = "No";
-                if (arrayItem.NegotiatedNonNegotiated) {
-                    Negotiated = "Yes";
-                }
+//                 var recommended = "No";
+//                 if (arrayItem.Recommended) {
+//                     recommended = "Yes";
+//                 }
+//                 var Negotiated = "No";
+//                 if (arrayItem.NegotiatedNonNegotiated) {
+//                     Negotiated = "Yes";
+//                 }
 
-                console.log(arrayItem);
-                tr = $('<tr/>');
+//                 console.log(arrayItem);
+//                 tr = $('<tr/>');
 
-                tr.append("<td width='10%'>" + arrayItem.VendorName + "</td>");
-                tr.append("<td width='10%'>" + arrayItem.VendorEmailID + "</td>");
-                // tr.append("<td width='20%'>" + arrayItem.Specifications + "</td>");
-                tr.append("<td width='10%'>" + arrayItem.GrossValue + "</td>");
-                tr.append("<td width='10%'>" + arrayItem.LessDiscount + "</td>");
-                tr.append("<td width='10%'>" + arrayItem.NetValue + "</td>");
-                tr.append("<td width='10%'>" + arrayItem.TotalValue + "</td>");
-                tr.append("<td width='10%'>" + arrayItem.DeliveryPeriod + "</td>");
-                tr.append("<td width='10%'>" + Negotiated + "</td>");
-                tr.append("<td width='10%'>" + recommended + "</td>");
+//                 tr.append("<td width='10%'>" + arrayItem.VendorName + "</td>");
+//                 tr.append("<td width='10%'>" + arrayItem.VendorEmailID + "</td>");
+//                 // tr.append("<td width='20%'>" + arrayItem.Specifications + "</td>");
+//                 tr.append("<td width='10%'>" + arrayItem.GrossValue + "</td>");
+//                 tr.append("<td width='10%'>" + arrayItem.LessDiscount + "</td>");
+//                 tr.append("<td width='10%'>" + arrayItem.NetValue + "</td>");
+//                 tr.append("<td width='10%'>" + arrayItem.TotalValue + "</td>");
+//                 tr.append("<td width='10%'>" + arrayItem.DeliveryPeriod + "</td>");
+//                 tr.append("<td width='10%'>" + Negotiated + "</td>");
+//                 tr.append("<td width='10%'>" + recommended + "</td>");
 
-                tr.append("<td width='12%'>" +
-                    "<a class='view' id='ViewVendor_" + arrayItem.Index + '_' + arrayItem.ID + "' title='View' data-toggle='tooltip'><i class='material-icons'>&#xE417;</i></a></td>");
-                $('#tblVendor').append(tr);
-            }
-        });
-    }
-}
+//                 tr.append("<td width='12%'>" +
+//                     "<a class='view' id='ViewVendor_" + arrayItem.Index + '_' + arrayItem.ID + "' title='View' data-toggle='tooltip'><i class='material-icons'>&#xE417;</i></a></td>");
+//                 $('#tblVendor').append(tr);
+//             }
+//         });
+//     }
+// }

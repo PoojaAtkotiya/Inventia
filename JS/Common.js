@@ -1166,28 +1166,8 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
                     if (itemDetails[0] != "RaisedBy" && itemDetails[0] != "Files") {
                         tr = $('<tr/>');
                         tr.append('<td>' + itemDetails[0]  +'</td>');
-                       // var length = itemDetails.length;
-                       // var value;
-                       
-                        // for(var i=1;i<length;i++)
-                        // {
-                        //   for(var j=1;j<=i;j++) {
-                           
-                        //     if(value==undefined){
-                        //      value = itemDetails[j];
-                        //     }
-                        //     else
-                        //     {
-                                
-                        //         value =value + ' ' + itemDetails[j];
-                               
-                        //     }
-                        // }
-                        // } 
                         itemDetails.forEach(value1 => {
-                           
-                            var value2 = value1;
-                            
+                           var value2 = value1;
                         }
                         );
                          testslice =itemDetails.slice(1);
@@ -1963,9 +1943,9 @@ function AjaxCall(options) {
                 // }
                 // else {
                 console.log(xhr);
-                //  jsErrLog.info = xhr.statusText;
-                //jsErrLog.url = "https://synoverge.sharepoint.com/sites/dev/";
-                debugger
+                SaveErrorInList(xhr.responseText);
+                xhr.responseText
+                
                 AlertModal("Error", "Oops! Something went wrong");
                 //throw "Error";
                 //}
@@ -2233,7 +2213,8 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
                 emailTemplate.push({ "Subject": data.d.results[0].Subject });
                 emailTemplate.push({ "Body": data.d.results[0].Body });
                 mailCustomValues.push({ "ItemLink": "#URL" + "https://synoverge.sharepoint.com/sites/QACapex/Pages/Home.aspx?ID=" + itemID });
-                mailCustomValues.push({ "ItemLinkClickHere": "<a href='https://synoverge.sharepoint.com/sites/QACapex/Lists/CapexRequisition/DispForm.aspx?ID=" + itemID + "' >Click Here</a>" });
+               // mailCustomValues.push({ "ItemLinkClickHere": "<a href='https://synoverge.sharepoint.com/sites/QACapex/Lists/CapexRequisition/DispForm.aspx?ID=" + itemID + "' >Click Here</a>" });
+               mailCustomValues.push({ "ItemLinkClickHere": "https://synoverge.sharepoint.com/sites/QACapex/" });
                 emailTemplate = CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, emailParam);
             }
         });
@@ -2632,3 +2613,32 @@ function updateRequestIDAttachmentList(attchmentID, itemID) {
         }
     });
 }
+
+function SaveErrorInList(xhr)
+{
+    var itemType = GetItemTypeForListName(ListNames.ERRORList);
+    var item = {
+                    "__metadata": { "type": itemType },
+                    "Title": "Error",
+                    "Description": xhr,
+                    "RequestID": listItemId
+                };
+    $.ajax({
+        url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ERRORList + "')/items",
+        type: "POST",
+        contentType: "application/json;odata=verbose",
+        data: JSON.stringify(item),
+        headers: {
+            "Accept": "application/json;odata=verbose",
+            "X-RequestDigest": $("#__REQUESTDIGEST").val()
+        },
+        success: function (data) {
+               console.log("Error added");
+            }
+        });
+}
+
+function isSpacesOnly(field) {
+    r = field.replace(/\s/g, "")
+    return (r.length == 0)
+  }

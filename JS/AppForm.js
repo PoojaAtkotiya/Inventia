@@ -150,6 +150,8 @@ function FormBusinessLogic(activeSection) {
                 var budgetValue = [];
                 budgetValue = GetBudgetValue();
                 var utilizedValue = $('#TotalUtilizedValue').val();
+                budgetValue[0]= parseFloat(budgetValue[0]);
+                utilizedValue= parseFloat(utilizedValue);
                 if (budgetValue[0] > utilizedValue) {
                     param[ConstantKeys.ACTIONPERFORMED] = ButtonActionStatus.Complete;
                     UpdateBudget(budgetValue[1]);
@@ -186,6 +188,7 @@ function SaveForm(activeSection, ele) {
         SaveFormData(activeSection, ele);
     }
     catch (Exception) {
+        SaveErrorInList(Exception);
         console.log("Error occured in SaveForm" + Exception);
     }
 }
@@ -326,6 +329,10 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     //Functions for Purchase
     if (mainListData.WorkflowStatus == "Pending for Purchase") {
         BindPurchaseEditAttachmentFiles();
+        if(mainListData.NextApproverId!=currentUser.Id)
+        {
+            $('#btnAddVendor').hide();
+        }
     }
     else if (mainListData.WorkflowStatus == "Closed" || mainListData.WorkflowStatus == "Rejected" || mainListData.PendingWith == Roles.INITIATORHOD || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
         BindPurchaseAttachment();
@@ -698,7 +705,7 @@ function BindURSAttachmentFiles() {
                         });
                     },
                     error: function (data) {
-                        alert("Error");
+                        AlertModal('Error', "There is some problem to upload file Pl try again");
                     }
                 });
             }
@@ -867,7 +874,7 @@ function removeURSFile(itemId) {
                 $("#UploadURSAttachment").val('');
             },
             error: function (err) {
-                alert(JSON.stringify(err));
+                //alert(JSON.stringify(err));
             }
         }
     );
@@ -960,7 +967,7 @@ function BindSupportDocAttachmentFiles() {
                     });
                 },
                 error: function (data) {
-                    alert("Error");
+                    AlertModal('Error', "There is some problem to upload file Pl try again");
                 }
             });
         }
@@ -995,7 +1002,7 @@ function removeSupportiveFile(itemId) {
 
             },
             error: function (err) {
-                alert(JSON.stringify(err));
+              //  alert(JSON.stringify(err));
             }
         }
     );
@@ -1085,7 +1092,7 @@ function BindPurchaseAttachmentFiles() {
                         });
                     },
                     error: function (data) {
-                        alert("Error");
+                        AlertModal('Error', "There is some problem to upload file Pl try again");
                     }
                 });
             }
@@ -1159,7 +1166,7 @@ function removePurchaseFile(itemId) {
                 $('#purchaseContainer').html(htmlStr);
             },
             error: function (err) {
-                alert(JSON.stringify(err));
+              //  alert(JSON.stringify(err));
             }
         }
     );
@@ -1328,7 +1335,7 @@ function BindHODAttachmentFiles() {
                         });
                     },
                     error: function (data) {
-                        alert("Error");
+                        AlertModal('Error', "There is some problem to upload file Pl try again");
                     }
                 });
             }
@@ -1400,7 +1407,7 @@ function removeHODFile(itemId) {
                 $('#HODContainer').html(htmlStr);
             },
             error: function (err) {
-                alert(JSON.stringify(err));
+              //  alert(JSON.stringify(err));
             }
         }
     );
@@ -1462,7 +1469,7 @@ function SetBudgetValue() {
                     "X-RequestDigest": $("#__REQUESTDIGEST").val()
                 },
             sucesscallbackfunction: function (data) {
-                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
+                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results) && data.d.results.length !=0) {
                     $("#BudgetedValue").val(data.d.results[0].BudgetedValue);
                     $("#UtilizedValue").val(data.d.results[0].UtilisedValue);
 
