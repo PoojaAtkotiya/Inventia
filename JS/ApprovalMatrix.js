@@ -75,7 +75,7 @@ function SetApprovalMatrix(id, mainListName) {
                 else if (IsGroupMember(Roles.VIEWER)) {
                     currentUserRole = Roles.VIEWER;
                 }
-                console.log("Called GetCurrentUserRole and Role=" + currentUserRole);
+                activityTrack=activityTrack + "SetApprovalMatrix for role" + currentUserRole;
             }
             // if (!IsStrNullOrEmpty(currentUserRole)) {
             GetEnableSectionNames(id);
@@ -188,7 +188,7 @@ function GetEnableSectionNames(id) {
                 $("#" + sectionId).find('input,select,textarea').removeAttr("disabled");
             }
         });
-        // $("div.disabled.form-control").attr("disabled", "disabled");
+        activityTrack=activityTrack + "enable section :" + activeSectionName;
         $("div .disabled").attr("disabled", "disabled");
         $("div .disabled .form-control").attr("disabled", "disabled");
         $("div .disabled input").attr("disabled", "disabled"); // for radio buttons
@@ -218,6 +218,7 @@ function GetEnableSectionNames(id) {
                 }
             });
         }
+
         // $("div.disabled.form-control").attr("disabled", "disabled");
         $("div .disabled").attr("disabled", "disabled");
         $("div .disabled .form-control").attr("disabled", "disabled");
@@ -245,6 +246,7 @@ function SetSectionWiseRoles(id) {
                 });
             });
         }
+        activityTrack=activityTrack + "SetSectionWiseRoles for new Item";
     } else if (id > 0) {
         ////Get data from local approval matrix
         if (!IsNullOrUndefined(localApprovalMatrixdata) && localApprovalMatrixdata.length > 0) {
@@ -264,6 +266,7 @@ function SetSectionWiseRoles(id) {
                 });
             });
         }
+        activityTrack=activityTrack + "SetSectionWiseRoles for id" + id;
     }
 }
 

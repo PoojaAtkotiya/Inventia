@@ -62,58 +62,22 @@ function AddVendorDetails() {
     $("#CRUDVendorModal").modal('show');
     $("#spanTitle").html('Add Vendor Details');
     $('input[type=checkbox]').prop('checked', false);
+    $('#btnSave').show();
 }
 
 function ViewVendorDetails(obj) {
-    var item;
-    $("#CRUDVendorModal").modal('show');
-    var id = jQuery(obj).attr('id').split('_')[2].trim();
-    var index = jQuery(obj).attr('id').split('_')[1].trim();
-    listTempGridDataArray.forEach(function (arrayItem) {
-        if (arrayItem.Index == index) {
-            item = arrayItem;
-        }
-    });
-    
-    if (!IsNullOrUndefined(item)) {
-     
-        $("#spanTitle").html('Vendor Detail');
-        $('.dynamic-control').each(function () {
-            var elementId = $(this).attr('id');
-            var fieldName = $(this).attr('id');
-            var elementType = $(this).attr('controlType');
-            if (elementType == 'multicheckbox')
-                fieldName = $(this).attr("cParent");
-            else if (elementType == 'radiogroup')
-                fieldName = $(this).attr("cParent");
-                console.log(item);
-            setFieldValue(elementId, item, elementType, fieldName);
-        });
-       
-        $("#CRUDVendorModal *").attr("disabled", "disabled");
-        $("#CRUDVendorModal").find(".modal-footer").find("button").remove("onclick");
-        $("#CRUDVendorModal").find('.modal-header').find("button").removeAttr("disabled");
-    }
-    else {
-        console.log("No vendor details found = " + id);
-    }
     // var item;
+    // $("#CRUDVendorModal").modal('show');
     // var id = jQuery(obj).attr('id').split('_')[2].trim();
     // var index = jQuery(obj).attr('id').split('_')[1].trim();
     // listTempGridDataArray.forEach(function (arrayItem) {
-    //     console.log(arrayItem);
     //     if (arrayItem.Index == index) {
     //         item = arrayItem;
     //     }
     // });
-
-  
-    // if ($('myform').length > 0)
-    //     $('myform').renameTag('form');
+    
     // if (!IsNullOrUndefined(item)) {
-    //     $("#CRUDVendorModal *").removeAttr("disabled");
-    //     $("#addVendorMaster").attr("disabled", "disabled");
-    //     $("#CRUDVendorModal").modal('show');
+     
     //     $("#spanTitle").html('Vendor Detail');
     //     $('.dynamic-control').each(function () {
     //         var elementId = $(this).attr('id');
@@ -123,14 +87,52 @@ function ViewVendorDetails(obj) {
     //             fieldName = $(this).attr("cParent");
     //         else if (elementType == 'radiogroup')
     //             fieldName = $(this).attr("cParent");
+    //             console.log(item);
     //         setFieldValue(elementId, item, elementType, fieldName);
     //     });
+       
+    //     $("#CRUDVendorModal *").attr("disabled", "disabled");
+    //     $("#CRUDVendorModal").find(".modal-footer").find("button").remove("onclick");
+    //     $("#CRUDVendorModal").find('.modal-header').find("button").removeAttr("disabled");
     // }
     // else {
     //     console.log("No vendor details found = " + id);
     // }
-    // $("#CRUDVendorModalbody *").attr("disabled", "disabled");
-    // $("#CRUDVendorModal").find(".modal-footer").find("button").remove("onclick");
+    var item;
+    var id = jQuery(obj).attr('id').split('_')[2].trim();
+    var index = jQuery(obj).attr('id').split('_')[1].trim();
+    listTempGridDataArray.forEach(function (arrayItem) {
+        console.log(arrayItem);
+        if (arrayItem.Index == index) {
+            item = arrayItem;
+        }
+    });
+
+  
+    if ($('myform').length > 0)
+        $('myform').renameTag('form');
+    if (!IsNullOrUndefined(item)) {
+        $("#CRUDVendorModal *").removeAttr("disabled");
+        $("#addVendorMaster").attr("disabled", "disabled");
+        $("#CRUDVendorModal").modal('show');
+        $("#spanTitle").html('Vendor Detail');
+        $('.dynamic-control').each(function () {
+            var elementId = $(this).attr('id');
+            var fieldName = $(this).attr('id');
+            var elementType = $(this).attr('controlType');
+            if (elementType == 'multicheckbox')
+                fieldName = $(this).attr("cParent");
+            else if (elementType == 'radiogroup')
+                fieldName = $(this).attr("cParent");
+            setFieldValue(elementId, item, elementType, fieldName);
+        });
+    }
+    else {
+        console.log("No vendor details found = " + id);
+    }
+    $("#CRUDVendorModalbody *").attr("disabled", "disabled");
+    //$("#CRUDVendorModal").find(".modal-footer").find("button").remove("onclick");
+    $('#btnSave').hide();
 }
 
 function GetVendorDetailsById(id) {
@@ -187,6 +189,7 @@ function EditVendorDetails(obj) {
     else {
         console.log("No vendor details found = " + id);
     }
+    $('#btnSave').show();
 }
 function SaveVendorData(listDataArray) {
 

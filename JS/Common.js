@@ -81,7 +81,7 @@ function onloadConstantsSuccess(sender, args) {
         GetGlobalApprovalMatrix(listItemId);
     }
     GetFormBusinessLogic(listItemId, activeSectionName, department);
-    //setCustomApprovers();
+    SaveErrorInList(activityTrack,"Action");
 }
 
 function GetUserDepartment() {
@@ -1945,7 +1945,7 @@ function AjaxCall(options) {
                 // }
                 // else {
                 console.log(xhr);
-                SaveErrorInList(xhr.responseText);
+                SaveErrorInList(xhr.responseText,"Error");
                 xhr.responseText
                 
                 AlertModal("Error", "Oops! Something went wrong");
@@ -2616,12 +2616,12 @@ function updateRequestIDAttachmentList(attchmentID, itemID) {
     });
 }
 
-function SaveErrorInList(xhr)
+function SaveErrorInList(xhr,actionType)
 {
     var itemType = GetItemTypeForListName(ListNames.ERRORList);
     var item = {
                     "__metadata": { "type": itemType },
-                    "Title": "Error",
+                    "Title": actionType,
                     "Description": xhr,
                     "RequestID": listItemId
                 };

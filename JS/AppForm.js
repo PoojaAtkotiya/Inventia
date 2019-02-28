@@ -7,6 +7,7 @@ var mainListData = {};
 var sendToLevel = 0;
 var collListItem = null;
 var param = {};
+var activityTrack;
 
 $(document).ready(function () {
 
@@ -40,6 +41,7 @@ function GetSetFormData() {
 
 /*Pooja Atkotiya */
 function onGetSetFormDataSuccess(data) {
+    activityTrack="In onGetSetFormDataSuccess";
     var mainListName = $($('div').find('[mainlistname]')).attr('mainlistname');
     var activitylogTableId = 'tblActivityLog';
     mainListData = data;
@@ -156,10 +158,7 @@ function FormBusinessLogic(activeSection) {
                     param[ConstantKeys.ACTIONPERFORMED] = ButtonActionStatus.Complete;
                     UpdateBudget(budgetValue[1]);
                 }
-                else {
-                    param[ConstantKeys.ACTIONPERFORMED] = ButtonActionStatus.NextApproval;
-                }
-            }
+             }
         }
         if (activeSectionName == SectionNames.MANAGEMENTSECTION) {
             var actionStatus = $("#ActionStatus").val();
@@ -171,7 +170,6 @@ function FormBusinessLogic(activeSection) {
         }
 
         /* Add final saved tran array to global tran array to save in list*/
-
         gTranArray.push({ "TranListArray": listTempGridDataArray, "TranListName": ListNames.CAPEXVENDORLIST });  ////Vendor tran added in global tran
         setCustomApprovers(listItemId);
     }
@@ -188,7 +186,7 @@ function SaveForm(activeSection, ele) {
         SaveFormData(activeSection, ele);
     }
     catch (Exception) {
-        SaveErrorInList(Exception);
+        SaveErrorInList(Exception,"Error");
         console.log("Error occured in SaveForm" + Exception);
     }
 }
