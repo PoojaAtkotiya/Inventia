@@ -276,8 +276,7 @@ function SetSectionWiseRoles(id) {
 /*Pooja Atkotiya */
 function SetApproversInApprovalMatrix(id) {
     var initiatorDept = $('#Department').html();
-    if(initiatorDept == undefined || initiatorDept ==null ||initiatorDept=="")
-    {initiatorDept = department;}
+    if (initiatorDept == undefined || initiatorDept == null || initiatorDept == "") { initiatorDept = department; }
     if (IsStrNullOrEmpty(initiatorDept) && !IsStrNullOrEmpty(currentUserRole) && currentUserRole == Roles.CREATOR) {
         var errMessage = "Dear Initiator, you cannot create request as your Department is not defined.It would be ideal if you contact your Admin for same.";
         AlertModal('Validation', errMessage, true);
@@ -466,7 +465,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
                             }
                             else {
                                 if (nextApprover.indexOf(nextUsers) == -1) {
-                                     if (nextApproverRole.lastIndexOf(',') != -1) {
+                                    if (nextApproverRole.lastIndexOf(',') != -1) {
                                         nextApproverRole = TrimComma(nextApproverRole.trim());
                                         // nextApproverRole = nextApproverRole.trim().substring(0, nextApproverRole.lastIndexOf(','));
                                     }
@@ -501,7 +500,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
                     }
                     else {
                         if (nextApprover.indexOf(nextUsers) == -1) {
-                            
+
                             if (nextApproverRole.lastIndexOf(',') != -1) {
                                 // nextApproverRole = nextApproverRole.trim().substring(0, nextApproverRole.lastIndexOf(','));
                                 nextApproverRole = TrimComma(nextApproverRole.trim());
@@ -744,7 +743,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
     ////save attachment
 
     ////Set value in CurrentApprover
-   // if (actionPerformed == ButtonActionStatus.SaveAsDraft || actionPerformed == ButtonActionStatus.SaveAsDraftactionPerformed == ButtonActionStatus.SaveAndNoStatusUpdate) {
+    // if (actionPerformed == ButtonActionStatus.SaveAsDraft || actionPerformed == ButtonActionStatus.SaveAsDraftactionPerformed == ButtonActionStatus.SaveAndNoStatusUpdate) {
     if (actionPerformed == ButtonActionStatus.SaveAsDraft || actionPerformed == ButtonActionStatus.SaveAsDraftactionPerformed || actionPerformed == ButtonActionStatus.SaveAndNoStatusUpdate) {
         tempApproverMatrix.filter(function (temp) {
             if (temp.Role == currentUserRole && temp.Levels == nextLevel) {
@@ -946,7 +945,7 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
         }
         if (!IsNullOrUndefined(userIds) && !IsStrNullOrEmpty(userIds) && !IsNullOrUndefined(permission) && !IsStrNullOrEmpty(permission)) {
             var users = [];
-            
+
             if (!IsNullOrUndefined(userIds) && !IsStrNullOrEmpty(userIds)) {
                 var a = (userIds.toString().indexOf(',') != -1) ? userIds.split(',') : parseInt(userIds);
                 if (!IsNullOrUndefined(a)) {
@@ -1104,12 +1103,12 @@ function GetPermissionDictionary(tempApproverMatrix, nextLevel, isAllUserViewer,
                      * 1) who are pending on current level
                      */
                     if (isNewItem) {
-                       
+
                         if (strContributer.indexOf(temp.ApproverId) == -1) {
                             strContributer = TrimComma(strContributer.trim()) + "," + temp.ApproverId;
                         }
                     } else {
-                      
+
                         // if (!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0 && strContributer.indexOf(temp.ApproverId.results) == -1) {
                         strContributer = TrimComma(strContributer.trim()) + "," + approvers;//temp.ApproverId.results;
                         //}
@@ -1123,12 +1122,12 @@ function GetPermissionDictionary(tempApproverMatrix, nextLevel, isAllUserViewer,
                      * 2) who are not pending on current level
                      */
                     if (isNewItem) {
-                       
+
                         if (strReader.indexOf(temp.ApproverId) == -1) {
                             strReader = TrimComma(strReader.trim()) + "," + temp.ApproverId;
                         }
                     } else {
-                        
+
                         // if (!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0 && strReader.indexOf(temp.ApproverId.results) == -1) {
                         strReader = TrimComma(strReader.trim()) + "," + approvers;// temp.ApproverId.results;
                         //}
@@ -1290,7 +1289,7 @@ function SaveApprovalMatrixInList(tempApproverMatrix, approvalMatrixListName, is
             });
         }
         else {
-           
+
             var approvers = (!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results : ((!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId)) ? temp.ApproverId : null);
 
             if (!IsNullOrUndefined(approvers)) {
@@ -1328,12 +1327,6 @@ function SaveApprovalMatrixInList(tempApproverMatrix, approvalMatrixListName, is
 
 /*Pooja Atkotiya */
 function SaveFormFields(formFieldValues, requestId) {
-    //For multiUser field of sharepoint list
-    var nextResults = [];
-    if (!IsNullOrUndefined(formFieldValues["NextApprover"]) && formFieldValues["NextApprover"].length > 0) {
-        nextResults = IsArray(formFieldValues["NextApprover"]) ? formFieldValues["NextApprover"] : nextResults;
-    }
-
     var mainlistDataArray = {};
 
     if (!IsNullOrUndefined(formFieldValues['RaisedBy'])) {
@@ -1348,9 +1341,16 @@ function SaveFormFields(formFieldValues, requestId) {
     if (!IsNullOrUndefined(formFieldValues["FormLevel"])) {
         mainlistDataArray['FormLevel'] = formFieldValues["FormLevel"].toString();
     }
-    if (!IsNullOrUndefined(nextResults))  ////&& nextResults.length > 0   - removed for case of complete and reject
+    if (!IsNullOrUndefined(formFieldValues["NextApprover"]))  ////&& nextResults.length > 0   - removed for case of complete and reject
     {
-        mainlistDataArray['NextApproverId'] = { "results": nextResults };
+        var nextUsers = [];
+        if (formFieldValues["NextApprover"].indexOf(",") > 0) {
+            nextUsers = removeDuplicateFromArray(TrimComma(nextUsers.trim()).split(","));
+        }
+        else if (IsArray(formFieldValues["NextApprover"])) {
+            nextUsers = removeDuplicateFromArray(formFieldValues["NextApprover"]);
+        }
+        mainlistDataArray['NextApproverId'] = { "results": nextUsers };
     }
     if (!IsNullOrUndefined(formFieldValues["LastActionBy"])) {
         mainlistDataArray['LastActionBy'] = formFieldValues["LastActionBy"].toString();
@@ -1534,7 +1534,7 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
                 case ButtonActionStatus.BackToCreator:
                 case ButtonActionStatus.SendBack:
                     var sendtoRole = '';
-                   
+
                     if ((ConstantKeys.SENDTOLEVEL in param) && !IsNullOrUndefined(param[ConstantKeys.SENDTOLEVEL])) {
                         nextLevel = parseInt(param[ConstantKeys.SENDTOLEVEL]);
                     }
@@ -1563,7 +1563,7 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
                     });
                     break;
                 case ButtonActionStatus.SendForward:
-                    
+
                     if ((ConstantKeys.SENDTOLEVEL in param) && !IsNullOrUndefined(param[ConstantKeys.SENDTOLEVEL])) {
                         nextLevel = parseInt(param[ConstantKeys.SENDTOLEVEL]);
                         ////Get Next Level
