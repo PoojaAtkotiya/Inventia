@@ -2315,7 +2315,6 @@ function GetFieldsValueString(matches, mainlistData) {
             var raisebyUseName = GetUserNamebyUserID(mainlistData.RaisedById);
             replacedValues.push({ [columnName]: raisebyUseName });
         }
-<<<<<<< HEAD
         if(columnName.localeCompare("NextApproverId")==0)
         {
             var NextApproverUseName=GetUserNamebyUserID(mainlistData.NextApproverId);
@@ -2329,11 +2328,6 @@ function GetFieldsValueString(matches, mainlistData) {
         }
         
        replacedValues.push({ [columnName]: mainlistData[columnName] });/*Pooja Atkotiya */
-=======
-
-
-        replacedValues.push({ [columnName]: mainlistData[columnName] });/*Pooja Atkotiya */
->>>>>>> 51993df1c60295afcb9ba72d82eb5549f8df2276
     });
     return replacedValues;
 }
