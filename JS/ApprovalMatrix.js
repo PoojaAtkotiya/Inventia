@@ -14,7 +14,6 @@ var permItem = null;
 //#region Core Logic
 /*Himil Jani */
 function GetGlobalApprovalMatrix(id) {
-    // GetFormDigest().then(function (data) {
     AjaxCall(
         {
             url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.GLOBALAPPROVALMATRIXLIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And></Where></Query></View>\"}",
@@ -35,7 +34,6 @@ function GetGlobalApprovalMatrix(id) {
                 GetButtons(id, currentUserRole, 'New');
             }
         });
-    //  });
 }
 
 /*Himil Jani*/
@@ -77,7 +75,6 @@ function SetApprovalMatrix(id, mainListName) {
                 }
                 console.log("Called GetCurrentUserRole and Role=" + currentUserRole);
             }
-            // if (!IsStrNullOrEmpty(currentUserRole)) {
             GetEnableSectionNames(id);
             tempApproverMatrix = localApprovalMatrixdata;
             tempApproverMatrix = tempApproverMatrix.sort(function (a, b) {
@@ -87,7 +84,6 @@ function SetApprovalMatrix(id, mainListName) {
             if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length > 0) {
                 DisplayApplicationStatus(tempApproverMatrix);
             }
-            //}
         }).fail(function () {
             console.log("Execute  second after the retrieve list items  failed");
         });
@@ -188,7 +184,6 @@ function GetEnableSectionNames(id) {
                 $("#" + sectionId).find('input,select,textarea').removeAttr("disabled");
             }
         });
-        // $("div.disabled.form-control").attr("disabled", "disabled");
         $("div .disabled").attr("disabled", "disabled");
         $("div .disabled .form-control").attr("disabled", "disabled");
         $("div .disabled input").attr("disabled", "disabled"); // for radio buttons
@@ -205,8 +200,6 @@ function GetEnableSectionNames(id) {
             pendingWithRole = mainListData.PendingWith.split(",");
         }
         var activeSectionItem = localApprovalMatrixdata.filter(function (l) {
-            //return (l.SectionName == currentSectionName && l.Levels == tcurrentLevel && pendingWithRole.some(p => p == currentUserRole) && !IsNullOrUndefined(l.ApproverId) && !IsNullOrUndefined(l.ApproverId.results) && l.ApproverId.results.length > 0 && l.Status != ApproverStatus.NOTREQUIRED);
-
             return (l.SectionName == currentSectionName && l.Levels == tcurrentLevel && pendingWithRole.some(p => p == currentUserRole) && !IsNullOrUndefinedApprover(l.ApproverId) && l.Status != ApproverStatus.NOTREQUIRED);
         })[0];
         activeSectionName = !IsNullOrUndefined(activeSectionItem) ? activeSectionItem.SectionName : '';
@@ -220,7 +213,6 @@ function GetEnableSectionNames(id) {
                 }
             });
         }
-        // $("div.disabled.form-control").attr("disabled", "disabled");
         $("div .disabled").attr("disabled", "disabled");
         $("div .disabled .form-control").attr("disabled", "disabled");
         $("div .disabled input").attr("disabled", "disabled"); // for radio buttons 
@@ -393,13 +385,11 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
             ////Get Next Level
 
             var nextLevelRow = tempApproverMatrix.filter(function (temp) {
-                var nextUsers = GetApprovers(temp.ApproverId); // (!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results : ((!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId)) ? temp.ApproverId : null);
+                var nextUsers = GetApprovers(temp.ApproverId);
                 return (temp.Status != "Not Required" && !IsNullOrUndefined(nextUsers) && temp.Levels > currentLevel);
             }).sort(function (a, b) {
                 return a.Levels - b.Levels;
             })[0];
-
-            // var nextLevelRow = tempItems;
 
             nextLevel = (!IsNullOrUndefined(nextLevelRow)) ? nextLevelRow.Levels : nextLevel;
 
@@ -458,14 +448,12 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
                                 if (nextApprover.indexOf(nextUsers) == -1) {
                                     if (nextApproverRole.lastIndexOf(',') != -1) {
                                         nextApproverRole = TrimComma(nextApproverRole.trim());
-                                        // nextApproverRole = nextApproverRole.trim().substring(0, nextApproverRole.lastIndexOf(','));
                                     }
                                     if (nextApprover.lastIndexOf(',') != -1) {
-                                        //  nextApprover = nextApprover.trim().substring(0, nextApprover.lastIndexOf(','))
                                         nextApprover = TrimComma(nextApprover.trim());
                                     }
 
-                                    ///////////// TRIM is PENDING - testing pending
+                                    ///////////// TRIM testingis PENDING 
                                     nextApproverRole = TrimComma(nextApproverRole.trim()) + "," + next.Role;
                                     nextApprover = TrimComma(nextApprover.trim()) + "," + nextUsers;// next.ApproverId;
                                 }
@@ -514,7 +502,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
                 var listofNextApprovers = tempApproverMatrix.filter(temp => !IsNullOrUndefinedApprover(temp.ApproverId) && temp.Levels == nextLevel);
                 nextApprover = '';
                 listofNextApprovers.forEach(next => {
-                    var nextUsers = GetApprovers(next.ApproverId); 
+                    var nextUsers = GetApprovers(next.ApproverId);
 
                     if (!IsNullOrUndefined(nextUsers)) {
                         if (nextApprover == '') {
@@ -524,7 +512,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
                         else {
                             if (nextApprover.indexOf(nextUsers) == -1) {
 
-                                ///////////// TRIM is PENDING
+                                ///////////// TRIM testing is PENDING
                                 nextApproverRole = nextApproverRole + "," + next.Role;
                                 nextApprover = nextApprover.trim() + "," + nextUsers;// next.ApproverId;
                             }
@@ -773,145 +761,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
 /*Pooja Atkotiya */
 function SetItemPermission(requestId, listName, userWithRoles) {
     breakRoleInheritanceOfList(listName, requestId, userWithRoles);
-    // BreakRoleInheritance(requestId, listName).done(function () {
-    //     var roleDefBindingColl = null;
-    //     var users = [];
-    //     userWithRoles.forEach((element) => {
-    //         try {
-    //             roleDefBindingColl = SP.RoleDefinitionBindingCollection.newObject(currentContext);
-    //             var userIds = element.user;
-    //             var permission = element.permission;
-    //             if (!IsNullOrUndefined(userIds) && !IsStrNullOrEmpty(userIds) && !IsNullOrUndefined(permission) && !IsStrNullOrEmpty(permission)) {
-
-    //                 //split users and remove ,
-    //                 if (userIds.toString().indexOf(',') == 0) {
-    //                     userIds = userIds.substring(1);
-    //                     if (userIds.toString().indexOf(',') != -1 && userIds.toString().lastIndexOf(',') == userIds.toString().length - 1) {
-    //                         userIds = userIds.substring(userIds.toString().lastIndexOf(','))[0];
-    //                     }
-    //                 }
-    //                 if (!IsNullOrUndefined(userIds) && !IsStrNullOrEmpty(userIds)) {
-    //                     var a = (userIds.toString().indexOf(',') != -1) ? userIds.split(',') : parseInt(userIds);
-
-    //                     if (!IsNullOrUndefined(a)) {
-    //                         if (a.length == undefined) {
-    //                             users.push(a);
-    //                         } else {
-    //                             a.forEach(element => {
-    //                                 users.push(parseInt(element));
-    //                             });
-    //                         }
-    //                     }
-    //                 }
-    //                 users.forEach(user => {
-    //                     if (!isNaN(user)) {
-    //                         this.oUser = currentContext.get_web().getUserById(user);
-    //                         roleDefBindingColl.add(currentContext.get_web().get_roleDefinitions().getByName(permission));
-    //                         permItem.get_roleAssignments().add(this.oUser, roleDefBindingColl);
-    //                         currentContext.load(oUser);
-    //                         currentContext.load(permItem);
-    //                         currentContext.executeQueryAsync(function () {
-    //                             console.log("set permission : success User");
-    //                         }, function (error) {
-    //                             debugger
-    //                             console.log(error);
-    //                             console.log("set permission : failed");
-    //                         }
-    //                         );
-    //                     }
-    //                 });
-    //             }
-    //         } catch (exc) {
-    //             debugger
-    //             console.log("catch : error while set permission");
-    //             console.log(exc);
-    //         }
-    //     });
-    // }).fail(function () {
-    //     console.log("Execute  second after the retrieve list items  failed");
-    // });
-
-
 }
-
-/*
-  console.log("Inheritance Broken Successfully!");
-            var roleDefBindingColl = null;
-            console.log(userWithRoles);
-            // var headers = {
-            //     "Accept": "application/json;odata=verbose",
-            //     "content-Type": "application/json;odata=verbose",
-            //     "X-RequestDigest": jQuery("#__REQUESTDIGEST").val()
-            // }
-            // });
-            //Add Role Permissions   
-            //1073741827 - contribute
-            // 1073741829, Full Control
-            // 1073741826, Read
-
-            userWithRoles.forEach((element) => {
-
-                var userIds = element.user;
-                var permission = element.permission;
-                var permId;
-                if (permission == SharePointPermission.CONTRIBUTOR) {
-                    permId = 1073741827;
-                }
-                else if (permission == SharePointPermission.READER) {
-                    permId = 1073741826;
-                }
-                if (!IsNullOrUndefined(userIds) && !IsStrNullOrEmpty(userIds) && !IsNullOrUndefined(permission) && !IsStrNullOrEmpty(permission)) {
-                    var users = [];
-                    //split users and remove ,
-                    if (userIds.toString().indexOf(',') == 0) {
-                        userIds = userIds.substring(1);
-                        if (userIds.toString().indexOf(',') != -1 && userIds.toString().lastIndexOf(',') == userIds.toString().length - 1) {
-                            userIds = userIds.substring(userIds.toString().lastIndexOf(','))[0];
-                        }
-                    }
-                    if (!IsNullOrUndefined(userIds) && !IsStrNullOrEmpty(userIds)) {
-                        var a = (userIds.toString().indexOf(',') != -1) ? userIds.split(',') : parseInt(userIds);
-                        if (!IsNullOrUndefined(a)) {
-                            if (a.length == undefined) {
-                                users.push(a);
-                            } else {
-                                a.forEach(element => {
-                                    users.push(parseInt(element));
-                                });
-                            }
-                        }
-                    }
-
-                    ////remove duplicates from array
-                    users = removeDuplicateFromArray(users);
-
-                    users.forEach(user => {
-                        if (!isNaN(user)) {
-                            var endPointUrlRoleAssignment = "/_api/web/lists/getByTitle('" + listName + "')/items(" + requestId + ")/roleassignments/addroleassignment(principalid=" + user + ",roleDefId=" + permId + ")";
-                            var dataTemplate = { "url": endPointUrlRoleAssignment, "digest": digest.toString() };
-                            var httpPostUrl = CommonConstant.SETPERMISSIONWF;
-                            jQuery.ajax(
-                                {
-                                    url: httpPostUrl,   ///endPointUrlRoleAssignment
-                                    type: "POST",
-                                    data: JSON.stringify(dataTemplate),
-                                    headers: {
-                                        "content-type": "application/json",
-                                         "cache-control": "no-cache"
-                                    },
-                                    async: false,
-                                    success: function (data) {
-                                        console.log('Role Permission Added successfully!');
-                                    },
-                                    error: function (error) {
-                                        console.log(JSON.stringify(error));
-                                    }
-                                });
-                        }
-                    });
-                }
-            });
-*/
 
 /*Pooja Atkotiya */
 // Break role inheritance on the list.
@@ -1009,7 +859,6 @@ function SetCustomPermission(userWithRoles, requestId, listName) {
         "content-Type": "application/json;odata=verbose",
         "X-RequestDigest": jQuery("#__REQUESTDIGEST").val()
     }
-    // });
     //Add Role Permissions   
     //1073741827 - contribute
     // 1073741829, Full Control
