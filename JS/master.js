@@ -65,7 +65,7 @@ function GetMasterData(masterlistname) {
             });
     }
     else {
-        console.log("Master List Name is undefined.");
+       
     }
 }
 
@@ -93,23 +93,3 @@ function GetApproverMaster(handleData) {
 }
 
 //#endregion
-
-
-
-// function OnGetDataSucceeded(filterBy,filterValue,textBindingColumnn,valueBindingColumn) {
-//     var listItemInfo = [];
-
-//     var listItemEnumerator = collListItem.getEnumerator();
-
-//     while (listItemEnumerator.moveNext()) {
-//         var oListItem = listItemEnumerator.get_current();
-
-//         listItemInfo.push({ filterBy: oListItem.get_item(filterBy), valueBindingColumn: oListItem.get_item(valueBindingColumn), textBindingColumnn: oListItem.get_item(textBindingColumnn) });
-//     }
-
-//     if (!IsNullOrUndefined(listItemInfo) && listItemInfo.length > 0) {
-//         console.log(listItemInfo);
-//     }
-// }
-
-// function OnGetDataFailed() { alert('Request failed. ' + args.get_message() + '\n' + args.get_stackTrace()); }

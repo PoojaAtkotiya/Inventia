@@ -26,7 +26,6 @@ jQuery(document).ready(function () {
     GetFormDigest().done(function (data) {
         gRequestDigestValue = data.responseJSON.d.GetContextWebInformation.FormDigestValue;
     }).fail(function () {
-        console.log("Execute  second after the retrieve list items  failed");
     });
 
     var scriptbase = CommonConstant.SPSITEURL + "/_layouts/15/";
@@ -109,7 +108,7 @@ function GetUserDepartment() {
             }
         },
         error: function (jQxhr, errorCode, errorThrown) {
-            console.log(errorThrown);
+         //   console.log(errorThrown);
         }
     });
 }
@@ -157,7 +156,7 @@ function setImageSignature() {
 
 /*Priya Rane */
 function onloadConstantsFail(sender, args) {
-    console.log(args.get_message());
+    //console.log(args.get_message());
 }
 
 /*Monal Shah */
@@ -565,7 +564,6 @@ function setFieldValue(controlId, item, fieldType, fieldName) {
                     item[fieldName].results.forEach(function (thisItem) {
                         if (thisItem == controlId) {
                             $("#" + controlId)[0].checked = true;
-                            //debugger;
                             if (listDataArray[fieldName] == undefined)
                                 listDataArray[fieldName] = { "__metadata": { "type": "Collection(Edm.String)" }, "results": [] };
                             listDataArray[fieldName].results.push(thisItem);
@@ -885,7 +883,6 @@ function ValidateForm(ele, saveCallBack) {
 
                         $("#" + errorItem.element.id).removeClass("valid");
                         $("#" + errorItem.element.id).next().remove();
-                        console.log("{ '" + errorItem.element.id + "' : '" + errorItem.message + "'}");
                     });
                 }
                 catch (e1) {
@@ -926,12 +923,12 @@ function ValidateForm(ele, saveCallBack) {
 
 /*Monal Shah */
 function onQuerySucceeded(sender, args) {
-    console.log("Success");
+   // console.log("Success");
 }
 
 /*Monal Shah */
 function onQueryFailed(sender, args) {
-    console.log('Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
+  //  console.log('Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
 }
 
 /*Pooja Atkotiya */
@@ -1351,8 +1348,7 @@ function SaveData(listname, listDataArray, sectionName, ele) {
                     OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCaption);
                 },
                 error: function (data) {
-                    console.log(data);
-                    HideWaitDialog();
+                   HideWaitDialog();
                 }
             });
         }
@@ -1377,12 +1373,6 @@ function OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCap
         clientContext.load(oListItem, 'FormLevel', 'RaisedBy');
         clientContext.load(web);
         clientContext.executeQueryAsync(function () {
-            // if (fileURSArray.length > 0) {
-            //     AddURSAttachments(listname, itemID);
-            // }
-            // if (fileSupportDocArray.length > 0) {
-            //     AddSupportiveDocAttachments(listname, itemID);
-            // }
             if (fileCommonArray.length > 0) {
                 fileCommonArray.forEach(element => {
                     var attchmentID = element.id;
@@ -1549,7 +1539,6 @@ function SaveImageSignaturePath(sectionName, itemID) {
             }
         },
         error: function (xhr) {
-            console.log(xhr);
         }
     });
 
@@ -1592,14 +1581,11 @@ function OnSuccess(data) {
                     else {
                         msg = data.Messages;
                     }
-                    ////msg = $("#ReferenceNo").html() + "<br>" + ParseMessage(data.Messages);
                 }
-                //AlertModal('Success', ParseMessage(data.Messages), true);
                 AlertModal('Success', msg, true);
             }
         } else {
-            debugger
-            AlertModal('Error', data.Messages);
+           AlertModal('Error', data.Messages);
         }
     }
     catch (e) { window.location.reload(); }
@@ -1621,7 +1607,7 @@ function OnFailure(xhr, status, error) {
 /*Monal Shah */
 function OnDelete(ele) {
     var Id = $('#ListDetails_0__ItemId').val();
-    console.log("Id = " + Id);
+ 
     ConfirmationDailog({
         title: "Delete Request", message: "Are you sure to 'Delete'?", id: Id, url: "/NewArtwork/DeleteArwork", okCallback: function (id, data) {
             ShowWaitDialog();
@@ -1699,8 +1685,7 @@ function OnSuccessNoRedirect(data) {
             }
         }
         else {
-            debugger
-            AlertModal('Error', data.Messages);
+             AlertModal('Error', data.Messages);
         }
     }
     catch (e) { window.location.reload(); }
@@ -2069,9 +2054,6 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                             role = temp.Role;
                         }
                     });
-                    // debugger
-                    // role = tempApproverMatrix.filter(p => parseInt(p.Levels) == currentLevel)[0].Role;
-
                     tmplName = EmailTemplateName.APPROVALMAIL;
                     emailParam["TEMPLATENAME"] = tmplName;
                     emailParam["FROM"] = from;
@@ -2326,20 +2308,7 @@ function GetFieldsValueString(matches, mainlistData) {
             var LastActionUseName=GetUserNamebyUserID(mainlistData.LastActionBy);
             replacedValues.push({ [columnName]: LastActionUseName});
         }
-<<<<<<< HEAD
-        if(columnName.localeCompare("NextApproverId")==0)
-        {
-            var nextUseName=GetUserNamebyUserID(mainListData.NextApproverId);
-            replacedValues.push({ [columnName]: nextUseName});
-        }
-        if(columnName.localeCompare("LastActionBy")==0)
-        {
-            var lastUseName=GetUserNamebyUserID(mainListData.LastActionBy);
-            replacedValues.push({ [columnName]: lastUseName});
-        }
-=======
         
->>>>>>> 74e2c57301c751c23515987d40f072de0a4fbdd0
        replacedValues.push({ [columnName]: mainlistData[columnName] });/*Pooja Atkotiya */
     });
     return replacedValues;
@@ -2463,48 +2432,11 @@ function SaveEmail(subject, body, emailParam) {
             data: JSON.stringify(emailListArray),
             async: false,
             success: function (data) {
-                console.log("Email Saved Successfully");
-                console.log(data);
-
             },
             error: function (error) {
-                console.log(error);
+              
             }
         });
-
-
-        // var digest;
-        // GetFormDigest().then(function (data) {
-        //     digest = data.d.GetContextWebInformation.FormDigestValue;
-
-        //     if (!IsNullOrUndefined(digest)) {
-        //         var headers = {
-        //             "Accept": "application/json;odata=verbose",
-        //             "Content-Type": "application/json;odata=verbose",
-        //             "X-RequestDigest": digest,
-        //             "X-HTTP-Method": "POST"
-        //         };
-
-        //         AjaxCall(
-        //             {
-        //                 url: url,
-        //                 httpmethod: 'POST',
-        //                 calldatatype: 'JSON',
-        //                 headers: headers,
-        //                 async: false,
-        //                 postData: JSON.stringify(emailListArray),
-        //                 sucesscallbackfunction: function (data) {
-        //                     debugger;
-        //                     emailSaved = true;
-        //                     console.log("Data saved successfully in email template for Template = " + emailParam.TEMPLATENAME);
-        //                 },
-        //                 error: function (data) {
-        //                     debugger;
-        //                 }
-        //             });
-        //     }
-        //     return emailSaved;
-        // });
     }
 
 }
@@ -2631,38 +2563,26 @@ function updateRequestIDAttachmentList(attchmentID, itemID) {
                 "X-HTTP-Method": "MERGE"
             },
         success: function (data) {
-            console.log("Item saved Successfully");
+           
         },
         error: function (data) {
-            debugger
-            failure(data);
+               failure(data);
         }
     });
 }
 
-<<<<<<< HEAD
-function SaveErrorInList(xhr,actionType)
-{
-    var itemType = GetItemTypeForListName(ListNames.ERRORList);
-    var item = {
-                    "__metadata": { "type": itemType },
-                    "Title": actionType,
-                    "Description": xhr,
-                    "RequestID": listItemId
-                };
-=======
-function SaveErrorInList(xhr) {
+function SaveErrorInList(xhr,activityoccur) {
     var itemType = GetItemTypeForListName(ListNames.ERRORList);
     var item = {
         "__metadata": { "type": itemType },
-        "Title": "Error",
+        "Title": activityoccur,
         "Description": xhr,
         "RequestID": listItemId
     };
->>>>>>> 74e2c57301c751c23515987d40f072de0a4fbdd0
     $.ajax({
         url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ERRORList + "')/items",
         type: "POST",
+        async:true,
         contentType: "application/json;odata=verbose",
         data: JSON.stringify(item),
         headers: {
@@ -2670,7 +2590,7 @@ function SaveErrorInList(xhr) {
             "X-RequestDigest": $("#__REQUESTDIGEST").val()
         },
         success: function (data) {
-            console.log("Error added");
+           
         }
     });
 }

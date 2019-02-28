@@ -179,8 +179,6 @@ function SaveTranData(listname, tranListDataArray, lookupId) {
             headers = { "Accept": "application/json;odata=verbose", "X-RequestDigest": $("#__REQUESTDIGEST").val(), "IF-MATCH": "*", "X-HTTP-Method": "MERGE" };
         }
         tranListDataArray.RequestIDId = parseInt(lookupId);
-        console.log(tranListDataArray);
-
         AjaxCall({
             url: url,
             httpmethod: 'POST',
@@ -190,24 +188,9 @@ function SaveTranData(listname, tranListDataArray, lookupId) {
             headers: headers,
             async: false,
             sucesscallbackfunction: function (data) {
-                console.log("Data saved successfully in tran list.");
-            }
+             }
         });
-
-        // $.ajax({
-        //     url: url,
-        //     type: "POST",
-        //     contentType: "application/json;odata=verbose",
-        //     data: JSON.stringify(tranListDataArray),
-        //     headers: headers,
-        //     success: function (data) {
-        //         console.log("Data saved successfully in tran list.");
-        //     },
-        //     error: function (data) {
-        //         console.log(data);
-        //     }
-        // });
-    }
+     }
 }
 
 //#region Get Tran Lists
@@ -336,7 +319,7 @@ function SaveAllTrans(requestId) {
                                 async: false,
                                 postData: JSON.stringify(tranItem),
                                 sucesscallbackfunction: function (data) {
-                                    // console.log("SaveAllTrans - Item saved Successfully for ID = " + data.d.ID);
+                                   
                                 },
                                 error: function (jQxhr, errorCode, errorThrown) {
                                     console.log(errorThrown);
@@ -348,4 +331,3 @@ function SaveAllTrans(requestId) {
         });
     }
 }
-//#endregion

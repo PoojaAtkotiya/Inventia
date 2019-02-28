@@ -102,7 +102,6 @@ function ViewVendorDetails(obj) {
     var id = jQuery(obj).attr('id').split('_')[2].trim();
     var index = jQuery(obj).attr('id').split('_')[1].trim();
     listTempGridDataArray.forEach(function (arrayItem) {
-        console.log(arrayItem);
         if (arrayItem.Index == index) {
             item = arrayItem;
         }
@@ -126,9 +125,6 @@ function ViewVendorDetails(obj) {
                 fieldName = $(this).attr("cParent");
             setFieldValue(elementId, item, elementType, fieldName);
         });
-    }
-    else {
-        console.log("No vendor details found = " + id);
     }
     $("#CRUDVendorModalbody *").attr("disabled", "disabled");
     //$("#CRUDVendorModal").find(".modal-footer").find("button").remove("onclick");
@@ -161,7 +157,6 @@ function EditVendorDetails(obj) {
     var id = jQuery(obj).attr('id').split('_')[2].trim();
     var index = jQuery(obj).attr('id').split('_')[1].trim();
     listTempGridDataArray.forEach(function (arrayItem) {
-        console.log(arrayItem);
         if (arrayItem.Index == index) {
             item = arrayItem;
         }
@@ -186,15 +181,9 @@ function EditVendorDetails(obj) {
             setFieldValue(elementId, item, elementType, fieldName);
         });
     }
-    else {
-        console.log("No vendor details found = " + id);
-    }
-    $('#btnSave').show();
+   $('#btnSave').show();
 }
 function SaveVendorData(listDataArray) {
-
-    //listDataArray["ListName"] = listname;
-    console.log(listDataArray);
     var tempgrid = [];
     var count = listTempGridDataArray.length;
     if (listDataArray.Type === "Edit") {
@@ -265,7 +254,6 @@ function SaveVendorNameInMaster(listDataArray) {
                 },
             sucesscallbackfunction: function (data) {
                 listDataArray.isVendorAdded = "Yes";
-                console.log("Item saved Successfully");
             }
         });
 }
@@ -380,10 +368,7 @@ function GetVendorDetails(listTempGridDataArray) {
                 if (arrayItem.NegotiatedNonNegotiated) {
                     Negotiated = "Yes";
                 }
-
-                console.log(arrayItem);
                 tr = $('<tr/>');
-
                 tr.append("<td width='10%'>" + arrayItem.VendorName + "</td>");
                 tr.append("<td width='10%'>" + arrayItem.VendorEmailID + "</td>");
                 // tr.append("<td width='20%'>" + arrayItem.Specifications + "</td>");
