@@ -391,7 +391,6 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
             ////Get Next Level
 
             var nextLevelRow = tempApproverMatrix.filter(function (temp) {
-
                 var nextUsers = GetApprovers(temp.ApproverId); // (!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results : ((!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId)) ? temp.ApproverId : null);
                 return (temp.Status != "Not Required" && !IsNullOrUndefined(nextUsers) && temp.Levels > currentLevel);
             }).sort(function (a, b) {
@@ -420,15 +419,13 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
                     }
                 } else {
                     if (!IsNullOrUndefined(next) && ((!IsNullOrUndefined(next.ApproverId) && !IsNullOrUndefined(next.ApproverId.results)) ? next.ApproverId.results.length > 0 : (!IsNullOrUndefined(next.ApproverId) && !IsStrNullOrEmpty(next.ApproverId)))) {
-
-                        var nextUsers = (!IsNullOrUndefined(next.ApproverId) && !IsNullOrUndefined(next.ApproverId.results) && next.ApproverId.results.length > 0) ? next.ApproverId.results : ((!IsNullOrUndefined(next.ApproverId) && !IsStrNullOrEmpty(next.ApproverId)) ? next.ApproverId : null);
+                        var nextUsers = GetApprovers(next.ApproverId); // (!IsNullOrUndefined(next.ApproverId) && !IsNullOrUndefined(next.ApproverId.results) && next.ApproverId.results.length > 0) ? next.ApproverId.results : ((!IsNullOrUndefined(next.ApproverId) && !IsStrNullOrEmpty(next.ApproverId)) ? next.ApproverId : null);
                         if (!IsNullOrUndefined(nextUsers)) {
                             if (nextApprover == '') {
                                 nextApproverRole = next.Role;
-                                nextApprover = nextUsers;// next.ApproverId.results;
+                                nextApprover = nextUsers;
                             } else {
                                 ////Pending to handle multiple approvers from local approval matrix
-                                //  if (nextApprover.indexOf(next.ApproverId) == -1) // !Contains
                                 if (nextApprover.indexOf(nextUsers) == -1) // !Contains
                                 {
                                     nextApproverRole = nextApproverRole.trim() + "," + next.Role;
@@ -449,10 +446,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
                     var listofNextApprovers = tempApproverMatrix.filter(temp => (temp.Levels == nextLevel && temp.Status == "Pending"));
 
                     listofNextApprovers.forEach(next => {
-
-                        // var nextUsers = (!IsNullOrUndefined(next.ApproverId) && !IsNullOrUndefined(next.ApproverId.results) && next.ApproverId.results.length > 0) ? next.ApproverId.results : ((!IsNullOrUndefined(next.ApproverId) && !IsStrNullOrEmpty(next.ApproverId)) ? next.ApproverId : null);
                         var nextUsers = GetApprovers(next.ApproverId);
-
                         if (!IsNullOrUndefined(nextUsers)) {
                             if (nextApprover == '') {
                                 nextApproverRole = next.Role;
@@ -520,7 +514,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
                 var listofNextApprovers = tempApproverMatrix.filter(temp => !IsNullOrUndefined(temp.ApproverId) && temp.Levels == nextLevel);
                 nextApprover = '';
                 listofNextApprovers.forEach(next => {
-                    var nextUsers = (!IsNullOrUndefined(next.ApproverId) && !IsNullOrUndefined(next.ApproverId.results) && next.ApproverId.results.length > 0) ? next.ApproverId.results : ((!IsNullOrUndefined(next.ApproverId) && !IsStrNullOrEmpty(next.ApproverId)) ? next.ApproverId : null);
+                    var nextUsers = GetApprovers(next.ApproverId); //(!IsNullOrUndefined(next.ApproverId) && !IsNullOrUndefined(next.ApproverId.results) && next.ApproverId.results.length > 0) ? next.ApproverId.results : ((!IsNullOrUndefined(next.ApproverId) && !IsStrNullOrEmpty(next.ApproverId)) ? next.ApproverId : null);
 
                     if (!IsNullOrUndefined(nextUsers)) {
                         if (nextApprover == '') {
@@ -1074,8 +1068,7 @@ function GetPermissionDictionary(tempApproverMatrix, nextLevel, isAllUserViewer,
         var strContributer = '';
         tempApproverMatrix.forEach(temp => {
 
-            var approvers = (!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results : ((!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId)) ? temp.ApproverId : null);
-
+            var approvers = GetApprovers(temp.ApproverId);// (!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results : ((!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId)) ? temp.ApproverId : null);
 
             if (!IsNullOrUndefined(approvers)) {
                 if (temp.Levels == nextLevel && temp.Status == ApproverStatus.PENDING) {
@@ -1083,7 +1076,6 @@ function GetPermissionDictionary(tempApproverMatrix, nextLevel, isAllUserViewer,
                      * 1) who are pending on current level
                      */
                     if (isNewItem) {
-
                         if (strContributer.indexOf(temp.ApproverId) == -1) {
                             strContributer = TrimComma(strContributer.trim()) + "," + temp.ApproverId;
                         }
@@ -1264,7 +1256,7 @@ function SaveApprovalMatrixInList(tempApproverMatrix, approvalMatrixListName, is
         }
         else {
 
-            var approvers = (!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results : ((!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId)) ? temp.ApproverId : null);
+            var approvers = GetApprovers(temp.ApproverId);// (!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results : ((!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId)) ? temp.ApproverId : null);
 
             if (!IsNullOrUndefined(approvers)) {
                 if (IsArray(approvers)) {

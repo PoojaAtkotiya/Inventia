@@ -2315,6 +2315,8 @@ function GetFieldsValueString(matches, mainlistData) {
             var raisebyUseName = GetUserNamebyUserID(mainlistData.RaisedById);
             replacedValues.push({ [columnName]: raisebyUseName });
         }
+
+
         replacedValues.push({ [columnName]: mainlistData[columnName] });/*Pooja Atkotiya */
     });
     return replacedValues;
@@ -2651,7 +2653,7 @@ function GetApprovers(approver) {
 
 function IsNullOrUndefinedApprover(approver) {
 
-    ((!IsNullOrUndefined(approver) && !IsNullOrUndefined(approver.results)) ? approver.results.length > 0 : (!IsNullOrUndefined(approver) && !IsStrNullOrEmpty(approver)))
+    // ((!IsNullOrUndefined(approver) && !IsNullOrUndefined(approver.results)) ? approver.results.length > 0 : (!IsNullOrUndefined(approver) && !IsStrNullOrEmpty(approver)))
 
 
     if (!IsNullOrUndefined(approver) && ((!IsNullOrUndefined(approver) && !IsNullOrUndefined(next.ApproverId.results)) ? next.ApproverId.results.length > 0 : (!IsNullOrUndefined(next.ApproverId) && !IsStrNullOrEmpty(next.ApproverId)))) {
