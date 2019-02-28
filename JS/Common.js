@@ -2317,7 +2317,7 @@ function GetFieldsValueString(matches, mainlistData) {
         }
         if(columnName.localeCompare("NextApproverId")==0)
         {
-            var NextApproverUseName=GetUserNamebyUserID(mainlistData.NextApproverId);
+            var NextApproverUseName=GetUserNamesbyUserID(mainlistData.NextApproverId.results);
             replacedValues.push({ [columnName]: NextApproverUseName});
         }
         
