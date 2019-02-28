@@ -104,6 +104,12 @@
                 if(isValid){
                 BindURSAttachmentFiles();
                 }
+                else{
+                    var checkFile = $('#URSContainer').html();
+                    if(checkFile !=""){
+                    $("#UploadURSAttachment").removeAttr("required");
+                    }
+                }
             });
             $(document).on("change", "#UploadSupportiveDocAttachment", function () {
                 var isValid=ValidateSize(this);

@@ -137,7 +137,9 @@ Object.freeze(CurrentApprover);
 const EmailTemplateName =
     {
         APPROVALMAIL: "ApprovalMail",
-        SENDBACKMAIL: "SendBackMail"
+        SENDBACKMAIL: "SendBackMail",
+        REQUESTREJECTED:"Reject",
+        REQUESTCLOSERMAIL:"Complete"
     }
 Object.freeze(EmailTemplateName);
 

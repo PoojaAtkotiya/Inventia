@@ -2141,7 +2141,7 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                     // to = cleanArray(to);
                     to = GetUserEmailsbyUserID(cleanArray(to));
                     role = tempApproverMatrix.filter(p => parseInt(p.Levels) == nextLevel)[0].Role;
-                    tmplName = EmailTemplateName.REQUESTCANCELED;
+                    tmplName = EmailTemplateName.REQUESTREJECTED;
                     emailParam["TEMPLATENAME"] = tmplName;
                     emailParam["FROM"] = from;
                     emailParam["TO"] = to;

@@ -26,20 +26,20 @@ $(document).ready(function () {
     });
 });
 
-function showLabel(event, ui) {
-    var nameofvendor = $('#tags').val();
-    if (nameofvendor != undefined && nameofvendor != "") {
-        arrayAddress.forEach(element => {
-            if (element.name == nameofvendor) {
-                $('#Address').val(element.address);
-            }
-        });
-    }
-    else {
-        $('#Address').val('');
-    }
+// function showLabel(event, ui) {
+//     var nameofvendor = $('#tags').val();
+//     if (nameofvendor != undefined && nameofvendor != "") {
+//         arrayAddress.forEach(element => {
+//             if (element.name == nameofvendor) {
+//                 $('#Address').val(element.address);
+//             }
+//         });
+//     }
+//     else {
+//         $('#Address').val('');
+//     }
 
-}
+// }
 
 function onchangecheckBox() {
     var checkBox = document.getElementById("addVendorMaster");
@@ -66,6 +66,7 @@ function AddVendorDetails() {
 
 function ViewVendorDetails(obj) {
     var item;
+    $("#CRUDVendorModal").modal('show');
     var id = jQuery(obj).attr('id').split('_')[2].trim();
     var index = jQuery(obj).attr('id').split('_')[1].trim();
     listTempGridDataArray.forEach(function (arrayItem) {
@@ -73,9 +74,9 @@ function ViewVendorDetails(obj) {
             item = arrayItem;
         }
     });
-   
+    
     if (!IsNullOrUndefined(item)) {
-        $("#CRUDVendorModal").modal('show');
+     
         $("#spanTitle").html('Vendor Detail');
         $('.dynamic-control').each(function () {
             var elementId = $(this).attr('id');
@@ -85,7 +86,7 @@ function ViewVendorDetails(obj) {
                 fieldName = $(this).attr("cParent");
             else if (elementType == 'radiogroup')
                 fieldName = $(this).attr("cParent");
-
+                console.log(item);
             setFieldValue(elementId, item, elementType, fieldName);
         });
        
@@ -96,6 +97,40 @@ function ViewVendorDetails(obj) {
     else {
         console.log("No vendor details found = " + id);
     }
+    // var item;
+    // var id = jQuery(obj).attr('id').split('_')[2].trim();
+    // var index = jQuery(obj).attr('id').split('_')[1].trim();
+    // listTempGridDataArray.forEach(function (arrayItem) {
+    //     console.log(arrayItem);
+    //     if (arrayItem.Index == index) {
+    //         item = arrayItem;
+    //     }
+    // });
+
+  
+    // if ($('myform').length > 0)
+    //     $('myform').renameTag('form');
+    // if (!IsNullOrUndefined(item)) {
+    //     $("#CRUDVendorModal *").removeAttr("disabled");
+    //     $("#addVendorMaster").attr("disabled", "disabled");
+    //     $("#CRUDVendorModal").modal('show');
+    //     $("#spanTitle").html('Vendor Detail');
+    //     $('.dynamic-control').each(function () {
+    //         var elementId = $(this).attr('id');
+    //         var fieldName = $(this).attr('id');
+    //         var elementType = $(this).attr('controlType');
+    //         if (elementType == 'multicheckbox')
+    //             fieldName = $(this).attr("cParent");
+    //         else if (elementType == 'radiogroup')
+    //             fieldName = $(this).attr("cParent");
+    //         setFieldValue(elementId, item, elementType, fieldName);
+    //     });
+    // }
+    // else {
+    //     console.log("No vendor details found = " + id);
+    // }
+    // $("#CRUDVendorModalbody *").attr("disabled", "disabled");
+    // $("#CRUDVendorModal").find(".modal-footer").find("button").remove("onclick");
 }
 
 function GetVendorDetailsById(id) {

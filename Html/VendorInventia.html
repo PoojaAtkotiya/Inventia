@@ -80,7 +80,7 @@
                                 <div class="col-md-8 ">
 
                                     <input type="text" id="VendorName" name="VendorName" class="form-control dynamic-control"
-                                        required="required" listtype="trans" controlType="text" />
+                                        required="required" listtype="trans" controlType="text" maxlength="255" />
 
                                 </div>
                             </div>
@@ -93,8 +93,8 @@
                                 </label>
                                 <div class="col-md-8 ">
                                     <input type="text" id="VendorEmailID" name="VendorEmailID" class="form-control dynamic-control"
-                                        required="required" listtype="trans" controlType="text" onblur="validateEmail(this);" />
-                                        <span id="invalidemail" style="color:red"></span>
+                                        required="required" listtype="trans" controlType="text" onblur="validateEmail(this);" maxlength="255" />
+                                        <span id="invalidemail" style="color:red" ></span>
                                 </div>
                             </div>
                         </div>
@@ -122,7 +122,7 @@
                                 </label>
                                 <div class="col-md-8 ">
                                     <input type="text" id="GrossValue" name="GrossValue" controlType="text" class="form-control dynamic-control"
-                                        listtype="trans" data="digit" required="required" />
+                                        listtype="trans" data="digit" required="required" maxlength="15" />
                                 </div>
                             </div>
                         </div>
@@ -134,7 +134,7 @@
                                 </label>
                                 <div class="col-md-8 ">
                                     <input type="text" id="LessDiscount" name="LessDiscount" controlType="text" class="form-control dynamic-control"
-                                        data="digit" required="required" listtype="trans" />
+                                        data="digit" required="required" listtype="trans" maxlength="15" />
                                 </div>
                             </div>
                         </div>
@@ -148,7 +148,7 @@
                                 <div class="col-md-8 ">
                                     <input type="text" id="InstallationOtherCharges" name="InstallationOtherCharges"
                                         controlType="text" class="form-control dynamic-control" required="required"
-                                        data="digit" listtype="trans" />
+                                        data="digit" listtype="trans" maxlength="15" />
                                 </div>
                             </div>
                         </div>
@@ -160,7 +160,7 @@
                                 <div class="col-md-8 ">
                                     <input type="text" id="DescriptionofCharges" name="DescriptionofCharges"
                                         controlType="text" class="form-control dynamic-control" required="required"
-                                        listtype="trans" />
+                                        listtype="trans" maxlength="255"/>
                                 </div>
                             </div>
                         </div>
@@ -175,7 +175,7 @@
                                 </label>
                                 <div class="col-md-8 ">
                                     <input type="text" id="NetValue" name="NetValue" controlType="text" class="form-control dynamic-control"
-                                        data="digit" required="required" listtype="trans" />
+                                        data="digit" required="required" listtype="trans" maxlength="15"/>
                                 </div>
                             </div>
                         </div>
@@ -187,7 +187,7 @@
                                 </label>
                                 <div class="col-md-8 ">
                                     <input type="text" id="TotalValue" name="TotalValue" controlType="text" class="form-control dynamic-control"
-                                        required="required" data="digit" listtype="trans" />
+                                        required="required" data="digit" listtype="trans" maxlength="15" />
                                 </div>
                             </div>
                         </div>
@@ -202,7 +202,7 @@
                                 <div class="col-md-8 ">
                                     <input type="text" id="DeliveryPeriod" name="DeliveryPeriod" controlType="text"
                                         class="form-control dynamic-control" required="required" listtype="trans"
-                                        controlType="text" />
+                                        controlType="text" maxlength="255"/>
                                 </div>
                             </div>
                         </div>

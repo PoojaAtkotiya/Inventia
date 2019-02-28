@@ -839,8 +839,6 @@ function BindInitiatorAttachment() {
                             htmlStr = checkFile + "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li>";
 
                         }
-
-
                         $('#fileListSupportiveDoc').html(htmlStr);
                     }
                 });
