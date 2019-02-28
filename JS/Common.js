@@ -2183,7 +2183,8 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
     //GetFormDigest().then(function (data) {
     AjaxCall(
         {
-            url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And><Eq><FieldRef Name='LinkTitle' /><Value Type='Computed'>" + templateName + "</Value></Eq></And></Where></Query></View>\"}",
+            // url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And><Eq><FieldRef Name='LinkTitle' /><Value Type='Computed'>" + templateName + "</Value></Eq></And></Where></Query></View>\"}",
+            url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query>< Where ><And><And><And><Or><IsNull><FieldRef Name='Role' /></IsNull><Contains><FieldRef Name='Role' /><Value Type='Text'>" + role + "</Value></Contains></Or><Eq> <FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq> </And> < Eq > <FieldRef Name='ApplicationName' /><Value Type='Text'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq></And>< Eq ><FieldRef Name='Title' /><Value Type='Text'>" + templateName + "</Value></Eq></And></Where></Query></View>\"}",
             httpmethod: 'POST',
             calldatatype: 'JSON',
             async: false,
@@ -2194,12 +2195,26 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
                     "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
                 },
             sucesscallbackfunction: function (data) {
-                emailTemplate.push({ "Subject": data.d.results[0].Subject });
-                emailTemplate.push({ "Body": data.d.results[0].Body });
-                mailCustomValues.push({ "ItemLink": "#URL" + "https://synoverge.sharepoint.com/sites/QACapex/Pages/Home.aspx?ID=" + itemID });
-                // mailCustomValues.push({ "ItemLinkClickHere": "<a href='https://synoverge.sharepoint.com/sites/QACapex/Lists/CapexRequisition/DispForm.aspx?ID=" + itemID + "' >Click Here</a>" });
-                mailCustomValues.push({ "ItemLinkClickHere": "https://synoverge.sharepoint.com/sites/QACapex/" });
-                emailTemplate = CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, emailParam);
+                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results) && data.d.results.length > 0) {
+                    debugger;
+                    var tmpItems = data.d.results;
+
+                    var emailListItem = null;
+                    if (tmpItems.length > 1) {
+                        emailListItem = tmpItems.filter(e => e.Role != "")[0];
+                    }
+                    else {
+                        emailListItem = tmpItems[0];
+                    }
+                    if (!IsNullOrUndefined(emailListItem)) {
+                        emailTemplate.push({ "Subject": emailListItem.Subject });
+                        emailTemplate.push({ "Body": emailListItem.Body });
+                        mailCustomValues.push({ "ItemLink": "#URL" + "https://synoverge.sharepoint.com/sites/QACapex/Pages/Home.aspx?ID=" + itemID });
+                        // mailCustomValues.push({ "ItemLinkClickHere": "<a href='https://synoverge.sharepoint.com/sites/QACapex/Lists/CapexRequisition/DispForm.aspx?ID=" + itemID + "' >Click Here</a>" });
+                        mailCustomValues.push({ "ItemLinkClickHere": "https://synoverge.sharepoint.com/sites/QACapex/" });
+                        emailTemplate = CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, emailParam);
+                    }
+                }
             }
         });
 
@@ -2297,19 +2312,17 @@ function GetFieldsValueString(matches, mainlistData) {
             var raisebyUseName = GetUserNamebyUserID(mainlistData.RaisedById);
             replacedValues.push({ [columnName]: raisebyUseName });
         }
-        if(columnName.localeCompare("NextApproverId")==0)
-        {
-            var NextApproverUseName=GetUserNamebyUserID(mainlistData.NextApproverId);
-            replacedValues.push({ [columnName]: NextApproverUseName});
+        if (columnName.localeCompare("NextApproverId") == 0) {
+            var NextApproverUseName = GetUserNamesbyUserID(mainlistData.NextApproverId.results);
+            replacedValues.push({ [columnName]: NextApproverUseName });
         }
-        
-        if(columnName.localeCompare("LastActionBy")==0)
-        {
-            var LastActionUseName=GetUserNamebyUserID(mainlistData.LastActionBy);
-            replacedValues.push({ [columnName]: LastActionUseName});
+
+        if (columnName.localeCompare("LastActionBy") == 0) {
+            var LastActionUseName = GetUserNamebyUserID(mainlistData.LastActionBy);
+            replacedValues.push({ [columnName]: LastActionUseName });
         }
-        
-       replacedValues.push({ [columnName]: mainlistData[columnName] });/*Pooja Atkotiya */
+
+        replacedValues.push({ [columnName]: mainlistData[columnName] });/*Pooja Atkotiya */
     });
     return replacedValues;
 }
@@ -2606,12 +2619,11 @@ function GetApprovers(approver) {
     return nextUsers;
 }
 
+/* Pooja Atkotiya */
 function IsNullOrUndefinedApprover(approver) {
-
-    // ((!IsNullOrUndefined(approver) && !IsNullOrUndefined(approver.results)) ? approver.results.length > 0 : (!IsNullOrUndefined(approver) && !IsStrNullOrEmpty(approver)))
-
-
-    if (!IsNullOrUndefined(approver) && ((!IsNullOrUndefined(approver) && !IsNullOrUndefined(next.ApproverId.results)) ? next.ApproverId.results.length > 0 : (!IsNullOrUndefined(next.ApproverId) && !IsStrNullOrEmpty(next.ApproverId)))) {
-
+    var isNull = true;
+    if ((!IsNullOrUndefined(approver) && !IsNullOrUndefined(approver.results)) ? approver.results.length > 0 : (!IsNullOrUndefined(approver) && !IsStrNullOrEmpty(approver))) {
+        isNull = false;
     }
+    return isNull;
 }
