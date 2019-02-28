@@ -2213,12 +2213,26 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
                     "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
                 },
             sucesscallbackfunction: function (data) {
-                emailTemplate.push({ "Subject": data.d.results[0].Subject });
-                emailTemplate.push({ "Body": data.d.results[0].Body });
-                mailCustomValues.push({ "ItemLink": "#URL" + "https://synoverge.sharepoint.com/sites/QACapex/Pages/Home.aspx?ID=" + itemID });
-                // mailCustomValues.push({ "ItemLinkClickHere": "<a href='https://synoverge.sharepoint.com/sites/QACapex/Lists/CapexRequisition/DispForm.aspx?ID=" + itemID + "' >Click Here</a>" });
-                mailCustomValues.push({ "ItemLinkClickHere": "https://synoverge.sharepoint.com/sites/QACapex/" });
-                emailTemplate = CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, emailParam);
+                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results) && data.d.results.length > 0) {
+                    debugger;
+                    var tmpItems = data.d.results;
+
+                    var emailListItem = null;
+                    if (tmpItems.length > 1) {
+                        emailListItem = tmpItems.filter(e => e.Role != "")[0];
+                    }
+                    else {
+                        emailListItem = tmpItems[0];
+                    }
+                    if (!IsNullOrUndefined(emailListItem)) {
+                        emailTemplate.push({ "Subject": emailListItem.Subject });
+                        emailTemplate.push({ "Body": emailListItem.Body });
+                        mailCustomValues.push({ "ItemLink": "#URL" + "https://synoverge.sharepoint.com/sites/QACapex/Pages/Home.aspx?ID=" + itemID });
+                        // mailCustomValues.push({ "ItemLinkClickHere": "<a href='https://synoverge.sharepoint.com/sites/QACapex/Lists/CapexRequisition/DispForm.aspx?ID=" + itemID + "' >Click Here</a>" });
+                        mailCustomValues.push({ "ItemLinkClickHere": "https://synoverge.sharepoint.com/sites/QACapex/" });
+                        emailTemplate = CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, emailParam);
+                    }
+                }
             }
         });
 
