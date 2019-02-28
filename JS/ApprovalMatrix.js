@@ -514,7 +514,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
                 var listofNextApprovers = tempApproverMatrix.filter(temp => !IsNullOrUndefinedApprover(temp.ApproverId) && temp.Levels == nextLevel);
                 nextApprover = '';
                 listofNextApprovers.forEach(next => {
-                    var nextUsers = GetApprovers(next.ApproverId); //(!IsNullOrUndefined(next.ApproverId) && !IsNullOrUndefined(next.ApproverId.results) && next.ApproverId.results.length > 0) ? next.ApproverId.results : ((!IsNullOrUndefined(next.ApproverId) && !IsStrNullOrEmpty(next.ApproverId)) ? next.ApproverId : null);
+                    var nextUsers = GetApprovers(next.ApproverId); 
 
                     if (!IsNullOrUndefined(nextUsers)) {
                         if (nextApprover == '') {
