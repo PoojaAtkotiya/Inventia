@@ -2643,11 +2643,18 @@ function isSpacesOnly(field) {
     return (r.length == 0)
 }
 
+/* Pooja Atkotiya */
 function GetApprovers(approver) {
     var nextUsers = (!IsNullOrUndefined(approver) && !IsNullOrUndefined(approver.results) && approver.results.length > 0) ? approver.results : ((!IsNullOrUndefined(approver) && !IsStrNullOrEmpty(approver)) ? approver : null);
     return nextUsers;
 }
 
-function IsNullOrUndefinedApprover() {
+function IsNullOrUndefinedApprover(approver) {
 
+    ((!IsNullOrUndefined(approver) && !IsNullOrUndefined(approver.results)) ? approver.results.length > 0 : (!IsNullOrUndefined(approver) && !IsStrNullOrEmpty(approver)))
+
+
+    if (!IsNullOrUndefined(approver) && ((!IsNullOrUndefined(approver) && !IsNullOrUndefined(next.ApproverId.results)) ? next.ApproverId.results.length > 0 : (!IsNullOrUndefined(next.ApproverId) && !IsStrNullOrEmpty(next.ApproverId)))) {
+
+    }
 }
