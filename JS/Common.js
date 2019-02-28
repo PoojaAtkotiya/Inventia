@@ -2202,6 +2202,7 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
     AjaxCall(
         {
             url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And><Eq><FieldRef Name='LinkTitle' /><Value Type='Computed'>" + templateName + "</Value></Eq></And></Where></Query></View>\"}",
+            url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query>< Where ><And><And><And><Or><IsNull><FieldRef Name='Role' /></IsNull><Contains><FieldRef Name='Role' /><Value Type='Text'>" + role + "</Value></Contains></Or><Eq> <FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq> </And> < Eq > <FieldRef Name='ApplicationName' /><Value Type='Text'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq></And>< Eq ><FieldRef Name='Title' /><Value Type='Text'>" + templateName + "</Value></Eq></And></Where></Query></View>\"}",
             httpmethod: 'POST',
             calldatatype: 'JSON',
             async: false,
@@ -2315,19 +2316,17 @@ function GetFieldsValueString(matches, mainlistData) {
             var raisebyUseName = GetUserNamebyUserID(mainlistData.RaisedById);
             replacedValues.push({ [columnName]: raisebyUseName });
         }
-        if(columnName.localeCompare("NextApproverId")==0)
-        {
-            var NextApproverUseName=GetUserNamesbyUserID(mainlistData.NextApproverId.results);
-            replacedValues.push({ [columnName]: NextApproverUseName});
+        if (columnName.localeCompare("NextApproverId") == 0) {
+            var NextApproverUseName = GetUserNamesbyUserID(mainlistData.NextApproverId.results);
+            replacedValues.push({ [columnName]: NextApproverUseName });
         }
-        
-        if(columnName.localeCompare("LastActionBy")==0)
-        {
-            var LastActionUseName=GetUserNamebyUserID(mainlistData.LastActionBy);
-            replacedValues.push({ [columnName]: LastActionUseName});
+
+        if (columnName.localeCompare("LastActionBy") == 0) {
+            var LastActionUseName = GetUserNamebyUserID(mainlistData.LastActionBy);
+            replacedValues.push({ [columnName]: LastActionUseName });
         }
-        
-       replacedValues.push({ [columnName]: mainlistData[columnName] });/*Pooja Atkotiya */
+
+        replacedValues.push({ [columnName]: mainlistData[columnName] });/*Pooja Atkotiya */
     });
     return replacedValues;
 }
@@ -2661,6 +2660,7 @@ function GetApprovers(approver) {
     return nextUsers;
 }
 
+/* Pooja Atkotiya */
 function IsNullOrUndefinedApprover(approver) {
     var isNull = true;
     if ((!IsNullOrUndefined(approver) && !IsNullOrUndefined(approver.results)) ? approver.results.length > 0 : (!IsNullOrUndefined(approver) && !IsStrNullOrEmpty(approver))) {
