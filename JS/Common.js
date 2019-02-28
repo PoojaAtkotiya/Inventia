@@ -875,14 +875,14 @@ function ValidateForm(ele, saveCallBack) {
                 try {
                     var validator = $(this).validate();
                     $(validator.errorList).each(function (i, errorItem) {
-                        var error_free=true;
+                        var error_free = true;
                         //  AlertModal("Validation", errorItem.element.id + "' : '" + errorItem.message);
                         $("#" + errorItem.element.id).addClass("error");
 
-                         var error_element=$("span", element.parent());
-                          if (!valid){error_element.removeClass("error").addClass("error_show"); error_free=false;}
-                          else{error_element.removeClass("error_show").addClass("error");}
-                        
+                        var error_element = $("span", element.parent());
+                        if (!valid) { error_element.removeClass("error").addClass("error_show"); error_free = false; }
+                        else { error_element.removeClass("error_show").addClass("error"); }
+
                         $("#" + errorItem.element.id).removeClass("valid");
                         $("#" + errorItem.element.id).next().remove();
                         console.log("{ '" + errorItem.element.id + "' : '" + errorItem.message + "'}");
@@ -1018,10 +1018,10 @@ function GetStaticFormControlValue(id, elementType, listDataArray, elementvaluet
             listDataArray[id] = metaObject;
             break;
         case "date":
-           // listDataArray[id] = new Date($(obj).text()).format("yyyy-MM-ddTHH:mm:ssZ");
-     
-           listDataArray[id] = ($(obj).text());
-           break;
+            // listDataArray[id] = new Date($(obj).text()).format("yyyy-MM-ddTHH:mm:ssZ");
+
+            listDataArray[id] = ($(obj).text());
+            break;
         // case "checkbox":
         //     listDataArray[id] = $(obj)[0]['checked'];
         //     break;
@@ -1159,7 +1159,7 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
         var tr, tdValue;
         for (var i = 0; i < activity.length; i++) {
             var item = activity[i];
-           // if (!IsNullOrUndefined(item) && item.split('\t').length == 2) {
+            // if (!IsNullOrUndefined(item) && item.split('\t').length == 2) {
             //    var itemDetails = item.split('\t');
             /* Condition Changed by Hirvita */
             if (item.split(' ').length > 1) {
@@ -1167,15 +1167,15 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
                     var itemDetails = item.split(' ');
                     if (itemDetails[0] != "RaisedBy" && itemDetails[0] != "Files") {
                         tr = $('<tr/>');
-                        tr.append('<td>' + itemDetails[0]  +'</td>');
+                        tr.append('<td>' + itemDetails[0] + '</td>');
                         itemDetails.forEach(value1 => {
-                           var value2 = value1;
+                            var value2 = value1;
                         }
                         );
-                         testslice =itemDetails.slice(1);
-                           var value= testslice;
-                       
-                       // var value = itemDetails[1];
+                        testslice = itemDetails.slice(1);
+                        var value = testslice;
+
+                        // var value = itemDetails[1];
                         try {
                             if (value.toLowerCase() == "true" || value.toLowerCase() == "false") {
                                 tdValue = value.toLowerCase() == "true" ? "Yes" : "No";
@@ -1199,11 +1199,11 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
                         tr.append('<td>' + tdValue + '</td>');
                         $('#tblActivityChanges tbody').append(tr);
                     }
-                
+
                 }
             }
 
-           
+
         }
     }
 }
@@ -1512,7 +1512,7 @@ function SaveCapitalAssetRequisitionNumber(itemID, listDataArray, actionPerforme
 
 function SavehrefColumn(itemID) {
     var formFieldValues = [];
-    formFieldValues['ViewRequest'] ="<a href='https://synoverge.sharepoint.com/sites/dev/Pages/InventiaNew.aspx?ID=' "+ itemID + ">View<a>";
+    formFieldValues['ViewRequest'] = "<a href='https://synoverge.sharepoint.com/sites/dev/Pages/InventiaNew.aspx?ID=' " + itemID + ">View<a>";
     SaveFormFields(formFieldValues, itemID);
 }
 /*Priya Rane */
@@ -1924,7 +1924,7 @@ function AjaxCall(options) {
         async: async,
         success: function (data) {
             if (data && data.Status != undefined && data.Status == "VALIDATION_ERROR") {
-                
+
                 ShowError(data.Data);
             }
             else {
@@ -1947,7 +1947,7 @@ function AjaxCall(options) {
                 console.log(xhr);
                 SaveErrorInList(xhr.responseText,"Error");
                 xhr.responseText
-                
+
                 AlertModal("Error", "Oops! Something went wrong");
                 //throw "Error";
                 //}
@@ -2004,7 +2004,7 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
         }
         var strAllUsers = GetEmailUsers(tempApproverMatrix, nextLevel, isNewItem);
         tempApproverMatrix.forEach(temp => {
-          
+
             var approvers = (!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results : ((!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId)) ? temp.ApproverId : null);
             if (temp.Levels == nextLevel && !IsNullOrUndefined(approvers) && temp.Status != "Not Required") {
                 nextApproverIds = nextApproverIds + "," + approvers;//temp.ApproverId;
@@ -2021,7 +2021,7 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
             case ButtonActionStatus.SaveAndNoStatusUpdateWithEmail:
             case ButtonActionStatus.Save:
                 if (!IsStrNullOrEmpty(strAllusers) && !IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
-                 
+
                     from = currentUser.Email;
                     to = TrimComma(strAllusers);
                     //  to = cleanArray(to);
@@ -2040,7 +2040,7 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
             case ButtonActionStatus.Delegate:
             case ButtonActionStatus.NextApproval:
                 if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
-                    
+
                     from = currentUser.Email;
                     var allToUsers = "";
                     tempApproverMatrix.forEach(temp => {
@@ -2054,7 +2054,7 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                     tempApproverMatrix.forEach(temp => {
                         var approvers = (!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results : ((!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId)) ? temp.ApproverId : null);
                         if (temp.Role == Roles.CREATOR) {
-                           
+
                             if (!IsNullOrUndefined(approvers)) {
                                 cc = approvers; //temp.ApproverId;
                             }
@@ -2101,7 +2101,7 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                     to = TrimComma(allToUsers).split(",");
                     // to = cleanArray(to);
                     to = GetUserEmailsbyUserID(cleanArray(to));
-                    
+
                     cc = (TrimComma(cc) + "," + TrimComma(tempApproverMatrix.filter(p => p.Role == Roles.CREATOR)[0].ApproverId));
                     cc = TrimComma(cc).split(",");
                     cc = GetUserEmailsbyUserID(cleanArray(cc));
@@ -2154,7 +2154,7 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
             case ButtonActionStatus.Complete:
                 if (!IsStrNullOrEmpty(strAllusers) && !IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
                     from = currentUser.Email;
-                   
+
                     to = tempApproverMatrix.filter(p => p.Role == Roles.CREATOR).ApproverId;
                     cc = TrimComma(strAllusers).split(",");
                     cc = GetUserEmailsbyUserID(cleanArray(cc));
@@ -2215,8 +2215,8 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
                 emailTemplate.push({ "Subject": data.d.results[0].Subject });
                 emailTemplate.push({ "Body": data.d.results[0].Body });
                 mailCustomValues.push({ "ItemLink": "#URL" + "https://synoverge.sharepoint.com/sites/QACapex/Pages/Home.aspx?ID=" + itemID });
-               // mailCustomValues.push({ "ItemLinkClickHere": "<a href='https://synoverge.sharepoint.com/sites/QACapex/Lists/CapexRequisition/DispForm.aspx?ID=" + itemID + "' >Click Here</a>" });
-               mailCustomValues.push({ "ItemLinkClickHere": "https://synoverge.sharepoint.com/sites/QACapex/" });
+                // mailCustomValues.push({ "ItemLinkClickHere": "<a href='https://synoverge.sharepoint.com/sites/QACapex/Lists/CapexRequisition/DispForm.aspx?ID=" + itemID + "' >Click Here</a>" });
+                mailCustomValues.push({ "ItemLinkClickHere": "https://synoverge.sharepoint.com/sites/QACapex/" });
                 emailTemplate = CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, emailParam);
             }
         });
@@ -2311,11 +2311,23 @@ function GetFieldsValueString(matches, mainlistData) {
     var replacedValues = [];
     matches.forEach(temp => {
         var columnName = temp.slice(1, -1);
-        if(columnName.localeCompare("RaisedById")==0)
-        {
-            var raisebyUseName=GetUserNamebyUserID(mainlistData.RaisedById);
-            replacedValues.push({ [columnName]: raisebyUseName});
+        if (columnName.localeCompare("RaisedById") == 0) {
+            var raisebyUseName = GetUserNamebyUserID(mainlistData.RaisedById);
+            replacedValues.push({ [columnName]: raisebyUseName });
         }
+<<<<<<< HEAD
+        if(columnName.localeCompare("NextApproverId")==0)
+        {
+            var NextApproverUseName=GetUserNamebyUserID(mainlistData.NextApproverId);
+            replacedValues.push({ [columnName]: NextApproverUseName});
+        }
+        
+        if(columnName.localeCompare("LastActionBy")==0)
+        {
+            var LastActionUseName=GetUserNamebyUserID(mainlistData.LastActionBy);
+            replacedValues.push({ [columnName]: LastActionUseName});
+        }
+<<<<<<< HEAD
         if(columnName.localeCompare("NextApproverId")==0)
         {
             var nextUseName=GetUserNamebyUserID(mainListData.NextApproverId);
@@ -2326,7 +2338,15 @@ function GetFieldsValueString(matches, mainlistData) {
             var lastUseName=GetUserNamebyUserID(mainListData.LastActionBy);
             replacedValues.push({ [columnName]: lastUseName});
         }
+=======
+        
+>>>>>>> 74e2c57301c751c23515987d40f072de0a4fbdd0
        replacedValues.push({ [columnName]: mainlistData[columnName] });/*Pooja Atkotiya */
+=======
+
+
+        replacedValues.push({ [columnName]: mainlistData[columnName] });/*Pooja Atkotiya */
+>>>>>>> 51993df1c60295afcb9ba72d82eb5549f8df2276
     });
     return replacedValues;
 }
@@ -2626,6 +2646,7 @@ function updateRequestIDAttachmentList(attchmentID, itemID) {
     });
 }
 
+<<<<<<< HEAD
 function SaveErrorInList(xhr,actionType)
 {
     var itemType = GetItemTypeForListName(ListNames.ERRORList);
@@ -2635,6 +2656,16 @@ function SaveErrorInList(xhr,actionType)
                     "Description": xhr,
                     "RequestID": listItemId
                 };
+=======
+function SaveErrorInList(xhr) {
+    var itemType = GetItemTypeForListName(ListNames.ERRORList);
+    var item = {
+        "__metadata": { "type": itemType },
+        "Title": "Error",
+        "Description": xhr,
+        "RequestID": listItemId
+    };
+>>>>>>> 74e2c57301c751c23515987d40f072de0a4fbdd0
     $.ajax({
         url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ERRORList + "')/items",
         type: "POST",
@@ -2645,12 +2676,28 @@ function SaveErrorInList(xhr,actionType)
             "X-RequestDigest": $("#__REQUESTDIGEST").val()
         },
         success: function (data) {
-               console.log("Error added");
-            }
-        });
+            console.log("Error added");
+        }
+    });
 }
 
 function isSpacesOnly(field) {
     r = field.replace(/\s/g, "")
     return (r.length == 0)
-  }
+}
+
+/* Pooja Atkotiya */
+function GetApprovers(approver) {
+    var nextUsers = (!IsNullOrUndefined(approver) && !IsNullOrUndefined(approver.results) && approver.results.length > 0) ? approver.results : ((!IsNullOrUndefined(approver) && !IsStrNullOrEmpty(approver)) ? approver : null);
+    return nextUsers;
+}
+
+function IsNullOrUndefinedApprover(approver) {
+
+    // ((!IsNullOrUndefined(approver) && !IsNullOrUndefined(approver.results)) ? approver.results.length > 0 : (!IsNullOrUndefined(approver) && !IsStrNullOrEmpty(approver)))
+
+
+    if (!IsNullOrUndefined(approver) && ((!IsNullOrUndefined(approver) && !IsNullOrUndefined(next.ApproverId.results)) ? next.ApproverId.results.length > 0 : (!IsNullOrUndefined(next.ApproverId) && !IsStrNullOrEmpty(next.ApproverId)))) {
+
+    }
+}
