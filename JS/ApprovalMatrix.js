@@ -205,7 +205,9 @@ function GetEnableSectionNames(id) {
             pendingWithRole = mainListData.PendingWith.split(",");
         }
         var activeSectionItem = localApprovalMatrixdata.filter(function (l) {
-            return (l.SectionName == currentSectionName && l.Levels == tcurrentLevel && pendingWithRole.some(p => p == currentUserRole) && !IsNullOrUndefined(l.ApproverId) && !IsNullOrUndefined(l.ApproverId.results) && l.ApproverId.results.length > 0 && l.Status != ApproverStatus.NOTREQUIRED);
+            //return (l.SectionName == currentSectionName && l.Levels == tcurrentLevel && pendingWithRole.some(p => p == currentUserRole) && !IsNullOrUndefined(l.ApproverId) && !IsNullOrUndefined(l.ApproverId.results) && l.ApproverId.results.length > 0 && l.Status != ApproverStatus.NOTREQUIRED);
+
+            return (l.SectionName == currentSectionName && l.Levels == tcurrentLevel && pendingWithRole.some(p => p == currentUserRole) && !IsNullOrUndefinedApprover(l.ApproverId) && l.Status != ApproverStatus.NOTREQUIRED);
         })[0];
         activeSectionName = !IsNullOrUndefined(activeSectionItem) ? activeSectionItem.SectionName : '';
         if (activeSectionName) {
@@ -418,8 +420,8 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
                         }
                     }
                 } else {
-                    if (!IsNullOrUndefined(next) && ((!IsNullOrUndefined(next.ApproverId) && !IsNullOrUndefined(next.ApproverId.results)) ? next.ApproverId.results.length > 0 : (!IsNullOrUndefined(next.ApproverId) && !IsStrNullOrEmpty(next.ApproverId)))) {
-                        var nextUsers = GetApprovers(next.ApproverId); // (!IsNullOrUndefined(next.ApproverId) && !IsNullOrUndefined(next.ApproverId.results) && next.ApproverId.results.length > 0) ? next.ApproverId.results : ((!IsNullOrUndefined(next.ApproverId) && !IsStrNullOrEmpty(next.ApproverId)) ? next.ApproverId : null);
+                    if (!IsNullOrUndefined(next) && !IsNullOrUndefinedApprover(next.ApproverId)) {
+                        var nextUsers = GetApprovers(next.ApproverId);
                         if (!IsNullOrUndefined(nextUsers)) {
                             if (nextApprover == '') {
                                 nextApproverRole = next.Role;
@@ -441,7 +443,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
             if (actionPerformed == ButtonActionStatus.NextApproval || actionPerformed == ButtonActionStatus.Delegate) {
                 var approvers = tempApproverMatrix.sort(function (a, b) {
                     return a.Levels - b.Levels;
-                }).filter(a => a.Levels > currentLevel && ((!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results)) ? temp.ApproverId.results.length > 0 : (!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId))) && a.Status != "Not Required")[0];
+                }).filter(a => a.Levels > currentLevel && !IsNullOrUndefinedApprover(temp.ApproverId) && a.Status != "Not Required")[0];
                 if (!IsNullOrUndefined(approvers)) {
                     var listofNextApprovers = tempApproverMatrix.filter(temp => (temp.Levels == nextLevel && temp.Status == "Pending"));
 
@@ -479,8 +481,6 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
             var listofNextApprovers = tempApproverMatrix.filter(temp => (temp.Levels == nextLevel && temp.Status == "Pending"));
             nextApprover = '';
             listofNextApprovers.each(next => {
-
-                //var nextUsers = (!IsNullOrUndefined(next.ApproverId) && !IsNullOrUndefined(next.ApproverId.results) && next.ApproverId.results.length > 0) ? next.ApproverId.results : ((!IsNullOrUndefined(next.ApproverId) && !IsStrNullOrEmpty(next.ApproverId)) ? next.ApproverId : null);
                 var nextUsers = GetApprovers(next.ApproverId);
 
                 if (!IsNullOrUndefined(nextUsers)) {
@@ -508,10 +508,10 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
             nextLevel = sendToLevel;
             var approvers = tempApproverMatrix.sort(function (a, b) {
                 return a.Levels - b.Levels;
-            }).filter(a => a.Levels >= nextLevel && !IsNullOrUndefined(a.ApproverId))[0];
+            }).filter(a => a.Levels >= nextLevel && !IsNullOrUndefinedApprover(a.ApproverId))[0];
             if (!IsNullOrUndefined(approvers)) {
                 nextLevel = approvers.Levels;
-                var listofNextApprovers = tempApproverMatrix.filter(temp => !IsNullOrUndefined(temp.ApproverId) && temp.Levels == nextLevel);
+                var listofNextApprovers = tempApproverMatrix.filter(temp => !IsNullOrUndefinedApprover(temp.ApproverId) && temp.Levels == nextLevel);
                 nextApprover = '';
                 listofNextApprovers.forEach(next => {
                     var nextUsers = GetApprovers(next.ApproverId); //(!IsNullOrUndefined(next.ApproverId) && !IsNullOrUndefined(next.ApproverId.results) && next.ApproverId.results.length > 0) ? next.ApproverId.results : ((!IsNullOrUndefined(next.ApproverId) && !IsStrNullOrEmpty(next.ApproverId)) ? next.ApproverId : null);
@@ -1068,8 +1068,7 @@ function GetPermissionDictionary(tempApproverMatrix, nextLevel, isAllUserViewer,
         var strContributer = '';
         tempApproverMatrix.forEach(temp => {
 
-            var approvers = GetApprovers(temp.ApproverId);// (!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results : ((!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId)) ? temp.ApproverId : null);
-
+            var approvers = GetApprovers(temp.ApproverId);
             if (!IsNullOrUndefined(approvers)) {
                 if (temp.Levels == nextLevel && temp.Status == ApproverStatus.PENDING) {
                     /* All users 
@@ -1256,8 +1255,7 @@ function SaveApprovalMatrixInList(tempApproverMatrix, approvalMatrixListName, is
         }
         else {
 
-            var approvers = GetApprovers(temp.ApproverId);// (!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results : ((!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId)) ? temp.ApproverId : null);
-
+            var approvers = GetApprovers(temp.ApproverId);
             if (!IsNullOrUndefined(approvers)) {
                 if (IsArray(approvers)) {
                     approverResults = approvers;// temp.ApproverId.results;
@@ -1466,7 +1464,26 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
                 case ButtonActionStatus.NextApproval:
                     tempApproverMatrix.filter(function (temp) {
                         ////right now searched by user Id, it may requires to check by loginname 
-                        if (!IsNullOrUndefined(temp.ApproverId) && temp.Levels == currentLevel && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1))) {
+                        // if (!IsNullOrUndefinedApprover(temp.ApproverId) && temp.Levels == currentLevel && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1))) {
+                        //     temp.Status = ApproverStatus.APPROVED; /// "Approved";
+                        // }
+
+                        var isuser = false;
+                        if (!IsNullOrUndefinedApprover(temp.ApproverId)) {
+                            var approvers = GetApprovers(temp.ApproverId);
+                            if (IsArray(approvers)) {
+                                if (approvers.some(item => item == currentUserId)) {
+                                    isuser = true;
+                                }
+                            }
+                            else {
+                                if (temp.ApproverId.toString().indexOf(currentUserId) != -1) {
+                                    isuser = true;
+                                }
+                            }
+                        }
+
+                        if (temp.Levels == currentLevel && isuser) {
                             temp.Status = ApproverStatus.APPROVED; /// "Approved";
                         }
                     });
@@ -1474,12 +1491,12 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
                     var nextLevelRow = tempApproverMatrix.sort(function (a, b) {
                         return a.Levels - b.Levels;
                     }).filter(function (temp) {
-                        return (temp.Status != "Not Required" && ((!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results)) ? temp.ApproverId.results.length > 0 : (!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId))) && temp.Levels > currentLevel);
+                        return (temp.Status != "Not Required" && !IsNullOrUndefinedApprover(temp.ApproverId) && temp.Levels > currentLevel);
                     })[0];
                     nextLevel = (!IsNullOrUndefined(nextLevelRow)) ? nextLevelRow.Levels : nextLevel;
                     //var dueDate = null;
                     tempApproverMatrix.forEach(temp => {
-                        if (!IsNullOrUndefined(temp.ApproverId) && temp.Levels == currentLevel && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1))) {
+                        if (!IsNullOrUndefinedApprover(temp.ApproverId) && temp.Levels == currentLevel && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1))) {
                             temp.ApproveById = currentUserId;
                             temp.ApprovalDate = new Date().format("yyyy-MM-ddTHH:mm:ssZ");
                             temp.Status = ApproverStatus.APPROVED; ////"Approved";
@@ -1508,7 +1525,7 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
                         sendtoRole = param[ConstantKeys.SENDTOROLE];
                     }
                     tempApproverMatrix.forEach(temp => {
-                        if (!IsNullOrUndefined(temp.ApproverId) && temp.Levels == currentLevel && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1))) {
+                        if (!IsNullOrUndefinedApprover(temp.ApproverId) && temp.Levels == currentLevel && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1))) {
                             temp.ApproveById = currentUserId;
                             temp.ApprovalDate = new Date().format("yyyy-MM-ddTHH:mm:ssZ");
                             temp.Status = ApproverStatus.SENDBACK;
@@ -1536,12 +1553,12 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
                         var nextLevelRow = tempApproverMatrix.sort(function (a, b) {
                             return a.Levels - b.Levels;
                         }).filter(function (temp) {
-                            return (!IsNullOrUndefined(temp.ApproverId) && temp.Levels >= nextLevel);
+                            return (!IsNullOrUndefinedApprover(temp.ApproverId) && temp.Levels >= nextLevel);
                         })[0];
                         nextLevel = (!IsNullOrUndefined(nextLevelRow)) ? nextLevelRow.Levels : nextLevel;
                     }
                     tempApproverMatrix.ForEach(temp => {
-                        if (!IsNullOrUndefined(temp.ApproverId) && temp.Levels == currentLevel && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1))) {
+                        if (!IsNullOrUndefinedApprover(temp.ApproverId) && temp.Levels == currentLevel && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1))) {
                             temp.ApproveById = currentUserId;
                             temp.ApprovalDate = new Date().format("yyyy-MM-ddTHH:mm:ssZ");
                             temp.Status = ApproverStatus.SENDFORWARD;
@@ -1565,9 +1582,9 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
                 case ButtonActionStatus.Cancel:
                     break;
                 case ButtonActionStatus.Rejected:
-                    if (tempApproverMatrix.some(temp => temp.Levels == currentLevel && !IsNullOrUndefined(temp.ApproverId) && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1)))) {
+                    if (tempApproverMatrix.some(temp => temp.Levels == currentLevel && !IsNullOrUndefinedApprover(temp.ApproverId) && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1)))) {
                         var approvers = tempApproverMatrix.filter(temp => {
-                            return (temp.Levels == currentLevel && !IsNullOrUndefined(temp.ApproverId) && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1)));
+                            return (temp.Levels == currentLevel && !IsNullOrUndefinedApprover(temp.ApproverId) && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1)));
                         })[0];
                         approvers.Status = ApproverStatus.APPROVED;
                         approvers.ApprovalDate = new Date().format("yyyy-MM-ddTHH:mm:ssZ");
@@ -1575,9 +1592,9 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
                     }
                     break;
                 case ButtonActionStatus.Complete:
-                    if (tempApproverMatrix.some(temp => temp.Levels == currentLevel && !IsNullOrUndefined(temp.ApproverId) && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1)))) {
+                    if (tempApproverMatrix.some(temp => temp.Levels == currentLevel && !IsNullOrUndefinedApprover(temp.ApproverId) && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1)))) {
                         var approvers = tempApproverMatrix.filter(temp => {
-                            return (temp.Levels == currentLevel && !IsNullOrUndefined(temp.ApproverId) && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1)));
+                            return (temp.Levels == currentLevel && !IsNullOrUndefinedApprover(temp.ApproverId) && ((!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results.some(item => item == currentUserId) : (temp.ApproverId.toString().indexOf(currentUserId) != -1)));
                         })[0];
                         approvers.Status = ApproverStatus.APPROVED;
                         approvers.ApprovalDate = new Date().format("yyyy-MM-ddTHH:mm:ssZ");
