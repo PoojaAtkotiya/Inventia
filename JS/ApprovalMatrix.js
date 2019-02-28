@@ -390,18 +390,15 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
         if (actionPerformed != ButtonActionStatus.SendBack && actionPerformed != ButtonActionStatus.Forward && tempApproverMatrix.some(t => t.Levels != currentLevel)) {
             ////Get Next Level
 
+            var nextLevelRow = tempApproverMatrix.filter(function (temp) {
 
-
-            var tempItems = tempApproverMatrix.filter(function (temp) {
-
-                var nextUsers = (!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results : ((!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId)) ? temp.ApproverId : null);
-
+                var nextUsers = GetApprovers(temp.ApproverId); // (!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results : ((!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId)) ? temp.ApproverId : null);
                 return (temp.Status != "Not Required" && !IsNullOrUndefined(nextUsers) && temp.Levels > currentLevel);
-            });
-
-            var nextLevelRow = tempItems.sort(function (a, b) {
+            }).sort(function (a, b) {
                 return a.Levels - b.Levels;
             })[0];
+
+            // var nextLevelRow = tempItems;
 
             nextLevel = (!IsNullOrUndefined(nextLevelRow)) ? nextLevelRow.Levels : nextLevel;
 
@@ -453,7 +450,8 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
 
                     listofNextApprovers.forEach(next => {
 
-                        var nextUsers = (!IsNullOrUndefined(next.ApproverId) && !IsNullOrUndefined(next.ApproverId.results) && next.ApproverId.results.length > 0) ? next.ApproverId.results : ((!IsNullOrUndefined(next.ApproverId) && !IsStrNullOrEmpty(next.ApproverId)) ? next.ApproverId : null);
+                        // var nextUsers = (!IsNullOrUndefined(next.ApproverId) && !IsNullOrUndefined(next.ApproverId.results) && next.ApproverId.results.length > 0) ? next.ApproverId.results : ((!IsNullOrUndefined(next.ApproverId) && !IsStrNullOrEmpty(next.ApproverId)) ? next.ApproverId : null);
+                        var nextUsers = GetApprovers(next.ApproverId);
 
                         if (!IsNullOrUndefined(nextUsers)) {
                             if (nextApprover == '') {
@@ -488,7 +486,8 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
             nextApprover = '';
             listofNextApprovers.each(next => {
 
-                var nextUsers = (!IsNullOrUndefined(next.ApproverId) && !IsNullOrUndefined(next.ApproverId.results) && next.ApproverId.results.length > 0) ? next.ApproverId.results : ((!IsNullOrUndefined(next.ApproverId) && !IsStrNullOrEmpty(next.ApproverId)) ? next.ApproverId : null);
+                //var nextUsers = (!IsNullOrUndefined(next.ApproverId) && !IsNullOrUndefined(next.ApproverId.results) && next.ApproverId.results.length > 0) ? next.ApproverId.results : ((!IsNullOrUndefined(next.ApproverId) && !IsStrNullOrEmpty(next.ApproverId)) ? next.ApproverId : null);
+                var nextUsers = GetApprovers(next.ApproverId);
 
                 if (!IsNullOrUndefined(nextUsers)) {
                     if (nextApprover == []) {
@@ -497,16 +496,12 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
                     }
                     else {
                         if (nextApprover.indexOf(nextUsers) == -1) {
-
                             if (nextApproverRole.lastIndexOf(',') != -1) {
-                                // nextApproverRole = nextApproverRole.trim().substring(0, nextApproverRole.lastIndexOf(','));
                                 nextApproverRole = TrimComma(nextApproverRole.trim());
                             }
-                            if (nextApproverRole.lastIndexOf(',') != -1) {
-                                //nextApprover = nextApprover.trim().substring(0, nextApprover.lastIndexOf(','))
+                            if (nextApprover.lastIndexOf(',') != -1) {
                                 nextApprover = TrimComma(nextApprover.trim());;
                             }
-
                             nextApproverRole = TrimComma(nextApproverRole.trim()) + "," + next.Role;
                             nextApprover = TrimComma(nextApprover.trim()) + "," + nextUsers;//  next.ApproverId;
                         }
@@ -946,14 +941,6 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
             if (!IsNullOrUndefined(userIds) && !IsStrNullOrEmpty(userIds)) {
                 var a = (userIds.toString().indexOf(',') != -1) ? userIds.split(',') : parseInt(userIds);
                 if (!IsNullOrUndefined(a)) {
-                    // if (a.length == undefined) {
-                    //     users.push(a);
-                    // } else {
-                    //     a.forEach(element => {
-                    //         users.push(parseInt(element));
-                    //     });
-                    // }
-
                     if (IsArray(a)) {
                         a.forEach(element => {
                             users.push(parseInt(element));
@@ -964,10 +951,8 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
                     }
                 }
             }
-
             ////remove duplicates from array
             users = removeDuplicateFromArray(users);
-
             users.forEach(user => {
                 if (!isNaN(user)) {
                     finalUserPermDic.push({ user, permId });
@@ -983,7 +968,6 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
             finalUserPermDic.push({ 'user': grpId, 'permId': adminPerID });
         }
     });
-
 
     /* Add Viewer group with Contribute Permission */
     GetSPGroupIDByName(Roles.VIEWER, function (grpId) {
@@ -1026,7 +1010,6 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
 function SetCustomPermission(userWithRoles, requestId, listName) {
     console.log("Inheritance Broken Successfully!");
     console.log(userWithRoles);
-    // userWithRoles.forEach(ele => {
     var headers = {
         "Accept": "application/json;odata=verbose",
         "content-Type": "application/json;odata=verbose",
@@ -1105,10 +1088,7 @@ function GetPermissionDictionary(tempApproverMatrix, nextLevel, isAllUserViewer,
                             strContributer = TrimComma(strContributer.trim()) + "," + temp.ApproverId;
                         }
                     } else {
-
-                        // if (!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0 && strContributer.indexOf(temp.ApproverId.results) == -1) {
                         strContributer = TrimComma(strContributer.trim()) + "," + approvers;//temp.ApproverId.results;
-                        //}
                     }
                 }
                 ////Phase 2 :All members who will be in the DCR Process should be able to know the status of all DCR/DCN. 
@@ -1124,10 +1104,7 @@ function GetPermissionDictionary(tempApproverMatrix, nextLevel, isAllUserViewer,
                             strReader = TrimComma(strReader.trim()) + "," + temp.ApproverId;
                         }
                     } else {
-
-                        // if (!IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0 && strReader.indexOf(temp.ApproverId.results) == -1) {
                         strReader = TrimComma(strReader.trim()) + "," + approvers;// temp.ApproverId.results;
-                        //}
                     }
                 }
                 // }
