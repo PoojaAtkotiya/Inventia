@@ -75,7 +75,7 @@ function SetApprovalMatrix(id, mainListName) {
                 else if (IsGroupMember(Roles.VIEWER)) {
                     currentUserRole = Roles.VIEWER;
                 }
-                activityTrack=activityTrack + "SetApprovalMatrix for role" + currentUserRole;
+                activityTrack=activityTrack + "\n SetApprovalMatrix for role" + currentUserRole;
             }
             // if (!IsStrNullOrEmpty(currentUserRole)) {
             GetEnableSectionNames(id);
@@ -188,7 +188,7 @@ function GetEnableSectionNames(id) {
                 $("#" + sectionId).find('input,select,textarea').removeAttr("disabled");
             }
         });
-        activityTrack=activityTrack + "enable section :" + activeSectionName;
+        activityTrack=activityTrack + "\n enable section :" + activeSectionName;
         $("div .disabled").attr("disabled", "disabled");
         $("div .disabled .form-control").attr("disabled", "disabled");
         $("div .disabled input").attr("disabled", "disabled"); // for radio buttons
@@ -246,7 +246,7 @@ function SetSectionWiseRoles(id) {
                 });
             });
         }
-        activityTrack=activityTrack + "SetSectionWiseRoles for new Item";
+        activityTrack=activityTrack + "\n SetSectionWiseRoles for new Item";
     } else if (id > 0) {
         ////Get data from local approval matrix
         if (!IsNullOrUndefined(localApprovalMatrixdata) && localApprovalMatrixdata.length > 0) {
@@ -266,7 +266,7 @@ function SetSectionWiseRoles(id) {
                 });
             });
         }
-        activityTrack=activityTrack + "SetSectionWiseRoles for id" + id;
+        activityTrack=activityTrack + "\n SetSectionWiseRoles for id" + id;
     }
 }
 

@@ -2316,6 +2316,16 @@ function GetFieldsValueString(matches, mainlistData) {
             var raisebyUseName=GetUserNamebyUserID(mainlistData.RaisedById);
             replacedValues.push({ [columnName]: raisebyUseName});
         }
+        if(columnName.localeCompare("NextApproverId")==0)
+        {
+            var nextUseName=GetUserNamebyUserID(mainListData.NextApproverId);
+            replacedValues.push({ [columnName]: nextUseName});
+        }
+        if(columnName.localeCompare("LastActionBy")==0)
+        {
+            var lastUseName=GetUserNamebyUserID(mainListData.LastActionBy);
+            replacedValues.push({ [columnName]: lastUseName});
+        }
        replacedValues.push({ [columnName]: mainlistData[columnName] });/*Pooja Atkotiya */
     });
     return replacedValues;
