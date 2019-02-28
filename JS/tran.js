@@ -33,11 +33,11 @@ function GetTranData(tranlistname, lookupId) {
                 calldatatype: 'JSON',
                 async: false,
                 headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+                    {
+                        "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                    },
                 sucesscallbackfunction: function (data) {
                     var item = data.d.results[0];
                     if (item != null && item != '' & item != undefined) {
@@ -291,12 +291,14 @@ function SaveAllTrans(requestId) {
                             delete tranItem.ID;   ////removed ID when item is new
                             break;
                         case ItemActionStatus.DELETED:
-                            url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + tranListName + "')/items(" + id + ")";
-                            headers = {
-                                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                                "IF-MATCH": "*",
-                                "X-HTTP-Method": "DELETE"
-                            };
+                            if (id > 0) {
+                                url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + tranListName + "')/items(" + id + ")";
+                                headers = {
+                                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                                    "IF-MATCH": "*",
+                                    "X-HTTP-Method": "DELETE"
+                                };
+                            }
                             break;
                         case ItemActionStatus.UPDATED:
                             url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + tranListName + "')/items(" + id + ")";
@@ -334,7 +336,7 @@ function SaveAllTrans(requestId) {
                                 async: false,
                                 postData: JSON.stringify(tranItem),
                                 sucesscallbackfunction: function (data) {
-                                   // console.log("SaveAllTrans - Item saved Successfully for ID = " + data.d.ID);
+                                    // console.log("SaveAllTrans - Item saved Successfully for ID = " + data.d.ID);
                                 },
                                 error: function (jQxhr, errorCode, errorThrown) {
                                     console.log(errorThrown);
