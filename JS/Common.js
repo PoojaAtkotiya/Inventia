@@ -80,7 +80,7 @@ function onloadConstantsSuccess(sender, args) {
         GetGlobalApprovalMatrix(listItemId);
     }
     GetFormBusinessLogic(listItemId, activeSectionName, department);
-    SaveErrorInList(activityTrack,"Action");
+    SaveErrorInList(activityTrack, "Action");
 }
 
 function GetUserDepartment() {
@@ -108,7 +108,7 @@ function GetUserDepartment() {
             }
         },
         error: function (jQxhr, errorCode, errorThrown) {
-         //   console.log(errorThrown);
+            //   console.log(errorThrown);
         }
     });
 }
@@ -923,12 +923,12 @@ function ValidateForm(ele, saveCallBack) {
 
 /*Monal Shah */
 function onQuerySucceeded(sender, args) {
-   // console.log("Success");
+    // console.log("Success");
 }
 
 /*Monal Shah */
 function onQueryFailed(sender, args) {
-  //  console.log('Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
+    //  console.log('Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
 }
 
 /*Pooja Atkotiya */
@@ -1348,7 +1348,7 @@ function SaveData(listname, listDataArray, sectionName, ele) {
                     OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCaption);
                 },
                 error: function (data) {
-                   HideWaitDialog();
+                    HideWaitDialog();
                 }
             });
         }
@@ -1390,18 +1390,18 @@ function OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCap
             //     SaveTranListData(itemID);
             // }
             HideWaitDialog();
-            var buttoncaption=buttonCaption.toLowerCase();
+            var buttoncaption = buttonCaption.toLowerCase();
             var displayMessage;
             switch (buttoncaption) {
                 case "reject":
-                displayMessage= "Request has been rejected.";
-                break;
+                    displayMessage = "Request has been rejected.";
+                    break;
                 case "complete":
-                displayMessage= "Request has been Completed.";
-                break;
-                    default:
-                    displayMessage= "Data saved successfully";
-             break;
+                    displayMessage = "Request has been Completed.";
+                    break;
+                default:
+                    displayMessage = "Data saved successfully";
+                    break;
             }
             if (IsNullOrUndefined(data)) {
                 data = {};
@@ -1598,7 +1598,7 @@ function OnSuccess(data) {
                 AlertModal('Success', msg, true);
             }
         } else {
-           AlertModal('Error', data.Messages);
+            AlertModal('Error', data.Messages);
         }
     }
     catch (e) { window.location.reload(); }
@@ -1620,7 +1620,7 @@ function OnFailure(xhr, status, error) {
 /*Monal Shah */
 function OnDelete(ele) {
     var Id = $('#ListDetails_0__ItemId').val();
- 
+
     ConfirmationDailog({
         title: "Delete Request", message: "Are you sure to 'Delete'?", id: Id, url: "/NewArtwork/DeleteArwork", okCallback: function (id, data) {
             ShowWaitDialog();
@@ -1698,7 +1698,7 @@ function OnSuccessNoRedirect(data) {
             }
         }
         else {
-             AlertModal('Error', data.Messages);
+            AlertModal('Error', data.Messages);
         }
     }
     catch (e) { window.location.reload(); }
@@ -1943,7 +1943,7 @@ function AjaxCall(options) {
                 // }
                 // else {
                 console.log(xhr);
-                SaveErrorInList(xhr.responseText,"Error");
+                SaveErrorInList(xhr.responseText, "Error");
                 xhr.responseText
 
                 AlertModal("Error", "Oops! Something went wrong");
@@ -2135,8 +2135,8 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                     tmplName = EmailTemplateName.REQUESTREJECTED;
                     emailParam["TEMPLATENAME"] = tmplName;
                     emailParam["FROM"] = from;
-                    emailParam["TO"]  = GetUserEmailbyUserID(mainListData.RaisedById);
-                    role=mainListData.PendingWith;
+                    emailParam["TO"] = GetUserEmailbyUserID(mainListData.RaisedById);
+                    role = mainListData.PendingWith;
                     emailParam["ROLE"] = role;
                     email = GetEmailBody(tmplName, itemID, mainListName, mailCustomValues, role, emailParam);
                 }
@@ -2234,7 +2234,7 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
                     }
                 }
             }
-           
+
         });
 
 
@@ -2466,7 +2466,7 @@ function SaveEmail(subject, body, emailParam) {
             success: function (data) {
             },
             error: function (error) {
-              
+
             }
         });
     }
@@ -2595,15 +2595,15 @@ function updateRequestIDAttachmentList(attchmentID, itemID) {
                 "X-HTTP-Method": "MERGE"
             },
         success: function (data) {
-           
+
         },
         error: function (data) {
-               failure(data);
+            failure(data);
         }
     });
 }
 
-function SaveErrorInList(xhr,activityoccur) {
+function SaveErrorInList(xhr, activityoccur) {
     var itemType = GetItemTypeForListName(ListNames.ERRORList);
     var item = {
         "__metadata": { "type": itemType },
@@ -2614,7 +2614,7 @@ function SaveErrorInList(xhr,activityoccur) {
     $.ajax({
         url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ERRORList + "')/items",
         type: "POST",
-        async:true,
+        async: true,
         contentType: "application/json;odata=verbose",
         data: JSON.stringify(item),
         headers: {
@@ -2622,7 +2622,7 @@ function SaveErrorInList(xhr,activityoccur) {
             "X-RequestDigest": $("#__REQUESTDIGEST").val()
         },
         success: function (data) {
-           
+
         }
     });
 }
