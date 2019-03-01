@@ -1393,15 +1393,10 @@ function OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCap
             var buttoncaption=buttonCaption.toLowerCase();
             var displayMessage;
             switch (buttoncaption) {
-                case ButtonActionStatus.SaveAsDraft:
-                case ButtonActionStatus.Save:
-                case ButtonActionStatus.NextApproval:
-                displayMessage= "Data saved successfully"; 
-                break;
-                case ButtonActionStatus.Rejected:
+                case "reject":
                 displayMessage= "Request has been rejected.";
                 break;
-                case ButtonActionStatus.Complete:
+                case "complete":
                 displayMessage= "Request has been Completed.";
                 break;
                     default:
@@ -2221,11 +2216,7 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
                     var emailListItem = null;
                     emailListItem = tmpItems[0];
                     // if (tmpItems.length > 1) {
-<<<<<<< HEAD
-                    //     emailListItem = tmpItems.filter(e => e.Role != "")[0];
-=======
                     //     emailListItem = tmpItems.filter(e => e.role != "")[0];
->>>>>>> f7faecf41cf057839fe72e288b5a5caf64c81d66
                     // }
                     // else {
                     //     emailListItem = tmpItems[0];
