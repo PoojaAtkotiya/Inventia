@@ -230,6 +230,7 @@ function GetTranList(tranList, lookupId) {
                     (data.value).forEach(item => {
                         item.Status = ItemActionStatus.NOCHANGE;
                         item.Index = indexCount;
+                        item.Type = "Edit";
                         indexCount++;
                         window[tranArrayName].push(item);////here tranarrayName should be global variable
                     });

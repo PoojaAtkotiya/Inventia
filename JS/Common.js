@@ -2196,7 +2196,7 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
     //GetFormDigest().then(function (data) {
     AjaxCall(
         {
-            url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><And><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And><Eq><FieldRef Name='LinkTitle' /><Value Type='Computed'>" + templateName + "</Value></Eq></And><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And><Eq><FieldRef Name='Role' /><Value Type='Text'>" + role + "</Value></Eq></And></Where></Query></View>\"}",
+            url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><And><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And><Eq><FieldRef Name='LinkTitle' /><Value Type='Computed'>" + templateName + "</Value></Eq></And><Eq><FieldRef Name='Role' /><Value Type='Text'>" + role + "</Value></Eq></And></Where></Query></View>\"}",
             // url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And><Eq><FieldRef Name='LinkTitle' /><Value Type='Computed'>" + templateName + "</Value></Eq></And></Where></Query></View>\"}",
             //url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query>< Where ><And><And><And><Or><IsNull><FieldRef Name='Role' /></IsNull><Contains><FieldRef Name='Role' /><Value Type='Text'>" + role + "</Value></Contains></Or><Eq> <FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq> </And> < Eq > <FieldRef Name='ApplicationName' /><Value Type='Text'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq></And>< Eq ><FieldRef Name='Title' /><Value Type='Text'>" + templateName + "</Value></Eq></And></Where></Query></View>\"}",
             httpmethod: 'POST',
@@ -2216,7 +2216,15 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
                     var emailListItem = null;
                     emailListItem = tmpItems[0];
                     // if (tmpItems.length > 1) {
+<<<<<<< HEAD
                     //     emailListItem = tmpItems.filter(e => e.role != "")[0];
+=======
+
+                    //     emailListItem = tmpItems.filter(e => e.Role != "")[0];
+
+                    //     emailListItem = tmpItems.filter(e => e.role != "")[0];
+
+>>>>>>> b66917c95220b93ac1dad61433f30473a93349e2
                     // }
                     // else {
                     //     emailListItem = tmpItems[0];
@@ -2231,6 +2239,7 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
                     }
                 }
             }
+           
         });
 
 
