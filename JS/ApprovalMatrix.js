@@ -21,11 +21,11 @@ function GetGlobalApprovalMatrix(id) {
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json; odata=verbose",
-                    "X-RequestDigest": gRequestDigestValue// data.d.GetContextWebInformation.FormDigestValue
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json; odata=verbose",
+                "X-RequestDigest": gRequestDigestValue// data.d.GetContextWebInformation.FormDigestValue
+            },
             sucesscallbackfunction: function (data) {
                 globalApprovalMatrix = data.d.results;
                 /*Pooja Atkotiya */
@@ -45,11 +45,11 @@ function GetLocalApprovalMatrixData(id, mainListName) {
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 /*Pooja Atkotiya */
                 localApprovalMatrixdata = data.d.results;
@@ -73,7 +73,7 @@ function SetApprovalMatrix(id, mainListName) {
                 else if (IsGroupMember(Roles.VIEWER)) {
                     currentUserRole = Roles.VIEWER;
                 }
-                activityTrack=activityTrack + "\n SetApprovalMatrix for role" + currentUserRole;
+                activityTrack = activityTrack + "\n SetApprovalMatrix for role" + currentUserRole;
             }
             GetEnableSectionNames(id);
             tempApproverMatrix = localApprovalMatrixdata;
@@ -132,7 +132,7 @@ function GetCurrentUserRole(id, mainListName) {
 
         // SP.PermissionKind.manageWeb  == Full Control
         if (oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.editListItems) && oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.addListItems)) {
-         
+
             tcurrentLevel = oListItem.get_item('FormLevel').split("|")[1];
             GetRoleFromApprovalMatrix(tcurrentLevel, id, currentUser.Id);
             //  if (!IsNullOrUndefined(currentUserRole)) {
@@ -140,7 +140,7 @@ function GetCurrentUserRole(id, mainListName) {
             //}
         }
         else if (oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.viewListItems)) {
-         
+
             currentUserRole = Roles.VIEWER;
             GetButtons(id, currentUserRole, oListItem.get_item('Status'));
         }
@@ -180,6 +180,11 @@ function GetEnableSectionNames(id) {
                 $("#" + sectionId).removeClass("disabled");
                 $("#" + sectionId).find('input,select,textarea').removeAttr("disabled");
             }
+            else {
+                ////collapse inActive sections
+                var sectionId = $(this).attr('id');
+                document.getElementById(sectionId).style.display = "none";
+            }
         });
         $("div .disabled").attr("disabled", "disabled");
         $("div .disabled .form-control").attr("disabled", "disabled");
@@ -207,6 +212,11 @@ function GetEnableSectionNames(id) {
                     var sectionId = $(this).attr('id');
                     $("#" + sectionId).removeClass("disabled");
                     $("#" + sectionId).find('input,select,textarea').removeAttr("disabled");
+                }
+                else {
+                    ////collapse inActive sections
+                    var sectionId = $(this).attr('id');
+                    document.getElementById(sectionId).style.display = "none";
                 }
             });
         }
@@ -236,7 +246,7 @@ function SetSectionWiseRoles(id) {
                 });
             });
         }
-        activityTrack=activityTrack + "\n SetSectionWiseRoles for new Item";
+        activityTrack = activityTrack + "\n SetSectionWiseRoles for new Item";
     } else if (id > 0) {
         ////Get data from local approval matrix
         if (!IsNullOrUndefined(localApprovalMatrixdata) && localApprovalMatrixdata.length > 0) {
@@ -256,7 +266,7 @@ function SetSectionWiseRoles(id) {
                 });
             });
         }
-        activityTrack=activityTrack + "\n SetSectionWiseRoles for id" + id;
+        activityTrack = activityTrack + "\n SetSectionWiseRoles for id" + id;
     }
 }
 
@@ -837,7 +847,7 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
         success: function (data) {
         },
         error: function (error) {
-           
+
         }
     });
 }
@@ -1231,13 +1241,13 @@ function SaveFormFields(formFieldValues, requestId) {
                 postData: JSON.stringify(mainlistDataArray),
                 async: false,
                 headers:
-                    {
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json;odata=verbose",
-                        "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                        "IF-MATCH": "*",
-                        "X-Http-Method": "MERGE", //PATCH
-                    },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "IF-MATCH": "*",
+                    "X-Http-Method": "MERGE", //PATCH
+                },
                 sucesscallbackfunction: function (data) {
                     console.log("Item saved Successfully");
                 }
