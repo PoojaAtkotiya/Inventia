@@ -179,12 +179,15 @@ function GetEnableSectionNames(id) {
                 var sectionId = $(this).attr('id');
                 $("#" + sectionId).removeClass("disabled");
                 $("#" + sectionId).find('input,select,textarea').removeAttr("disabled");
+               // document.getElementById(sectionId).style.display = "block";
             }
-            else {
-                ////collapse inActive sections
-                var sectionId = $(this).attr('id');
-                document.getElementById(sectionId).style.display = "none";
-            }
+                else {
+                    ////collapse inActive sections
+                    var sectionId = $(this).attr('id');
+                    if(sectionId != undefined){
+                         document.getElementById(sectionId).style.display = "none";
+                    }
+                }
         });
         $("div .disabled").attr("disabled", "disabled");
         $("div .disabled .form-control").attr("disabled", "disabled");
@@ -212,11 +215,14 @@ function GetEnableSectionNames(id) {
                     var sectionId = $(this).attr('id');
                     $("#" + sectionId).removeClass("disabled");
                     $("#" + sectionId).find('input,select,textarea').removeAttr("disabled");
+                   //  document.getElementById(sectionId).style.display = "block";
                 }
                 else {
                     ////collapse inActive sections
                     var sectionId = $(this).attr('id');
-                    document.getElementById(sectionId).style.display = "none";
+                    if(sectionId != undefined){
+                         document.getElementById(sectionId).style.display = "none";
+                    }
                 }
             });
         }
