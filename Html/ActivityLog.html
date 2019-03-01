@@ -1,14 +1,20 @@
-
+<script>
+    jQuery(document).ready(function ($) {
+         $("#card-head-activitylog").click(function () {
+                $("#activitylogbody").slideToggle("slow");   
+            });
+        });
+</script>
     <div id="divActivityLogs" activityloglistname="ItemCodeActivityLog" class="card">
         <div class="card-head">
             <b>
                 Activity Log
             </b>
-            <div class="btn collapse-btn collapsed" data-toggle="collapse" data-target="#activitylogbody">
+            <div class="btn collapse-btn collapsed" id="card-head-activitylog">
                 <i class="fa fa-chevron-down"></i>
             </div>
         </div>
-        <div id="activitylogbody" class="card-body in">
+        <div id="activitylogbody" class="card-body in"  style="display: none;">
             <div class="panel-body grid-view">
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered someTable" id="tblActivityLog">
