@@ -359,10 +359,6 @@ function GetVendorDetails(listTempGridDataArray) {
                 if (arrayItem.NegotiatedNonNegotiated) {
                     Negotiated = "Yes";
                 }
-<<<<<<< HEAD
-
-=======
->>>>>>> fceaedcae94d552653753b3e0d2fafbc4cd44c79
                 tr = $('<tr/>');
                 tr.append("<td width='10%'>" + arrayItem.VendorName + "</td>");
                 tr.append("<td width='10%'>" + arrayItem.VendorEmailID + "</td>");
