@@ -1390,18 +1390,13 @@ function OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCap
             //     SaveTranListData(itemID);
             // }
             HideWaitDialog();
-            var buttonCaption=buttonCaption.toLowerCase();
+            var buttoncaption=buttonCaption.toLowerCase();
             var displayMessage;
-            switch (buttonCaption) {
-                case ButtonActionStatus.SaveAsDraft:
-                case ButtonActionStatus.Save:
-                case ButtonActionStatus.NextApproval:
-                displayMessage= "Data saved successfully"; 
-                break;
-                case ButtonActionStatus.Rejected:
+            switch (buttoncaption) {
+                case "reject":
                 displayMessage= "Request has been rejected.";
                 break;
-                case ButtonActionStatus.Complete:
+                case "complete":
                 displayMessage= "Request has been Completed.";
                 break;
                     default:
@@ -2135,19 +2130,14 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                 }
                 break;
             case ButtonActionStatus.Rejected:
-                if (!IsStrNullOrEmpty(strAllusers) && !IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
+                if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
                     from = currentUser.Email;
-                    to = TrimComma(strAllusers);
-                    // to = cleanArray(to);
-                    to = GetUserEmailsbyUserID(cleanArray(to));
-                    role = tempApproverMatrix.filter(p => parseInt(p.Levels) == nextLevel)[0].Role;
                     tmplName = EmailTemplateName.REQUESTREJECTED;
                     emailParam["TEMPLATENAME"] = tmplName;
                     emailParam["FROM"] = from;
-                    emailParam["TO"] = to;
-                    emailParam["CC"] = cc;
+                    emailParam["TO"]  = GetUserEmailbyUserID(mainListData.RaisedById);
+                    role=mainListData.PendingWith;
                     emailParam["ROLE"] = role;
-                    emailParam["BCC"] = "";
                     email = GetEmailBody(tmplName, itemID, mainListName, mailCustomValues, role, emailParam);
                 }
                 break;
@@ -2222,9 +2212,13 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
                     emailListItem = tmpItems[0];
                     // if (tmpItems.length > 1) {
 
+                    //     emailListItem = tmpItems.filter(e => e.role != "")[0];
+
+
                     //     emailListItem = tmpItems.filter(e => e.Role != "")[0];
 
                     //     emailListItem = tmpItems.filter(e => e.role != "")[0];
+
 
                     // }
                     // else {
