@@ -1390,18 +1390,13 @@ function OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCap
             //     SaveTranListData(itemID);
             // }
             HideWaitDialog();
-            var buttonCaption=buttonCaption.toLowerCase();
+            var buttoncaption=buttonCaption.toLowerCase();
             var displayMessage;
-            switch (buttonCaption) {
-                case ButtonActionStatus.SaveAsDraft:
-                case ButtonActionStatus.Save:
-                case ButtonActionStatus.NextApproval:
-                displayMessage= "Data saved successfully"; 
-                break;
-                case ButtonActionStatus.Rejected:
+            switch (buttoncaption) {
+                case "reject":
                 displayMessage= "Request has been rejected.";
                 break;
-                case ButtonActionStatus.Complete:
+                case "complete":
                 displayMessage= "Request has been Completed.";
                 break;
                     default:
@@ -2216,11 +2211,15 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
                     var emailListItem = null;
                     emailListItem = tmpItems[0];
                     // if (tmpItems.length > 1) {
+<<<<<<< HEAD
+                    //     emailListItem = tmpItems.filter(e => e.role != "")[0];
+=======
 
                     //     emailListItem = tmpItems.filter(e => e.Role != "")[0];
 
                     //     emailListItem = tmpItems.filter(e => e.role != "")[0];
 
+>>>>>>> b66917c95220b93ac1dad61433f30473a93349e2
                     // }
                     // else {
                     //     emailListItem = tmpItems[0];
