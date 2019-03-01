@@ -307,7 +307,7 @@ function validateEmail(emailField) {
     var reg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
     if (reg.test(emailField.value) == false) {
-        document.getElementById('invalidemail').innerHTML = "This is invalid EmailID ";
+        document.getElementById('invalidemail').innerHTML = "This is invalid Email ID ";
         return false;
     }
     else {

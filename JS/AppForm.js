@@ -217,15 +217,17 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     }
    
     //Functions for Initiator
-    if (mainListData.length == 0) {
+    if (listItemId == "") {
         setNewFormParamters(department);
         setFunctionbasedDept(department);
         bindAssetClassification();
         $('#btnAddVendor').hide();
+        $("#ProposedVendor").hide();
     }
 
     if (listItemId > 0) {
         $("#RaisedOnDisplay").html(new Date(mainListData.RaisedOn).format("dd/MM/yyyy"));
+        $("#ProposedVendor").show();
         if (mainListData.Status == "Draft") {
             BindInitiatorEditAttachmentFiles();
             setFunctionbasedDept(department);

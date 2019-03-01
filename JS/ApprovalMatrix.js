@@ -181,10 +181,6 @@ function GetEnableSectionNames(id) {
                 $("#" + sectionId).find('input,select,textarea').removeAttr("disabled");
             }
         });
-<<<<<<< HEAD
-        activityTrack=activityTrack + "\n enable section :" + activeSectionName;
-=======
->>>>>>> 65841baf58af58e8ef43093cd6ac63d1cae59ffa
         $("div .disabled").attr("disabled", "disabled");
         $("div .disabled .form-control").attr("disabled", "disabled");
         $("div .disabled input").attr("disabled", "disabled"); // for radio buttons
@@ -214,11 +210,6 @@ function GetEnableSectionNames(id) {
                 }
             });
         }
-<<<<<<< HEAD
-
-        // $("div.disabled.form-control").attr("disabled", "disabled");
-=======
->>>>>>> 65841baf58af58e8ef43093cd6ac63d1cae59ffa
         $("div .disabled").attr("disabled", "disabled");
         $("div .disabled .form-control").attr("disabled", "disabled");
         $("div .disabled input").attr("disabled", "disabled"); // for radio buttons 

@@ -2200,12 +2200,13 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
                     var tmpItems = data.d.results;
 
                     var emailListItem = null;
-                    if (tmpItems.length > 1) {
-                        emailListItem = tmpItems.filter(e => e.Role != "")[0];
-                    }
-                    else {
-                        emailListItem = tmpItems[0];
-                    }
+                    emailListItem = tmpItems[0];
+                    // if (tmpItems.length > 1) {
+                    //     emailListItem = tmpItems.filter(e => e.Role != "")[0];
+                    // }
+                    // else {
+                    //     emailListItem = tmpItems[0];
+                    // }
                     if (!IsNullOrUndefined(emailListItem)) {
                         emailTemplate.push({ "Subject": emailListItem.Subject });
                         emailTemplate.push({ "Body": emailListItem.Body });
