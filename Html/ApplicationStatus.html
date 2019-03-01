@@ -1,13 +1,20 @@
+<script>
+    jQuery(document).ready(function ($) {
+         $("#card-head-applicationstatus").click(function () {
+                $("#applicationstatusbody").slideToggle("slow");   
+            });
+        });
+</script>
 <div id="divapplicationstatus" class="card">
         <div class="card-head">
             <b>
                 Application Request status
             </b>
-            <div class="btn collapse-btn collapsed" data-toggle="collapse" data-target="#applicationstatusbody">
+            <div class="btn collapse-btn collapsed" id="card-head-applicationstatus">
                 <i class="fa fa-chevron-down"></i>
             </div>
         </div>
-        <div id="applicationstatusbody" class="card-body in">
+        <div id="applicationstatusbody" class="card-body in"  style="display: none;">
             <div class="panel-body grid-view">
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered someTable" id="tblApplicationStatus">

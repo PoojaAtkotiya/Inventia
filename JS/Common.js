@@ -1390,18 +1390,36 @@ function OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCap
             //     SaveTranListData(itemID);
             // }
             HideWaitDialog();
+            var buttonCaption=buttonCaption.toLowerCase();
+            var displayMessage;
+            switch (buttonCaption) {
+                case ButtonActionStatus.SaveAsDraft:
+                case ButtonActionStatus.Save:
+                case ButtonActionStatus.NextApproval:
+                displayMessage= "Data saved successfully"; 
+                break;
+                case ButtonActionStatus.Rejected:
+                displayMessage= "Request has been rejected.";
+                break;
+                case ButtonActionStatus.Complete:
+                displayMessage= "Request has been Completed.";
+                break;
+                    default:
+                    displayMessage= "Data saved successfully";
+             break;
+            }
             if (IsNullOrUndefined(data)) {
                 data = {};
                 data = {
                     ItemID: itemID,
                     IsSucceed: true,
-                    Messages: "Data saved successfully"
+                    Messages: displayMessage
                 }
             }
             else {
                 data.ItemID = itemID;
                 data.IsSucceed = true;
-                data.Messages = "Data saved successfully";
+                data.Messages = displayMessage;
             }
             // if (buttonCaption.toLowerCase() == "save as draft" || buttonCaption.toLowerCase() == "resume") {
             //     OnSuccessNoRedirect(data);
