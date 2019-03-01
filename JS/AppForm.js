@@ -7,6 +7,7 @@ var mainListData = {};
 var sendToLevel = 0;
 var collListItem = null;
 var param = {};
+var activityTrack;
 
 $(document).ready(function () {
 
@@ -40,6 +41,7 @@ function GetSetFormData() {
 
 /*Pooja Atkotiya */
 function onGetSetFormDataSuccess(data) {
+    activityTrack="In onGetSetFormDataSuccess";
     var mainListName = $($('div').find('[mainlistname]')).attr('mainlistname');
     var activitylogTableId = 'tblActivityLog';
     mainListData = data;
@@ -156,10 +158,7 @@ function FormBusinessLogic(activeSection) {
                     param[ConstantKeys.ACTIONPERFORMED] = ButtonActionStatus.Complete;
                     UpdateBudget(budgetValue[1]);
                 }
-                else {
-                    param[ConstantKeys.ACTIONPERFORMED] = ButtonActionStatus.NextApproval;
-                }
-            }
+             }
         }
         if (activeSectionName == SectionNames.MANAGEMENTSECTION) {
             var actionStatus = $("#ActionStatus").val();
@@ -171,13 +170,11 @@ function FormBusinessLogic(activeSection) {
         }
 
         /* Add final saved tran array to global tran array to save in list*/
-
         gTranArray.push({ "TranListArray": listTempGridDataArray, "TranListName": ListNames.CAPEXVENDORLIST });  ////Vendor tran added in global tran
         setCustomApprovers(listItemId);
     }
     catch (Exception) {
         isError = true;
-        console.log("Error occured in FormBusinessLogic" + Exception);
     }
     return isError;
 }
@@ -188,65 +185,8 @@ function SaveForm(activeSection, ele) {
         SaveFormData(activeSection, ele);
     }
     catch (Exception) {
-        SaveErrorInList(Exception);
-        console.log("Error occured in SaveForm" + Exception);
+        SaveErrorInList(Exception,"Error");
     }
-}
-
-function AddURSAttachments(listname, itemID) {
-    $('#divCapexForm').find('div[section]').not(".disabled").each(function (i, e) {
-        $(e).find('input[type="file"]').each(function () {
-             if (!IsNullOrUndefined(fileURSArray)) {
-
-                var formFieldValues = [];
-                fileURSArray.forEach(element => {
-                    var fileName = element.name;
-                    formFieldValues['URSAttachment'] = fileName;
-                });
-                var item = $pnp.sp.web.lists.getByTitle("Attachments").items.getById(itemID);
-
-                item.attachmentFiles.addMultiple(fileURSArray).then(v => {
-                    console.log("files saved successfully in list = " + listname + "for listItemId = " + itemID);
-                }).catch(function (err) {
-                    console.log(err);
-                    console.log("error while save attachment ib list = " + listname + "for listItemId = " + itemID)
-                });
-                SaveFormFields(formFieldValues, itemID);
-            }
-
-
-        });
-    });
-}
-
-function AddSupportiveDocAttachments(listname, itemID) {
-    $('#divCapexForm').find('div[section]').not(".disabled").each(function (i, e) {
-
-        $(e).find('input[type="file"]').each(function () {
-            var elementId = $(this).attr('id');
-            var controlType = $(this).attr('controlType');
-            // if (controlType == "file") {
-            if (!IsNullOrUndefined(fileSupportDocArray)) {
-                // SaveItemWiseAttachments(listname, itemID);
-                var formFieldValues = [];
-                fileSupportDocArray.forEach(element => {
-                    var fileName = element.name;
-                    formFieldValues['SupportDocAttachment'] = fileName + ',';
-                });
-                var item = $pnp.sp.web.lists.getByTitle(listname).items.getById(itemID);
-
-                item.attachmentFiles.addMultiple(fileSupportDocArray).then(v => {
-                    console.log("files saved successfully in list = " + listname + "for listItemId = " + itemID);
-                }).catch(function (err) {
-                    console.log(err);
-                    console.log("error while save attachment ib list = " + listname + "for listItemId = " + itemID)
-                });
-                SaveFormFields(formFieldValues, itemID);
-            }
-            // }
-
-        });
-    });
 }
 
 /*Priya Rane */
@@ -258,7 +198,6 @@ function GetAttachmentValue(elementId, fileListArray) {
         var reader = new FileReader();
         reader.onload = (function (file) {
             return function (e) {
-                console.log(file.name);
                 fileURSArray.push({
                     "name": file.name,
                     "content": e.target.result
@@ -270,61 +209,37 @@ function GetAttachmentValue(elementId, fileListArray) {
 }
 
 /*Priya Rane */
-function SaveItemWiseAttachments(listname, itemID) {
-    var formFieldValues = [];
-    fileURSArray.forEach(element => {
-        var fileName = element.name;
-        formFieldValues['URSAttachment'] = fileName;
-    });
-    var item = $pnp.sp.web.lists.getByTitle(listname).items.getById(itemID);
-
-    item.attachmentFiles.addMultiple(fileURSArray).then(v => {
-        console.log("files saved successfully in list = " + listname + "for listItemId = " + itemID);
-    }).catch(function (err) {
-        console.log(err);
-        console.log("error while save attachment ib list = " + listname + "for listItemId = " + itemID)
-    });
-    SaveFormFields(formFieldValues, itemID);
-}
 
 function GetFormBusinessLogic(listItemId, activeSectionName, department) {
-    var sectionName;
-    var pendingWithRole; //from mainListData
-    if (mainListData.length == 0 || mainListData.Status == "Draft") {
-        pendingWithRole = "Creator";
-    }
-
-    //Functions for Initiator
+    //Get Department of Initiator
     if (IsNullOrUndefined(department)) {
         department = mainListData.Department;
     }
-    if (listItemId == 0) {
-        setNewFormParamters(department)
-    }
-    else {
-        $("#RaisedOnDisplay").html(new Date(mainListData.RaisedOn).format("dd/MM/yyyy"));
-    }
-    if (pendingWithRole == "Creator" || listItemId == "") {
+   
+    //Functions for Initiator
+    if (listItemId == "") {
+        setNewFormParamters(department);
         setFunctionbasedDept(department);
         bindAssetClassification();
         $('#btnAddVendor').hide();
+        $("#ProposedVendor").hide();
     }
+
     if (listItemId > 0) {
+        $("#RaisedOnDisplay").html(new Date(mainListData.RaisedOn).format("dd/MM/yyyy"));
+        $("#ProposedVendor").show();
         if (mainListData.Status == "Draft") {
             BindInitiatorEditAttachmentFiles();
+            setFunctionbasedDept(department);
+            bindAssetClassification();
             $('#btnAddVendor').hide();
         }
         else {
             BindInitiatorAttachment();
         }
-        if (mainListData.Status == "Submitted" || mainListData.Status == "Completed" || mainListData.Status == "Rejected") {
-            if (mainListData.AssetClassification != undefined) {
-                bindEditAssetClassification();
-            }
-        }
+        bindEditAssetClassification();
         bindEditAssetName(mainListData.AssetClassification);
     }
-
 
     //Functions for Purchase
     if (mainListData.WorkflowStatus == "Pending for Purchase") {
@@ -345,17 +260,12 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     if (mainListData.PendingWith == "Initiator HOD") {
         setVendorDropDown();
         SetBudgetValue();
-    }
-    else {
-        if (mainListData.SelectedVendor != undefined) {
-            setVendorDropDown();
-        }
-    }
-    if (mainListData.PendingWith == Roles.INITIATORHOD) {
         BindHODEditAttachmentFiles();
     }
-    else if (mainListData.WorkflowStatus == "Closed" || mainListData.WorkflowStatus == "Rejected" || mainListData.PendingWith == Roles.INITIATORHOD || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
+   
+    if (mainListData.WorkflowStatus == "Closed" || mainListData.WorkflowStatus == "Rejected" || mainListData.PendingWith == Roles.INITIATORHOD || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
         BindHODAttachment();
+        setVendorDropDown();
     }
 
     //common functions for all department
@@ -642,7 +552,7 @@ function BindURSAttachmentFiles() {
                 var reader = new FileReader();
                 reader.onload = (function (file) {
                     return function (e) {
-                        console.log(file.name);
+                        
                         //Push the converted file into array
                         fileURSArray.push({
                             "name": file.name,
@@ -678,8 +588,6 @@ function BindURSAttachmentFiles() {
                         var itemId = data.d.Id;
                         var item = $pnp.sp.web.lists.getByTitle("Attachments").items.getById(itemId);
                         item.attachmentFiles.addMultiple(fileURSArray).then(v => {
-                            console.log("files saved successfully in list = " + listName + "for listItemId = " + itemId);
-
                             var htmlStr = "";
                             var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + itemId + "/" + fileName;
 
@@ -700,9 +608,8 @@ function BindURSAttachmentFiles() {
                             $('#URSContainer').html(htmlStr);
 
                         }).catch(function (err) {
-                            console.log(err);
                             fileURSArray = [];
-                            console.log("error while save attachment ib list = " + listName + "for listItemId = " + itemId)
+                            AlertModal('Error', "There is some problem to upload file Pl try again");
                         });
                     },
                     error: function (data) {
@@ -897,9 +804,7 @@ function BindSupportDocAttachmentFiles() {
             var reader = new FileReader();
             reader.onload = (function (file) {
                 return function (e) {
-                    console.log(file.name);
                     var duplicate = true;
-                    
                     fileURSArray.push({
                         "name": file.name,
                         "content": e.target.result,
@@ -935,8 +840,6 @@ function BindSupportDocAttachmentFiles() {
                     var itemId = data.d.Id;
                     var item = $pnp.sp.web.lists.getByTitle("Attachments").items.getById(itemId);
                     item.attachmentFiles.addMultiple(fileURSArray).then(v => {
-                        console.log("files saved successfully in list = " + listName + "for listItemId = " + itemId);
-
                         var htmlStr = "";
                         // var checkFile = $('#UploadSupportiveDocAttachment').next().next().html();
                         var checkFile = $('#fileListSupportiveDoc').html();
@@ -960,9 +863,8 @@ function BindSupportDocAttachmentFiles() {
 
                         // $('#UploadSupportiveDocAttachment').next().append(htmlStr.join(""));
                     }).catch(function (err) {
-                        console.log(err);
                         fileURSArray = [];
-                        console.log("error while save attachment ib list = " + listName + "for listItemId = " + itemId)
+                        AlertModal('Error', "There is some problem to upload file Pl try again");
                     });
                 },
                 error: function (data) {
@@ -1028,7 +930,7 @@ function BindPurchaseAttachmentFiles() {
                 var reader = new FileReader();
                 reader.onload = (function (file) {
                     return function (e) {
-                        console.log(file.name);
+                        
                         //Push the converted file into array
                         fileURSArray.push({
                             "name": file.name,
@@ -1064,8 +966,6 @@ function BindPurchaseAttachmentFiles() {
                         var itemId = data.d.Id;
                         var item = $pnp.sp.web.lists.getByTitle("Attachments").items.getById(itemId);
                         item.attachmentFiles.addMultiple(fileURSArray).then(v => {
-                            console.log("files saved successfully in list = " + listName + "for listItemId = " + itemId);
-
                             var htmlStr = "";
                             var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + itemId + "/" + fileName;
 
@@ -1085,9 +985,8 @@ function BindPurchaseAttachmentFiles() {
                             fileURSArray = [];
                             $('#purchaseContainer').html(htmlStr);
                         }).catch(function (err) {
-                            console.log(err);
                             fileURSArray = [];
-                            console.log("error while save attachment ib list = " + listName + "for listItemId = " + itemId)
+                            AlertModal('Error', "There is some problem to upload file Pl try again");
                         });
                     },
                     error: function (data) {
@@ -1271,8 +1170,7 @@ function BindHODAttachmentFiles() {
                 var reader = new FileReader();
                 reader.onload = (function (file) {
                     return function (e) {
-                        console.log(file.name);
-                        //Push the converted file into array
+                       
                         fileURSArray.push({
                             "name": file.name,
                             "content": e.target.result,
@@ -1307,8 +1205,6 @@ function BindHODAttachmentFiles() {
                         var itemId = data.d.Id;
                         var item = $pnp.sp.web.lists.getByTitle("Attachments").items.getById(itemId);
                         item.attachmentFiles.addMultiple(fileURSArray).then(v => {
-                            console.log("files saved successfully in list = " + listName + "for listItemId = " + itemId);
-
                             var htmlStr = "";
                             var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + itemId + "/" + fileName;
 
@@ -1328,9 +1224,8 @@ function BindHODAttachmentFiles() {
                             fileURSArray = [];
                             $('#HODContainer').html(htmlStr);
                         }).catch(function (err) {
-                            console.log(err);
                             fileURSArray = [];
-                            console.log("error while save attachment ib list = " + listName + "for listItemId = " + itemId)
+                            AlertModal('Error', "There is some problem to upload file Pl try again");
                         });
                     },
                     error: function (data) {
@@ -1427,26 +1322,6 @@ function getListItems(siteurl, success, failure) {
     });
 }
 
-function previewFile(fileArray, url, fileName, fileID) {
-
-    var request = new XMLHttpRequest();
-    request.open('GET', url, true);
-    request.responseType = 'blob';
-    request.onload = function () {
-        var reader = new FileReader();
-        reader.readAsDataURL(request.response);
-        reader.onload = function (e) {
-            fileArray.push({
-                "name": fileName,
-                "content": e.target.result,
-                "id": fileID
-            });
-            console.log('DataURL:', e.target.result);
-        };
-    };
-    request.send();
-    return fileArray;
-}
 function SetBudgetValue() {
     var raisedDateYear;
     var assetClassification = TrimComma(mainListData.AssetClassification).split("-");
@@ -1554,11 +1429,8 @@ function UpdateBudget(Id) {
                     "X-HTTP-Method": "MERGE"
                 },
             success: function (data) {
-                console.log(data);
             },
             error: function (data) {
-                debugger;
-                console.log(data);
             }
         });
     }

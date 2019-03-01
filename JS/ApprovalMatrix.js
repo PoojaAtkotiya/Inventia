@@ -73,7 +73,7 @@ function SetApprovalMatrix(id, mainListName) {
                 else if (IsGroupMember(Roles.VIEWER)) {
                     currentUserRole = Roles.VIEWER;
                 }
-                console.log("Called GetCurrentUserRole and Role=" + currentUserRole);
+                activityTrack=activityTrack + "\n SetApprovalMatrix for role" + currentUserRole;
             }
             GetEnableSectionNames(id);
             tempApproverMatrix = localApprovalMatrixdata;
@@ -132,7 +132,7 @@ function GetCurrentUserRole(id, mainListName) {
 
         // SP.PermissionKind.manageWeb  == Full Control
         if (oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.editListItems) && oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.addListItems)) {
-            console.log("user has add+edit permission");
+         
             tcurrentLevel = oListItem.get_item('FormLevel').split("|")[1];
             GetRoleFromApprovalMatrix(tcurrentLevel, id, currentUser.Id);
             //  if (!IsNullOrUndefined(currentUserRole)) {
@@ -140,12 +140,9 @@ function GetCurrentUserRole(id, mainListName) {
             //}
         }
         else if (oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.viewListItems)) {
-            console.log("user has Read permission");
+         
             currentUserRole = Roles.VIEWER;
             GetButtons(id, currentUserRole, oListItem.get_item('Status'));
-        }
-        else {
-            console.log("user doesn't have any(edit/view) permission");
         }
         deferred.resolve(currentUserRole);
 
@@ -239,6 +236,7 @@ function SetSectionWiseRoles(id) {
                 });
             });
         }
+        activityTrack=activityTrack + "\n SetSectionWiseRoles for new Item";
     } else if (id > 0) {
         ////Get data from local approval matrix
         if (!IsNullOrUndefined(localApprovalMatrixdata) && localApprovalMatrixdata.length > 0) {
@@ -258,6 +256,7 @@ function SetSectionWiseRoles(id) {
                 });
             });
         }
+        activityTrack=activityTrack + "\n SetSectionWiseRoles for id" + id;
     }
 }
 
@@ -820,9 +819,6 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
             finalUserPermDic.push({ 'user': grpId, 'permId': viewerPerID });
         }
     });
-
-    console.log(finalUserPermDic);
-
     var resetUrl = '/_api/web/lists/getbytitle(\'' + listName + '\')/items(' + requestId + ')/resetroleinheritance';
     var breakRoleUrl = '/_api/web/lists/getbytitle(\'' + listName + '\')/items(' + requestId + ')/breakroleinheritance(copyRoleAssignments=false, clearsubscopes=false)';
     var digest = jQuery("#__REQUESTDIGEST").val();
@@ -839,12 +835,9 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
         data: JSON.stringify(resetDataTemplate),
         async: false,
         success: function (data) {
-            console.log("Permission Set Successfully");
-            console.log(data);
-
         },
         error: function (error) {
-            console.log(error);
+           
         }
     });
 }
@@ -852,8 +845,6 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
 
 /*Pooja Atkotiya */
 function SetCustomPermission(userWithRoles, requestId, listName) {
-    console.log("Inheritance Broken Successfully!");
-    console.log(userWithRoles);
     var headers = {
         "Accept": "application/json;odata=verbose",
         "content-Type": "application/json;odata=verbose",
