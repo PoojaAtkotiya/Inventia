@@ -1390,9 +1390,9 @@ function OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCap
             //     SaveTranListData(itemID);
             // }
             HideWaitDialog();
-            var buttonCaption=buttonCaption.toLowerCase();
+            var buttoncaption=buttonCaption.toLowerCase();
             var displayMessage;
-            switch (buttonCaption) {
+            switch (buttoncaption) {
                 case ButtonActionStatus.SaveAsDraft:
                 case ButtonActionStatus.Save:
                 case ButtonActionStatus.NextApproval:
