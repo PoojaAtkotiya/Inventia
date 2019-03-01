@@ -2205,7 +2205,7 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
                 },
             sucesscallbackfunction: function (data) {
                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results) && data.d.results.length > 0) {
-                    debugger;
+                    
                     var tmpItems = data.d.results;
 
                     var emailListItem = null;
