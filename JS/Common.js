@@ -2130,19 +2130,14 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                 }
                 break;
             case ButtonActionStatus.Rejected:
-                if (!IsStrNullOrEmpty(strAllusers) && !IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
+                if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
                     from = currentUser.Email;
-                    to = TrimComma(strAllusers);
-                    // to = cleanArray(to);
-                    to = GetUserEmailsbyUserID(cleanArray(to));
-                    role = tempApproverMatrix.filter(p => parseInt(p.Levels) == nextLevel)[0].Role;
                     tmplName = EmailTemplateName.REQUESTREJECTED;
                     emailParam["TEMPLATENAME"] = tmplName;
                     emailParam["FROM"] = from;
-                    emailParam["TO"] = to;
-                    emailParam["CC"] = cc;
+                    emailParam["TO"]  = GetUserEmailbyUserID(mainListData.RaisedById);
+                    role=mainListData.PendingWith;
                     emailParam["ROLE"] = role;
-                    emailParam["BCC"] = "";
                     email = GetEmailBody(tmplName, itemID, mainListName, mailCustomValues, role, emailParam);
                 }
                 break;
@@ -2216,15 +2211,15 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
                     var emailListItem = null;
                     emailListItem = tmpItems[0];
                     // if (tmpItems.length > 1) {
-<<<<<<< HEAD
+
                     //     emailListItem = tmpItems.filter(e => e.role != "")[0];
-=======
+
 
                     //     emailListItem = tmpItems.filter(e => e.Role != "")[0];
 
                     //     emailListItem = tmpItems.filter(e => e.role != "")[0];
 
->>>>>>> b66917c95220b93ac1dad61433f30473a93349e2
+
                     // }
                     // else {
                     //     emailListItem = tmpItems[0];

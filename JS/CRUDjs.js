@@ -195,7 +195,7 @@ function SaveVendorData(listDataArray) {
         listDataArray.Index = Number(index);
     }
 
-    if (IsStrNullOrEmpty(listDataArray.ID) || saveDataArray.ID == "0") {
+    if (IsStrNullOrEmpty(listDataArray.ID) || listDataArray.ID == "0") {
         listDataArray.ID = "0";
         if (IsNullOrUndefined(listDataArray.Index) || IsStrNullOrEmpty(listDataArray.Index)) {
             listDataArray.Index = count + 1;
