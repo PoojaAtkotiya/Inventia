@@ -228,7 +228,29 @@
                 }
             });
         });
+        jQuery(document).ready(function ($) {
 
+$("#card-head-InitiatorSection").click(function () {
+    $("#InitiatorSection").slideToggle("slow");   
+});
+
+ $("#card-head-PurchaseSection").click(function () {
+    $("#PurchaseSection").slideToggle("slow");   
+});  
+
+$("#card-head-HodSection").click(function () {
+    $("#HodSection").slideToggle("slow");   
+}); 
+
+$("#card-head-FunctionHead").click(function () {
+    $("#FunctionHead").slideToggle("slow");   
+});
+
+ $("#card-head-ManagementSection").click(function () {
+    $("#ManagementSection").slideToggle("slow");   
+});
+
+});
 
     </script>
 
@@ -257,7 +279,7 @@
                     <div class="tab-content responsive" id="generalTabContent">
                         <div id="divCapexForm" mainlistname="CapexRequisition">
                             <div class="card">
-                                <div class="card-head" data-toggle="collapse" data-target="#form_InitiatorSection">
+                                <div class="card-head" id="card-head-InitiatorSection">
                                     <b> INITIATOR SECTION</b>
                                     <div class="btn collapse-btn collapsed">
                                         <i class="fa fa-chevron-down"></i>
@@ -582,7 +604,7 @@
                                 <div class="clearfix"></div>
                             </div>
                             <div class="card">
-                                <div class="card-head" data-toggle="collapse" data-target="#PurchaseSection">
+                                <div class="card-head" id="card-head-PurchaseSection">
                                     <b>PURCHASE SECTION </b>
                                     <div class="btn collapse-btn">
                                         <i class="fa fa-chevron-down"></i>
@@ -656,7 +678,7 @@
                                 <div class="clearfix"></div>
                             </div>
                             <div class="card">
-                                <div class="card-head" data-toggle="collapse" data-target="#HodSection">
+                                <div class="card-head" id="card-head-HodSection">
                                     <b>INITIATOR HOD REVIEW </b>
                                     <div class="btn collapse-btn">
                                         <i class="fa fa-chevron-down"></i>
@@ -664,7 +686,7 @@
                                 </div>
                                 <myform enctype="multipart/form-data" id="form_HodSection" method="post" novalidate="novalidate" autocomplete="off">
                                     <!-- <div class="card-body" id="HodSection" section="HOD Section" sectionOwner="" -->
-                                    <div class="card-body disabled " id="HodSection" section="Initiator HOD Section" sectionOwner="" FillByRole="">
+                                    <div class="card-body disabled " id="HodSection" section="Initiator HOD Section" sectionOwner="" FillByRole="" style="display: none;">
                                         <div class="form-horizontal">
                                             <div class="row">
                                                 <div class="col-lg-6">
@@ -934,7 +956,7 @@
                                 <div class="clearfix"></div>
                             </div>
                             <div class="card">
-                                <div class="card-head" data-toggle="collapse" data-target="#FunctionHead">
+                                <div class="card-head" id="card-head-FunctionHead">
                                     <b> INITIATOR FUNCTION HEAD REVIEW </b>
                                     <div class="btn collapse-btn">
                                         <i class="fa fa-chevron-down"></i>
@@ -942,7 +964,7 @@
                                 </div>
                                 <myform enctype="multipart/form-data" id="form_FunctionHead" method="post" novalidate="novalidate" autocomplete="off">
                                     <!-- <div class="card-body" id="FunctionHead" section="HOD Section" sectionOwner="" -->
-                                    <div class="card-body disabled" id="FunctionHead" section="Function Head Section" sectionOwner="" FillByRole="">
+                                    <div class="card-body disabled" id="FunctionHead" section="Function Head Section" sectionOwner="" FillByRole="" style="display: none;">
                                         <div class="form-horizontal">
                                             <div class="row">
                                                 <div class="col-lg-12">
@@ -992,14 +1014,14 @@
                                 <div class="clearfix"></div>
                             </div>
                             <div class="card">
-                                <div class="card-head" data-toggle="collapse" data-target="#ManagementSection">
+                                <div class="card-head" id="card-head-ManagementSection">
                                     <b> MANAGEMENT REVIEW</b>
                                     <div class="btn collapse-btn">
                                         <i class="fa fa-chevron-down"></i>
                                     </div>
                                 </div>
                                 <myform enctype="multipart/form-data" id="form_ManagementSection" method="post" novalidate="novalidate" autocomplete="off">
-                                    <div class="card-body disabled" id="ManagementSection" section="Management Section" sectionOwner="" FillByRole="">
+                                    <div class="card-body disabled" id="ManagementSection" section="Management Section" sectionOwner="" FillByRole="" style="display: none;">
                                         <div class="form-horizontal">
                                             <div class="row">
                                                 <div class="col-lg-12">
