@@ -2191,7 +2191,7 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
     //GetFormDigest().then(function (data) {
     AjaxCall(
         {
-            url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><And><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And><Eq><FieldRef Name='LinkTitle' /><Value Type='Computed'>" + templateName + "</Value></Eq></And><Eq><FieldRef Name='Role' /><Value Type='Text'>" + role + "</Value></Eq></And></Where></Query></View>\"}",
+            url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View>< Query ><Where><And><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And><Eq><FieldRef Name='LinkTitle' /><Value Type='Computed'>" + templateName + "</Value></Eq></And></Where></Query></View>\"}",
             // url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And><Eq><FieldRef Name='LinkTitle' /><Value Type='Computed'>" + templateName + "</Value></Eq></And></Where></Query></View>\"}",
             //url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query>< Where ><And><And><And><Or><IsNull><FieldRef Name='Role' /></IsNull><Contains><FieldRef Name='Role' /><Value Type='Text'>" + role + "</Value></Contains></Or><Eq> <FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq> </And> < Eq > <FieldRef Name='ApplicationName' /><Value Type='Text'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq></And>< Eq ><FieldRef Name='Title' /><Value Type='Text'>" + templateName + "</Value></Eq></And></Where></Query></View>\"}",
             httpmethod: 'POST',
@@ -2205,21 +2205,30 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
                 },
             sucesscallbackfunction: function (data) {
                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results) && data.d.results.length > 0) {
-                    
-                    var tmpItems = data.d.results;
 
+                    var tmpItems = data.d.results;
                     var emailListItem = null;
+
+                    var tmpItems = tmpItems.filter(function (t) {
+                        debugger
+                        if (!IsStrNullOrEmpty(t.Role) && !IsStrNullOrEmpty(role)) {
+                            if (t.Role.indexOf(",") > 0) {
+                                if (cleanStringArray(t.Role.split(",")).some(r => r == role)) {
+                                    return t;
+                                }
+                            }
+                            else if (t.Role == role) {
+                                return t;
+                            }
+                        }
+                        else {
+                            return t;
+                        }
+                    });
+
                     emailListItem = tmpItems[0];
                     // if (tmpItems.length > 1) {
-
-                    //     emailListItem = tmpItems.filter(e => e.role != "")[0];
-
-
-                    //     emailListItem = tmpItems.filter(e => e.Role != "")[0];
-
-                    //     emailListItem = tmpItems.filter(e => e.role != "")[0];
-
-
+                    //     emailListItem = tmpItems.filter(e => e.role != '')[0];
                     // }
                     // else {
                     //     emailListItem = tmpItems[0];
@@ -2413,7 +2422,7 @@ function GetDatafromList(itemID, mainListName, subject, matchesSubject, body, ma
 function SaveEmail(subject, body, emailParam) {
     var emailSaved = false;
     //if (!IsStrNullOrEmpty(subject) && !IsStrNullOrEmpty(body) && !IsNullOrUndefined(emailParam) && emailParam.length > 0 && !IsStrNullOrEmpty(emailParam.TEMPLATENAME) && !IsStrNullOrEmpty(emailParam.FROM) && !IsStrNullOrEmpty(emailParam.TO) || !IsStrNullOrEmpty(emailParam.CC) || !IsStrNullOrEmpty(emailParam.BCC)) {
-        if (!IsStrNullOrEmpty(subject) && !IsStrNullOrEmpty(body) && !IsNullOrUndefined(emailParam) && !IsStrNullOrEmpty(emailParam.TEMPLATENAME) && !IsStrNullOrEmpty(emailParam.FROM) && !IsStrNullOrEmpty(emailParam.TO) || !IsStrNullOrEmpty(emailParam.CC) || !IsStrNullOrEmpty(emailParam.BCC)) {
+    if (!IsStrNullOrEmpty(subject) && !IsStrNullOrEmpty(body) && !IsNullOrUndefined(emailParam) && !IsStrNullOrEmpty(emailParam.TEMPLATENAME) && !IsStrNullOrEmpty(emailParam.FROM) && !IsStrNullOrEmpty(emailParam.TO) || !IsStrNullOrEmpty(emailParam.CC) || !IsStrNullOrEmpty(emailParam.BCC)) {
         var to = emailParam.TO;
         if (!IsStrNullOrEmpty(to)) {
             var strTo = TrimComma(to).split(",");
