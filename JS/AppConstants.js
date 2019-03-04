@@ -35,7 +35,8 @@ const ListNames = {
     BUDGETMASTER: "BudgetMaster",
     ATTACHMENTLIST: "Attachments",
     ASSETNUMBERMASTER: "AssetNumberMaster",
-    ERRORList:"ErrorLog"
+    ERRORList:"ErrorLog",
+    PAYMENTTERMSMASTER:"PaymentTerms"
 }
 Object.freeze(ListNames);
 

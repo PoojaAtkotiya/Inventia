@@ -1440,7 +1440,7 @@ function CommonBusinessLogic(sectionName, itemID, listDataArray) {
 
     var keys = Object.keys(ButtonActionStatus).filter(k => ButtonActionStatus[k] == actionStatus);
     var actionPerformed = keys.toString();
-    SaveImageSignaturePath(sectionName, itemID);
+   // SaveImageSignaturePath(sectionName, itemID);
     SaveActions(sectionName, itemID, actionPerformed);
     if (sectionName == SectionNames.INITIATORSECTION && actionPerformed == "NextApproval") {
         SaveCapitalAssetRequisitionNumber(itemID, listDataArray, actionPerformed);
@@ -1510,6 +1510,7 @@ function SaveCapitalAssetRequisitionNumber(itemID, listDataArray, actionPerforme
     var formFieldValues = [];
     var todayDate = new Date();
     formFieldValues['CapitalAssetRequisitionNumber'] = listDataArray.CostCenter + '/' + todayDate.getFullYear() + ("0" + (todayDate.getMonth() + 1)).slice(-2) + '/' + itemID;
+    formFieldValues['Title'] = listDataArray.CostCenter + '/' + todayDate.getFullYear() + ("0" + (todayDate.getMonth() + 1)).slice(-2) + '/' + itemID;
     SaveFormFields(formFieldValues, itemID);
 }
 

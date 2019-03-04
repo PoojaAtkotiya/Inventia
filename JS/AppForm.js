@@ -115,8 +115,8 @@ function Capex_SaveData(ele) {
             length++;
         });
 
-        if (length < 3) {
-            AlertModal('Error', "Minimum 3 vendor required");
+        if (length < 1) {
+            AlertModal('Error', "Minimum one vendor required");
             return false;
         }
     }
@@ -248,12 +248,15 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
         {
             $('#btnAddVendor').hide();
         }
+        $('#AddVendor').hide();
+       // BindPaymentTerm();
     }
     else if (mainListData.WorkflowStatus == "Closed" || mainListData.WorkflowStatus == "Rejected" || mainListData.PendingWith == Roles.INITIATORHOD || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
         BindPurchaseAttachment();
         $('[id*="EditVendor_"]').hide();
         $('[id*="DeleteVendor_"]').hide();
         $('#btnAddVendor').hide();
+        $('#AddVendor').hide();
     }
 
     //Functions for Initiator HOD
@@ -261,16 +264,18 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
         setVendorDropDown();
         SetBudgetValue();
         BindHODEditAttachmentFiles();
+        $('#AddVendor').hide();
     }
    
     if (mainListData.WorkflowStatus == "Closed" || mainListData.WorkflowStatus == "Rejected" || mainListData.PendingWith == Roles.INITIATORHOD || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
         BindHODAttachment();
         setVendorDropDown();
+        $('#AddVendor').hide();
     }
 
     //common functions for all department
     if (!IsNullOrUndefined(listItemId) && listItemId > 0) {
-        setImageSignature();
+       // setImageSignature();
         displayAction();
     }
 }
@@ -427,6 +432,37 @@ function bindAssetClassification() {
         });
 
 }
+
+function BindPaymentTerm() {
+    AjaxCall(
+        {
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.PAYMENTTERMSMASTER + "')/items?$select=Description,Title",
+            httpmethod: 'GET',
+            calldatatype: 'JSON',
+            async: false,
+            headers:
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+            sucesscallbackfunction: function (data) {
+                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
+                    var result = data.d.results;
+                    $("#TermsofPayment").html('');
+                    $("#TermsofPayment").html("<option value=''>Select</option>");
+                    $(result).each(function (i, e) {
+                        var cmditem = result[i].Title + '-' + result[i].Description;
+                        var opt = $("<option/>");
+                        opt.text(cmditem);
+                        opt.attr("value", cmditem);
+                        opt.appendTo($("#TermsofPayment"));
+                    });
+                 }
+            }
+        });
+
+}
 function bindEditAssetClassification() {
     var functionValue = $('#Function').html();
     AjaxCall(
@@ -536,6 +572,7 @@ function bindEditAssetName(assetclassification) {
 }
 
 function BindURSAttachmentFiles() {
+    ShowWaitDialog();
     var output = [];
     var fileName;
     var checkFile = $('#URSContainer').html();
@@ -606,13 +643,18 @@ function BindURSAttachmentFiles() {
 
                             fileURSArray = [];
                             $('#URSContainer').html(htmlStr);
+                            $('#UploadURSAttachment').hide();
+                            $("#UploadURSAttachment").val('');
+                            HideWaitDialog();
 
                         }).catch(function (err) {
+                            HideWaitDialog();
                             fileURSArray = [];
                             AlertModal('Error', "There is some problem to upload file Pl try again");
                         });
                     },
                     error: function (data) {
+                        HideWaitDialog();
                         AlertModal('Error', "There is some problem to upload file Pl try again");
                     }
                 });
@@ -620,6 +662,7 @@ function BindURSAttachmentFiles() {
         }
     }
     else {
+        HideWaitDialog();
         AlertModal('Error', "Remove existing URS file to add New");
     }
 }
@@ -639,7 +682,6 @@ function BindInitiatorEditAttachmentFiles() {
                     "X-RequestDigest": $("#__REQUESTDIGEST").val()
                 },
             sucesscallbackfunction: function (data) {
-                /*Pooja Atkotiya */
                 attachmentdata = data.d.results;
                 attachmentdata.forEach(element => {
                     if (element.Title == "URS") {
@@ -660,6 +702,8 @@ function BindInitiatorEditAttachmentFiles() {
                             "filename": element.FileName
                         });
                         $('#URSContainer').html(htmlStr);
+                        $('#UploadURSAttachment').hide();
+                        $("#UploadURSAttachment").val('');
                         $("#UploadURSAttachment").removeAttr("required");
                     }
                 });
@@ -756,6 +800,7 @@ function BindInitiatorAttachment() {
 }
 //remove attached file
 function removeURSFile(itemId) {
+    ShowWaitDialog();
     $.ajax(
         {
             url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('Attachments')/items('" + itemId + "')",
@@ -776,10 +821,13 @@ function removeURSFile(itemId) {
                 if (index !== -1) fileCommonArray.splice(index, 1);
                 var htmlStr = "";
                 $('#URSContainer').html(htmlStr);
+                $('#UploadURSAttachment').show();
                 $("#UploadURSAttachment").attr("required", true);
                 $("#UploadURSAttachment").val('');
+                HideWaitDialog();
             },
             error: function (err) {
+                HideWaitDialog();
                 //alert(JSON.stringify(err));
             }
         }
@@ -789,6 +837,7 @@ function removeURSFile(itemId) {
 }
 
 function BindSupportDocAttachmentFiles() {
+    ShowWaitDialog();
     var output = [];
     var fileName;
 
@@ -849,7 +898,7 @@ function BindSupportDocAttachmentFiles() {
                             htmlStr = "<li id=li_" + itemId + "><a id='attachment_" + itemId + "' href='" + ServerRelativeUrl + "' target='_blank'>" + fileName + "</a><a style='color:brown' id='Remove_" + itemId + "' href=\"javascript:removeSupportiveFile('" + itemId + "')\"> Remove</a></li>";
                         }
                         else {
-                            htmlStr = checkFile + "<li id=li_" + itemId + "><a id='attachment_" + itemId + "' href='" + ServerRelativeUrl + "' target='_blank'>" + fileName + "</a></li><a style='color:brown' id='Remove_" + itemId + "' href=\"javascript:removeSupportiveFile('" + itemId + "')\"> Remove</a></li>";
+                            htmlStr = checkFile + "<li id=li_" + itemId + "><a id='attachment_" + itemId + "' href='" + ServerRelativeUrl + "' target='_blank'>" + fileName + "</a><a style='color:brown' id='Remove_" + itemId + "' href=\"javascript:removeSupportiveFile('" + itemId + "')\"> Remove</a></li>";
 
                         }
                         fileCommonArray.push({
@@ -858,16 +907,17 @@ function BindSupportDocAttachmentFiles() {
                             "filename": fileName
                         });
                         fileURSArray = [];
-                        // $('#SupportiveDocContainer').html(htmlStr);
                         $('#fileListSupportiveDoc').html(htmlStr);
-
-                        // $('#UploadSupportiveDocAttachment').next().append(htmlStr.join(""));
-                    }).catch(function (err) {
+                        $("#UploadSupportiveDocAttachment").val('');
+                        HideWaitDialog();
+                      }).catch(function (err) {
+                        HideWaitDialog();
                         fileURSArray = [];
                         AlertModal('Error', "There is some problem to upload file Pl try again");
                     });
                 },
                 error: function (data) {
+                    HideWaitDialog();
                     AlertModal('Error', "There is some problem to upload file Pl try again");
                 }
             });
@@ -875,7 +925,7 @@ function BindSupportDocAttachmentFiles() {
     }
 }
 function removeSupportiveFile(itemId) {
-
+    ShowWaitDialog();
     var checkFile = $('#SupportiveDocContainer').html();
     $.ajax(
         {
@@ -900,10 +950,10 @@ function removeSupportiveFile(itemId) {
                 $(element).children().remove();
                 $(element).remove();
                 $(ele).remove();
-
+                HideWaitDialog();
             },
             error: function (err) {
-              //  alert(JSON.stringify(err));
+                HideWaitDialog();
             }
         }
     );
@@ -914,6 +964,7 @@ function removeSupportiveFile(itemId) {
 //Purchase Attachment
 
 function BindPurchaseAttachmentFiles() {
+    ShowWaitDialog();
     var output = [];
     var fileName;
     var checkFile = $('#purchaseContainer').html();
@@ -984,12 +1035,15 @@ function BindPurchaseAttachmentFiles() {
 
                             fileURSArray = [];
                             $('#purchaseContainer').html(htmlStr);
+                            HideWaitDialog();
                         }).catch(function (err) {
+                            HideWaitDialog();
                             fileURSArray = [];
                             AlertModal('Error', "There is some problem to upload file Pl try again");
                         });
                     },
                     error: function (data) {
+                        HideWaitDialog();
                         AlertModal('Error', "There is some problem to upload file Pl try again");
                     }
                 });
@@ -997,6 +1051,7 @@ function BindPurchaseAttachmentFiles() {
         }
     }
     else {
+        HideWaitDialog();
         AlertModal('Error', "Remove existing Purchase file to add New");
     }
 }
@@ -1042,6 +1097,7 @@ function BindPurchaseEditAttachmentFiles() {
         });
 }
 function removePurchaseFile(itemId) {
+    ShowWaitDialog();
     $.ajax(
         {
             url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('Attachments')/items('" + itemId + "')",
@@ -1062,9 +1118,10 @@ function removePurchaseFile(itemId) {
                 if (index !== -1) fileCommonArray.splice(index, 1);
                 var htmlStr = "";
                 $('#purchaseContainer').html(htmlStr);
+                HideWaitDialog();
             },
             error: function (err) {
-              //  alert(JSON.stringify(err));
+                HideWaitDialog();
             }
         }
     );
@@ -1074,6 +1131,7 @@ function removePurchaseFile(itemId) {
 
 //Only for download purpose
 function BindPurchaseAttachment() {
+    ShowWaitDialog();
     var attachmentdata = [];
     AjaxCall(
         {
@@ -1088,14 +1146,11 @@ function BindPurchaseAttachment() {
                     "X-RequestDigest": $("#__REQUESTDIGEST").val()
                 },
             sucesscallbackfunction: function (data) {
-
                 attachmentdata = data.d.results;
                 attachmentdata.forEach(element => {
                     if (element.Title == "Purchase") {
-
                         var htmlStr = "";
                         var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + element.ID + "/" + element.FileName;
-
                         if (htmlStr === "") {
                             htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li>";
                         }
@@ -1103,8 +1158,8 @@ function BindPurchaseAttachment() {
                             htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li>";
 
                         }
-
-                        $('#purchaseContainer').html(htmlStr);
+                         $('#purchaseContainer').html(htmlStr);
+                         HideWaitDialog();
                     }
                 });
             }
@@ -1154,6 +1209,7 @@ function BindHODEditAttachmentFiles() {
         });
 }
 function BindHODAttachmentFiles() {
+    ShowWaitDialog();
     var output = [];
     var fileName;
     var checkFile = $('#HODContainer').html();
@@ -1223,12 +1279,15 @@ function BindHODAttachmentFiles() {
 
                             fileURSArray = [];
                             $('#HODContainer').html(htmlStr);
+                            HideWaitDialog();
                         }).catch(function (err) {
+                            HideWaitDialog();
                             fileURSArray = [];
                             AlertModal('Error', "There is some problem to upload file Pl try again");
                         });
                     },
                     error: function (data) {
+                        HideWaitDialog();
                         AlertModal('Error', "There is some problem to upload file Pl try again");
                     }
                 });
@@ -1279,6 +1338,7 @@ function BindHODAttachment() {
 
 }
 function removeHODFile(itemId) {
+    ShowWaitDialog();
     $.ajax(
         {
             url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('Attachments')/items('" + itemId + "')",
@@ -1299,9 +1359,10 @@ function removeHODFile(itemId) {
                 if (index !== -1) fileCommonArray.splice(index, 1);
                 var htmlStr = "";
                 $('#HODContainer').html(htmlStr);
+                HideWaitDialog();
             },
             error: function (err) {
-              //  alert(JSON.stringify(err));
+                HideWaitDialog();
             }
         }
     );

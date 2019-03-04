@@ -1190,6 +1190,9 @@ function SaveFormFields(formFieldValues, requestId) {
     if (!IsNullOrUndefined(formFieldValues["CapitalAssetRequisitionNumber"])) {
         mainlistDataArray['CapitalAssetRequisitionNumber'] = formFieldValues["CapitalAssetRequisitionNumber"].toString();
     }
+    if (!IsNullOrUndefined(formFieldValues["Title"])) {
+        mainlistDataArray['Title'] = formFieldValues["Title"].toString();
+    }
     if (!IsNullOrUndefined(formFieldValues["InitiatorAction"])) {
         mainlistDataArray['InitiatorAction'] = formFieldValues["InitiatorAction"].toString();
     }
