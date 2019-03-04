@@ -1163,6 +1163,7 @@ function SaveFormFields(formFieldValues, requestId) {
         if (IsArray(formFieldValues["NextApprover"])) {
             nextUsers = removeDuplicateFromArray(formFieldValues["NextApprover"]);
         }
+        
         else if (formFieldValues["NextApprover"].toString().indexOf(",") > 0) {
             nextUsers = removeDuplicateFromArray(TrimComma(nextUsers.trim()).split(","));
         }
