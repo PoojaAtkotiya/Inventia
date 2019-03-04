@@ -73,7 +73,7 @@ function SetApprovalMatrix(id, mainListName) {
                 else if (IsGroupMember(Roles.VIEWER)) {
                     currentUserRole = Roles.VIEWER;
                 }
-                activityTrack=activityTrack + "\n SetApprovalMatrix for role" + currentUserRole;
+                activityTrack = activityTrack + "\n SetApprovalMatrix for role" + currentUserRole;
             }
             GetEnableSectionNames(id);
             tempApproverMatrix = localApprovalMatrixdata;
@@ -132,7 +132,7 @@ function GetCurrentUserRole(id, mainListName) {
 
         // SP.PermissionKind.manageWeb  == Full Control
         if (oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.editListItems) && oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.addListItems)) {
-         
+
             tcurrentLevel = oListItem.get_item('FormLevel').split("|")[1];
             GetRoleFromApprovalMatrix(tcurrentLevel, id, currentUser.Id);
             //  if (!IsNullOrUndefined(currentUserRole)) {
@@ -140,7 +140,7 @@ function GetCurrentUserRole(id, mainListName) {
             //}
         }
         else if (oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.viewListItems)) {
-         
+
             currentUserRole = Roles.VIEWER;
             GetButtons(id, currentUserRole, oListItem.get_item('Status'));
         }
@@ -179,7 +179,13 @@ function GetEnableSectionNames(id) {
                 var sectionId = $(this).attr('id');
                 $("#" + sectionId).removeClass("disabled");
                 $("#" + sectionId).find('input,select,textarea').removeAttr("disabled");
+                //  document.getElementById(sectionId).style.display = "block";
             }
+            // else {
+            //     ////collapse inActive sections
+            //     var sectionId = $(this).attr('id');
+            //     document.getElementById(sectionId).style.display = "none";
+            // }
         });
         $("div .disabled").attr("disabled", "disabled");
         $("div .disabled .form-control").attr("disabled", "disabled");
@@ -207,7 +213,13 @@ function GetEnableSectionNames(id) {
                     var sectionId = $(this).attr('id');
                     $("#" + sectionId).removeClass("disabled");
                     $("#" + sectionId).find('input,select,textarea').removeAttr("disabled");
+                    //  document.getElementById(sectionId).style.display = "block";
                 }
+                // else {
+                //     ////collapse inActive sections
+                //     var sectionId = $(this).attr('id');
+                //     document.getElementById(sectionId).style.display = "none";
+                // }
             });
         }
         $("div .disabled").attr("disabled", "disabled");
@@ -236,7 +248,7 @@ function SetSectionWiseRoles(id) {
                 });
             });
         }
-        activityTrack=activityTrack + "\n SetSectionWiseRoles for new Item";
+        activityTrack = activityTrack + "\n SetSectionWiseRoles for new Item";
     } else if (id > 0) {
         ////Get data from local approval matrix
         if (!IsNullOrUndefined(localApprovalMatrixdata) && localApprovalMatrixdata.length > 0) {
@@ -256,7 +268,7 @@ function SetSectionWiseRoles(id) {
                 });
             });
         }
-        activityTrack=activityTrack + "\n SetSectionWiseRoles for id" + id;
+        activityTrack = activityTrack + "\n SetSectionWiseRoles for id" + id;
     }
 }
 
@@ -380,7 +392,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
         tempApproverMatrix.forEach(t => {
             t.RequestIDId = requestId;
         });
-        if (actionPerformed != ButtonActionStatus.SendBack && actionPerformed != ButtonActionStatus.Forward && tempApproverMatrix.some(t => t.Levels != currentLevel)) {
+        if (actionPerformed != ButtonActionStatus.SendBack && actionPerformed != ButtonActionStatus.Forward && !tempApproverMatrix.some(t => t.Levels == currentLevel && t.Status != ApproverStatus.APPROVED && !IsNullOrUndefinedApprover(t.ApproverId) && t.IsOptional == false)) {
             ////Get Next Level
 
             var nextLevelRow = tempApproverMatrix.filter(function (temp) {
@@ -837,7 +849,7 @@ function breakRoleInheritanceOfList(listName, requestId, userWithRoles) {
         success: function (data) {
         },
         error: function (error) {
-           
+
         }
     });
 }
@@ -1148,13 +1160,16 @@ function SaveFormFields(formFieldValues, requestId) {
     if (!IsNullOrUndefined(formFieldValues["NextApprover"]))  ////&& nextResults.length > 0   - removed for case of complete and reject
     {
         var nextUsers = [];
-        if (formFieldValues["NextApprover"].indexOf(",") > 0) {
-            nextUsers = removeDuplicateFromArray(TrimComma(nextUsers.trim()).split(","));
-        }
-        else if (IsArray(formFieldValues["NextApprover"])) {
+        if (IsArray(formFieldValues["NextApprover"])) {
             nextUsers = removeDuplicateFromArray(formFieldValues["NextApprover"]);
+            mainlistDataArray['NextApproverId'] = { "results": nextUsers };
         }
-        mainlistDataArray['NextApproverId'] = { "results": nextUsers };
+        // else if (formFieldValues["NextApprover"].toString().indexOf(",") > 0) {
+        //     nextUsers = removeDuplicateFromArray(TrimComma(nextUsers.trim()).split(","));
+        // }
+        else {
+            mainlistDataArray['NextApproverId'] = { "results": nextUsers };
+        }
     }
     if (!IsNullOrUndefined(formFieldValues["LastActionBy"])) {
         mainlistDataArray['LastActionBy'] = formFieldValues["LastActionBy"].toString();

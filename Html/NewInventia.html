@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- #region QA-->
     
-    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Content/font-awesome.min.css"
     />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Content/datatable.css"
@@ -43,13 +43,18 @@
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/tran.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/AppForm.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script> 
+<<<<<<< HEAD
     -->
+=======
+    <!-- <script type="text/javascript" src="https://jserrlog.appspot.com/jserrlog.js"></script> -->
+    <!-- <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/jserrlog.js"></script>-->
+>>>>>>> bd87cfb52d8302361204dd451e765722050877f4
 
     <!-- #endregion -->
 
     <!-- #region Dev -->
    
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Content/font-awesome.min.css"
     />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Content/datatable.css"
@@ -85,7 +90,7 @@
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/master.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/tran.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/AppForm.js"></script>
-    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script> -->
    
     <!-- #endregion -->
 
@@ -228,25 +233,25 @@
         });
         jQuery(document).ready(function ($) {
 
-$("#card-head-InitiatorSection").click(function () {
-    $("#InitiatorSection").slideToggle("slow");   
-});
+        $("#card-head-InitiatorSection").click(function () {
+            $("#InitiatorSection").slideToggle("slow");   
+        });
 
- $("#card-head-PurchaseSection").click(function () {
-    $("#PurchaseSection").slideToggle("slow");   
-});  
+        $("#card-head-PurchaseSection").click(function () {
+            $("#PurchaseSection").slideToggle("slow");   
+        });  
 
-$("#card-head-HodSection").click(function () {
-    $("#HodSection").slideToggle("slow");   
-}); 
+        $("#card-head-HodSection").click(function () {
+            $("#HodSection").slideToggle("slow");   
+        }); 
 
-$("#card-head-FunctionHead").click(function () {
-    $("#FunctionHead").slideToggle("slow");   
-});
+        $("#card-head-FunctionHead").click(function () {
+            $("#FunctionHead").slideToggle("slow");   
+        });
 
- $("#card-head-ManagementSection").click(function () {
-    $("#ManagementSection").slideToggle("slow");   
-});
+        $("#card-head-ManagementSection").click(function () {
+            $("#ManagementSection").slideToggle("slow");   
+        });
 
 });
 
@@ -551,7 +556,7 @@ $("#card-head-FunctionHead").click(function () {
                                                         </label>
                                                         <div class="col-md-8">
                                                             <textarea id="InitiatorSection_Comments" class="form-control approver-control" maxlength="1000" controlType="multitext" listname="main"
-                                                                name="InitiatorSection_Comments"></textarea>
+                                                                name="InitiatorSection_Comments" rows="5" cols="40" wrap="hard"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -631,7 +636,7 @@ $("#card-head-FunctionHead").click(function () {
                                     </div>
                                 </div>
                                 <myform enctype="multipart/form-data" id="form_PurchaseSection" method="post" novalidate="novalidate" autocomplete="off">
-                                    <div class="card-body disabled" id="PurchaseSection" section="Purchase Section" sectionOwner="" FillByRole="" style="display: none;">
+                                    <div class="card-body disabled" id="PurchaseSection" section="Purchase Section" sectionOwner="" FillByRole="">
                                         <div data-include="VendorInventia"></div>
                                         <div class="form-horizontal">
                                             <div class="row">
@@ -642,7 +647,7 @@ $("#card-head-FunctionHead").click(function () {
                                                         </label>
                                                         <div class="col-md-10">
                                                             <textarea class="form-control approver-control" maxlength="1000" controlType="multitext" listname="" name="Comments" id="PurchaseSection_Comments"
-                                                                name="PurchaseSection_Comments"></textarea>
+                                                                name="PurchaseSection_Comments" rows="5" cols="40" wrap="hard"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -706,7 +711,7 @@ $("#card-head-FunctionHead").click(function () {
                                 </div>
                                 <myform enctype="multipart/form-data" id="form_HodSection" method="post" novalidate="novalidate" autocomplete="off">
                                     <!-- <div class="card-body" id="HodSection" section="HOD Section" sectionOwner="" -->
-                                    <div class="card-body disabled " id="HodSection" section="Initiator HOD Section" sectionOwner="" FillByRole="" style="display: none;">
+                                    <div class="card-body disabled " id="HodSection" section="Initiator HOD Section" sectionOwner="" FillByRole="">
                                         <div class="form-horizontal">
                                             <div class="row">
                                                 <div class="col-lg-6">
@@ -850,7 +855,7 @@ $("#card-head-FunctionHead").click(function () {
                                                         <div class="col-md-10">
 
                                                             <textarea class="form-control approver-control" maxlength="1000" controlType="multitext" listname="" name="Comments" id="HodSection_Comments"
-                                                                name="HodSection_Comments"></textarea>
+                                                                name="HodSection_Comments" rows="5" cols="40" wrap="hard"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -918,7 +923,7 @@ $("#card-head-FunctionHead").click(function () {
                                 </div>
                                 <myform enctype="multipart/form-data" id="form_FunctionHead" method="post" novalidate="novalidate" autocomplete="off">
                                     <!-- <div class="card-body" id="FunctionHead" section="HOD Section" sectionOwner="" -->
-                                    <div class="card-body disabled" id="FunctionHead" section="Function Head Section" sectionOwner="" FillByRole="" style="display: none;">
+                                    <div class="card-body disabled" id="FunctionHead" section="Function Head Section" sectionOwner="" FillByRole="">
                                         <div class="form-horizontal">
                                             <div class="row">
                                                 <div class="col-lg-12">
@@ -930,7 +935,7 @@ $("#card-head-FunctionHead").click(function () {
                                                         <div class="col-md-10">
 
                                                             <textarea class="form-control approver-control" maxlength="1000" controlType="multitext" listname="" name="Comments" id="FunctionHead_Comments"
-                                                                name="FunctionHead_Comments"></textarea>
+                                                                name="FunctionHead_Comments" rows="5" cols="40" wrap="hard"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -975,7 +980,7 @@ $("#card-head-FunctionHead").click(function () {
                                     </div>
                                 </div>
                                 <myform enctype="multipart/form-data" id="form_ManagementSection" method="post" novalidate="novalidate" autocomplete="off">
-                                    <div class="card-body disabled" id="ManagementSection" section="Management Section" sectionOwner="" FillByRole="" style="display: none;">
+                                    <div class="card-body disabled" id="ManagementSection" section="Management Section" sectionOwner="" FillByRole="">
                                         <div class="form-horizontal">
                                             <div class="row">
                                                 <div class="col-lg-12">
@@ -986,7 +991,7 @@ $("#card-head-FunctionHead").click(function () {
                                                         </label>
                                                         <div class="col-md-8">
                                                             <textarea class="form-control approver-control" maxlength="1000" controlType="multitext" listname="" name="Comments" id="ManagementSection_Comments"
-                                                                name="ManagementSection_Comments"></textarea>
+                                                                name="ManagementSection_Comments" rows="5" cols="40" wrap="hard"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
