@@ -2227,12 +2227,6 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
                     });
 
                     emailListItem = tmpItems[0];
-                    // if (tmpItems.length > 1) {
-                    //     emailListItem = tmpItems.filter(e => e.role != '')[0];
-                    // }
-                    // else {
-                    //     emailListItem = tmpItems[0];
-                    // }
                     if (!IsNullOrUndefined(emailListItem)) {
                         emailTemplate.push({ "Subject": emailListItem.Subject });
                         emailTemplate.push({ "Body": emailListItem.Body });

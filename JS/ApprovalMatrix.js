@@ -21,11 +21,11 @@ function GetGlobalApprovalMatrix(id) {
             calldatatype: 'JSON',
             async: false,
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json; odata=verbose",
-                "X-RequestDigest": gRequestDigestValue// data.d.GetContextWebInformation.FormDigestValue
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json; odata=verbose",
+                    "X-RequestDigest": gRequestDigestValue// data.d.GetContextWebInformation.FormDigestValue
+                },
             sucesscallbackfunction: function (data) {
                 globalApprovalMatrix = data.d.results;
                 /*Pooja Atkotiya */
@@ -45,11 +45,11 @@ function GetLocalApprovalMatrixData(id, mainListName) {
             calldatatype: 'JSON',
             async: false,
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val()
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
             sucesscallbackfunction: function (data) {
                 /*Pooja Atkotiya */
                 localApprovalMatrixdata = data.d.results;
@@ -392,7 +392,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
         tempApproverMatrix.forEach(t => {
             t.RequestIDId = requestId;
         });
-        if (actionPerformed != ButtonActionStatus.SendBack && actionPerformed != ButtonActionStatus.Forward && tempApproverMatrix.some(t => t.Levels != currentLevel)) {
+        if (actionPerformed != ButtonActionStatus.SendBack && actionPerformed != ButtonActionStatus.Forward && !tempApproverMatrix.some(t => t.Levels == currentLevel && t.Status != ApproverStatus.APPROVED && !IsNullOrUndefinedApprover(t.ApproverId) && t.IsOptional == false)) {
             ////Get Next Level
 
             var nextLevelRow = tempApproverMatrix.filter(function (temp) {
@@ -1163,7 +1163,6 @@ function SaveFormFields(formFieldValues, requestId) {
         if (IsArray(formFieldValues["NextApprover"])) {
             nextUsers = removeDuplicateFromArray(formFieldValues["NextApprover"]);
         }
-        
         else if (formFieldValues["NextApprover"].toString().indexOf(",") > 0) {
             nextUsers = removeDuplicateFromArray(TrimComma(nextUsers.trim()).split(","));
         }
@@ -1246,13 +1245,13 @@ function SaveFormFields(formFieldValues, requestId) {
                 postData: JSON.stringify(mainlistDataArray),
                 async: false,
                 headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                    "IF-MATCH": "*",
-                    "X-Http-Method": "MERGE", //PATCH
-                },
+                    {
+                        "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                        "IF-MATCH": "*",
+                        "X-Http-Method": "MERGE", //PATCH
+                    },
                 sucesscallbackfunction: function (data) {
                     console.log("Item saved Successfully");
                 }
