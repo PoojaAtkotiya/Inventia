@@ -8722,8 +8722,10 @@ ul.submenu {
 }
 
 #loadingimage {
-    top: 45%;
-    left: 45%;
+    top: 30%;
+    left: 0%;
+    right:0%;
+    margin: 0 auto;
     position: fixed;
     z-index: 9999999;
 }
@@ -9564,3 +9566,5 @@ hr{
     width: 42px; 
     height: 42px;
  }
+
+   
