@@ -179,7 +179,7 @@ function GetEnableSectionNames(id) {
                 var sectionId = $(this).attr('id');
                 $("#" + sectionId).removeClass("disabled");
                 $("#" + sectionId).find('input,select,textarea').removeAttr("disabled");
-                document.getElementById(sectionId).style.display = "block";
+                //  document.getElementById(sectionId).style.display = "block";
             }
             // else {
             //     ////collapse inActive sections
@@ -213,7 +213,7 @@ function GetEnableSectionNames(id) {
                     var sectionId = $(this).attr('id');
                     $("#" + sectionId).removeClass("disabled");
                     $("#" + sectionId).find('input,select,textarea').removeAttr("disabled");
-                    document.getElementById(sectionId).style.display = "block";
+                    //  document.getElementById(sectionId).style.display = "block";
                 }
                 // else {
                 //     ////collapse inActive sections
@@ -1162,10 +1162,11 @@ function SaveFormFields(formFieldValues, requestId) {
         var nextUsers = [];
         if (IsArray(formFieldValues["NextApprover"])) {
             nextUsers = removeDuplicateFromArray(formFieldValues["NextApprover"]);
+            mainlistDataArray['NextApproverId'] = { "results": nextUsers };
         }
-        else if (formFieldValues["NextApprover"].toString().indexOf(",") > 0) {
-            nextUsers = removeDuplicateFromArray(TrimComma(nextUsers.trim()).split(","));
-        }
+        // else if (formFieldValues["NextApprover"].toString().indexOf(",") > 0) {
+        //     nextUsers = removeDuplicateFromArray(TrimComma(nextUsers.trim()).split(","));
+        // }
         else {
             mainlistDataArray['NextApproverId'] = { "results": nextUsers };
         }
