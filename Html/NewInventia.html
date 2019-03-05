@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- #region QA-->
-<!--     
+    <!--     
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Content/font-awesome.min.css"
     />
@@ -44,15 +44,15 @@
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/AppForm.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script>  -->
 
-   
+
 
 
     <!-- #endregion -->
 
     <!-- #region Dev -->
-   
 
-     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
 
@@ -92,8 +92,8 @@
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/tran.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/AppForm.js"></script>
 
-    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script> 
-    
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script>
+
     <!-- #endregion -->
 
     <script type="text/javascript">
@@ -106,33 +106,33 @@
                 $(this).load(file);
             });
             $(document).on("change", "#UploadURSAttachment", function () {
-                var isValid=ValidateSize(this);
-                if(isValid){
-                BindURSAttachmentFiles();
+                var isValid = ValidateSize(this);
+                if (isValid) {
+                    BindURSAttachmentFiles();
                 }
-                else{
+                else {
                     var checkFile = $('#URSContainer').html();
-                    if(checkFile !=""){
-                    $("#UploadURSAttachment").removeAttr("required");
+                    if (checkFile != "") {
+                        $("#UploadURSAttachment").removeAttr("required");
                     }
                 }
             });
             $(document).on("change", "#UploadSupportiveDocAttachment", function () {
-                var isValid=ValidateSize(this);
-                if(isValid){
-                BindSupportDocAttachmentFiles();
+                var isValid = ValidateSize(this);
+                if (isValid) {
+                    BindSupportDocAttachmentFiles();
                 }
             });
             $(document).on("change", "#UploadPurchaseAttachment", function () {
-                var isValid=ValidateSize(this);
-                if(isValid){
-                BindPurchaseAttachmentFiles();
+                var isValid = ValidateSize(this);
+                if (isValid) {
+                    BindPurchaseAttachmentFiles();
                 }
             });
             $(document).on("change", "#UploadHODAttachment", function () {
-                var isValid=ValidateSize(this);
-                if(isValid){
-                BindHODAttachmentFiles();
+                var isValid = ValidateSize(this);
+                if (isValid) {
+                    BindHODAttachmentFiles();
                 }
             });
 
@@ -148,18 +148,18 @@
                 $("#IsNewVendor").show();
                 $("#NewVendorName").focus();
                 $("#proposedVendor").show();
-             $("#ProposedVendor").show();
+                $("#ProposedVendor").show();
 
-            }); 
+            });
 
             $("#NewVendorName").change(function () {
                 var checkspace = isSpacesOnly($("#NewVendorName").val());
-                if(!checkspace){
-                if ($("#ProposedVendor").html() != "") {
-                    $("#ProposedVendor").append(','); }
-                if($("#NewVendorName").val() !=null || $("#NewVendorName").val()!=" " || $("#NewVendorName").val()!="")
-                { $("#ProposedVendor").append($("#NewVendorName").val()); }
-                $("#NewVendorName").val('');
+                if (!checkspace) {
+                    if ($("#ProposedVendor").html() != "") {
+                        $("#ProposedVendor").append(',');
+                    }
+                    if ($("#NewVendorName").val() != null || $("#NewVendorName").val() != " " || $("#NewVendorName").val() != "") { $("#ProposedVendor").append($("#NewVendorName").val()); }
+                    $("#NewVendorName").val('');
                 }
             });
             $(document).on("change", "#ReasonforSelection", function () {
@@ -235,27 +235,27 @@
         });
         jQuery(document).ready(function ($) {
 
-        $("#card-head-InitiatorSection").click(function () {
-            $("#InitiatorSection").slideToggle("slow");   
+            $("#card-head-InitiatorSection").click(function () {
+                $("#InitiatorSection").slideToggle("slow");
+            });
+
+            $("#card-head-PurchaseSection").click(function () {
+                $("#PurchaseSection").slideToggle("slow");
+            });
+
+            $("#card-head-HodSection").click(function () {
+                $("#HodSection").slideToggle("slow");
+            });
+
+            $("#card-head-FunctionHead").click(function () {
+                $("#FunctionHead").slideToggle("slow");
+            });
+
+            $("#card-head-ManagementSection").click(function () {
+                $("#ManagementSection").slideToggle("slow");
+            });
+
         });
-
-        $("#card-head-PurchaseSection").click(function () {
-            $("#PurchaseSection").slideToggle("slow");   
-        });  
-
-        $("#card-head-HodSection").click(function () {
-            $("#HodSection").slideToggle("slow");   
-        }); 
-
-        $("#card-head-FunctionHead").click(function () {
-            $("#FunctionHead").slideToggle("slow");   
-        });
-
-        $("#card-head-ManagementSection").click(function () {
-            $("#ManagementSection").slideToggle("slow");   
-        });
-
-});
 
     </script>
 
@@ -333,7 +333,7 @@
                                                             <span class="text-danger text-default-light">*</span>
                                                             Department
                                                         </label>
-                                                       <label id="Department" class="col-md-8 static-control labeltop" controlType="text" listtype="main"></label>
+                                                        <label id="Department" class="col-md-8 static-control labeltop" controlType="text" listtype="main"></label>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
@@ -359,7 +359,8 @@
                                                         <div class="col-md-8">
                                                             <select class="form-control m-b-n-sm dynamic-control" id="Location" controlType="combo" listtype="master" reflisttype="main"
                                                                 listname="LocationMaster" data-selected="Location" valuebindingcolumn="Title"
-                                                                textbindingcolumnn="Title" name="Location" required="required" required>
+                                                                textbindingcolumnn="Title" name="Location" required="required"
+                                                                required>
                                                             </select>
 
                                                         </div>
@@ -406,7 +407,8 @@
                                                         <label class="col-md-4 control-label">
                                                             <span class="text-danger text-default-light">*</span>
                                                             Number of Units
-                                                            <img src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/36601.png" style ="width: 20px;height:15px;"alt="alternative text" title="Number Only"/>
+                                                            <img src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/36601.png" style="width: 20px;height:15px;" alt="alternative text"
+                                                                title="Number Only" />
                                                         </label>
 
                                                         <div class="col-md-8">
@@ -421,11 +423,13 @@
                                                         <label class="col-md-4 control-label">
                                                             <span class="text-danger text-default-light">*</span>
                                                             Life of Asset (Years)
-                                                            <img src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/36601.png" style ="width: 20px;height:15px;"alt="alternative text" title="Number Only"/>
+                                                            <img src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/36601.png" style="width: 20px;height:15px;" alt="alternative text"
+                                                                title="Number Only" />
                                                         </label>
                                                         <div class="col-md-8">
                                                             <input type="text" id="AssetLife" class="form-control dynamic-control" placeholder="Life of Asset" controlType="text" name="AssetLife"
-                                                            maxlength="15" listtype="main" required="required" data="digit" />
+                                                                maxlength="15" listtype="main" required="required" data="digit"
+                                                            />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -438,30 +442,14 @@
                                                             Imported?
                                                         </label>
                                                         <div class="col-md-8 ">
-                                                           
-                                                            <!-- <input type="checkbox" id="Imported" class="form-control dynamic-control" name="Imported" controlType="checkbox" listtype="main"
-                                                            /> -->
-                                                            
-                                                                    <!-- <label class="col-md-3 control-label radio-label">
-                                                                        <input class="dynamic-control" type="radio" value="Yes"
-                                                                            id="Yes" name="Imported"
-                                                                            controlType="radiogroup" cParent="Imported"
-                                                                            listtype="main" />Yes
-                                                                    </label>
-                                                                    <label class="col-md-4 control-label radio-label">
-                                                                        <input class="dynamic-control" type="radio" value="No"
-                                                                            id="No" name="Imported"
-                                                                            controlType="radiogroup" cParent="Imported"
-                                                                            listtype="main" /> No
-                                                                    </label> -->                                                                                                                                       
-                                                                    <label class="col-md-3 control-label radio-label">
-                                                                        <input class="dynamic-control" type="radio" id="Yes" name="Imported" value="Yes" controlType="radiogroup" cParent="Imported"  listtype="main" >Yes
-                                                                    </label> 
-                                                                    <label class="col-md-4 control-label radio-label">
-                                                                        <input class="dynamic-control" type="radio" id="No" name="Imported" value="No" controlType="radiogroup" cParent="Imported"  listtype="main">No
-                                                                    </label>
-                                                                    
-                                                            
+                                                            <label class="col-md-3 control-label radio-label">
+                                                                <input class="dynamic-control" type="radio" id="Yes" name="Imported" value="Yes" controlType="radiogroup" cParent="Imported"
+                                                                    listtype="main" defaultVal="Yes">Yes
+                                                            </label>
+                                                            <label class="col-md-4 control-label radio-label">
+                                                                <input class="dynamic-control" type="radio" id="No" name="Imported" value="No" controlType="radiogroup" cParent="Imported"
+                                                                    listtype="main" defaultVal="Yes">No
+                                                            </label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -482,7 +470,7 @@
                                             </div>
                                             <hr>
                                             <br>
-                                           
+
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
@@ -517,24 +505,24 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                  
+
                                                 </div>
                                             </div>
                                             <hr>
                                             <br>
                                             <div class="row">
-                                                    <div class="col-lg-6">
-                                                            <div class="form-group">
-                                                                <label class="col-md-4 control-label">
-                                                                    <span class="text-danger text-default-light">*</span>
-                                                                    Justification for Purchase</label>
-                                                                <div class="col-md-8">
-                                                                    <input type="text" id="JustificationforPurchase" class="form-control dynamic-control" placeholder="Justification for Purchase"
-                                                                        controlType="text" maxlength="1000" name="JustificationforPurchase"
-                                                                        listtype="main" required="required" />
-                                                                </div>
-                                                            </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label">
+                                                            <span class="text-danger text-default-light">*</span>
+                                                            Justification for Purchase</label>
+                                                        <div class="col-md-8">
+                                                            <input type="text" id="JustificationforPurchase" class="form-control dynamic-control" placeholder="Justification for Purchase"
+                                                                controlType="text" maxlength="1000" name="JustificationforPurchase"
+                                                                listtype="main" required="required" />
                                                         </div>
+                                                    </div>
+                                                </div>
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
                                                         <label class="col-md-4 control-label">
@@ -562,7 +550,7 @@
                                                             <br>
                                                             <div id="URSContainer"></div>
                                                         </div>
-                                                        
+
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
@@ -578,7 +566,7 @@
                                                             <br>
                                                             <ul id="fileListSupportiveDoc"></ul>
                                                         </div>
-                                                        
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -618,7 +606,7 @@
                             </div>
                             <div class="card">
                                 <div class="card-head" id="card-head-PurchaseSection">
-                                    <b>VENDOR INFORMATION  </b>
+                                    <b>VENDOR INFORMATION </b>
                                     <div class="btn collapse-btn">
                                         <i class="fa fa-chevron-down"></i>
                                     </div>
@@ -694,13 +682,13 @@
                             </div>
                             <div class="card">
                                 <div class="card-head" id="card-head-HodSection">
-                                    <b>HOD REVIEW  </b>
+                                    <b>HOD REVIEW </b>
                                     <div class="btn collapse-btn">
                                         <i class="fa fa-chevron-down"></i>
                                     </div>
                                 </div>
                                 <myform enctype="multipart/form-data" id="form_HodSection" method="post" novalidate="novalidate" autocomplete="off">
-                               
+
                                     <div class="card-body disabled " id="HodSection" section="Initiator HOD Section" sectionOwner="" FillByRole="">
                                         <div class="form-horizontal">
                                             <div class="row">
@@ -808,24 +796,24 @@
                                                                     <input id="UtilizedValue" class="form-control dynamic-control disabled" name="UtilizedValue" placeholder="Utilised Value"
                                                                         type="text" controlType="text" data="digit" maxlength="15"
                                                                         listtype="main" style="display:none;" />
-                                                                        <label id="UtilizedValueDisplay" class="col-md-8 static-control labeltop"></label>
+                                                                    <label id="UtilizedValueDisplay" class="col-md-8 static-control labeltop"></label>
                                                                 </td>
                                                                 <td class="col-md-2">
                                                                     <input id="CurrentValue" class="form-control dynamic-control disabled" name="CurrentValue" placeholder="Current Value" type="text"
-                                                                        controlType="combo" data="digit" maxlength="15" listtype="main" style="display:none;"
-                                                                    />
+                                                                        controlType="combo" data="digit" maxlength="15" listtype="main"
+                                                                        style="display:none;" />
                                                                     <label id="CurrentValueDisplay" class="col-md-8 static-control labeltop"></label>
                                                                 </td>
                                                                 <td class="col-md-2">
                                                                     <input id="TotalUtilizedValue" class="form-control dynamic-control disabled" name="TotalUtilizedValue" placeholder="Total Utilised Value"
                                                                         type="text" controlType="text" listtype="main" data="digit"
                                                                         maxlength="15" style="display:none;" />
-                                                                        <label id="TotalUtilizedValueDisplay" class="col-md-8 static-control labeltop"></label>
+                                                                    <label id="TotalUtilizedValueDisplay" class="col-md-8 static-control labeltop"></label>
                                                                 </td>
                                                                 <td class="col-md-2">
                                                                     <input id="Balance" class="form-control dynamic-control disabled" name="Balance" placeholder="Balance Value" type="text"
-                                                                        controlType="text" listtype="main" data="digit" maxlength="15" style="display:none;"
-                                                                    />
+                                                                        controlType="text" listtype="main" data="digit" maxlength="15"
+                                                                        style="display:none;" />
                                                                     <label id="BalanceDisplay" class="col-md-8 static-control labeltop"></label>
                                                                 </td>
 
@@ -837,7 +825,7 @@
                                                     </table>
                                                 </div>
                                             </div>
-                             
+
                                             <hr>
                                             <br>
                                             <div class="row">
@@ -911,13 +899,13 @@
                             </div>
                             <div class="card">
                                 <div class="card-head" id="card-head-FunctionHead">
-                                    <b> FUNCTION REVIEW  </b>
+                                    <b> FUNCTION REVIEW </b>
                                     <div class="btn collapse-btn">
                                         <i class="fa fa-chevron-down"></i>
                                     </div>
                                 </div>
                                 <myform enctype="multipart/form-data" id="form_FunctionHead" method="post" novalidate="novalidate" autocomplete="off">
-                                   
+
                                     <div class="card-body disabled" id="FunctionHead" section="Function Head Section" sectionOwner="" FillByRole="">
                                         <div class="form-horizontal">
                                             <div class="row">

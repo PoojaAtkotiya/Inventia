@@ -80,7 +80,7 @@ function onloadConstantsSuccess(sender, args) {
         GetGlobalApprovalMatrix(listItemId);
     }
     GetFormBusinessLogic(listItemId, activeSectionName, department);
-  //  SaveErrorInList(activityTrack, "Action");
+    //  SaveErrorInList(activityTrack, "Action");
 }
 
 function GetUserDepartment() {
@@ -987,10 +987,8 @@ function GetFormControlsValue(id, elementType, listDataArray, elementvaluetype =
                 listDataArray[parenType].results.splice(idx, 1);
             break;
         case "radiogroup":
-           var parenType = $(obj).attr('cParent');           
-           listDataArray[parenType] = $(obj)[0].id;
-            
-           
+            var parenType = $(obj).attr('cParent');
+            listDataArray[parenType] = $(obj)[0].id;
             break;
     }
     return listDataArray;
@@ -1267,15 +1265,20 @@ function SaveFormData(activeSection, ele) {
         var sectionName = $(activeSection).attr('section');
         var activeSectionId = $(activeSection).attr('id');
 
-        //$(activeSection).find('input[listtype=main],select[listtype=main],radio[listtype=main],textarea[listtype=main],label[listtype=main],input[reflisttype=main],select[reflisttype=main],radio[reflisttype=main],textarea[reflisttype=main],label[reflisttype=main],select[reflisttype=trans]')
-
         $(activeSection).find('input[listtype=main],select[listtype=main],radio[listtype=main],textarea[listtype=main],input[reflisttype=main],select[reflisttype=main],radio[reflisttype=main],textarea[reflisttype=main]').each(function () {
             var elementId = $(this).attr('id');
             var elementType = $(this).attr('controlType');
             var elementProperty = $(this).attr('controlProperty');
             var elementvaluetype = $(this).attr('controlvaluetype');
-            
-          
+            if (elementType == 'radiogroup') {
+                var elementName = $(this).attr("name");
+                if (this.checked) {
+                    elementId = $("input[name='" + elementName + "']:checked").val();
+                }
+                else {
+                    elementId = $(this).attr("defaultVal");
+                }
+            }
             listDataArray = GetFormControlsValue(elementId, elementType, listDataArray, elementvaluetype);
             listActivityLogDataArray = GetFormControlsValueAndType(elementId, elementType, elementProperty, listActivityLogDataArray);
         });
@@ -1293,6 +1296,15 @@ function SaveFormData(activeSection, ele) {
             var elementType = $(this).attr('controlType');
             var elementProperty = $(this).attr('controlProperty');
             var elementvaluetype = $(this).attr('controlvaluetype');
+            if (elementType == 'radiogroup') {
+                var elementName = $(this).attr("name");
+                if (this.checked) {
+                    elementId = $("input[name='" + elementName + "']:checked").val();
+                }
+                else {
+                    elementId = $(this).attr("defaultVal");
+                }
+            }
             currAppArray = GetFormControlsValue(elementId, elementType, currAppArray);
 
             if (!IsNullOrUndefined(currAppArray)) {
@@ -1304,13 +1316,7 @@ function SaveFormData(activeSection, ele) {
                 }
             }
         });
-        // save vendor max 3 vendor condition by hirvita
-        // if (listTempGridDataArray.length >= 3) {
         SaveData(mainListName, listDataArray, sectionName, ele);
-        // }
-        // else {
-        //      alert("Max 3 vendor required");
-        //  }
     }
 }
 
@@ -1465,7 +1471,7 @@ function SaveActions(sectionName, itemID, actionPerformed) {
     var hour = addZero(todayDate.getHours());
     var minute = addZero(todayDate.getMinutes());
     var formatted = day + "/" + month + "/" + year + " " + hour + ":" + minute + " " + amOrPm + " " + 'IST';
-    var currentUserDepartment=GetUserDepartment();
+    var currentUserDepartment = GetUserDepartment();
     switch (sectionName) {
         case SectionNames.INITIATORSECTION:
             if (actionPerformed == "NextApproval") {
