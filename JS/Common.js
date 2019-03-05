@@ -988,7 +988,7 @@ function GetFormControlsValue(id, elementType, listDataArray, elementvaluetype =
             break;
         case "radiogroup":
             var parenType = $(obj).attr('cParent');
-            if (!IsNullOrUndefined($(obj)[0].id))
+            if (!IsNullOrUndefined($(obj)[0]) && !IsNullOrUndefined($(obj)[0].id))
                 listDataArray[parenType] = $(obj)[0].id;
             break;
     }
