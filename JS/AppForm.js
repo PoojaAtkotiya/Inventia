@@ -270,11 +270,13 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
         BindHODAttachment();
         setVendorDropDown();
         $('#AddVendor').hide();
+        if(mainListData.PendingWith != Roles.INITIATORHOD){
         $("#CurrentValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.CurrentValue));
         $("#TotalUtilizedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.TotalUtilizedValue));
         $("#BalanceDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.Balance));
         $("#BudgetedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.BudgetedValue));
         $("#UtilizedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.UtilizedValue));
+        }
     }
 
     //common functions for all department
@@ -1032,6 +1034,7 @@ function BindPurchaseAttachmentFiles() {
                         fileURSArray = [];
                         $('#fileListpurchaseContainer').html(htmlStr);
                         $("#UploadPurchaseAttachment").val('');
+                        HideWaitDialog();
 
                     }).catch(function (err) {
                         HideWaitDialog();
@@ -1067,24 +1070,23 @@ function BindPurchaseEditAttachmentFiles() {
                 attachmentdata = data.d.results;
                 attachmentdata.forEach(element => {
                     if (element.Title == "Purchase") {
-
                         var htmlStr = "";
+                        var checkFile = $('#fileListpurchaseContainer').html();
                         var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + element.ID + "/" + element.FileName;
 
-                        if (htmlStr === "") {
-                            htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a><a href=\"javascript:removePurchaseFile('" + element.ID + "')\"> Remove</a></li>";
+                        if (checkFile === "") {
+                            htmlStr = "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a><a style='color:brown' id='Remove_" + element.ID + "' href=\"javascript:removePurchaseFile('" + element.ID + "')\"> Remove</a></li>";
                         }
                         else {
-                            htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li><a href=\"javascript:removePurchaseFile('" + element.FileName + "')\"> Remove</a></li>";
-
+                            htmlStr = checkFile + "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li><a style='color:brown' id='Remove_" + element.ID + "' href=\"javascript:removePurchaseFile('" + element.ID + "')\"> Remove</a></li>";
                         }
                         fileCommonArray.push({
                             "name": "Purchase",
                             "id": element.ID,
                             "filename": element.FileName
                         });
-                        $('#purchaseContainer').html(htmlStr);
-                    }
+                        $('#fileListpurchaseContainer').html(htmlStr);
+                     }
                 });
             }
         });
@@ -1155,16 +1157,25 @@ function BindPurchaseAttachment() {
                 attachmentdata = data.d.results;
                 attachmentdata.forEach(element => {
                     if (element.Title == "Purchase") {
+                    
+                    
+
                         var htmlStr = "";
+                        var checkFile = $('#fileListpurchaseContainer').html();
                         var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + element.ID + "/" + element.FileName;
-                        if (htmlStr === "") {
-                            htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li>";
+
+                        if (checkFile === "") {
+                            htmlStr = "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li>";
                         }
                         else {
-                            htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li>";
-
-                        }
-                        $('#purchaseContainer').html(htmlStr);
+                            htmlStr = checkFile + "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li>";
+                         }
+                        fileCommonArray.push({
+                            "name": "Purchase",
+                            "id": element.ID,
+                            "filename": element.FileName
+                        });
+                             $('#fileListpurchaseContainer').html(htmlStr);
                     }
                 });
             }
@@ -1191,15 +1202,16 @@ function BindHODEditAttachmentFiles() {
                 attachmentdata = data.d.results;
                 attachmentdata.forEach(element => {
                     if (element.Title == "HOD") {
-
                         var htmlStr = "";
+                        var checkFile = $('#fileListHODContainer').html();
                         var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + element.ID + "/" + element.FileName;
 
-                        if (htmlStr === "") {
-                            htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a><a href=\"javascript:removeURSFile('" + element.ID + "')\"> Remove</a></li>";
+                        if (checkFile === "") {
+                            htmlStr = "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a><a style='color:brown' id='Remove_" + element.ID + "' href=\"javascript:removeHODFile('" + element.ID + "')\"> Remove</a></li>";
                         }
                         else {
-                            htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li><a href=\"javascript:removeURSFile('" + element.FileName + "')\"> Remove</a></li>";
+                            htmlStr = checkFile + "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li><a style='color:brown' id='Remove_" + element.ID + "' href=\"javascript:removeHODFile('" + element.ID + "')\"> Remove</a></li>";
+                            //  htmlStr = checkFile + "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a> <a style='color:brown' id='Remove_" + element.ID + "' href=\"javascript:removeSupportiveFile('" + element.ID + "')\"> Remove</a></li>";
 
                         }
                         fileCommonArray.push({
@@ -1207,7 +1219,8 @@ function BindHODEditAttachmentFiles() {
                             "id": element.ID,
                             "filename": element.FileName
                         });
-                        $('#HODContainer').html(htmlStr);
+                     $('#fileListHODContainer').html(htmlStr);
+                        
                     }
                 });
             }
@@ -1217,8 +1230,7 @@ function BindHODAttachmentFiles() {
     ShowWaitDialog();
     var output = [];
     var fileName;
-    var checkFile = $('#HODContainer').html();
-    if (checkFile == "" || checkFile == undefined) {
+   
         //Get the File Upload control id
         var input = document.getElementById("UploadHODAttachment");
         if (input.files.length > 0) {
@@ -1267,25 +1279,26 @@ function BindHODAttachmentFiles() {
                         var item = $pnp.sp.web.lists.getByTitle("Attachments").items.getById(itemId);
                         item.attachmentFiles.addMultiple(fileURSArray).then(v => {
                             var htmlStr = "";
+                            // var checkFile = $('#UploadSupportiveDocAttachment').next().next().html();
+                            var checkFile = $('#fileListHODContainer').html();
                             var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + itemId + "/" + fileName;
-
-                            if (htmlStr === "") {
-                                htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + fileName + "</a><a href=\"javascript:removeHODFile('" + itemId + "')\"> Remove</a></li>";
+    
+                            if (checkFile === "") {
+                                htmlStr = "<li id=li_" + itemId + "><a id='attachment_" + itemId + "' href='" + ServerRelativeUrl + "' target='_blank'>" + fileName + "</a><a style='color:brown' id='Remove_" + itemId + "' href=\"javascript:removeHODFile('" + itemId + "')\"> Remove</a></li>";
                             }
                             else {
-                                htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + fileName + "</a></li><a href=\"javascript:removeHODFile('" + fileName + "')\"> Remove</a></li>";
-
+                                htmlStr = checkFile + "<li id=li_" + itemId + "><a id='attachment_" + itemId + "' href='" + ServerRelativeUrl + "' target='_blank'>" + fileName + "</a><a style='color:brown' id='Remove_" + itemId + "' href=\"javascript:removeHODFile('" + itemId + "')\"> Remove</a></li>";
+    
                             }
                             fileCommonArray.push({
                                 "name": "HOD",
                                 "id": itemId,
                                 "filename": fileName
                             });
-
                             fileURSArray = [];
-                            $('#HODContainer').html(htmlStr);
+                            $('#fileListHODContainer').html(htmlStr);
+                            $("#UploadHODAttachment").val('');
                             HideWaitDialog();
-
                         }).catch(function (err) {
                             HideWaitDialog();
                             fileURSArray = [];
@@ -1299,14 +1312,11 @@ function BindHODAttachmentFiles() {
                 });
             }
         }
-    }
-    else {
-        HideWaitDialog();
-        AlertModal('Error', "Remove existing HOD file to add New");
-    }
+   
 }
 //Only for download purpose
 function BindHODAttachment() {
+   
     var attachmentdata = [];
     AjaxCall(
         {
@@ -1325,19 +1335,18 @@ function BindHODAttachment() {
                 attachmentdata = data.d.results;
                 attachmentdata.forEach(element => {
                     if (element.Title == "HOD") {
-
                         var htmlStr = "";
+                        var checkFile = $('#fileListHODContainer').html();
                         var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + element.ID + "/" + element.FileName;
 
-                        if (htmlStr === "") {
-                            htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li>";
+                        if (checkFile === "") {
+                            htmlStr = "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li>";
                         }
                         else {
-                            htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li>";
-
-                        }
-
-                        $('#HODContainer').html(htmlStr);
+                            htmlStr = checkFile + "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li>";
+                           }
+                       
+                     $('#fileListHODContainer').html(htmlStr);
                     }
                 });
             }
@@ -1526,10 +1535,11 @@ function ValidateSize(file) {
 }
 
 function ReplaceNumberWithCommas(yourNumber) {
-    //Seperates the components of the number
+    if(yourNumber!=null){
     var n = yourNumber.toString().split(".");
     //Comma-fies the first part
     n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     //Combines the two sections
     return n.join(".");
+    }
 }

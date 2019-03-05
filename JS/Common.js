@@ -112,6 +112,38 @@ function GetUserDepartment() {
         }
     });
 }
+function GetLoginUserDepartment() {
+    var currentUserDepartment;
+    $.ajax({
+        url: _spPageContextInfo.webAbsoluteUrl + "/_api/SP.UserProfiles.PeopleManager/GetMyProperties",
+        httpmethod: 'GET',
+        calldatatype: 'JSON',
+        async: false,
+        headers: {
+            Accept: "application/json;odata=verbose"
+        },
+        success: function (data) {
+            try {
+                //Get properties from user profile Json response  
+                userDisplayName = data.d.DisplayName;
+                AccountName = data.d.AccountName;
+                var properties = data.d.UserProfileProperties.results;
+                for (var i = 0; i < properties.length; i++) {
+                    if (properties[i].Key == "Department") {
+                        currentUserDepartment = properties[i].Value;
+                        return currentUserDepartment;
+                    }
+                }
+            } catch (err2) {
+                //alert(JSON.stringify(err2));  
+            }
+        },
+        error: function (jQxhr, errorCode, errorThrown) {
+            //   console.log(errorThrown);
+        }
+    });
+    return currentUserDepartment;
+}
 
 
 /*Priya Rane */
@@ -1464,7 +1496,7 @@ function SaveActions(sectionName, itemID, actionPerformed) {
     var hour = addZero(todayDate.getHours());
     var minute = addZero(todayDate.getMinutes());
     var formatted = day + "/" + month + "/" + year + " " + hour + ":" + minute + " " + amOrPm + " " + 'IST';
-    var currentUserDepartment = GetUserDepartment();
+    var currentUserDepartment = GetLoginUserDepartment();
     switch (sectionName) {
         case SectionNames.INITIATORSECTION:
             if (actionPerformed == "NextApproval") {
