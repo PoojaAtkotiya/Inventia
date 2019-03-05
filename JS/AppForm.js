@@ -223,7 +223,9 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
         bindAssetClassification();
         $('#btnAddVendor').hide();
         $("#ProposedVendor").hide();
+        $("#ImportedYes").prop("checked", true);
     }
+
 
     if (listItemId > 0) {
         $("#RaisedOnDisplay").html(new Date(mainListData.RaisedOn).format("dd/MM/yyyy"));
@@ -249,6 +251,13 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
         }
         $('#AddVendor').hide();
         // BindPaymentTerm();
+
+        if (!$("input:radio[name='Negotiated']").is(":checked")) {
+            $("#NegotiatedYes").prop("checked", true);
+        }
+        if (!$("input:radio[name='Recommended']").is(":checked")) {
+            $("#RecommendedYes").prop("checked", true);
+        }
     }
     else if (mainListData.WorkflowStatus == "Approved" || mainListData.WorkflowStatus == "Rejected" || mainListData.PendingWith == Roles.INITIATORHOD || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
         BindPurchaseAttachment();
