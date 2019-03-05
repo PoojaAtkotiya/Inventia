@@ -66,7 +66,7 @@ const Roles = {
 Object.freeze(Roles);
 
 const WFStatus = {
-    COMPLETED: "Closed",
+    COMPLETED: "Approved",
     PENDINGWITH: "Pending for "
 }
 Object.freeze(WFStatus);
