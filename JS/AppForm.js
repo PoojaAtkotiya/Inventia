@@ -271,6 +271,11 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
         BindHODAttachment();
         setVendorDropDown();
         $('#AddVendor').hide();
+        $("#CurrentValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.CurrentValue));
+        $("#TotalUtilizedValueDisplay").html("&#8360; " +ReplaceNumberWithCommas(mainListData.TotalUtilizedValue));
+        $("#BalanceDisplay").html("&#8360; " +ReplaceNumberWithCommas(mainListData.Balance));
+        $("#BudgetedValueDisplay").html("&#8360; " +ReplaceNumberWithCommas(mainListData.BudgetedValue));
+        $("#UtilizedValueDisplay").html("&#8360; " +ReplaceNumberWithCommas(mainListData.UtilizedValue));
     }
 
     //common functions for all department
