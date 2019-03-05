@@ -130,6 +130,13 @@
 		background: #4b2465!important;
 		top:50px;
     }
+    .ms-welcome-root{
+        background:rgba(255,255,255,10);
+        margin-right:55px;
+        float:right;
+        width:auto !important;
+    }
+    
 	
 }
 
