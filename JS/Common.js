@@ -1435,7 +1435,7 @@ function OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCap
                     displayMessage = "Request has been Completed.";
                     break;
                 default:
-                    displayMessage = "Data saved successfully";
+                    displayMessage = "Request has been Submitted.";
                     break;
             }
             if (IsNullOrUndefined(data)) {

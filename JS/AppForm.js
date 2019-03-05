@@ -266,18 +266,16 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
         $('#AddVendor').hide();
     }
 
-    if (mainListData.WorkflowStatus == "Approved" || mainListData.WorkflowStatus == "Rejected" || mainListData.PendingWith == Roles.INITIATORHOD || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
-        BindHODAttachment();
+    if (mainListData.WorkflowStatus == "Approved" || mainListData.WorkflowStatus == "Rejected"  || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
         setVendorDropDown();
         $('#AddVendor').hide();
-        if(mainListData.PendingWith != Roles.INITIATORHOD){
+        BindHODAttachment();
         $("#CurrentValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.CurrentValue));
         $("#TotalUtilizedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.TotalUtilizedValue));
         $("#BalanceDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.Balance));
         $("#BudgetedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.BudgetedValue));
         $("#UtilizedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.UtilizedValue));
-        }
-    }
+     }
 
     //common functions for all department
     if (!IsNullOrUndefined(listItemId) && listItemId > 0) {
@@ -1471,6 +1469,12 @@ function GetBudgetValue() {
 
 function SetCurrentValue() {
     var vendorname = $("#SelectedVendor").val();
+    if(vendorname ==undefined || vendorname==null || vendorname=="")
+    {
+        if (mainListData.SelectedVendor != undefined) {
+            vendorname=mainListData.SelectedVendor;
+        }
+    }
     if (vendorname != "Select") {
         $(listTempGridDataArray).each(function (i, e) {
             if (vendorname == listTempGridDataArray[i].VendorName) {
