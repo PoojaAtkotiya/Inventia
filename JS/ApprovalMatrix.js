@@ -21,11 +21,11 @@ function GetGlobalApprovalMatrix(id) {
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json; odata=verbose",
-                    "X-RequestDigest": gRequestDigestValue// data.d.GetContextWebInformation.FormDigestValue
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json; odata=verbose",
+                "X-RequestDigest": gRequestDigestValue// data.d.GetContextWebInformation.FormDigestValue
+            },
             sucesscallbackfunction: function (data) {
                 globalApprovalMatrix = data.d.results;
                 /*Pooja Atkotiya */
@@ -45,11 +45,11 @@ function GetLocalApprovalMatrixData(id, mainListName) {
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 /*Pooja Atkotiya */
                 localApprovalMatrixdata = data.d.results;
@@ -123,7 +123,6 @@ function GetCurrentUserRole(id, mainListName) {
     web = currentContext.get_web();
     oList = web.get_lists().getByTitle(mainListName);
     this._currentUser = web.get_currentUser();
-
     var oListItem = oList.getItemById(id);
     currentContext.load(oListItem, 'EffectiveBasePermissions', 'HasUniqueRoleAssignments', 'FormLevel', 'Status');
     currentContext.load(web);
@@ -132,7 +131,6 @@ function GetCurrentUserRole(id, mainListName) {
 
         // SP.PermissionKind.manageWeb  == Full Control
         if (oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.editListItems) && oListItem.get_effectiveBasePermissions().has(SP.PermissionKind.addListItems)) {
-
             tcurrentLevel = oListItem.get_item('FormLevel').split("|")[1];
             GetRoleFromApprovalMatrix(tcurrentLevel, id, currentUser.Id);
             //  if (!IsNullOrUndefined(currentUserRole)) {
@@ -179,13 +177,8 @@ function GetEnableSectionNames(id) {
                 var sectionId = $(this).attr('id');
                 $("#" + sectionId).removeClass("disabled");
                 $("#" + sectionId).find('input,select,textarea').removeAttr("disabled");
-                //  document.getElementById(sectionId).style.display = "block";
+                document.getElementById(sectionId).style.display = "block";
             }
-            // else {
-            //     ////collapse inActive sections
-            //     var sectionId = $(this).attr('id');
-            //     document.getElementById(sectionId).style.display = "none";
-            // }
         });
         $("div .disabled").attr("disabled", "disabled");
         $("div .disabled .form-control").attr("disabled", "disabled");
@@ -213,13 +206,8 @@ function GetEnableSectionNames(id) {
                     var sectionId = $(this).attr('id');
                     $("#" + sectionId).removeClass("disabled");
                     $("#" + sectionId).find('input,select,textarea').removeAttr("disabled");
-                    //  document.getElementById(sectionId).style.display = "block";
+                    document.getElementById(sectionId).style.display = "block";
                 }
-                // else {
-                //     ////collapse inActive sections
-                //     var sectionId = $(this).attr('id');
-                //     document.getElementById(sectionId).style.display = "none";
-                // }
             });
         }
         $("div .disabled").attr("disabled", "disabled");
@@ -1249,13 +1237,13 @@ function SaveFormFields(formFieldValues, requestId) {
                 postData: JSON.stringify(mainlistDataArray),
                 async: false,
                 headers:
-                    {
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json;odata=verbose",
-                        "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                        "IF-MATCH": "*",
-                        "X-Http-Method": "MERGE", //PATCH
-                    },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "IF-MATCH": "*",
+                    "X-Http-Method": "MERGE", //PATCH
+                },
                 sucesscallbackfunction: function (data) {
                     console.log("Item saved Successfully");
                 }
