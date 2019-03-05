@@ -251,7 +251,7 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
         $('#AddVendor').hide();
        // BindPaymentTerm();
     }
-    else if (mainListData.WorkflowStatus == "Closed" || mainListData.WorkflowStatus == "Rejected" || mainListData.PendingWith == Roles.INITIATORHOD || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
+    else if (mainListData.WorkflowStatus == "Approved" || mainListData.WorkflowStatus == "Rejected" || mainListData.PendingWith == Roles.INITIATORHOD || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
         BindPurchaseAttachment();
         $('[id*="EditVendor_"]').hide();
         $('[id*="DeleteVendor_"]').hide();
@@ -267,10 +267,15 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
         $('#AddVendor').hide();
     }
    
-    if (mainListData.WorkflowStatus == "Closed" || mainListData.WorkflowStatus == "Rejected" || mainListData.PendingWith == Roles.INITIATORHOD || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
+    if (mainListData.WorkflowStatus == "Approved" || mainListData.WorkflowStatus == "Rejected" || mainListData.PendingWith == Roles.INITIATORHOD || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
         BindHODAttachment();
         setVendorDropDown();
         $('#AddVendor').hide();
+        $("#CurrentValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.CurrentValue));
+        $("#TotalUtilizedValueDisplay").html("&#8360; " +ReplaceNumberWithCommas(mainListData.TotalUtilizedValue));
+        $("#BalanceDisplay").html("&#8360; " +ReplaceNumberWithCommas(mainListData.Balance));
+        $("#BudgetedValueDisplay").html("&#8360; " +ReplaceNumberWithCommas(mainListData.BudgetedValue));
+        $("#UtilizedValueDisplay").html("&#8360; " +ReplaceNumberWithCommas(mainListData.UtilizedValue));
     }
 
     //common functions for all department
@@ -433,36 +438,6 @@ function bindAssetClassification() {
 
 }
 
-function BindPaymentTerm() {
-    AjaxCall(
-        {
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.PAYMENTTERMSMASTER + "')/items?$select=Description,Title",
-            httpmethod: 'GET',
-            calldatatype: 'JSON',
-            async: false,
-            headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
-            sucesscallbackfunction: function (data) {
-                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
-                    var result = data.d.results;
-                    $("#TermsofPayment").html('');
-                    $("#TermsofPayment").html("<option value=''>Select</option>");
-                    $(result).each(function (i, e) {
-                        var cmditem = result[i].Title + '-' + result[i].Description;
-                        var opt = $("<option/>");
-                        opt.text(cmditem);
-                        opt.attr("value", cmditem);
-                        opt.appendTo($("#TermsofPayment"));
-                    });
-                 }
-            }
-        });
-
-}
 function bindEditAssetClassification() {
     var functionValue = $('#Function').html();
     AjaxCall(
@@ -1240,7 +1215,7 @@ function BindHODEditAttachmentFiles() {
         });
 }
 function BindHODAttachmentFiles() {
-    
+    ShowWaitDialog();
     var output = [];
     var fileName;
     var checkFile = $('#HODContainer').html();
@@ -1310,15 +1285,16 @@ function BindHODAttachmentFiles() {
 
                             fileURSArray = [];
                             $('#HODContainer').html(htmlStr);
+                            HideWaitDialog();
                             
                         }).catch(function (err) {
-                           
+                            HideWaitDialog();
                             fileURSArray = [];
                             AlertModal('Error', "There is some problem to upload file Pl try again");
                         });
                     },
                     error: function (data) {
-                        
+                        HideWaitDialog();
                         AlertModal('Error', "There is some problem to upload file Pl try again");
                     }
                 });
@@ -1326,6 +1302,7 @@ function BindHODAttachmentFiles() {
         }
     }
     else {
+        HideWaitDialog();
         AlertModal('Error', "Remove existing HOD file to add New");
     }
 }
@@ -1397,8 +1374,6 @@ function removeHODFile(itemId) {
             }
         }
     );
-
-
 }
 function getListItems(siteurl, success, failure) {
     $.ajax({
@@ -1440,6 +1415,8 @@ function SetBudgetValue() {
                     var utilisedVal=ReplaceNumberWithCommas(data.d.results[0].UtilisedValue);
                     $("#BudgetedValue").val(data.d.results[0].BudgetedValue);
                     $("#UtilizedValue").val(data.d.results[0].UtilisedValue);
+                    budgetval="&#8360; " + budgetval;
+                    utilisedVal="&#8360; " + utilisedVal;
                     $("#BudgetedValueDisplay").html(budgetval);
                     $("#UtilizedValueDisplay").html(utilisedVal);
                 }
@@ -1494,9 +1471,9 @@ function SetCurrentValue() {
                 var Balance = $("#BudgetedValue").val() - TotalUtilizedValue;
                 $("#TotalUtilizedValue").val(TotalUtilizedValue);
                 $("#Balance").val(Balance);
-                $("#CurrentValueDisplay").html(ReplaceNumberWithCommas(listTempGridDataArray[i].TotalValue));
-                $("#TotalUtilizedValueDisplay").html(ReplaceNumberWithCommas(TotalUtilizedValue));
-                $("#BalanceDisplay").html(ReplaceNumberWithCommas(Balance));
+                $("#CurrentValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(listTempGridDataArray[i].TotalValue));
+                $("#TotalUtilizedValueDisplay").html("&#8360; " +ReplaceNumberWithCommas(TotalUtilizedValue));
+                $("#BalanceDisplay").html("&#8360; " +ReplaceNumberWithCommas(Balance));
             }
         });
     }
