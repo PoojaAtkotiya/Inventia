@@ -987,8 +987,12 @@ function GetFormControlsValue(id, elementType, listDataArray, elementvaluetype =
                 listDataArray[parenType].results.splice(idx, 1);
             break;
         case "radiogroup":
-            var parenType = $(obj).attr('cParent');
+           var parenType = $(obj).attr('cParent');
+             var radioValue = $("input[name='Imported']:checked").val();
+             if(radioValue){          
             listDataArray[parenType] = $(obj)[0].id;
+            
+            }
             break;
     }
     return listDataArray;
@@ -1272,7 +1276,8 @@ function SaveFormData(activeSection, ele) {
             var elementType = $(this).attr('controlType');
             var elementProperty = $(this).attr('controlProperty');
             var elementvaluetype = $(this).attr('controlvaluetype');
-
+            
+          
             listDataArray = GetFormControlsValue(elementId, elementType, listDataArray, elementvaluetype);
             listActivityLogDataArray = GetFormControlsValueAndType(elementId, elementType, elementProperty, listActivityLogDataArray);
         });
