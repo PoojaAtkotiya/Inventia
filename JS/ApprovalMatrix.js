@@ -188,6 +188,11 @@ function GetEnableSectionNames(id) {
                          document.getElementById(sectionId).style.display = "none";
                     }
                 }
+            // else {
+            //     ////collapse inActive sections
+            //     var sectionId = $(this).attr('id');
+            //     document.getElementById(sectionId).style.display = "none";
+            // }
         });
         $("div .disabled").attr("disabled", "disabled");
         $("div .disabled .form-control").attr("disabled", "disabled");
@@ -220,10 +225,16 @@ function GetEnableSectionNames(id) {
                 else {
                     ////collapse inActive sections
                     var sectionId = $(this).attr('id');
-                    if(sectionId != undefined){
+                    if(sectionId != undefined)
+                    {
                          document.getElementById(sectionId).style.display = "none";
                     }
                 }
+                // else {
+                //     ////collapse inActive sections
+                //     var sectionId = $(this).attr('id');
+                //     document.getElementById(sectionId).style.display = "none";
+                // }
             });
         }
         $("div .disabled").attr("disabled", "disabled");
@@ -1164,13 +1175,15 @@ function SaveFormFields(formFieldValues, requestId) {
     if (!IsNullOrUndefined(formFieldValues["NextApprover"]))  ////&& nextResults.length > 0   - removed for case of complete and reject
     {
         var nextUsers = [];
-        if (formFieldValues["NextApprover"].indexOf(",") > 0) {
-            nextUsers = removeDuplicateFromArray(TrimComma(nextUsers.trim()).split(","));
-        }
-        else if (IsArray(formFieldValues["NextApprover"])) {
+        if (IsArray(formFieldValues["NextApprover"])) {
             nextUsers = removeDuplicateFromArray(formFieldValues["NextApprover"]);
         }
-        mainlistDataArray['NextApproverId'] = { "results": nextUsers };
+        else if (formFieldValues["NextApprover"].toString().indexOf(",") > 0) {
+            nextUsers = removeDuplicateFromArray(TrimComma(nextUsers.trim()).split(","));
+        }
+        else {
+            mainlistDataArray['NextApproverId'] = { "results": nextUsers };
+        }
     }
     if (!IsNullOrUndefined(formFieldValues["LastActionBy"])) {
         mainlistDataArray['LastActionBy'] = formFieldValues["LastActionBy"].toString();
