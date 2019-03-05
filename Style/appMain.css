@@ -9490,6 +9490,7 @@ h2 {
     display: block;  
     border: 1px solid #dc6767!important;
     font-size: 14px;
+    color: red;
 }
 .emptycells{
     empty-cells:show!important;

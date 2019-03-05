@@ -62,6 +62,9 @@ function AddVendorDetails() {
     $("#CRUDVendorModal").modal('show');
     $("#spanTitle").html('Add Vendor Details');
     $('input[type=checkbox]').prop('checked', false);
+   // $('input[name=Recommended]').prop('checked', false);
+   $('input[id=RecommendedYes]').prop('checked', true);
+   $('input[id=NegotiatedYes]').prop('checked', true);
     $('#btnSave').show();
 }
 
