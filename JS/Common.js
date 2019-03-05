@@ -988,7 +988,8 @@ function GetFormControlsValue(id, elementType, listDataArray, elementvaluetype =
             break;
         case "radiogroup":
             var parenType = $(obj).attr('cParent');
-            listDataArray[parenType] = $(obj)[0].id;
+            if (!IsNullOrUndefined($(obj)) && !IsNullOrUndefined($(obj)[0]) && !IsNullOrUndefined($(obj)[0].id))
+                listDataArray[parenType] = $(obj)[0].id;
             break;
     }
     return listDataArray;
@@ -1100,7 +1101,8 @@ function GetFormControlsValueAndType(id, elementType, elementProperty, listActiv
                 break;
         case "radiogroup":
             var parenType = $(obj).attr('cParent');
-            listActivityLogDataArray.push({ id: id, value: $(obj)[0].id, type: 'radiogroup' });
+            if (!IsNullOrUndefined($(obj)) && !IsNullOrUndefined($(obj)[0]) && !IsNullOrUndefined($(obj)[0].id))
+                listActivityLogDataArray.push({ id: id, value: $(obj)[0].id, type: 'radiogroup' });
             break;
         case "label":
             if (!IsStrNullOrEmpty($(obj).html())) {
@@ -1272,12 +1274,7 @@ function SaveFormData(activeSection, ele) {
             var elementvaluetype = $(this).attr('controlvaluetype');
             if (elementType == 'radiogroup') {
                 var elementName = $(this).attr("name");
-                if (this.checked) {
-                    elementId = $("input[name='" + elementName + "']:checked").val();
-                }
-                else {
-                    elementId = $(this).attr("defaultVal");
-                }
+                elementId = $("input[name='" + elementName + "']:checked").val();
             }
             listDataArray = GetFormControlsValue(elementId, elementType, listDataArray, elementvaluetype);
             listActivityLogDataArray = GetFormControlsValueAndType(elementId, elementType, elementProperty, listActivityLogDataArray);
@@ -1298,12 +1295,8 @@ function SaveFormData(activeSection, ele) {
             var elementvaluetype = $(this).attr('controlvaluetype');
             if (elementType == 'radiogroup') {
                 var elementName = $(this).attr("name");
-                if (this.checked) {
-                    elementId = $("input[name='" + elementName + "']:checked").val();
-                }
-                else {
-                    elementId = $(this).attr("defaultVal");
-                }
+                elementId = $("input[name='" + elementName + "']:checked").val();
+
             }
             currAppArray = GetFormControlsValue(elementId, elementType, currAppArray);
 
@@ -2237,8 +2230,8 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
                     if (!IsNullOrUndefined(emailListItem)) {
                         emailTemplate.push({ "Subject": emailListItem.Subject });
                         emailTemplate.push({ "Body": emailListItem.Body });
-                        mailCustomValues.push({ "ItemLink": "#URL" + "/sites/QACapex/Pages/Home.aspx?ID=" + itemID });
-                        mailCustomValues.push({ "ItemLinkClickHere": "<a href=" + "#URL" + "/sites/QACapex/Pages/Home.aspx?ID=" + itemID + ">Click Here</a>" });
+                        mailCustomValues.push({ "ItemLink": "#URL" + CommonConstant.MAINLISTEDITURL + itemID });
+                        mailCustomValues.push({ "ItemLinkClickHere": "<a href=" + "#URL" + CommonConstant.MAINLISTEDITURL + itemID + ">Click Here</a>" });
                         emailTemplate = CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, emailParam);
                     }
                 }

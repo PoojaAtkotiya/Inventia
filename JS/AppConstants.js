@@ -4,7 +4,9 @@ const CommonConstant = {
     APPLICATIONNAME: "Capex",
     FORMNAME: "Capex Requisition Form",
     HTMLFILSEPATH: _spPageContextInfo.webAbsoluteUrl + "/SiteAssets/Inventia/HtmlFiles/",
+    ROOTSITE: "https://synoverge.sharepoint.com/",
     ROOTURL: "https://synoverge.sharepoint.com/sites/dms",
+    MAINLISTEDITURL: "/sites/dev/Lists/CapexRequisition/EditForm.aspx?ID=",
 
     /*Dev */
     /*
@@ -35,8 +37,8 @@ const ListNames = {
     BUDGETMASTER: "BudgetMaster",
     ATTACHMENTLIST: "Attachments",
     ASSETNUMBERMASTER: "AssetNumberMaster",
-    ERRORList:"ErrorLog",
-    PAYMENTTERMSMASTER:"PaymentTerms"
+    ERRORList: "ErrorLog",
+    PAYMENTTERMSMASTER: "PaymentTerms"
 }
 Object.freeze(ListNames);
 
