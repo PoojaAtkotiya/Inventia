@@ -988,7 +988,8 @@ function GetFormControlsValue(id, elementType, listDataArray, elementvaluetype =
             break;
         case "radiogroup":
             var parenType = $(obj).attr('cParent');
-            listDataArray[parenType] = $(obj)[0].id;
+            if (!IsNullOrUndefined($(obj)[0].id))
+                listDataArray[parenType] = $(obj)[0].id;
             break;
     }
     return listDataArray;
@@ -1272,12 +1273,7 @@ function SaveFormData(activeSection, ele) {
             var elementvaluetype = $(this).attr('controlvaluetype');
             if (elementType == 'radiogroup') {
                 var elementName = $(this).attr("name");
-                if (this.checked) {
-                    elementId = $("input[name='" + elementName + "']:checked").val();
-                }
-                else {
-                    elementId = $(this).attr("defaultVal");
-                }
+                elementId = $("input[name='" + elementName + "']:checked").val();
             }
             listDataArray = GetFormControlsValue(elementId, elementType, listDataArray, elementvaluetype);
             listActivityLogDataArray = GetFormControlsValueAndType(elementId, elementType, elementProperty, listActivityLogDataArray);
@@ -1298,12 +1294,8 @@ function SaveFormData(activeSection, ele) {
             var elementvaluetype = $(this).attr('controlvaluetype');
             if (elementType == 'radiogroup') {
                 var elementName = $(this).attr("name");
-                if (this.checked) {
-                    elementId = $("input[name='" + elementName + "']:checked").val();
-                }
-                else {
-                    elementId = $(this).attr("defaultVal");
-                }
+                elementId = $("input[name='" + elementName + "']:checked").val();
+
             }
             currAppArray = GetFormControlsValue(elementId, elementType, currAppArray);
 
@@ -2206,11 +2198,11 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json; odata=verbose",
-                    "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json; odata=verbose",
+                "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
+            },
             sucesscallbackfunction: function (data) {
                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results) && data.d.results.length > 0) {
 
@@ -2363,11 +2355,11 @@ function GetDatafromList(itemID, mainListName, subject, matchesSubject, body, ma
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json; odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json; odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 mainlistData = data.d;
                 ////replacement with list item values start
@@ -2556,11 +2548,11 @@ function GetSPGroupIDByName(grpName, handleData) {
                 calldatatype: 'JSON',
                 async: false,
                 headers:
-                    {
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json;odata=verbose",
-                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                    },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
                 sucesscallbackfunction: function (data) {
                     handleData(data.d.Id);
                 }
@@ -2592,13 +2584,13 @@ function updateRequestIDAttachmentList(attchmentID, itemID) {
         async: false,
         data: JSON.stringify(item),
         headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                "IF-MATCH": "*",
-                "X-HTTP-Method": "MERGE"
-            },
+        {
+            "Accept": "application/json;odata=verbose",
+            "Content-Type": "application/json;odata=verbose",
+            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+            "IF-MATCH": "*",
+            "X-HTTP-Method": "MERGE"
+        },
         success: function (data) {
 
         },
