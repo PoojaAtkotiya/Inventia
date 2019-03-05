@@ -21,11 +21,11 @@ function GetGlobalApprovalMatrix(id) {
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json; odata=verbose",
-                    "X-RequestDigest": gRequestDigestValue// data.d.GetContextWebInformation.FormDigestValue
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json; odata=verbose",
+                "X-RequestDigest": gRequestDigestValue// data.d.GetContextWebInformation.FormDigestValue
+            },
             sucesscallbackfunction: function (data) {
                 globalApprovalMatrix = data.d.results;
                 /*Pooja Atkotiya */
@@ -45,11 +45,11 @@ function GetLocalApprovalMatrixData(id, mainListName) {
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 /*Pooja Atkotiya */
                 localApprovalMatrixdata = data.d.results;
@@ -1237,13 +1237,13 @@ function SaveFormFields(formFieldValues, requestId) {
                 postData: JSON.stringify(mainlistDataArray),
                 async: false,
                 headers:
-                    {
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json;odata=verbose",
-                        "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                        "IF-MATCH": "*",
-                        "X-Http-Method": "MERGE", //PATCH
-                    },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "IF-MATCH": "*",
+                    "X-Http-Method": "MERGE", //PATCH
+                },
                 sucesscallbackfunction: function (data) {
                     console.log("Item saved Successfully");
                 }
