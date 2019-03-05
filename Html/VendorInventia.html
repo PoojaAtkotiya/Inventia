@@ -1,4 +1,3 @@
-
 <div class="card">
     <div class="card-head sub">
         <h4 class="justify"> Manage Vendor Details</h4>
@@ -27,16 +26,16 @@
                     <table class="table table-hover table-bordered someTable" id="tblVendor">
                         <thead>
                             <tr>
-                                    <th width='10%'>Vendor Name</th>
-                                    <th width='10%'>Vendor Email Id</th>
-                                    <th width='10%'>Gross Value(INR)</th>
-                                    <th width='10%'>Less Discount(INR)</th>
-                                    <th width='10%' class="headerwordwrap">Net Value(INR)</th>
-                                    <th width='10%' class="headerwordwrap">Total Value(INR) </th>
-                                    <th width='10%' class="headerwordwrap"> Delivery Period(Weeks) </th>
-                                    <th width='10%' class="headerwordwrap">Negotiated? </th>
-                                    <th width='10%' class="headerwordwrap">Recommended? </th>
-                                    <th width='10%' class="no-sort">Actions</th>
+                                <th width='10%'>Vendor Name</th>
+                                <th width='10%'>Vendor Email Id</th>
+                                <th width='10%'>Gross Value(INR)</th>
+                                <th width='10%'>Less Discount(INR)</th>
+                                <th width='10%' class="headerwordwrap">Net Value(INR)</th>
+                                <th width='10%' class="headerwordwrap">Total Value(INR) </th>
+                                <th width='10%' class="headerwordwrap"> Delivery Period(Weeks) </th>
+                                <th width='10%' class="headerwordwrap">Negotiated? </th>
+                                <th width='10%' class="headerwordwrap">Recommended? </th>
+                                <th width='10%' class="no-sort">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -67,10 +66,9 @@
                 <div class="modal-body form-horizontal" id="CRUDVendorModalbody">
                     <input type="hidden" class="dynamic-control" listtype="trans" controlType="text" id="ID" value="" />
                     <input type="hidden" class="dynamic-control" listtype="trans" controlType="text" id="Index" value="" />
-                    <input type="hidden" class="dynamic-control" listtype="trans" controlType="text" id="Status"
-                        value="" />
+                    <input type="hidden" class="dynamic-control" listtype="trans" controlType="text" id="Status" value="" />
                     <input type="hidden" class="dynamic-control" listtype="trans" controlType="text" id="Type" value="" />
-                  
+
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -94,8 +92,9 @@
                                 </label>
                                 <div class="col-md-8 ">
                                     <input type="text" id="VendorEmailID" name="VendorEmailID" class="form-control dynamic-control"
-                                        required="required" listtype="trans" controlType="text" onblur="validateEmail(this);" maxlength="255" />
-                                        <span id="invalidemail" style="color:red" ></span>
+                                        required="required" listtype="trans" controlType="text" onblur="validateEmail(this);"
+                                        maxlength="255" />
+                                    <span id="invalidemail" style="color:red"></span>
                                 </div>
                             </div>
                         </div>
@@ -161,7 +160,7 @@
                                 <div class="col-md-8 ">
                                     <input type="text" id="DescriptionofCharges" name="DescriptionofCharges"
                                         controlType="text" class="form-control dynamic-control" required="required"
-                                        listtype="trans" maxlength="255"/>
+                                        listtype="trans" maxlength="255" />
                                 </div>
                             </div>
                         </div>
@@ -176,7 +175,7 @@
                                 </label>
                                 <div class="col-md-8 ">
                                     <input type="text" id="NetValue" name="NetValue" controlType="text" class="form-control dynamic-control"
-                                        data="digit" required="required" listtype="trans" maxlength="15"/>
+                                        data="digit" required="required" listtype="trans" maxlength="15" />
                                 </div>
                             </div>
                         </div>
@@ -203,7 +202,7 @@
                                 <div class="col-md-8 ">
                                     <input type="text" id="DeliveryPeriod" name="DeliveryPeriod" controlType="text"
                                         class="form-control dynamic-control" required="required" listtype="trans"
-                                        controlType="text" maxlength="255"/>
+                                        controlType="text" maxlength="255" />
                                 </div>
                             </div>
                         </div>
@@ -217,17 +216,13 @@
 
                                     <select class="form-control m-b-n-sm dynamic-control" id="TermsofPayment"
                                         controlType="combo" listtype="master" reflisttype="trans" name="TermsofPayment"
-                                        data-selected="TermsofPayment" valuebindingcolumn="PayTermDescription"	
-                                        textbindingcolumnn="PayTermDescription"	
-                                        listname="PaymentTerms" required="required">
+                                        data-selected="TermsofPayment" valuebindingcolumn="PayTermDescription"
+                                        textbindingcolumnn="PayTermDescription" listname="PaymentTerms" required="required">
                                     </select>
                                     <!-- <select class="form-control m-b-n-sm dynamic-control" id="TermsofPayment" controlType="combo" data-selected="TermsofPayment"
                                     reflisttype="main" valuebindingcolumn="TermsofPayment" 
                                     textbindingcolumnn="TermsofPayment" name="TermsofPayment"
                                     required="required"> -->
-                                </select>
-
-
                                 </div>
                             </div>
                         </div>
@@ -243,28 +238,49 @@
                                 <div class="col-md-8 ">
                                     <!-- <input type="checkbox" id="VendorNegotiatedflag" class="form-control dynamic-control"
                                         required="required" name="VendorNegotiatedflag" controlType="checkbox" /> -->
-                                    <input type="checkbox" id="NegotiatedNonNegotiated" class="form-control dynamic-control"
-                                        name="NegotiatedNonNegotiated" controlType="checkbox" listtype="trans" />
+                                    <!-- <input type="checkbox" id="NegotiatedNonNegotiated" class="form-control dynamic-control"
+                                        name="NegotiatedNonNegotiated" controlType="checkbox" listtype="trans" /> -->
+                                    <label class="col-md-3 control-label radio-label">
+                                        <input class="dynamic-control" type="radio" id="NegotiatedYes" name="Negotiated"
+                                            value="NegotiatedYes" controlType="radiogroup" cParent="Negotiated"
+                                            listtype="trans" defaultVal="NegotiatedYes" />Yes
+                                    </label>
+                                    <label class="col-md-4 control-label radio-label">
+                                        <input class="dynamic-control" type="radio" id="NegotiatedNo" name="Negotiated"
+                                            value="NegotiatedNo" controlType="radiogroup" cParent="Negotiated" listtype="trans"
+                                            defaultVal="NegotiatedYes" />No
+                                    </label>
+         
+
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label">
-                                        <span class="text-danger text-default-light">*</span>
-                                        Recommended?
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">
+                                    <span class="text-danger text-default-light">*</span>
+                                    Recommended?
+                                </label>
+                                <div class="col-md-8 ">
+
+                                    <!-- <input type="checkbox" id="Recommended" class="form-control dynamic-control" name="Recommended"
+                                            controlType="checkbox" listtype="trans" /> -->
+                                    <label class="col-md-3 control-label radio-label">
+                                        <input class="dynamic-control" type="radio" id="RecommendedYes" name="Recommended"
+                                            value="RecommendedYes" controlType="radiogroup" cParent="Recommended"
+                                            listtype="trans" defaultVal="RecommendedYes" />Yes
                                     </label>
-                                    <div class="col-md-8 ">
-                                        <!-- <input type="checkbox" id="Recommended" name="Recommended" required="required"
-                                            controlType="checkbox"> -->
-                                        <input type="checkbox" id="Recommended" class="form-control dynamic-control" name="Recommended"
-                                            controlType="checkbox" listtype="trans" />
-                                        <!-- <input type="hidden" id="IsNewVendor" /> -->
-                                    </div>
+                                    <label class="col-md-4 control-label radio-label">
+                                        <input class="dynamic-control" type="radio" id="RecommendedNo" name="Recommended"
+                                            value="RecommendedNo" controlType="radiogroup" cParent="Recommended"
+                                            listtype="trans" defaultVal="RecommendedYes" />No
+                                    </label>
+
                                 </div>
+                            </div>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-default pull-right" data-dismiss="modal" value="Cancel" id="btnCancel">Cancel</a>

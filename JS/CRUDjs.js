@@ -80,7 +80,7 @@ function ViewVendorDetails(obj) {
     // if ($('myform').length > 0)
     //     $('myform').renameTag('form');
     // if (!IsNullOrUndefined(item)) {
-     
+
     //     $("#spanTitle").html('Vendor Detail');
     //     $('.dynamic-control').each(function () {
     //         var elementId = $(this).attr('id');
@@ -93,7 +93,7 @@ function ViewVendorDetails(obj) {
     //             console.log(item);
     //         setFieldValue(elementId, item, elementType, fieldName);
     //     });
-       
+
     //     $("#CRUDVendorModal *").attr("disabled", "disabled");
     //     $("#CRUDVendorModal").find(".modal-footer").find("button").remove("onclick");
     //     $("#CRUDVendorModal").find('.modal-header').find("button").removeAttr("disabled");
@@ -110,7 +110,7 @@ function ViewVendorDetails(obj) {
         }
     });
 
-  
+
     if ($('myform').length > 0)
         $('myform').renameTag('form');
     if (!IsNullOrUndefined(item)) {
@@ -143,11 +143,11 @@ function GetVendorDetailsById(id) {
             async: false,
             datatype: 'json',
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             success: function (data) {
                 VendorDetailresult = data.d;
             }
@@ -182,7 +182,7 @@ function EditVendorDetails(obj) {
             setFieldValue(elementId, item, elementType, fieldName);
         });
     }
-   $('#btnSave').show();
+    $('#btnSave').show();
 }
 function SaveVendorData(listDataArray) {
     var tempgrid = [];
@@ -208,11 +208,11 @@ function SaveVendorData(listDataArray) {
         listDataArray.Status = ItemActionStatus.UPDATED;
     }
 
-    if (listDataArray.Recommended = true && listDataArray.Recommended != " ") {
-        listTempGridDataArray.forEach(function Â(element1) {
-            element1.Recommended = false;
-        });
-    }
+    // if (listDataArray.Recommended = true && listDataArray.Recommended != " ") {
+    //     listTempGridDataArray.forEach(function Â(element1) {
+    //         element1.Recommended = false;
+    //     });
+    // }
 
     listTempGridDataArray.push(listDataArray);
     listTempGridDataArray.sort(function (a, b) {
@@ -241,12 +241,12 @@ function SaveVendorNameInMaster(listDataArray) {
             postData: JSON.stringify(mainlistDataArray),
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                    "IF-MATCH": "*",
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                "IF-MATCH": "*",
+            },
             sucesscallbackfunction: function (data) {
                 listDataArray.isVendorAdded = "Yes";
             }
@@ -286,6 +286,15 @@ function SaveVendorDetails() {
         var elementId = $(this).attr('id');
         var elementType = $(this).attr('controlType');
         var elementvaluetype = $(this).attr('controlvaluetype');
+        if (elementType == 'radiogroup') {
+            var elementName = $(this).attr("name");
+            // if (this.checked) {
+            //elementId = $("input[name='" + elementName + "']:checked").val();
+            elementId = $("input[name='" + elementName + "']:checked")[0].id;
+            // else {
+            //     elementId = $(this).attr("defaultVal");
+            // }
+        }
         saveDataArray = GetFormControlsValue(elementId, elementType, saveDataArray, elementvaluetype);
     });
     var isemailValid = validateEmail(VendorEmailID);
@@ -350,15 +359,20 @@ function GetVendorDetails(listTempGridDataArray) {
                 if (IsStrNullOrEmpty(arrayItem.Type)) {
                     arrayItem.Type = "Edit";
                 }
+                var displayNegotiated;var recommend;
+                if (arrayItem.Negotiated == "NegotiatedYes") {
+                    displayNegotiated = "Yes";
+                }
+                else {
+                    displayNegotiated = "No";
+                }
+                if (arrayItem.Recommended == "RecommendedYes") {
+                    recommend= "Yes";
+                }
+                else {
+                    recommend = "No";
+                }
 
-                var recommended = "No";
-                if (arrayItem.Recommended) {
-                    recommended = "Yes";
-                }
-                var Negotiated = "No";
-                if (arrayItem.NegotiatedNonNegotiated) {
-                    Negotiated = "Yes";
-                }
                 tr = $('<tr/>');
                 tr.append("<td width='10%'>" + arrayItem.VendorName + "</td>");
                 tr.append("<td width='10%'>" + arrayItem.VendorEmailID + "</td>");
@@ -368,8 +382,8 @@ function GetVendorDetails(listTempGridDataArray) {
                 tr.append("<td width='10%'>" + arrayItem.NetValue + "</td>");
                 tr.append("<td width='10%'>" + arrayItem.TotalValue + "</td>");
                 tr.append("<td width='10%'>" + arrayItem.DeliveryPeriod + "</td>");
-                tr.append("<td width='10%'>" + Negotiated + "</td>");
-                tr.append("<td width='10%'>" + recommended + "</td>");
+                tr.append("<td width='10%'>" + displayNegotiated + "</td>");
+                tr.append("<td width='10%'>" + recommend + "</td>");
 
                 tr.append("<td width='12%'>" +
                     "<a class='view' id='ViewVendor_" + arrayItem.Index + '_' + arrayItem.ID + "' title='View' data-toggle='tooltip'><i class='material-icons'>&#xE417;</i></a>" +

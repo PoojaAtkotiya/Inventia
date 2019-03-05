@@ -80,7 +80,7 @@ function onloadConstantsSuccess(sender, args) {
         GetGlobalApprovalMatrix(listItemId);
     }
     GetFormBusinessLogic(listItemId, activeSectionName, department);
-  //  SaveErrorInList(activityTrack, "Action");
+    //  SaveErrorInList(activityTrack, "Action");
 }
 
 function GetUserDepartment() {
@@ -987,12 +987,9 @@ function GetFormControlsValue(id, elementType, listDataArray, elementvaluetype =
                 listDataArray[parenType].results.splice(idx, 1);
             break;
         case "radiogroup":
-           var parenType = $(obj).attr('cParent');
-             var radioValue = $("input[name='Imported']:checked").val();
-             if(radioValue){          
-            listDataArray[parenType] = $(obj)[0].id;
-            
-            }
+            var parenType = $(obj).attr('cParent');
+            if (!IsNullOrUndefined($(obj)[0].id))
+                listDataArray[parenType] = $(obj)[0].id;
             break;
     }
     return listDataArray;
@@ -1269,15 +1266,15 @@ function SaveFormData(activeSection, ele) {
         var sectionName = $(activeSection).attr('section');
         var activeSectionId = $(activeSection).attr('id');
 
-        //$(activeSection).find('input[listtype=main],select[listtype=main],radio[listtype=main],textarea[listtype=main],label[listtype=main],input[reflisttype=main],select[reflisttype=main],radio[reflisttype=main],textarea[reflisttype=main],label[reflisttype=main],select[reflisttype=trans]')
-
         $(activeSection).find('input[listtype=main],select[listtype=main],radio[listtype=main],textarea[listtype=main],input[reflisttype=main],select[reflisttype=main],radio[reflisttype=main],textarea[reflisttype=main]').each(function () {
             var elementId = $(this).attr('id');
             var elementType = $(this).attr('controlType');
             var elementProperty = $(this).attr('controlProperty');
             var elementvaluetype = $(this).attr('controlvaluetype');
-            
-          
+            if (elementType == 'radiogroup') {
+                var elementName = $(this).attr("name");
+                elementId = $("input[name='" + elementName + "']:checked").val();
+            }
             listDataArray = GetFormControlsValue(elementId, elementType, listDataArray, elementvaluetype);
             listActivityLogDataArray = GetFormControlsValueAndType(elementId, elementType, elementProperty, listActivityLogDataArray);
         });
@@ -1295,6 +1292,11 @@ function SaveFormData(activeSection, ele) {
             var elementType = $(this).attr('controlType');
             var elementProperty = $(this).attr('controlProperty');
             var elementvaluetype = $(this).attr('controlvaluetype');
+            if (elementType == 'radiogroup') {
+                var elementName = $(this).attr("name");
+                elementId = $("input[name='" + elementName + "']:checked").val();
+
+            }
             currAppArray = GetFormControlsValue(elementId, elementType, currAppArray);
 
             if (!IsNullOrUndefined(currAppArray)) {
@@ -1306,13 +1308,7 @@ function SaveFormData(activeSection, ele) {
                 }
             }
         });
-        // save vendor max 3 vendor condition by hirvita
-        // if (listTempGridDataArray.length >= 3) {
         SaveData(mainListName, listDataArray, sectionName, ele);
-        // }
-        // else {
-        //      alert("Max 3 vendor required");
-        //  }
     }
 }
 
@@ -1445,7 +1441,7 @@ function CommonBusinessLogic(sectionName, itemID, listDataArray) {
 
     var keys = Object.keys(ButtonActionStatus).filter(k => ButtonActionStatus[k] == actionStatus);
     var actionPerformed = keys.toString();
-   // SaveImageSignaturePath(sectionName, itemID);
+    // SaveImageSignaturePath(sectionName, itemID);
     SaveActions(sectionName, itemID, actionPerformed);
     if (sectionName == SectionNames.INITIATORSECTION && actionPerformed == "NextApproval") {
         SaveCapitalAssetRequisitionNumber(itemID, listDataArray, actionPerformed);
@@ -1467,7 +1463,7 @@ function SaveActions(sectionName, itemID, actionPerformed) {
     var hour = addZero(todayDate.getHours());
     var minute = addZero(todayDate.getMinutes());
     var formatted = day + "/" + month + "/" + year + " " + hour + ":" + minute + " " + amOrPm + " " + 'IST';
-    var currentUserDepartment=GetUserDepartment();
+    var currentUserDepartment = GetUserDepartment();
     switch (sectionName) {
         case SectionNames.INITIATORSECTION:
             if (actionPerformed == "NextApproval") {
@@ -2193,8 +2189,6 @@ function GetEmailUsers(tempApproverMatrix, nextLevel, isNewItem) {
 function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role, emailParam) {
     var emailTemplate = [];
     var emailTemplateListData;
-
-    //GetFormDigest().then(function (data) {
     AjaxCall(
         {
             url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View>< Query ><Where><And><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And><Eq><FieldRef Name='LinkTitle' /><Value Type='Computed'>" + templateName + "</Value></Eq></And></Where></Query></View>\"}",
@@ -2204,11 +2198,11 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json; odata=verbose",
-                    "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json; odata=verbose",
+                "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
+            },
             sucesscallbackfunction: function (data) {
                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results) && data.d.results.length > 0) {
 
@@ -2216,7 +2210,6 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
                     var emailListItem = null;
 
                     var tmpItems = tmpItems.filter(function (t) {
-                        debugger
                         if (!IsStrNullOrEmpty(t.Role) && !IsStrNullOrEmpty(role)) {
                             if (t.Role.indexOf(",") > 0) {
                                 if (cleanStringArray(t.Role.split(",")).some(r => r == role)) {
@@ -2236,19 +2229,14 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
                     if (!IsNullOrUndefined(emailListItem)) {
                         emailTemplate.push({ "Subject": emailListItem.Subject });
                         emailTemplate.push({ "Body": emailListItem.Body });
-                        mailCustomValues.push({ "ItemLink": "#URL" + "https://synoverge.sharepoint.com/sites/QACapex/Pages/Home.aspx?ID=" + itemID });
-                        // mailCustomValues.push({ "ItemLinkClickHere": "<a href='https://synoverge.sharepoint.com/sites/QACapex/Lists/CapexRequisition/DispForm.aspx?ID=" + itemID + "' >Click Here</a>" });
-                        mailCustomValues.push({ "ItemLinkClickHere": "https://synoverge.sharepoint.com/sites/QACapex/" });
+                        mailCustomValues.push({ "ItemLink": "#URL" + "/sites/QACapex/Pages/Home.aspx?ID=" + itemID });
+                        mailCustomValues.push({ "ItemLinkClickHere": "<a href=" + "#URL" + "/sites/QACapex/Pages/Home.aspx?ID=" + itemID + ">Click Here</a>" });
                         emailTemplate = CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, emailParam);
                     }
                 }
             }
 
         });
-
-
-    // });
-    //return emailTemplate;
 }
 
 /*Pooja Atkotiya */
@@ -2367,11 +2355,11 @@ function GetDatafromList(itemID, mainListName, subject, matchesSubject, body, ma
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json; odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json; odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 mainlistData = data.d;
                 ////replacement with list item values start
@@ -2560,11 +2548,11 @@ function GetSPGroupIDByName(grpName, handleData) {
                 calldatatype: 'JSON',
                 async: false,
                 headers:
-                    {
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json;odata=verbose",
-                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                    },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
                 sucesscallbackfunction: function (data) {
                     handleData(data.d.Id);
                 }
@@ -2596,13 +2584,13 @@ function updateRequestIDAttachmentList(attchmentID, itemID) {
         async: false,
         data: JSON.stringify(item),
         headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                "IF-MATCH": "*",
-                "X-HTTP-Method": "MERGE"
-            },
+        {
+            "Accept": "application/json;odata=verbose",
+            "Content-Type": "application/json;odata=verbose",
+            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+            "IF-MATCH": "*",
+            "X-HTTP-Method": "MERGE"
+        },
         success: function (data) {
 
         },
