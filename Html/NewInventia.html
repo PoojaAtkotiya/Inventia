@@ -5,8 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- #region QA-->
+<<<<<<< HEAD
+    
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+=======
 <!--     
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+>>>>>>> 019c6618843cda149aa08e88a95d73672ef289cf
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Content/font-awesome.min.css"
     />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Content/datatable.css"
@@ -43,13 +48,19 @@
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/tran.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/AppForm.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script>  -->
+
    
+
 
     <!-- #endregion -->
 
     <!-- #region Dev -->
    
+
+     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Content/font-awesome.min.css"
     />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Content/datatable.css"
@@ -85,8 +96,9 @@
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/master.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/tran.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/AppForm.js"></script>
-    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script>
-   
+
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script> 
+    
     <!-- #endregion -->
 
     <script type="text/javascript">
@@ -431,9 +443,25 @@
                                                             Imported?
                                                         </label>
                                                         <div class="col-md-8 ">
-                                                            <input type="checkbox" id="Imported" class="form-control dynamic-control" name="Imported" controlType="checkbox" listtype="main"
-                                                            />
-                                                          </div>
+                                                           
+                                                            <!-- <input type="checkbox" id="Imported" class="form-control dynamic-control" name="Imported" controlType="checkbox" listtype="main"
+                                                            /> -->
+                                                            
+                                                                    <label class="col-md-3 control-label radio-label">
+                                                                        <input class="dynamic-control" type="radio" value="Yes"
+                                                                            id="Yes" name="Imported"
+                                                                            controlType="radiogroup" cParent="Imported"
+                                                                            listtype="main" />Yes
+                                                                    </label>
+                                                                    <label class="col-md-4 control-label radio-label">
+                                                                        <input class="dynamic-control" type="radio" value="No"
+                                                                            id="No" name="Imported"
+                                                                            controlType="radiogroup" cParent="Imported"
+                                                                            listtype="main" /> No
+                                                                    </label>
+                                                               
+                                                            
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
