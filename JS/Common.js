@@ -987,12 +987,10 @@ function GetFormControlsValue(id, elementType, listDataArray, elementvaluetype =
                 listDataArray[parenType].results.splice(idx, 1);
             break;
         case "radiogroup":
-           var parenType = $(obj).attr('cParent');
-             var radioValue = $("input[name='Imported']:checked").val();
-             if(radioValue){          
-            listDataArray[parenType] = $(obj)[0].id;
+           var parenType = $(obj).attr('cParent');           
+           listDataArray[parenType] = $(obj)[0].id;
             
-            }
+           
             break;
     }
     return listDataArray;
