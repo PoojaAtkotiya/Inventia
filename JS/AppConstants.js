@@ -6,7 +6,7 @@ const CommonConstant = {
     HTMLFILSEPATH: _spPageContextInfo.webAbsoluteUrl + "/SiteAssets/Inventia/HtmlFiles/",
     ROOTSITE: "https://synoverge.sharepoint.com/",
     ROOTURL: "https://synoverge.sharepoint.com/sites/dms",
-    MAINLISTEDITURL: _spPageContextInfo.webAbsoluteUrl + "/Lists/" + ListNames.MAINLIST + '/EditForm.aspx?ID=',
+    MAINLISTEDITURL: "/sites/dev/Lists/CapexRequisition/EditForm.aspx?ID=",
 
     /*Dev */
     /*

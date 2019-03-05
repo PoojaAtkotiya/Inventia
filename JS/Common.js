@@ -988,7 +988,7 @@ function GetFormControlsValue(id, elementType, listDataArray, elementvaluetype =
             break;
         case "radiogroup":
             var parenType = $(obj).attr('cParent');
-            if (!IsNullOrUndefined($(obj)[0].id))
+            if (!IsNullOrUndefined($(obj)) && !IsNullOrUndefined($(obj)[0]) && !IsNullOrUndefined($(obj)[0].id))
                 listDataArray[parenType] = $(obj)[0].id;
             break;
     }
@@ -1101,7 +1101,8 @@ function GetFormControlsValueAndType(id, elementType, elementProperty, listActiv
                 break;
         case "radiogroup":
             var parenType = $(obj).attr('cParent');
-            listActivityLogDataArray.push({ id: id, value: $(obj)[0].id, type: 'radiogroup' });
+            if (!IsNullOrUndefined($(obj)) && !IsNullOrUndefined($(obj)[0]) && !IsNullOrUndefined($(obj)[0].id))
+                listActivityLogDataArray.push({ id: id, value: $(obj)[0].id, type: 'radiogroup' });
             break;
         case "label":
             if (!IsStrNullOrEmpty($(obj).html())) {
@@ -2198,11 +2199,11 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
             calldatatype: 'JSON',
             async: false,
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json; odata=verbose",
-                "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json; odata=verbose",
+                    "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
+                },
             sucesscallbackfunction: function (data) {
                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results) && data.d.results.length > 0) {
 
@@ -2355,11 +2356,11 @@ function GetDatafromList(itemID, mainListName, subject, matchesSubject, body, ma
             calldatatype: 'JSON',
             async: false,
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json; odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val()
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json; odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
             sucesscallbackfunction: function (data) {
                 mainlistData = data.d;
                 ////replacement with list item values start
@@ -2548,11 +2549,11 @@ function GetSPGroupIDByName(grpName, handleData) {
                 calldatatype: 'JSON',
                 async: false,
                 headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+                    {
+                        "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                    },
                 sucesscallbackfunction: function (data) {
                     handleData(data.d.Id);
                 }
@@ -2584,13 +2585,13 @@ function updateRequestIDAttachmentList(attchmentID, itemID) {
         async: false,
         data: JSON.stringify(item),
         headers:
-        {
-            "Accept": "application/json;odata=verbose",
-            "Content-Type": "application/json;odata=verbose",
-            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-            "IF-MATCH": "*",
-            "X-HTTP-Method": "MERGE"
-        },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                "IF-MATCH": "*",
+                "X-HTTP-Method": "MERGE"
+            },
         success: function (data) {
 
         },
