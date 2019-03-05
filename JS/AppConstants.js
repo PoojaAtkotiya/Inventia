@@ -35,7 +35,8 @@ const ListNames = {
     BUDGETMASTER: "BudgetMaster",
     ATTACHMENTLIST: "Attachments",
     ASSETNUMBERMASTER: "AssetNumberMaster",
-    ERRORList:"ErrorLog"
+    ERRORList:"ErrorLog",
+    PAYMENTTERMSMASTER:"PaymentTerms"
 }
 Object.freeze(ListNames);
 
@@ -65,7 +66,7 @@ const Roles = {
 Object.freeze(Roles);
 
 const WFStatus = {
-    COMPLETED: "Closed",
+    COMPLETED: "Approved",
     PENDINGWITH: "Pending for "
 }
 Object.freeze(WFStatus);

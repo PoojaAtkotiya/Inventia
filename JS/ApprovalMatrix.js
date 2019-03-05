@@ -179,7 +179,7 @@ function GetEnableSectionNames(id) {
                 var sectionId = $(this).attr('id');
                 $("#" + sectionId).removeClass("disabled");
                 $("#" + sectionId).find('input,select,textarea').removeAttr("disabled");
-                document.getElementById(sectionId).style.display = "block";
+                //  document.getElementById(sectionId).style.display = "block";
             }
             // else{
             //         ////collapse inActive sections
@@ -213,7 +213,7 @@ function GetEnableSectionNames(id) {
                     var sectionId = $(this).attr('id');
                     $("#" + sectionId).removeClass("disabled");
                     $("#" + sectionId).find('input,select,textarea').removeAttr("disabled");
-                     document.getElementById(sectionId).style.display = "block";
+                    document.getElementById(sectionId).style.display = "block";
                 }
                 // else{
                 //     ////collapse inActive sections
@@ -392,7 +392,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
         tempApproverMatrix.forEach(t => {
             t.RequestIDId = requestId;
         });
-        if (actionPerformed != ButtonActionStatus.SendBack && actionPerformed != ButtonActionStatus.Forward && tempApproverMatrix.some(t => t.Levels != currentLevel)) {
+        if (actionPerformed != ButtonActionStatus.SendBack && actionPerformed != ButtonActionStatus.Forward && !tempApproverMatrix.some(t => t.Levels == currentLevel && t.Status != ApproverStatus.APPROVED && !IsNullOrUndefinedApprover(t.ApproverId) && t.IsOptional == false)) {
             ////Get Next Level
 
             var nextLevelRow = tempApproverMatrix.filter(function (temp) {
@@ -1162,10 +1162,11 @@ function SaveFormFields(formFieldValues, requestId) {
         var nextUsers = [];
         if (IsArray(formFieldValues["NextApprover"])) {
             nextUsers = removeDuplicateFromArray(formFieldValues["NextApprover"]);
+            mainlistDataArray['NextApproverId'] = { "results": nextUsers };
         }
-        else if (formFieldValues["NextApprover"].toString().indexOf(",") > 0) {
-            nextUsers = removeDuplicateFromArray(TrimComma(nextUsers.trim()).split(","));
-        }
+        // else if (formFieldValues["NextApprover"].toString().indexOf(",") > 0) {
+        //     nextUsers = removeDuplicateFromArray(TrimComma(nextUsers.trim()).split(","));
+        // }
         else {
             mainlistDataArray['NextApproverId'] = { "results": nextUsers };
         }
@@ -1203,6 +1204,9 @@ function SaveFormFields(formFieldValues, requestId) {
     }
     if (!IsNullOrUndefined(formFieldValues["CapitalAssetRequisitionNumber"])) {
         mainlistDataArray['CapitalAssetRequisitionNumber'] = formFieldValues["CapitalAssetRequisitionNumber"].toString();
+    }
+    if (!IsNullOrUndefined(formFieldValues["Title"])) {
+        mainlistDataArray['Title'] = formFieldValues["Title"].toString();
     }
     if (!IsNullOrUndefined(formFieldValues["InitiatorAction"])) {
         mainlistDataArray['InitiatorAction'] = formFieldValues["InitiatorAction"].toString();

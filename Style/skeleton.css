@@ -42,6 +42,7 @@
        
         text-align: left!important;
     }
+    .header-nav{margin:10px 0 0 0; }
     
 }
 
@@ -58,6 +59,9 @@
         font-size: 21px; 
         padding-bottom: 15px;
     }
+    .page-title-breadcrumb .page-header{
+        width: 100%!important;
+   }
     #ctl00_welcome {
         float: right;
         margin-right: 40px;
@@ -126,6 +130,13 @@
 		background: #4b2465!important;
 		top:50px;
     }
+    .ms-welcome-root{
+        background:rgba(255,255,255,10);
+        margin-right:55px;
+        float:right;
+        width:auto !important;
+    }
+    
 	
 }
 
@@ -155,9 +166,7 @@
     #page-wrapper{
         width: 97%; 
     }
-    .page-title-breadcrumb .page-header{
-         width: 100%;
-    }
+    
     #ctl00_welcome {
         float: right;
         margin-right: 15px;
