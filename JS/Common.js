@@ -1440,7 +1440,7 @@ function CommonBusinessLogic(sectionName, itemID, listDataArray) {
 
     var keys = Object.keys(ButtonActionStatus).filter(k => ButtonActionStatus[k] == actionStatus);
     var actionPerformed = keys.toString();
-   // SaveImageSignaturePath(sectionName, itemID);
+    // SaveImageSignaturePath(sectionName, itemID);
     SaveActions(sectionName, itemID, actionPerformed);
     if (sectionName == SectionNames.INITIATORSECTION && actionPerformed == "NextApproval") {
         SaveCapitalAssetRequisitionNumber(itemID, listDataArray, actionPerformed);
@@ -2188,8 +2188,6 @@ function GetEmailUsers(tempApproverMatrix, nextLevel, isNewItem) {
 function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role, emailParam) {
     var emailTemplate = [];
     var emailTemplateListData;
-
-    //GetFormDigest().then(function (data) {
     AjaxCall(
         {
             url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View>< Query ><Where><And><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And><Eq><FieldRef Name='LinkTitle' /><Value Type='Computed'>" + templateName + "</Value></Eq></And></Where></Query></View>\"}",
@@ -2211,7 +2209,6 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
                     var emailListItem = null;
 
                     var tmpItems = tmpItems.filter(function (t) {
-                        debugger
                         if (!IsStrNullOrEmpty(t.Role) && !IsStrNullOrEmpty(role)) {
                             if (t.Role.indexOf(",") > 0) {
                                 if (cleanStringArray(t.Role.split(",")).some(r => r == role)) {
@@ -2231,19 +2228,14 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
                     if (!IsNullOrUndefined(emailListItem)) {
                         emailTemplate.push({ "Subject": emailListItem.Subject });
                         emailTemplate.push({ "Body": emailListItem.Body });
-                        mailCustomValues.push({ "ItemLink": "#URL" + "https://synoverge.sharepoint.com/sites/QACapex/Pages/Home.aspx?ID=" + itemID });
-                        // mailCustomValues.push({ "ItemLinkClickHere": "<a href='https://synoverge.sharepoint.com/sites/QACapex/Lists/CapexRequisition/DispForm.aspx?ID=" + itemID + "' >Click Here</a>" });
-                        mailCustomValues.push({ "ItemLinkClickHere": "https://synoverge.sharepoint.com/sites/QACapex/" });
+                        mailCustomValues.push({ "ItemLink": "#URL" + "/sites/QACapex/Pages/Home.aspx?ID=" + itemID });
+                        mailCustomValues.push({ "ItemLinkClickHere": "<a href=" + "#URL" + "/sites/QACapex/Pages/Home.aspx?ID=" + itemID + ">Click Here</a>" });
                         emailTemplate = CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, emailParam);
                     }
                 }
             }
 
         });
-
-
-    // });
-    //return emailTemplate;
 }
 
 /*Pooja Atkotiya */
