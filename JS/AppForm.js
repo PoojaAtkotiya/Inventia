@@ -28,14 +28,15 @@ function GetSetFormData() {
     //GetTranListData(listItemId);
     GetAllTranlists(listItemId);
     var mainListName = $($('div').find('[mainlistname]')).attr('mainlistname');
-
     AjaxCall(
         {
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + mainListName + "')/items(" + listItemId + ")?$select=ServerRelativeUrl,RaisedBy/Title,*&$expand=RaisedBy",
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + mainListName + "')/items(" + listItemId + ")?$select=RaisedBy/Title,*&$expand=RaisedBy",
             httpmethod: 'GET',
             calldatatype: 'JSON',
             async: false,
-            sucesscallbackfunction: function (data) { onGetSetFormDataSuccess(data) }
+            sucesscallbackfunction: function (data) {
+                onGetSetFormDataSuccess(data);
+            }
         });
 }
 

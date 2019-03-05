@@ -2237,8 +2237,8 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
                     if (!IsNullOrUndefined(emailListItem)) {
                         emailTemplate.push({ "Subject": emailListItem.Subject });
                         emailTemplate.push({ "Body": emailListItem.Body });
-                        mailCustomValues.push({ "ItemLink": "#URL" + "/sites/QACapex/Pages/Home.aspx?ID=" + itemID });
-                        mailCustomValues.push({ "ItemLinkClickHere": "<a href=" + "#URL" + "/sites/QACapex/Pages/Home.aspx?ID=" + itemID + ">Click Here</a>" });
+                        mailCustomValues.push({ "ItemLink": "#URL" + CommonConstant.MAINLISTEDITURL + itemID });
+                        mailCustomValues.push({ "ItemLinkClickHere": "<a href=" + "#URL" + CommonConstant.MAINLISTEDITURL + itemID + ">Click Here</a>" });
                         emailTemplate = CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, emailParam);
                     }
                 }
