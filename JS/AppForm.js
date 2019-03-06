@@ -249,7 +249,7 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
         //Functions for Purchase
         if (mainListData.WorkflowStatus == "Pending for Purchase") {
             BindPurchaseEditAttachmentFiles();
-            if (isArray(mainListData.NextApproverId) && mainListData.NextApproverId.length > 0 && mainListData.NextApproverId.some(n => n == currentUser.Id)) {
+            if (IsArray(mainListData.NextApproverId) && mainListData.NextApproverId.length > 0 && mainListData.NextApproverId.some(n => n == currentUser.Id)) {
                 $('#btnAddVendor').show();
             }
             else if (mainListData.NextApproverId == currentUser.Id) {
