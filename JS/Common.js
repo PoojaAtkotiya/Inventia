@@ -1195,26 +1195,27 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
                         var value = testslice;
 
                         // var value = itemDetails[1];
-                        try {
-                            if (value.toLowerCase() == "true" || value.toLowerCase() == "false") {
-                                tdValue = value.toLowerCase() == "true" ? "Yes" : "No";
-                            }
-                            else {
-                                if (value.includes("/") && value.includes(":") && (value.includes("AM") || value.includes("PM"))) {
-                                    var datetimepart = value.split(' ');
-                                    var datepart = datetimepart[0].split('/');
-                                    var dt = new DateTime(parseInt(datepart[2]), parseInt(datepart[0]), parseInt(datepart[1]));
-                                    tdValue = dt.toString("dd/MM/yyyy") + (itemDetails[0].toLowerCase().includes("time") ? " " + datetimepart[1] + " " + datetimepart[2] : "");
+                        if (!IsNullOrUndefined(value[0])) {
+                            try {
+                                if (value.toLowerCase() == "true" || value.toLowerCase() == "false") {
+                                    tdValue = value.toLowerCase() == "true" ? "Yes" : "No";
                                 }
                                 else {
-                                    tdValue = value;
+                                    if (value.includes("/") && value.includes(":") && (value.includes("AM") || value.includes("PM"))) {
+                                        var datetimepart = value.split(' ');
+                                        var datepart = datetimepart[0].split('/');
+                                        var dt = new DateTime(parseInt(datepart[2]), parseInt(datepart[0]), parseInt(datepart[1]));
+                                        tdValue = dt.toString("dd/MM/yyyy") + (itemDetails[0].toLowerCase().includes("time") ? " " + datetimepart[1] + " " + datetimepart[2] : "");
+                                    }
+                                    else {
+                                        tdValue = value;
+                                    }
                                 }
                             }
+                            catch (err) {
+                                tdValue = value;
+                            }
                         }
-                        catch (err) {
-                            tdValue = value;
-                        }
-
                         tr.append('<td>' + tdValue + '</td>');
                         $('#tblActivityChanges tbody').append(tr);
                     }
