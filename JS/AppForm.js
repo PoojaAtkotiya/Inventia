@@ -141,8 +141,6 @@ function Capex_SaveData(ele) {
         }
     }
 }
-
-
 function FormBusinessLogic(activeSection) {
     var isError = false;
     try {
@@ -178,7 +176,6 @@ function FormBusinessLogic(activeSection) {
     }
     return isError;
 }
-
 /*Monal Shah */
 function SaveForm(activeSection, ele) {
     try {
@@ -215,7 +212,6 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     if (IsNullOrUndefined(department)) {
         department = mainListData.Department;
     }
-
     //Functions for Initiator
     if (listItemId == "") {
         setNewFormParamters(department);
@@ -225,11 +221,17 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
         $("#ProposedVendor").hide();
         $("#ImportedYes").prop("checked", true);
     }
-
-
     if (listItemId > 0) {
+            //Functions for Initiator HOD
+     if (mainListData.PendingWith == "Initiator HOD") {
+        setVendorDropDown();
+        SetBudgetValue();
+        BindHODEditAttachmentFiles();
+        $('#AddVendor').hide();
+    }
         $("#RaisedOnDisplay").html(new Date(mainListData.RaisedOn).format("dd/MM/yyyy"));
         $("#ProposedVendor").show();
+        $("#proposedVendor").show();
         if (mainListData.Status == "Draft") {
             BindInitiatorEditAttachmentFiles();
             setFunctionbasedDept(department);
@@ -241,23 +243,20 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
         }
         bindEditAssetClassification();
         bindEditAssetName(mainListData.AssetClassification);
-    }
-
-    //Functions for Purchase
-    if (mainListData.WorkflowStatus == "Pending for Purchase") {
+        displayAction();
+      //Functions for Purchase
+      if (mainListData.WorkflowStatus == "Pending for Purchase") {
         BindPurchaseEditAttachmentFiles();
         if (mainListData.NextApproverId != currentUser.Id) {
             $('#btnAddVendor').hide();
         }
         $('#AddVendor').hide();
-        // BindPaymentTerm();
-
-        if (!$("input:radio[name='Negotiated']").is(":checked")) {
-            $("#NegotiatedYes").prop("checked", true);
-        }
-        if (!$("input:radio[name='Recommended']").is(":checked")) {
-            $("#RecommendedYes").prop("checked", true);
-        }
+        // if (!$("input:radio[name='Negotiated']").is(":checked")) {
+        //     $("#NegotiatedYes").prop("checked", true);
+        // }
+        // if (!$("input:radio[name='Recommended']").is(":checked")) {
+        //     $("#RecommendedYes").prop("checked", true);
+        // }
     }
     else if (mainListData.WorkflowStatus == "Approved" || mainListData.WorkflowStatus == "Rejected" || mainListData.PendingWith == Roles.INITIATORHOD || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
         BindPurchaseAttachment();
@@ -266,15 +265,6 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
         $('#btnAddVendor').hide();
         $('#AddVendor').hide();
     }
-
-    //Functions for Initiator HOD
-    if (mainListData.PendingWith == "Initiator HOD") {
-        setVendorDropDown();
-        SetBudgetValue();
-        BindHODEditAttachmentFiles();
-        $('#AddVendor').hide();
-    }
-
     if (mainListData.WorkflowStatus == "Approved" || mainListData.WorkflowStatus == "Rejected"  || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
         setVendorDropDown();
         $('#AddVendor').hide();
@@ -284,12 +274,7 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
         $("#BalanceDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.Balance));
         $("#BudgetedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.BudgetedValue));
         $("#UtilizedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.UtilizedValue));
-     }
-
-    //common functions for all department
-    if (!IsNullOrUndefined(listItemId) && listItemId > 0) {
-        // setImageSignature();
-        displayAction();
+     } 
     }
 }
 function displayAction() {
@@ -301,7 +286,6 @@ function displayAction() {
         }
         for (var i = 0; i < initiatorActions.length; i++) {
             html = html + initiatorActions[i] + '<br />';
-
         }
         $('#dispInitiatorAction').html(html);
     }
@@ -628,6 +612,7 @@ function BindURSAttachmentFiles() {
                             $('#URSContainer').html(htmlStr);
                             $('#UploadURSAttachment').hide();
                             $("#UploadURSAttachment").val('');
+                            $("#UploadURSAttachment").attr("required", false);
                             HideWaitDialog();
 
                         }).catch(function (err) {
@@ -1411,8 +1396,6 @@ function SetBudgetValue() {
     raisedDateYear = d.getFullYear();
     AjaxCall(
         {
-
-            //url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue&$expand=AssetClassification/AssetClassDescription&$filter=AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "'",
             url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue&$expand=AssetClassification/AssetClassDescription&$filter=((AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "') and (StartYear eq '" + raisedDateYear + "'))",
             httpmethod: 'GET',
             calldatatype: 'JSON',
@@ -1489,7 +1472,11 @@ function SetCurrentValue() {
             if (vendorname == listTempGridDataArray[i].VendorName) {
                 $("#CurrentValue").val(listTempGridDataArray[i].TotalValue);
                 var TotalUtilizedValue = (+$("#UtilizedValue").val()) + (+listTempGridDataArray[i].TotalValue);
-                var Balance = $("#BudgetedValue").val() - TotalUtilizedValue;
+                var budgetedVal=$("#BudgetedValue").val();
+                if(budgetedVal ==""){
+                    budgetedVal= mainListData.BudgetedValue;
+                }
+                var Balance = budgetedVal - TotalUtilizedValue;
                 $("#TotalUtilizedValue").val(TotalUtilizedValue);
                 $("#Balance").val(Balance);
                 $("#CurrentValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(listTempGridDataArray[i].TotalValue));

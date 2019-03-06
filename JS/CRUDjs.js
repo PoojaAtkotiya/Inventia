@@ -273,7 +273,7 @@ function ValidateModalForm() {
             });
         }
         catch (e1) {
-            console.log(e1.message);
+           
         }
     }
     return isValid;

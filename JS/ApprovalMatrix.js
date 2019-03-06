@@ -85,7 +85,7 @@ function SetApprovalMatrix(id, mainListName) {
                 DisplayApplicationStatus(tempApproverMatrix);
             }
         }).fail(function () {
-            console.log("Execute  second after the retrieve list items  failed");
+          
         });
     } else {
         currentUserRole = Roles.CREATOR;
@@ -145,7 +145,7 @@ function GetCurrentUserRole(id, mainListName) {
         deferred.resolve(currentUserRole);
 
     }, function (sender, args) {
-        console.log('request failed ' + args.get_message() + '\n' + args.get_stackTrace());
+      
         deferred.reject(currentUserRole);
     });
     return deferred.promise();
@@ -747,11 +747,8 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
     ////set permission 
     var userWithRoles = GetPermissionDictionary(tempApproverMatrix, nextLevel, makeAllUsersViewer, isNewItem);
     SetItemPermission(requestId, ListNames.MAINLIST, userWithRoles);
-
-    console.log("Save Approver matrix");
     ////save approval matrix in list
     SaveApprovalMatrixInList(tempApproverMatrix, approvalMatrixListName, isNewItem);
-
     ////save activity log
     SendMail(actionPerformed, currentUser.Id, requestId, tempApproverMatrix, ListNames.MAINLIST, nextLevel, currentLevel, param, isNewItem);
 }
@@ -863,10 +860,10 @@ function SetCustomPermission(userWithRoles, requestId, listName) {
             async: false,
             dataType: 'json',
             success: function (data) {
-                console.log('Role Permission Added successfully!');
+             
             },
             error: function (error) {
-                console.log(JSON.stringify(error));
+               
             }
         });
 
@@ -874,7 +871,7 @@ function SetCustomPermission(userWithRoles, requestId, listName) {
 
 /*Pooja Atkotiya */
 function onFailbreakRoleInheritance(sender, args) {
-    console.log('onFailbreakRoleInheritance : Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
+  
 }
 
 /*Pooja Atkotiya */
@@ -889,7 +886,7 @@ function BreakRoleInheritance(requestId, listName) {
     currentContext.executeQueryAsync(function () {
         deferred.resolve(permItem);
     }, function (sender, args) {
-        console.log('request failed ' + args.get_message() + '\n' + args.get_stackTrace());
+      
         deferred.reject(permItem);
     });
     return deferred.promise();
@@ -897,7 +894,7 @@ function BreakRoleInheritance(requestId, listName) {
 
 /*Pooja Atkotiya */
 function onSetItemPermissionFailed(sender, args) {
-    console.log('onSetItemPermissionSucceeded : Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
+  
 }
 
 /*Pooja Atkotiya */
@@ -1044,21 +1041,6 @@ var stringifyData = function (isNewItem, approvalMatrixListName, temp, approverR
 }
 
 /*Pooja Atkotiya */
-/*function FormatRow() {
-    try {
-        var content = this;
-        for (var i = 0; i < arguments.length; i++) {
-            var replacement = '{' + i + '}';
-            content = content.replace(replacement, arguments[i]);
-        }
-        return content;
-    }
-    catch (e) {
-        console.log("Error occurred in FormatRow " + e.message);
-    }
-}*/
-
-/*Pooja Atkotiya */
 function SaveApprovalMatrixInList(tempApproverMatrix, approvalMatrixListName, isNewItem) {
     var url = '';
     var headers;
@@ -1089,7 +1071,7 @@ function SaveApprovalMatrixInList(tempApproverMatrix, approvalMatrixListName, is
                 async: false,
                 postData: stringifyData(isNewItem, approvalMatrixListName, temp, approverResults),
                 sucesscallbackfunction: function (data) {
-                    console.log("SaveApprovalMatrixInList - Item saved Successfully");
+                  
                 }
             });
         }
@@ -1122,7 +1104,7 @@ function SaveApprovalMatrixInList(tempApproverMatrix, approvalMatrixListName, is
                     async: false,
                     postData: stringifyData(isNewItem, approvalMatrixListName, temp, approverResults),
                     sucesscallbackfunction: function (data) {
-                        console.log("SaveApprovalMatrixInList - Item saved Successfully");
+                      
                     }
                 });
         }
@@ -1245,7 +1227,7 @@ function SaveFormFields(formFieldValues, requestId) {
                     "X-Http-Method": "MERGE", //PATCH
                 },
                 sucesscallbackfunction: function (data) {
-                    console.log("Item saved Successfully");
+                 
                 }
             });
     }
@@ -1292,7 +1274,7 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
                 case ButtonActionStatus.Save:
                 case ButtonActionStatus.SaveAsDraft:
                 case ButtonActionStatus.None:
-                    console.log("Save as draft condition => any approver=" + tempApproverMatrix.some(t => t.Levels == currentLevel));
+                 
                     if (tempApproverMatrix.some(t => t.Levels == currentLevel)) {
                         tempApproverMatrix.filter(function (temp) {
                             if (temp.Levels == currentLevel && temp.Status == ApproverStatus.NOTASSIGNED) {

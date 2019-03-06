@@ -37,12 +37,12 @@
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/ConstantsComp.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/AppConstants.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/Common.js"></script>
-    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/ApprovalMatrix.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/ApprovalMatrixmin.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/ButtonComp.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/masterComp.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/tranComp.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/AppForm.js"></script>
-    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/CRUDjsComp.js"></script> 
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script> 
 
     <!-- #endregion -->
 
@@ -110,7 +110,7 @@
                 var checkspace = isSpacesOnly($("#NewVendorName").val());
                 if (!checkspace) {
                     if ($("#ProposedVendor").html() != "") {
-                        $("#ProposedVendor").append(',');
+                        $("#ProposedVendor").append(', ');
                     }
                     if ($("#NewVendorName").val() != null || $("#NewVendorName").val() != " " || $("#NewVendorName").val() != "") { $("#ProposedVendor").append($("#NewVendorName").val()); }
                     $("#NewVendorName").val('');
@@ -361,7 +361,7 @@
                                                         <label class="col-md-4 control-label">
                                                             <span class="text-danger text-default-light">*</span>
                                                             Number of Units
-                                                            <img src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/36601.png" style="width: 20px;height:15px;" alt="alternative text"
+                                                            <img src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/36601.png" style="width: 20px;height:12px;" alt="alternative text"
                                                                 title="Number Only" />
                                                         </label>
 
@@ -377,7 +377,7 @@
                                                         <label class="col-md-4 control-label">
                                                             <span class="text-danger text-default-light">*</span>
                                                             Life of Asset (Years)
-                                                            <img src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/36601.png" style="width: 20px;height:15px;" alt="alternative text"
+                                                            <img src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/36601.png" style="width: 20px;height:12px;" alt="alternative text"
                                                                 title="Number Only" />
                                                         </label>
                                                         <div class="col-md-8">
@@ -428,9 +428,9 @@
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
-                                                        <label class="col-md-4 control-label"> </label>
-                                                        <div class="col-md-8">
-                                                            <a class="btn btn-primary pull-left" value="Add Proposed Vendor" id="AddVendor" onclick="">Add Proposed Vendor</a>
+                                                        <label class="col-md-6 control-label">  <a class="btn btn-primary pull-left" value="Add Proposed Vendor" id="AddVendor" onclick="">Add Proposed Vendor</a> </label>
+                                                        <div class="col-md-6">
+                                                          
                                                         </div>
                                                     </div>
                                                 </div>
@@ -449,18 +449,16 @@
 
                                             </div>
                                             <div class="row" id="proposedVendor" style="display:none;">
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-12">
                                                     <div class="form-group">
-                                                        <label class="col-md-4 control-label">
+                                                        <label class="col-md-2 control-label">
                                                             Proposed Vendor(s)
                                                         </label>
                                                         <label id="ProposedVendor" class="col-md-8 static-control labeltop" controlType="text" listtype="main"></label>
 
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6">
-
-                                                </div>
+                                               
                                             </div>
                                             <hr>
                                             <br>
@@ -501,7 +499,7 @@
                                                         <div class="col-md-8">
                                                             <input type="file" class="form-control dynamic-control" id="UploadURSAttachment" name="myfiles" controlType="file" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
                                                             text/plain, application/pdf, image/*" required="required">
-                                                            <br>
+                                                            
                                                             <div id="URSContainer"></div>
                                                         </div>
 
@@ -653,7 +651,7 @@
                                                             Selected Vendor
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <select class="form-control m-b-n-sm dynamic-control" id="SelectedVendor" controlType="combo" listtype="main" data-selected="SelectedVendor"
+                                                            <select class="form-control m-b-n-sm dynamic-control requiredOnDraft" id="SelectedVendor" controlType="combo" listtype="main" data-selected="SelectedVendor"
                                                                 name="SelectedVendor" required="required" onchange="SetCurrentValue()">
                                                             </select>
 
@@ -674,7 +672,7 @@
                                                             Reason for Selection
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <select class="form-control m-b-n-sm dynamic-control" id="ReasonforSelection" controlType="combo" listtype="master" reflisttype="main"
+                                                            <select class="form-control m-b-n-sm dynamic-control requiredOnDraft" id="ReasonforSelection" controlType="combo" listtype="master" reflisttype="main"
                                                                 listname="ReasonMaster" data-selected="ReasonMaster" valuebindingcolumn="Title"
                                                                 textbindingcolumnn="Title" name="ReasonforSelection" required="required">
                                                             </select>
