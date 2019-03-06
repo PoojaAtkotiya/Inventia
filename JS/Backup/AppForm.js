@@ -187,56 +187,59 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
         $("#ImportedYes").prop("checked", true);
     }
     if (listItemId > 0) {
+            //Functions for Initiator HOD
+     if (mainListData.PendingWith == "Initiator HOD") {
+        setVendorDropDown();
+        SetBudgetValue();
+        BindHODEditAttachmentFiles();
+        $('#AddVendor').hide();
+    }
         $("#RaisedOnDisplay").html(new Date(mainListData.RaisedOn).format("dd/MM/yyyy"));
         $("#ProposedVendor").show();
         $("#proposedVendor").show();
-
-        //Functions for Initiator HOD
-        if (mainListData.PendingWith == "Initiator HOD") {
-            setVendorDropDown();
-            SetBudgetValue();
-            BindHODEditAttachmentFiles();
-            $('#AddVendor').hide();
-            BindPurchaseAttachment();
-            $('[id*="EditVendor_"]').hide();
-            $('[id*="DeleteVendor_"]').hide();
-        }
-
         if (mainListData.Status == "Draft") {
             BindInitiatorEditAttachmentFiles();
-            //  setFunctionbasedDept(department);
+            setFunctionbasedDept(department);
             bindAssetClassification();
             $('#btnAddVendor').hide();
         }
-        else { BindInitiatorAttachment(); }
-        bindAssetClassification();
-        //  bindEditAssetClassification();
+        else {
+            BindInitiatorAttachment();
+        }
+        bindEditAssetClassification();
         bindEditAssetName(mainListData.AssetClassification);
         displayAction();
-        
-        //Functions for Purchase
-        if (mainListData.WorkflowStatus == "Pending for Purchase") {
-            BindPurchaseEditAttachmentFiles();
-            if (mainListData.NextApproverId != currentUser.Id) {
-                $('#btnAddVendor').hide();
-            }
-            $('#AddVendor').hide();
-        }
-
-        if (mainListData.WorkflowStatus == "Approved" || mainListData.WorkflowStatus == "Rejected" || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
-            BindPurchaseAttachment();
-            $('[id*="EditVendor_"]').hide();
-            $('[id*="DeleteVendor_"]').hide();
+      //Functions for Purchase
+      if (mainListData.WorkflowStatus == "Pending for Purchase") {
+        BindPurchaseEditAttachmentFiles();
+        if (mainListData.NextApproverId != currentUser.Id) {
             $('#btnAddVendor').hide();
-            setVendorDropDown();
-            $('#AddVendor').hide();
-            BindHODAttachment();
-            $("#CurrentValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.CurrentValue));
-            $("#TotalUtilizedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.TotalUtilizedValue));
-            $("#BalanceDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.Balance));
-            $("#BudgetedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.BudgetedValue));
-            $("#UtilizedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.UtilizedValue));
         }
+        $('#AddVendor').hide();
+        // if (!$("input:radio[name='Negotiated']").is(":checked")) {
+        //     $("#NegotiatedYes").prop("checked", true);
+        // }
+        // if (!$("input:radio[name='Recommended']").is(":checked")) {
+        //     $("#RecommendedYes").prop("checked", true);
+        // }
+    }
+    else if (mainListData.WorkflowStatus == "Approved" || mainListData.WorkflowStatus == "Rejected" || mainListData.PendingWith == Roles.INITIATORHOD || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
+        BindPurchaseAttachment();
+        $('[id*="EditVendor_"]').hide();
+        $('[id*="DeleteVendor_"]').hide();
+        $('#btnAddVendor').hide();
+        $('#AddVendor').hide();
+    }
+    if (mainListData.WorkflowStatus == "Approved" || mainListData.WorkflowStatus == "Rejected"  || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
+        setVendorDropDown();
+        $('#AddVendor').hide();
+        BindHODAttachment();
+        $("#CurrentValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.CurrentValue));
+        $("#TotalUtilizedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.TotalUtilizedValue));
+        $("#BalanceDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.Balance));
+        $("#BudgetedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.BudgetedValue));
+        $("#UtilizedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.UtilizedValue));
+     } 
     }
 }
 function displayAction() {
@@ -380,6 +383,8 @@ function bindAssetClassification() {
                     if (mainListData.AssetClassification != undefined) {
                         var objSelect = document.getElementById("AssetClassification");
                         setSelectedValue(objSelect, mainListData.AssetClassification);
+                        // bindAssetName(mainListData.AssetClassification);
+
                     }
                 }
             }
