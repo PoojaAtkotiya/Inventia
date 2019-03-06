@@ -80,7 +80,6 @@ function onloadConstantsSuccess(sender, args) {
         GetGlobalApprovalMatrix(listItemId);
     }
     GetFormBusinessLogic(listItemId, activeSectionName, department);
-    //  SaveErrorInList(activityTrack, "Action");
 }
 
 function GetUserDepartment() {
@@ -104,13 +103,43 @@ function GetUserDepartment() {
                     }
                 }
             } catch (err2) {
-                //alert(JSON.stringify(err2));  
+             }
+        },
+        error: function (jQxhr, errorCode, errorThrown) {
+        }
+    });
+}
+function GetLoginUserDepartment() {
+    var currentUserDepartment;
+    $.ajax({
+        url: _spPageContextInfo.webAbsoluteUrl + "/_api/SP.UserProfiles.PeopleManager/GetMyProperties",
+        httpmethod: 'GET',
+        calldatatype: 'JSON',
+        async: false,
+        headers: {
+            Accept: "application/json;odata=verbose"
+        },
+        success: function (data) {
+            try {
+                //Get properties from user profile Json response  
+                userDisplayName = data.d.DisplayName;
+                AccountName = data.d.AccountName;
+                var properties = data.d.UserProfileProperties.results;
+                for (var i = 0; i < properties.length; i++) {
+                    if (properties[i].Key == "Department") {
+                        currentUserDepartment = properties[i].Value;
+                        return currentUserDepartment;
+                    }
+                }
+            } catch (err2) {
+                 
             }
         },
         error: function (jQxhr, errorCode, errorThrown) {
-            //   console.log(errorThrown);
+          
         }
     });
+    return currentUserDepartment;
 }
 
 
@@ -156,7 +185,7 @@ function setImageSignature() {
 
 /*Priya Rane */
 function onloadConstantsFail(sender, args) {
-    //console.log(args.get_message());
+    
 }
 
 /*Monal Shah */
@@ -748,15 +777,6 @@ function onAjaxError(xhr) {
         if (xhr.status.toString().substr(0, 1) == "4" || xhr.status == 504) {
             AlertModal('SessionTimeout', "Session Timed out!!!");
         }
-        else {
-            //This shortcut is not recommended way to track unauthorized action.
-            //if (xhr.responseText.indexOf("403.png") > 0) {
-            //    window.location = UnAuthorizationUrl;
-            //}
-            //else {
-            //    AlertModal("Error", "System error has occurred.", BootstrapDialog.TYPE_DANGER);
-            //}
-        }
     }
 }
 
@@ -886,7 +906,6 @@ function ValidateForm(ele, saveCallBack) {
                     });
                 }
                 catch (e1) {
-                    console.log(e1.message);
                 }
             }
         });
@@ -1402,8 +1421,11 @@ function OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCap
                 case "complete":
                     displayMessage = "Request has been Completed.";
                     break;
+                case "save as draft":
+                    displayMessage = "Request has been saved as Draft.";
+                    break;
                 default:
-                    displayMessage = "Data saved successfully";
+                    displayMessage = "Request has been Submitted.";
                     break;
             }
             if (IsNullOrUndefined(data)) {
@@ -1465,44 +1487,88 @@ function SaveActions(sectionName, itemID, actionPerformed) {
     var hour = addZero(todayDate.getHours());
     var minute = addZero(todayDate.getMinutes());
     var formatted = day + "/" + month + "/" + year + " " + hour + ":" + minute + " " + amOrPm + " " + 'IST';
-    var currentUserDepartment = GetUserDepartment();
+    var currentUserDepartment = GetLoginUserDepartment();
     switch (sectionName) {
         case SectionNames.INITIATORSECTION:
             if (actionPerformed == "NextApproval") {
-                formFieldValues['InitiatorAction'] = "Submitted By " + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
+                if(currentUserDepartment !=undefined && currentUserDepartment!=null){
+                formFieldValues['InitiatorAction'] = "Submitted By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;}
+                else{
+                    formFieldValues['InitiatorAction'] = "Submitted By " + "," + currentUser.Title + "," + formatted;
+                }
             }
             else if (actionPerformed == "SaveAsDraft") {
-                formFieldValues['InitiatorAction'] = "Save As Draft By " + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
+                if(currentUserDepartment !=undefined && currentUserDepartment!=null){
+                formFieldValues['InitiatorAction'] = "Save As Draft By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                }
+                else
+                {
+                    formFieldValues['InitiatorAction'] = "Save As Draft By " + "," + currentUser.Title  + "," + formatted + "," + currentUserDepartment;
+                }
             }
             break;
         case SectionNames.HODSECTION:
             if (actionPerformed == "NextApproval") {
-                formFieldValues['HODAction'] = "Approved By " + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
+                if(currentUserDepartment !=undefined && currentUserDepartment!=null){
+                formFieldValues['HODAction'] = "Approved By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment ;}
+                else
+                {
+                    formFieldValues['HODAction'] = "Approved By " + "," + currentUser.Title + "," + formatted;
+                }
             }
             else if (actionPerformed == "Rejected") {
-                formFieldValues['HODAction'] = "Rejected By " + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
+                if(currentUserDepartment !=undefined && currentUserDepartment!=null){
+                formFieldValues['HODAction'] = "Rejected By " + "," + currentUser.Title  + "," + formatted + "," + currentUserDepartment;}
+                else
+                {
+                    formFieldValues['HODAction'] = "Rejected By " + "," + currentUser.Title  + "," + formatted;
+                }
             }
             break;
         case SectionNames.PURCHASESECTION:
             if (actionPerformed == "NextApproval") {
-                formFieldValues['PurchaseAction'] = "Submitted By " + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
+                if(currentUserDepartment !=undefined && currentUserDepartment!=null){
+                formFieldValues['PurchaseAction'] = "Submitted By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                }
+                else{
+                    formFieldValues['PurchaseAction'] = "Submitted By " + "," + currentUser.Title + "," + formatted
+                }
             }
 
             break;
         case SectionNames.FUNCTIONHEADSECTION:
             if (actionPerformed == "NextApproval") {
-                formFieldValues['FuctionHeadAction'] = "Approved By " + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
+                if(currentUserDepartment !=undefined && currentUserDepartment!=null){
+                formFieldValues['FuctionHeadAction'] = "Approved By " + "," + currentUser.Title  + "," + formatted + "," + currentUserDepartment;}
+                else
+                {
+                    formFieldValues['FuctionHeadAction'] = "Approved By " + "," + currentUser.Title  + "," + formatted;
+                }
             }
             else if (actionPerformed == "Rejected") {
-                formFieldValues['FuctionHeadAction'] = "Rejected By " + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
+                if(currentUserDepartment !=undefined && currentUserDepartment!=null){
+                formFieldValues['FuctionHeadAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;}
+                else{
+                    formFieldValues['FuctionHeadAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted;
+                }
             }
             break;
         case SectionNames.MANAGEMENTSECTION:
             if (actionPerformed == "Complete") {
-                formFieldValues['ManagementAction'] = "Approved By " + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
+                if(currentUserDepartment !=undefined && currentUserDepartment!=null){
+                formFieldValues['ManagementAction'] = "Approved By " + "," + currentUser.Title  + "," + formatted + "," + currentUserDepartment;}
+                else
+                {
+                    formFieldValues['ManagementAction'] = "Approved By " + "," + currentUser.Title  + "," + formatted;
+                }
             }
             else if (actionPerformed == "Rejected") {
-                formFieldValues['ManagementAction'] = "Rejected By " + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
+                if(currentUserDepartment !=undefined && currentUserDepartment!=null){
+                formFieldValues['ManagementAction'] = "Rejected By " + "," + currentUser.Title  + "," + formatted + "," + currentUserDepartment;}
+                else
+                {
+                    formFieldValues['ManagementAction'] = "Rejected By " + "," + currentUser.Title  + "," + formatted;
+                }
             }
             break;
     }
@@ -1671,8 +1737,7 @@ function OnSuccessConfirmSubmitNoRedirect(data) {
             }
         }
         else {
-            debugger
-            AlertModal('Error', data.Messages);
+             AlertModal('Error', data.Messages);
         }
     }
     catch (e) { window.location.reload(); }
@@ -1741,7 +1806,7 @@ function SaveActivityLog(sectionName, itemID, ActivityLogListName, listDataArray
                 SectionName: sectionName
             }),
         success: function (data, status, xhr) {
-            console.log("SaveActivityLogInList - Item saved Successfully");
+          
         },
 
     });
@@ -1936,28 +2001,13 @@ function AjaxCall(options) {
             }
         },
         error: function (xhr, textStatus, errorThrown) {
-
             if (!UserAborted(xhr)) {
-                // if (xhr.status == 403) {
-                //     window.location = LoginindexUrl;
-                // }
-                // //This shortcut is not recommended way to track unauthorized action. 
-                // if (xhr.responseText.indexOf("403.png") > 0) {
-                //     window.location = UnAuthorizationUrl;
-                // }
-                // else {
-                console.log(xhr);
-                SaveErrorInList(xhr.responseText, "Error");
-                xhr.responseText
-
-                AlertModal("Error", "Oops! Something went wrong");
-                //throw "Error";
-                //}
-                if (!IsNullOrUndefined(errorcallbackfunction)) {
+               SaveErrorInList(xhr.responseText, "Error");
+               AlertModal("Error", "Oops! Something went wrong");
+               if (!IsNullOrUndefined(errorcallbackfunction)) {
                     errorcallbackfunction(xhr);
                 }
             }
-
         }
     });
 }
@@ -1971,7 +2021,6 @@ function ShowError(ModelStateErrors) {
         messages += "<li>" + e.Value[0] + "</li>";
     });
     messages = "<div><h5>" + getMessage("errorTitle") + "</h5><ul>" + messages + "</ul></div>";
-    //debugger
     AlertModal("error", messages, function () { })
 }
 
