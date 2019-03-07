@@ -1812,6 +1812,26 @@ function SaveActivityLog(sectionName, itemID, ActivityLogListName, listDataArray
         },
 
     });
+
+
+    /*Save Activity log using MS Flow 
+
+    var activityItem = [];
+
+    activityItem.push({ 'Activity': buttonCaption });
+    activityItem.push({ 'Changes': stringActivity });
+    activityItem.push({ 'ActivityDate': today });
+    activityItem.push({ 'ActivityById': currentUser.Id });
+    activityItem.push({ 'RequestIDId': itemID });
+    activityItem.push({ 'SectionName': sectionName });
+    
+
+    var digest = jQuery("#__REQUESTDIGEST").val();
+    var saveItemUrl = "/_api/web/lists/getByTitle('" + ActivityLogListName + "')/items";
+    var resetDataTemplate = { "SaveItemUrl": saveItemUrl, "digest": digest.toString(), "ListItem":  };
+
+        */
+
 }
 
 function GetActivityString(listActivityLogDataArray, isCurrentApproverField) {
@@ -2048,10 +2068,11 @@ function getTermFromManagedColumn(managedColumn) {
 
 /*Pooja Atkotiya */
 function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, mainListName, nextLevel, currentLevel, param, isNewItem) {
-    var nextApproverIds = "";
-    var from = "", to = "", cc = "", role = "", tmplName = "", strAllusers = "", email = [], mailCustomValues = [];
-    var emailParam = {};
     try {
+        var nextApproverIds = "";
+        var from = "", to = "", cc = "", role = "", tmplName = "", strAllusers = "", email = [], mailCustomValues = [];
+        var emailParam = {};
+
         if (currentLevel < 0) {
             currentLevel = 0;
         }
@@ -2218,8 +2239,8 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                 break;
         }
     }
-    catch (ex) {
-        // blank catch to handle ie issue in case of CK editor
+    catch (exception) {
+        SaveErrorInList(exception, "Error");
     }
 }
 
@@ -2240,54 +2261,58 @@ function GetEmailUsers(tempApproverMatrix, nextLevel, isNewItem) {
 
 /*Priya Rane */
 function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role, emailParam) {
-    var emailTemplate = [];
-    var emailTemplateListData;
-    AjaxCall(
-        {
-            url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.FORMNAME + "</Value></Eq></And></Where></Query></View>\"}&$filter=Title eq '" + templateName + "'",
-            httpmethod: 'POST',
-            calldatatype: 'JSON',
-            async: false,
-            headers:
+    try {
+        var emailTemplate = [];
+        var emailTemplateListData;
+        AjaxCall(
             {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json; odata=verbose",
-                "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
-            },
-            sucesscallbackfunction: function (data) {
-                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results) && data.d.results.length > 0) {
+                url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.FORMNAME + "</Value></Eq></And></Where></Query></View>\"}&$filter=Title eq '" + templateName + "'",
+                httpmethod: 'POST',
+                calldatatype: 'JSON',
+                async: false,
+                headers:
+                    {
+                        "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json; odata=verbose",
+                        "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
+                    },
+                sucesscallbackfunction: function (data) {
+                    if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results) && data.d.results.length > 0) {
 
-                    var tmpItems = data.d.results;
-                    var emailListItem = null;
+                        var tmpItems = data.d.results;
+                        var emailListItem = null;
 
-                    var tmpItems = tmpItems.filter(function (t) {
-                        if (!IsStrNullOrEmpty(t.Role) && !IsStrNullOrEmpty(role)) {
-                            if (t.Role.indexOf(",") > 0) {
-                                if (cleanStringArray(t.Role.split(",")).some(r => r == role)) {
+                        var tmpItems = tmpItems.filter(function (t) {
+                            if (!IsStrNullOrEmpty(t.Role) && !IsStrNullOrEmpty(role)) {
+                                if (t.Role.indexOf(",") > 0) {
+                                    if (cleanStringArray(t.Role.split(",")).some(r => r == role)) {
+                                        return t;
+                                    }
+                                }
+                                else if (t.Role == role) {
                                     return t;
                                 }
                             }
-                            else if (t.Role == role) {
+                            else {
                                 return t;
                             }
-                        }
-                        else {
-                            return t;
-                        }
-                    });
+                        });
 
-                    emailListItem = tmpItems[0];
-                    if (!IsNullOrUndefined(emailListItem)) {
-                        emailTemplate.push({ "Subject": emailListItem.Subject });
-                        emailTemplate.push({ "Body": emailListItem.Body });
-                        mailCustomValues.push({ "ItemLink": "#URL" + CommonConstant.MAINLISTEDITURL + itemID });
-                        mailCustomValues.push({ "ItemLinkClickHere": "<a href=" + "#URL" + CommonConstant.MAINLISTEDITURL + itemID + ">Click Here</a>" });
-                        emailTemplate = CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, emailParam);
+                        emailListItem = tmpItems[0];
+                        if (!IsNullOrUndefined(emailListItem)) {
+                            emailTemplate.push({ "Subject": emailListItem.Subject });
+                            emailTemplate.push({ "Body": emailListItem.Body });
+                            mailCustomValues.push({ "ItemLink": "#URL" + CommonConstant.MAINLISTEDITURL + itemID });
+                            mailCustomValues.push({ "ItemLinkClickHere": "<a href=" + "#URL" + CommonConstant.MAINLISTEDITURL + itemID + ">Click Here</a>" });
+                            emailTemplate = CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, emailParam);
+                        }
                     }
                 }
-            }
 
-        });
+            });
+    } catch (exception) {
+        SaveErrorInList(exception, "Error");
+    }
 }
 
 /*Pooja Atkotiya */
@@ -2396,127 +2421,135 @@ function GetFieldsValueString(matches, mainlistData) {
 
 /*Pooja Atkotiya */
 function GetDatafromList(itemID, mainListName, subject, matchesSubject, body, matchesBody, emailParam) {
-    var mainlistData;
-    var replacedValuesSubject = [];
-    var replacedValuesBody = [];
-    AjaxCall(
-        {
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + mainListName + "')/items(" + itemID + ")",
-            httpmethod: 'GET',
-            calldatatype: 'JSON',
-            async: false,
-            headers:
+    try {
+        var mainlistData;
+        var replacedValuesSubject = [];
+        var replacedValuesBody = [];
+        AjaxCall(
             {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json; odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val()
-            },
-            sucesscallbackfunction: function (data) {
-                mainlistData = data.d;
-                ////replacement with list item values start
-                if (!IsNullOrUndefined(mainlistData) && !IsNullOrUndefined(matchesSubject) && matchesSubject.length > 0) {
-                    replacedValuesSubject = GetFieldsValueString(matchesSubject, mainlistData);
-                    if (!IsNullOrUndefined(replacedValuesSubject) && replacedValuesSubject.length > 0) {
-                        replacedValuesSubject.forEach(element => {
-                            var regex = /\[\S+?\]/g;
-                            subject.replace(regex, function (match) {
-                                if (!IsStrNullOrEmpty(match)) {
-                                    var cName = match.slice(1, -1);
-                                    var cValue = element[cName];
-                                    if (!IsStrNullOrEmpty(cValue)) {
-                                        subject = subject.replace(match, cValue);
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + mainListName + "')/items(" + itemID + ")",
+                httpmethod: 'GET',
+                calldatatype: 'JSON',
+                async: false,
+                headers:
+                    {
+                        "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json; odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                    },
+                sucesscallbackfunction: function (data) {
+                    mainlistData = data.d;
+                    ////replacement with list item values start
+                    if (!IsNullOrUndefined(mainlistData) && !IsNullOrUndefined(matchesSubject) && matchesSubject.length > 0) {
+                        replacedValuesSubject = GetFieldsValueString(matchesSubject, mainlistData);
+                        if (!IsNullOrUndefined(replacedValuesSubject) && replacedValuesSubject.length > 0) {
+                            replacedValuesSubject.forEach(element => {
+                                var regex = /\[\S+?\]/g;
+                                subject.replace(regex, function (match) {
+                                    if (!IsStrNullOrEmpty(match)) {
+                                        var cName = match.slice(1, -1);
+                                        var cValue = element[cName];
+                                        if (!IsStrNullOrEmpty(cValue)) {
+                                            subject = subject.replace(match, cValue);
+                                        }
                                     }
-                                }
+                                });
                             });
-                        });
+                        }
                     }
-                }
-                if (!IsNullOrUndefined(mainlistData) && !IsNullOrUndefined(matchesBody) && matchesBody.length > 0) {
-                    replacedValuesBody = GetFieldsValueString(matchesBody, mainlistData);
-                    if (!IsNullOrUndefined(replacedValuesBody) && replacedValuesBody.length > 0) {
-                        replacedValuesBody.forEach(element => {
-                            var regex = /\[\S+?\]/g;
-                            body.replace(regex, function (match) {
-                                if (!IsStrNullOrEmpty(match)) {
-                                    var cName = match.slice(1, -1);
-                                    var cValue = element[cName];
-                                    if (!IsStrNullOrEmpty(cValue)) {
-                                        body = body.replace(match, cValue);
+                    if (!IsNullOrUndefined(mainlistData) && !IsNullOrUndefined(matchesBody) && matchesBody.length > 0) {
+                        replacedValuesBody = GetFieldsValueString(matchesBody, mainlistData);
+                        if (!IsNullOrUndefined(replacedValuesBody) && replacedValuesBody.length > 0) {
+                            replacedValuesBody.forEach(element => {
+                                var regex = /\[\S+?\]/g;
+                                body.replace(regex, function (match) {
+                                    if (!IsStrNullOrEmpty(match)) {
+                                        var cName = match.slice(1, -1);
+                                        var cValue = element[cName];
+                                        if (!IsStrNullOrEmpty(cValue)) {
+                                            body = body.replace(match, cValue);
+                                        }
                                     }
-                                }
+                                });
                             });
-                        });
+                        }
                     }
-                }
-                ////replacement with list item values end
+                    ////replacement with list item values end
 
-                if (!IsStrNullOrEmpty(subject) && !IsStrNullOrEmpty(body) && !IsNullOrUndefined(emailParam)) {
-                    SaveEmail(subject, body, emailParam);
+                    if (!IsStrNullOrEmpty(subject) && !IsStrNullOrEmpty(body) && !IsNullOrUndefined(emailParam)) {
+                        SaveEmail(subject, body, emailParam);
+                    }
                 }
-            }
-        });
+            });
+    } catch (exception) {
+        SaveErrorInList(exception, "Error");
+    }
 }
 
 /*Pooja Atkotiya */
 function SaveEmail(subject, body, emailParam) {
-    var emailSaved = false;
-    //if (!IsStrNullOrEmpty(subject) && !IsStrNullOrEmpty(body) && !IsNullOrUndefined(emailParam) && emailParam.length > 0 && !IsStrNullOrEmpty(emailParam.TEMPLATENAME) && !IsStrNullOrEmpty(emailParam.FROM) && !IsStrNullOrEmpty(emailParam.TO) || !IsStrNullOrEmpty(emailParam.CC) || !IsStrNullOrEmpty(emailParam.BCC)) {
-    if (!IsStrNullOrEmpty(subject) && !IsStrNullOrEmpty(body) && !IsNullOrUndefined(emailParam) && !IsStrNullOrEmpty(emailParam.TEMPLATENAME) && !IsStrNullOrEmpty(emailParam.FROM) && !IsStrNullOrEmpty(emailParam.TO) || !IsStrNullOrEmpty(emailParam.CC) || !IsStrNullOrEmpty(emailParam.BCC)) {
-        var to = emailParam.TO;
-        if (!IsStrNullOrEmpty(to)) {
-            var strTo = TrimComma(to).split(",");
-            to = removeDuplicateFromArray(strTo).toString();
-        }
-
-        var cc = emailParam.CC;
-        if (!IsStrNullOrEmpty(cc)) {
-            var strCC = TrimComma(cc).split(",");
-            cc = removeDuplicateFromArray(strCC).toString();
-        }
-
-        var bcc = emailParam.BCC;
-        if (!IsStrNullOrEmpty(bcc)) {
-            var strBCC = TrimComma(bcc).split(",");
-            bcc = removeDuplicateFromArray(strBCC).toString();
-        }
-
-        var emailListArray = {};
-        // emailListArray["__metadata"] = {
-        //     "type": GetItemTypeForListName(ListNames.EMAILNOTIFICATION)
-        // };
-        emailListArray["To"] = to;
-        emailListArray["From"] = TrimComma(emailParam.FROM);
-        //if (!IsStrNullOrEmpty(cc)) {
-        emailListArray["CC"] = cc;
-        //}
-        // if (!IsStrNullOrEmpty(bcc)) {
-        emailListArray["BCC"] = bcc;
-        //  }
-        emailListArray["Title"] = emailParam.TEMPLATENAME;
-        emailListArray["ApplicationName"] = CommonConstant.APPLICATIONNAME;
-        emailListArray["FormName"] = CommonConstant.FORMNAME;
-        emailListArray["Subject"] = subject;
-        emailListArray["Body"] = body;
-        //emailListArray["IsRepeat"] = isRepeat;
-
-        // var url = CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILNOTIFICATION + "')/items";
-
-
-        $.ajax({
-            url: CommonConstant.SAVEEMAILINLIST,
-            type: 'POST',
-            headers: {
-                "content-type": "application/json",
-                "cache-control": "no-cache"
-            },
-            data: JSON.stringify(emailListArray),
-            async: false,
-            success: function (data) {
-            },
-            error: function (error) {
-
+    try {
+        var emailSaved = false;
+        //if (!IsStrNullOrEmpty(subject) && !IsStrNullOrEmpty(body) && !IsNullOrUndefined(emailParam) && emailParam.length > 0 && !IsStrNullOrEmpty(emailParam.TEMPLATENAME) && !IsStrNullOrEmpty(emailParam.FROM) && !IsStrNullOrEmpty(emailParam.TO) || !IsStrNullOrEmpty(emailParam.CC) || !IsStrNullOrEmpty(emailParam.BCC)) {
+        if (!IsStrNullOrEmpty(subject) && !IsStrNullOrEmpty(body) && !IsNullOrUndefined(emailParam) && !IsStrNullOrEmpty(emailParam.TEMPLATENAME) && !IsStrNullOrEmpty(emailParam.FROM) && !IsStrNullOrEmpty(emailParam.TO) || !IsStrNullOrEmpty(emailParam.CC) || !IsStrNullOrEmpty(emailParam.BCC)) {
+            var to = emailParam.TO;
+            if (!IsStrNullOrEmpty(to)) {
+                var strTo = TrimComma(to).split(",");
+                to = removeDuplicateFromArray(strTo).toString();
             }
-        });
+
+            var cc = emailParam.CC;
+            if (!IsStrNullOrEmpty(cc)) {
+                var strCC = TrimComma(cc).split(",");
+                cc = removeDuplicateFromArray(strCC).toString();
+            }
+
+            var bcc = emailParam.BCC;
+            if (!IsStrNullOrEmpty(bcc)) {
+                var strBCC = TrimComma(bcc).split(",");
+                bcc = removeDuplicateFromArray(strBCC).toString();
+            }
+
+            var emailListArray = {};
+            // emailListArray["__metadata"] = {
+            //     "type": GetItemTypeForListName(ListNames.EMAILNOTIFICATION)
+            // };
+            emailListArray["To"] = to;
+            emailListArray["From"] = TrimComma(emailParam.FROM);
+            //if (!IsStrNullOrEmpty(cc)) {
+            emailListArray["CC"] = cc;
+            //}
+            // if (!IsStrNullOrEmpty(bcc)) {
+            emailListArray["BCC"] = bcc;
+            //  }
+            emailListArray["Title"] = emailParam.TEMPLATENAME;
+            emailListArray["ApplicationName"] = CommonConstant.APPLICATIONNAME;
+            emailListArray["FormName"] = CommonConstant.FORMNAME;
+            emailListArray["Subject"] = subject;
+            emailListArray["Body"] = body;
+            //emailListArray["IsRepeat"] = isRepeat;
+
+            // var url = CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILNOTIFICATION + "')/items";
+
+
+            $.ajax({
+                url: CommonConstant.SAVEEMAILINLIST,
+                type: 'POST',
+                headers: {
+                    "content-type": "application/json",
+                    "cache-control": "no-cache"
+                },
+                data: JSON.stringify(emailListArray),
+                async: false,
+                success: function (data) {
+                },
+                error: function (error) {
+
+                }
+            });
+        }
+    } catch (exception) {
+        SaveErrorInList(exception, "Error");
     }
 
 }
@@ -2599,11 +2632,11 @@ function GetSPGroupIDByName(grpName, handleData) {
                 calldatatype: 'JSON',
                 async: false,
                 headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+                    {
+                        "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                    },
                 sucesscallbackfunction: function (data) {
                     handleData(data.d.Id);
                 }
@@ -2635,13 +2668,13 @@ function updateRequestIDAttachmentList(attchmentID, itemID) {
         async: false,
         data: JSON.stringify(item),
         headers:
-        {
-            "Accept": "application/json;odata=verbose",
-            "Content-Type": "application/json;odata=verbose",
-            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-            "IF-MATCH": "*",
-            "X-HTTP-Method": "MERGE"
-        },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                "IF-MATCH": "*",
+                "X-HTTP-Method": "MERGE"
+            },
         success: function (data) {
 
         },
