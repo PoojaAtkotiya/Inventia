@@ -89,7 +89,7 @@ function GetUserDepartment() {
                     }
                 }
             } catch (err2) {
-             }
+            }
         },
         error: function (jQxhr, errorCode, errorThrown) {
         }
@@ -118,11 +118,11 @@ function GetLoginUserDepartment() {
                     }
                 }
             } catch (err2) {
-                 
+
             }
         },
         error: function (jQxhr, errorCode, errorThrown) {
-          
+
         }
     });
     return currentUserDepartment;
@@ -1346,46 +1346,46 @@ function SaveActions(sectionName, itemID, actionPerformed) {
     switch (sectionName) {
         case SectionNames.INITIATORSECTION:
             if (actionPerformed == "NextApproval") {
-                if(currentUserDepartment !=undefined && currentUserDepartment!=null){
-                formFieldValues['InitiatorAction'] = "Submitted By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;}
-                else{
+                if (currentUserDepartment != undefined && currentUserDepartment != null) {
+                    formFieldValues['InitiatorAction'] = "Submitted By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                }
+                else {
                     formFieldValues['InitiatorAction'] = "Submitted By " + "," + currentUser.Title + "," + formatted;
                 }
             }
             else if (actionPerformed == "SaveAsDraft") {
-                if(currentUserDepartment !=undefined && currentUserDepartment!=null){
-                formFieldValues['InitiatorAction'] = "Save As Draft By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                if (currentUserDepartment != undefined && currentUserDepartment != null) {
+                    formFieldValues['InitiatorAction'] = "Save As Draft By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
                 }
-                else
-                {
-                    formFieldValues['InitiatorAction'] = "Save As Draft By " + "," + currentUser.Title  + "," + formatted + "," + currentUserDepartment;
+                else {
+                    formFieldValues['InitiatorAction'] = "Save As Draft By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
                 }
             }
             break;
         case SectionNames.HODSECTION:
             if (actionPerformed == "NextApproval") {
-                if(currentUserDepartment !=undefined && currentUserDepartment!=null){
-                formFieldValues['HODAction'] = "Approved By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment ;}
-                else
-                {
+                if (currentUserDepartment != undefined && currentUserDepartment != null) {
+                    formFieldValues['HODAction'] = "Approved By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                }
+                else {
                     formFieldValues['HODAction'] = "Approved By " + "," + currentUser.Title + "," + formatted;
                 }
             }
             else if (actionPerformed == "Rejected") {
-                if(currentUserDepartment !=undefined && currentUserDepartment!=null){
-                formFieldValues['HODAction'] = "Rejected By " + "," + currentUser.Title  + "," + formatted + "," + currentUserDepartment;}
-                else
-                {
-                    formFieldValues['HODAction'] = "Rejected By " + "," + currentUser.Title  + "," + formatted;
+                if (currentUserDepartment != undefined && currentUserDepartment != null) {
+                    formFieldValues['HODAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                }
+                else {
+                    formFieldValues['HODAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted;
                 }
             }
             break;
         case SectionNames.PURCHASESECTION:
             if (actionPerformed == "NextApproval") {
-                if(currentUserDepartment !=undefined && currentUserDepartment!=null){
-                formFieldValues['PurchaseAction'] = "Submitted By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                if (currentUserDepartment != undefined && currentUserDepartment != null) {
+                    formFieldValues['PurchaseAction'] = "Submitted By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
                 }
-                else{
+                else {
                     formFieldValues['PurchaseAction'] = "Submitted By " + "," + currentUser.Title + "," + formatted
                 }
             }
@@ -1393,36 +1393,37 @@ function SaveActions(sectionName, itemID, actionPerformed) {
             break;
         case SectionNames.FUNCTIONHEADSECTION:
             if (actionPerformed == "NextApproval") {
-                if(currentUserDepartment !=undefined && currentUserDepartment!=null){
-                formFieldValues['FuctionHeadAction'] = "Approved By " + "," + currentUser.Title  + "," + formatted + "," + currentUserDepartment;}
-                else
-                {
-                    formFieldValues['FuctionHeadAction'] = "Approved By " + "," + currentUser.Title  + "," + formatted;
+                if (currentUserDepartment != undefined && currentUserDepartment != null) {
+                    formFieldValues['FuctionHeadAction'] = "Approved By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                }
+                else {
+                    formFieldValues['FuctionHeadAction'] = "Approved By " + "," + currentUser.Title + "," + formatted;
                 }
             }
             else if (actionPerformed == "Rejected") {
-                if(currentUserDepartment !=undefined && currentUserDepartment!=null){
-                formFieldValues['FuctionHeadAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;}
-                else{
+                if (currentUserDepartment != undefined && currentUserDepartment != null) {
+                    formFieldValues['FuctionHeadAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                }
+                else {
                     formFieldValues['FuctionHeadAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted;
                 }
             }
             break;
         case SectionNames.MANAGEMENTSECTION:
             if (actionPerformed == "Complete") {
-                if(currentUserDepartment !=undefined && currentUserDepartment!=null){
-                formFieldValues['ManagementAction'] = "Approved By " + "," + currentUser.Title  + "," + formatted + "," + currentUserDepartment;}
-                else
-                {
-                    formFieldValues['ManagementAction'] = "Approved By " + "," + currentUser.Title  + "," + formatted;
+                if (currentUserDepartment != undefined && currentUserDepartment != null) {
+                    formFieldValues['ManagementAction'] = "Approved By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                }
+                else {
+                    formFieldValues['ManagementAction'] = "Approved By " + "," + currentUser.Title + "," + formatted;
                 }
             }
             else if (actionPerformed == "Rejected") {
-                if(currentUserDepartment !=undefined && currentUserDepartment!=null){
-                formFieldValues['ManagementAction'] = "Rejected By " + "," + currentUser.Title  + "," + formatted + "," + currentUserDepartment;}
-                else
-                {
-                    formFieldValues['ManagementAction'] = "Rejected By " + "," + currentUser.Title  + "," + formatted;
+                if (currentUserDepartment != undefined && currentUserDepartment != null) {
+                    formFieldValues['ManagementAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                }
+                else {
+                    formFieldValues['ManagementAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted;
                 }
             }
             break;
@@ -1527,7 +1528,7 @@ function OnSuccessConfirmSubmitNoRedirect(data) {
             }
         }
         else {
-             AlertModal('Error', data.Messages);
+            AlertModal('Error', data.Messages);
         }
     }
     catch (e) { window.location.reload(); }
@@ -1595,7 +1596,7 @@ function SaveActivityLog(sectionName, itemID, ActivityLogListName, listDataArray
                 SectionName: sectionName
             }),
         success: function (data, status, xhr) {
-          
+
         },
 
     });
@@ -1784,9 +1785,9 @@ function AjaxCall(options) {
         },
         error: function (xhr, textStatus, errorThrown) {
             if (!UserAborted(xhr)) {
-               SaveErrorInList(xhr.responseText, "Error");
-               AlertModal("Error", "Oops! Something went wrong");
-               if (!IsNullOrUndefined(errorcallbackfunction)) {
+                SaveErrorInList(xhr.responseText, "Error");
+                AlertModal("Error", "Oops! Something went wrong");
+                if (!IsNullOrUndefined(errorcallbackfunction)) {
                     errorcallbackfunction(xhr);
                 }
             }
@@ -2018,7 +2019,7 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
     var emailTemplateListData;
     AjaxCall(
         {
-            url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View>< Query ><Where><And><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And><Eq><FieldRef Name='LinkTitle' /><Value Type='Computed'>" + templateName + "</Value></Eq></And></Where></Query></View>\"}",
+            url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('EmailTemplate')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And>< And ><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>Capex</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='TaxonomyFieldType'>Capex Requisition Form</Value></Eq></And><Eq><FieldRef Name='Title' /><Value Type='Text'>Reject</Value></Eq></And></Where></Query></View>\"}",
             // url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And><Eq><FieldRef Name='LinkTitle' /><Value Type='Computed'>" + templateName + "</Value></Eq></And></Where></Query></View>\"}",
             //url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query>< Where ><And><And><And><Or><IsNull><FieldRef Name='Role' /></IsNull><Contains><FieldRef Name='Role' /><Value Type='Text'>" + role + "</Value></Contains></Or><Eq> <FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq> </And> < Eq > <FieldRef Name='ApplicationName' /><Value Type='Text'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq></And>< Eq ><FieldRef Name='Title' /><Value Type='Text'>" + templateName + "</Value></Eq></And></Where></Query></View>\"}",
             httpmethod: 'POST',

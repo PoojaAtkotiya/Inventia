@@ -173,6 +173,8 @@ function SaveForm(activeSection, ele) {
 }
 
 function GetFormBusinessLogic(listItemId, activeSectionName, department) {
+
+    $('#btnAddVendor').hide();   ////by default hide button
     //Get Department of Initiator
     if (IsNullOrUndefined(department)) {
         department = mainListData.Department;
@@ -182,11 +184,17 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
         setNewFormParamters(department);
         setFunctionbasedDept(department);
         bindAssetClassification();
-        $('#btnAddVendor').hide();
         $("#ProposedVendor").hide();
         $("#ImportedYes").prop("checked", true);
     }
     if (listItemId > 0) {
+        //Functions for Initiator HOD
+        if (mainListData.PendingWith == "Initiator HOD") {
+            setVendorDropDown();
+            SetBudgetValue();
+            BindHODEditAttachmentFiles();
+            $('#AddVendor').hide();
+        }
         $("#RaisedOnDisplay").html(new Date(mainListData.RaisedOn).format("dd/MM/yyyy"));
         $("#ProposedVendor").show();
         $("#proposedVendor").show();
@@ -206,28 +214,31 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
             BindInitiatorEditAttachmentFiles();
             //  setFunctionbasedDept(department);
             bindAssetClassification();
-            $('#btnAddVendor').hide();
         }
         else { BindInitiatorAttachment(); }
         bindAssetClassification();
         //  bindEditAssetClassification();
         bindEditAssetName(mainListData.AssetClassification);
         displayAction();
-        
         //Functions for Purchase
         if (mainListData.WorkflowStatus == "Pending for Purchase") {
             BindPurchaseEditAttachmentFiles();
-            if (mainListData.NextApproverId != currentUser.Id) {
-                $('#btnAddVendor').hide();
+            if (isArray(mainListData.NextApproverId) && mainListData.NextApproverId.length > 0 && mainListData.NextApproverId.some(n => n == currentUser.Id)) {
+                $('#btnAddVendor').show();
+            }
+            else if (mainListData.NextApproverId == currentUser.Id) {
+                $('#btnAddVendor').show();
             }
             $('#AddVendor').hide();
         }
-
-        if (mainListData.WorkflowStatus == "Approved" || mainListData.WorkflowStatus == "Rejected" || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
+        else if (mainListData.WorkflowStatus == "Approved" || mainListData.WorkflowStatus == "Rejected" || mainListData.PendingWith == Roles.INITIATORHOD || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
             BindPurchaseAttachment();
             $('[id*="EditVendor_"]').hide();
             $('[id*="DeleteVendor_"]').hide();
             $('#btnAddVendor').hide();
+            $('#AddVendor').hide();
+        }
+        if (mainListData.WorkflowStatus == "Approved" || mainListData.WorkflowStatus == "Rejected" || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
             setVendorDropDown();
             $('#AddVendor').hide();
             BindHODAttachment();
@@ -644,8 +655,8 @@ function BindInitiatorEditAttachmentFiles() {
                             htmlStr = "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a><a style='color:brown' id='Remove_" + element.ID + "' href=\"javascript:removeSupportiveFile('" + element.ID + "')\"> Remove</a></li>";
                         }
                         else {
-                           // htmlStr = checkFile + "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li><a style='color:brown' id='Remove_" + element.ID + "' href=\"javascript:removeSupportiveFile('" + element.ID + "')\"> Remove</a></li>";
-                          htmlStr = checkFile + "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a> <a style='color:brown' id='Remove_" + element.ID + "' href=\"javascript:removeSupportiveFile('" + element.ID + "')\"> Remove</a></li>";
+                            // htmlStr = checkFile + "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li><a style='color:brown' id='Remove_" + element.ID + "' href=\"javascript:removeSupportiveFile('" + element.ID + "')\"> Remove</a></li>";
+                            htmlStr = checkFile + "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a> <a style='color:brown' id='Remove_" + element.ID + "' href=\"javascript:removeSupportiveFile('" + element.ID + "')\"> Remove</a></li>";
 
                         }
                         fileCommonArray.push({
@@ -1034,7 +1045,7 @@ function BindPurchaseEditAttachmentFiles() {
                             "filename": element.FileName
                         });
                         $('#fileListpurchaseContainer').html(htmlStr);
-                     }
+                    }
                 });
             }
         });
@@ -1105,8 +1116,8 @@ function BindPurchaseAttachment() {
                 attachmentdata = data.d.results;
                 attachmentdata.forEach(element => {
                     if (element.Title == "Purchase") {
-                    
-                    
+
+
 
                         var htmlStr = "";
                         var checkFile = $('#fileListpurchaseContainer').html();
@@ -1117,13 +1128,13 @@ function BindPurchaseAttachment() {
                         }
                         else {
                             htmlStr = checkFile + "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li>";
-                         }
+                        }
                         fileCommonArray.push({
                             "name": "Purchase",
                             "id": element.ID,
                             "filename": element.FileName
                         });
-                             $('#fileListpurchaseContainer').html(htmlStr);
+                        $('#fileListpurchaseContainer').html(htmlStr);
                     }
                 });
             }
@@ -1167,8 +1178,8 @@ function BindHODEditAttachmentFiles() {
                             "id": element.ID,
                             "filename": element.FileName
                         });
-                     $('#fileListHODContainer').html(htmlStr);
-                        
+                        $('#fileListHODContainer').html(htmlStr);
+
                     }
                 });
             }
@@ -1178,93 +1189,93 @@ function BindHODAttachmentFiles() {
     ShowWaitDialog();
     var output = [];
     var fileName;
-   
-        //Get the File Upload control id
-        var input = document.getElementById("UploadHODAttachment");
-        if (input.files.length > 0) {
-            var fileCount = input.files.length;
-            for (var i = 0; i < fileCount; i++) {
-                fileName = input.files[i].name;
-                fileIdCounter++;
-                var fileId = fileIdCounter;
-                var file = input.files[i];
-                var reader = new FileReader();
-                reader.onload = (function (file) {
-                    return function (e) {
 
-                        fileURSArray.push({
-                            "name": file.name,
-                            "content": e.target.result,
-                            "id": fileId
-                        });
+    //Get the File Upload control id
+    var input = document.getElementById("UploadHODAttachment");
+    if (input.files.length > 0) {
+        var fileCount = input.files.length;
+        for (var i = 0; i < fileCount; i++) {
+            fileName = input.files[i].name;
+            fileIdCounter++;
+            var fileId = fileIdCounter;
+            var file = input.files[i];
+            var reader = new FileReader();
+            reader.onload = (function (file) {
+                return function (e) {
 
-                    }
-                })(file);
-                reader.readAsArrayBuffer(file);
-            }
+                    fileURSArray.push({
+                        "name": file.name,
+                        "content": e.target.result,
+                        "id": fileId
+                    });
 
-            if (!IsNullOrUndefined(fileURSArray)) {
-                var listName = "Attachments";
-                var itemType = GetItemTypeForListName(listName);
-                var item = {
-                    "__metadata": { "type": itemType },
-                    "Title": "HOD",
-                    "TypeOfAttachment": "HOD",
-                    "FileName": file.name
-                };
-
-                $.ajax({
-                    url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('" + listName + "')/items",
-                    type: "POST",
-                    contentType: "application/json;odata=verbose",
-                    data: JSON.stringify(item),
-                    headers: {
-                        "Accept": "application/json;odata=verbose",
-                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                    },
-                    success: function (data) {
-                        var itemId = data.d.Id;
-                        var item = $pnp.sp.web.lists.getByTitle("Attachments").items.getById(itemId);
-                        item.attachmentFiles.addMultiple(fileURSArray).then(v => {
-                            var htmlStr = "";
-                            // var checkFile = $('#UploadSupportiveDocAttachment').next().next().html();
-                            var checkFile = $('#fileListHODContainer').html();
-                            var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + itemId + "/" + fileName;
-    
-                            if (checkFile === "") {
-                                htmlStr = "<li id=li_" + itemId + "><a id='attachment_" + itemId + "' href='" + ServerRelativeUrl + "' target='_blank'>" + fileName + "</a><a style='color:brown' id='Remove_" + itemId + "' href=\"javascript:removeHODFile('" + itemId + "')\"> Remove</a></li>";
-                            }
-                            else {
-                                htmlStr = checkFile + "<li id=li_" + itemId + "><a id='attachment_" + itemId + "' href='" + ServerRelativeUrl + "' target='_blank'>" + fileName + "</a><a style='color:brown' id='Remove_" + itemId + "' href=\"javascript:removeHODFile('" + itemId + "')\"> Remove</a></li>";
-    
-                            }
-                            fileCommonArray.push({
-                                "name": "HOD",
-                                "id": itemId,
-                                "filename": fileName
-                            });
-                            fileURSArray = [];
-                            $('#fileListHODContainer').html(htmlStr);
-                            $("#UploadHODAttachment").val('');
-                            HideWaitDialog();
-                        }).catch(function (err) {
-                            HideWaitDialog();
-                            fileURSArray = [];
-                            AlertModal('Error', "There is some problem to upload file Pl try again");
-                        });
-                    },
-                    error: function (data) {
-                        HideWaitDialog();
-                        AlertModal('Error', "There is some problem to upload file Pl try again");
-                    }
-                });
-            }
+                }
+            })(file);
+            reader.readAsArrayBuffer(file);
         }
-   
+
+        if (!IsNullOrUndefined(fileURSArray)) {
+            var listName = "Attachments";
+            var itemType = GetItemTypeForListName(listName);
+            var item = {
+                "__metadata": { "type": itemType },
+                "Title": "HOD",
+                "TypeOfAttachment": "HOD",
+                "FileName": file.name
+            };
+
+            $.ajax({
+                url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('" + listName + "')/items",
+                type: "POST",
+                contentType: "application/json;odata=verbose",
+                data: JSON.stringify(item),
+                headers: {
+                    "Accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+                success: function (data) {
+                    var itemId = data.d.Id;
+                    var item = $pnp.sp.web.lists.getByTitle("Attachments").items.getById(itemId);
+                    item.attachmentFiles.addMultiple(fileURSArray).then(v => {
+                        var htmlStr = "";
+                        // var checkFile = $('#UploadSupportiveDocAttachment').next().next().html();
+                        var checkFile = $('#fileListHODContainer').html();
+                        var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + itemId + "/" + fileName;
+
+                        if (checkFile === "") {
+                            htmlStr = "<li id=li_" + itemId + "><a id='attachment_" + itemId + "' href='" + ServerRelativeUrl + "' target='_blank'>" + fileName + "</a><a style='color:brown' id='Remove_" + itemId + "' href=\"javascript:removeHODFile('" + itemId + "')\"> Remove</a></li>";
+                        }
+                        else {
+                            htmlStr = checkFile + "<li id=li_" + itemId + "><a id='attachment_" + itemId + "' href='" + ServerRelativeUrl + "' target='_blank'>" + fileName + "</a><a style='color:brown' id='Remove_" + itemId + "' href=\"javascript:removeHODFile('" + itemId + "')\"> Remove</a></li>";
+
+                        }
+                        fileCommonArray.push({
+                            "name": "HOD",
+                            "id": itemId,
+                            "filename": fileName
+                        });
+                        fileURSArray = [];
+                        $('#fileListHODContainer').html(htmlStr);
+                        $("#UploadHODAttachment").val('');
+                        HideWaitDialog();
+                    }).catch(function (err) {
+                        HideWaitDialog();
+                        fileURSArray = [];
+                        AlertModal('Error', "There is some problem to upload file Pl try again");
+                    });
+                },
+                error: function (data) {
+                    HideWaitDialog();
+                    AlertModal('Error', "There is some problem to upload file Pl try again");
+                }
+            });
+        }
+    }
+
 }
 //Only for download purpose
 function BindHODAttachment() {
-   
+
     var attachmentdata = [];
     AjaxCall(
         {
@@ -1292,9 +1303,9 @@ function BindHODAttachment() {
                         }
                         else {
                             htmlStr = checkFile + "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li>";
-                           }
-                       
-                     $('#fileListHODContainer').html(htmlStr);
+                        }
+
+                        $('#fileListHODContainer').html(htmlStr);
                     }
                 });
             }
@@ -1415,10 +1426,9 @@ function GetBudgetValue() {
 
 function SetCurrentValue() {
     var vendorname = $("#SelectedVendor").val();
-    if(vendorname ==undefined || vendorname==null || vendorname=="")
-    {
+    if (vendorname == undefined || vendorname == null || vendorname == "") {
         if (mainListData.SelectedVendor != undefined) {
-            vendorname=mainListData.SelectedVendor;
+            vendorname = mainListData.SelectedVendor;
         }
     }
     if (vendorname != "Select") {
@@ -1426,9 +1436,9 @@ function SetCurrentValue() {
             if (vendorname == listTempGridDataArray[i].VendorName) {
                 $("#CurrentValue").val(listTempGridDataArray[i].TotalValue);
                 var TotalUtilizedValue = (+$("#UtilizedValue").val()) + (+listTempGridDataArray[i].TotalValue);
-                var budgetedVal=$("#BudgetedValue").val();
-                if(budgetedVal ==""){
-                    budgetedVal= mainListData.BudgetedValue;
+                var budgetedVal = $("#BudgetedValue").val();
+                if (budgetedVal == "") {
+                    budgetedVal = mainListData.BudgetedValue;
                 }
                 var Balance = budgetedVal - TotalUtilizedValue;
                 $("#TotalUtilizedValue").val(TotalUtilizedValue);
@@ -1489,11 +1499,11 @@ function ValidateSize(file) {
 }
 
 function ReplaceNumberWithCommas(yourNumber) {
-    if(yourNumber!=null){
-    var n = yourNumber.toString().split(".");
-    //Comma-fies the first part
-    n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    //Combines the two sections
-    return n.join(".");
+    if (yourNumber != null) {
+        var n = yourNumber.toString().split(".");
+        //Comma-fies the first part
+        n[0] = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        //Combines the two sections
+        return n.join(".");
     }
 }
