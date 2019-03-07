@@ -1382,7 +1382,7 @@ hr {
 }
 /* End Left Sidebar Collapsed */
 .page-content {
-    padding: 80px 20px 50px 20px;
+    padding: 80px 20px 120px 20px;
     min-height: 700px;
 }
 
@@ -9573,5 +9573,8 @@ div#URSContainer {
 ul#fileListSupportiveDoc {
     padding-left: 16px;
 }
-
+input[type=radio] {
+    margin: 1px 3px 0 0px !important;
+    vertical-align: text-top;
+}
    

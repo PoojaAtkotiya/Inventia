@@ -1062,26 +1062,27 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
                         var value = testslice;
 
                         // var value = itemDetails[1];
-                        try {
-                            if (value.toLowerCase() == "true" || value.toLowerCase() == "false") {
-                                tdValue = value.toLowerCase() == "true" ? "Yes" : "No";
-                            }
-                            else {
-                                if (value.includes("/") && value.includes(":") && (value.includes("AM") || value.includes("PM"))) {
-                                    var datetimepart = value.split(' ');
-                                    var datepart = datetimepart[0].split('/');
-                                    var dt = new DateTime(parseInt(datepart[2]), parseInt(datepart[0]), parseInt(datepart[1]));
-                                    tdValue = dt.toString("dd/MM/yyyy") + (itemDetails[0].toLowerCase().includes("time") ? " " + datetimepart[1] + " " + datetimepart[2] : "");
+                        if (!IsNullOrUndefined(value[0])) {
+                            try {
+                                if (value.toLowerCase() == "true" || value.toLowerCase() == "false") {
+                                    tdValue = value.toLowerCase() == "true" ? "Yes" : "No";
                                 }
                                 else {
-                                    tdValue = value;
+                                    if (value.includes("/") && value.includes(":") && (value.includes("AM") || value.includes("PM"))) {
+                                        var datetimepart = value.split(' ');
+                                        var datepart = datetimepart[0].split('/');
+                                        var dt = new DateTime(parseInt(datepart[2]), parseInt(datepart[0]), parseInt(datepart[1]));
+                                        tdValue = dt.toString("dd/MM/yyyy") + (itemDetails[0].toLowerCase().includes("time") ? " " + datetimepart[1] + " " + datetimepart[2] : "");
+                                    }
+                                    else {
+                                        tdValue = value;
+                                    }
                                 }
                             }
+                            catch (err) {
+                                tdValue = value;
+                            }
                         }
-                        catch (err) {
-                            tdValue = value;
-                        }
-
                         tr.append('<td>' + tdValue + '</td>');
                         $('#tblActivityChanges tbody').append(tr);
                     }
@@ -1567,43 +1568,78 @@ function OnSuccessNoRedirect(data) {
     catch (e) { window.location.reload(); }
 }
 
+/*Pooja Atkotiya*/
 function SaveActivityLog(sectionName, itemID, ActivityLogListName, listDataArray, isNewItem, buttonCaption) {
-    var stringActivity;
-    var itemType = GetItemTypeForListName(ActivityLogListName);
-    var today = new Date().format("yyyy-MM-ddTHH:mm:ssZ");
-    //var actionPerformed = Object.keys(ButtonActionStatus).filter(k => ButtonActionStatus[k] == $("#ActionStatus").val()).toString();
-    stringActivity = GetActivityString(listActivityLogDataArray, isNewItem);
-    url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ActivityLogListName + "')/items";
-    headers = {
-        "Accept": "application/json;odata=verbose",
-        "Content-Type": "application/json;odata=verbose",
-        "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-        "X-HTTP-Method": "POST"
-    };
+    try {
+        var stringActivity;
+        var itemType = GetItemTypeForListName(ActivityLogListName);
+        var today = new Date().format("yyyy-MM-ddTHH:mm:ssZ");
+        //var actionPerformed = Object.keys(ButtonActionStatus).filter(k => ButtonActionStatus[k] == $("#ActionStatus").val()).toString();
+        stringActivity = GetActivityString(listActivityLogDataArray, isNewItem);
+        url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ActivityLogListName + "')/items";
+        // headers = {
+        //     "Accept": "application/json;odata=verbose",
+        //     "Content-Type": "application/json;odata=verbose",
+        //     "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+        //     "X-HTTP-Method": "POST"
+        // };
 
-    $.ajax({
-        url: url,
-        type: "POST",
-        headers: headers,
-        async: false,
-        data: JSON.stringify
-            ({
-                __metadata: {
-                    "type": itemType
-                },
-                //Activity: actionPerformed,
-                Activity: buttonCaption,
-                Changes: stringActivity,
-                ActivityDate: today,
-                ActivityById: currentUser.Id,
-                RequestIDId: itemID,
-                SectionName: sectionName
-            }),
-        success: function (data, status, xhr) {
+        // $.ajax({
+        //     url: url,
+        //     type: "POST",
+        //     headers: headers,
+        //     async: false,
+        //     data: JSON.stringify
+        //         ({
+        //             __metadata: {
+        //                 "type": itemType
+        //             },
+        //             //Activity: actionPerformed,
+        //             Activity: buttonCaption,
+        //             Changes: stringActivity,
+        //             ActivityDate: today,
+        //             ActivityById: currentUser.Id,
+        //             RequestIDId: itemID,
+        //             SectionName: sectionName
+        //         }),
+        //     success: function (data, status, xhr) {
 
-        },
+        //     },
 
-    });
+        // });
+
+
+        /*Save Activity log using MS Flow  */
+        var activityLogTemplate = {};
+        activityLogTemplate['SiteUrl'] = CommonConstant.SPSITEURL;
+        //activityLogTemplate['ListName'] = ActivityLogListName;
+        activityLogTemplate['digest'] = jQuery("#__REQUESTDIGEST").val();
+        activityLogTemplate['SaveItemUrl'] = "/_api/web/lists/getByTitle('" + ActivityLogListName + "')/items";
+
+        var activityItem = {};
+        activityItem['Activity'] = buttonCaption;
+        activityItem['Changes'] = stringActivity;
+        activityItem['ActivityDate'] = today;
+        activityItem['ActivityById'] = currentUser.Id;
+        activityItem['RequestIDId'] = itemID;
+        activityItem['SectionName'] = sectionName;
+        activityItem["__metadata"] = { "type": itemType };
+
+        activityLogTemplate["ActivityItem"] = activityItem;
+
+        AjaxCall({
+            url: CommonConstant.SAVEACTIVITYLOGFLOW,
+            httpmethod: 'POST',
+            calldatatype: 'JSON',
+            headers: {
+                "content-type": "application/json",
+                "cache-control": "no-cache"
+            },
+            postData: JSON.stringify(activityLogTemplate)
+        });
+    } catch (exception) {
+        SaveErrorInList(exception, "Error");
+    }
 }
 
 function GetActivityString(listActivityLogDataArray, isCurrentApproverField) {
@@ -1782,7 +1818,7 @@ function AjaxCall(options) {
                 ShowError(data.Data);
             }
             else {
-                if (sucesscallbackfunction != '') {
+                if (sucesscallbackfunction != '' && !IsNullOrUndefined(sucesscallbackfunction)) {
                     sucesscallbackfunction(data);
                 }
             }
@@ -1829,10 +1865,11 @@ function getTermFromManagedColumn(managedColumn) {
 }
 
 function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, mainListName, nextLevel, currentLevel, param, isNewItem) {
-    var nextApproverIds = "";
-    var from = "", to = "", cc = "", role = "", tmplName = "", strAllusers = "", email = [], mailCustomValues = [];
-    var emailParam = {};
     try {
+        var nextApproverIds = "";
+        var from = "", to = "", cc = "", role = "", tmplName = "", strAllusers = "", email = [], mailCustomValues = [];
+        var emailParam = {};
+
         if (currentLevel < 0) {
             currentLevel = 0;
         }
@@ -1978,17 +2015,17 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                 }
                 break;
             case ButtonActionStatus.Complete:
-                if (!IsStrNullOrEmpty(strAllusers) && !IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
+                if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
                     from = currentUser.Email;
 
-                    to = tempApproverMatrix.filter(p => p.Role == Roles.CREATOR).ApproverId;
-                    cc = TrimComma(strAllusers).split(",");
-                    cc = GetUserEmailsbyUserID(cleanArray(cc));
+                    // to = tempApproverMatrix.filter(p => p.Role == Roles.CREATOR).ApproverId;
+                    cc = !IsNullOrUndefined(strAllUsers) ? GetUserEmailsbyUserID(cleanArray(TrimComma(strAllUsers).split(","))) : cc;
                     role = tempApproverMatrix.filter(p => parseInt(p.Levels) == currentLevel)[0].Role;
                     tmplName = EmailTemplateName.REQUESTCLOSERMAIL;
                     emailParam["TEMPLATENAME"] = tmplName;
                     emailParam["FROM"] = from;
-                    emailParam["TO"] = to;
+                    // emailParam["TO"] = to;
+                    emailParam["TO"] = GetUserEmailbyUserID(mainListData.RaisedById);
                     emailParam["CC"] = cc;
                     emailParam["ROLE"] = role;
                     emailParam["BCC"] = "";
@@ -1999,8 +2036,8 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                 break;
         }
     }
-    catch (ex) {
-        // blank catch to handle ie issue in case of CK editor
+    catch (exception) {
+        SaveErrorInList(exception, "Error");
     }
 }
 
@@ -2019,56 +2056,58 @@ function GetEmailUsers(tempApproverMatrix, nextLevel, isNewItem) {
 }
 
 function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role, emailParam) {
-    var emailTemplate = [];
-    var emailTemplateListData;
-    AjaxCall(
-        {
-            url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('EmailTemplate')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And>< And ><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>Capex</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='TaxonomyFieldType'>Capex Requisition Form</Value></Eq></And><Eq><FieldRef Name='Title' /><Value Type='Text'>Reject</Value></Eq></And></Where></Query></View>\"}",
-            // url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And><Eq><FieldRef Name='LinkTitle' /><Value Type='Computed'>" + templateName + "</Value></Eq></And></Where></Query></View>\"}",
-            //url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query>< Where ><And><And><And><Or><IsNull><FieldRef Name='Role' /></IsNull><Contains><FieldRef Name='Role' /><Value Type='Text'>" + role + "</Value></Contains></Or><Eq> <FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq> </And> < Eq > <FieldRef Name='ApplicationName' /><Value Type='Text'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq></And>< Eq ><FieldRef Name='Title' /><Value Type='Text'>" + templateName + "</Value></Eq></And></Where></Query></View>\"}",
-            httpmethod: 'POST',
-            calldatatype: 'JSON',
-            async: false,
-            headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json; odata=verbose",
-                    "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
-                },
-            sucesscallbackfunction: function (data) {
-                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results) && data.d.results.length > 0) {
+    try {
+        var emailTemplate = [];
+        var emailTemplateListData;
+        AjaxCall(
+            {
+                url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILTEMPLATELIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.FORMNAME + "</Value></Eq></And></Where></Query></View>\"}&$filter=Title eq '" + templateName + "'",
+                httpmethod: 'POST',
+                calldatatype: 'JSON',
+                async: false,
+                headers:
+                    {
+                        "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json; odata=verbose",
+                        "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
+                    },
+                sucesscallbackfunction: function (data) {
+                    if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results) && data.d.results.length > 0) {
 
-                    var tmpItems = data.d.results;
-                    var emailListItem = null;
+                        var tmpItems = data.d.results;
+                        var emailListItem = null;
 
-                    var tmpItems = tmpItems.filter(function (t) {
-                        if (!IsStrNullOrEmpty(t.Role) && !IsStrNullOrEmpty(role)) {
-                            if (t.Role.indexOf(",") > 0) {
-                                if (cleanStringArray(t.Role.split(",")).some(r => r == role)) {
+                        var tmpItems = tmpItems.filter(function (t) {
+                            if (!IsStrNullOrEmpty(t.Role) && !IsStrNullOrEmpty(role)) {
+                                if (t.Role.indexOf(",") > 0) {
+                                    if (cleanStringArray(t.Role.split(",")).some(r => r == role)) {
+                                        return t;
+                                    }
+                                }
+                                else if (t.Role == role) {
                                     return t;
                                 }
                             }
-                            else if (t.Role == role) {
+                            else {
                                 return t;
                             }
-                        }
-                        else {
-                            return t;
-                        }
-                    });
+                        });
 
-                    emailListItem = tmpItems[0];
-                    if (!IsNullOrUndefined(emailListItem)) {
-                        emailTemplate.push({ "Subject": emailListItem.Subject });
-                        emailTemplate.push({ "Body": emailListItem.Body });
-                        mailCustomValues.push({ "ItemLink": "#URL" + CommonConstant.MAINLISTEDITURL + itemID });
-                        mailCustomValues.push({ "ItemLinkClickHere": "<a href=" + "#URL" + CommonConstant.MAINLISTEDITURL + itemID + ">Click Here</a>" });
-                        emailTemplate = CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, emailParam);
+                        emailListItem = tmpItems[0];
+                        if (!IsNullOrUndefined(emailListItem)) {
+                            emailTemplate.push({ "Subject": emailListItem.Subject });
+                            emailTemplate.push({ "Body": emailListItem.Body });
+                            mailCustomValues.push({ "ItemLink": "#URL" + CommonConstant.MAINLISTEDITURL + itemID });
+                            mailCustomValues.push({ "ItemLinkClickHere": "<a href=" + "#URL" + CommonConstant.MAINLISTEDITURL + itemID + ">Click Here</a>" });
+                            emailTemplate = CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, emailParam);
+                        }
                     }
                 }
-            }
 
-        });
+            });
+    } catch (exception) {
+        SaveErrorInList(exception, "Error");
+    }
 }
 
 function CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, emailParam) {
@@ -2174,126 +2213,134 @@ function GetFieldsValueString(matches, mainlistData) {
 }
 
 function GetDatafromList(itemID, mainListName, subject, matchesSubject, body, matchesBody, emailParam) {
-    var mainlistData;
-    var replacedValuesSubject = [];
-    var replacedValuesBody = [];
-    AjaxCall(
-        {
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + mainListName + "')/items(" + itemID + ")",
-            httpmethod: 'GET',
-            calldatatype: 'JSON',
-            async: false,
-            headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json; odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
-            sucesscallbackfunction: function (data) {
-                mainlistData = data.d;
-                ////replacement with list item values start
-                if (!IsNullOrUndefined(mainlistData) && !IsNullOrUndefined(matchesSubject) && matchesSubject.length > 0) {
-                    replacedValuesSubject = GetFieldsValueString(matchesSubject, mainlistData);
-                    if (!IsNullOrUndefined(replacedValuesSubject) && replacedValuesSubject.length > 0) {
-                        replacedValuesSubject.forEach(element => {
-                            var regex = /\[\S+?\]/g;
-                            subject.replace(regex, function (match) {
-                                if (!IsStrNullOrEmpty(match)) {
-                                    var cName = match.slice(1, -1);
-                                    var cValue = element[cName];
-                                    if (!IsStrNullOrEmpty(cValue)) {
-                                        subject = subject.replace(match, cValue);
+    try {
+        var mainlistData;
+        var replacedValuesSubject = [];
+        var replacedValuesBody = [];
+        AjaxCall(
+            {
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + mainListName + "')/items(" + itemID + ")",
+                httpmethod: 'GET',
+                calldatatype: 'JSON',
+                async: false,
+                headers:
+                    {
+                        "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json; odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                    },
+                sucesscallbackfunction: function (data) {
+                    mainlistData = data.d;
+                    ////replacement with list item values start
+                    if (!IsNullOrUndefined(mainlistData) && !IsNullOrUndefined(matchesSubject) && matchesSubject.length > 0) {
+                        replacedValuesSubject = GetFieldsValueString(matchesSubject, mainlistData);
+                        if (!IsNullOrUndefined(replacedValuesSubject) && replacedValuesSubject.length > 0) {
+                            replacedValuesSubject.forEach(element => {
+                                var regex = /\[\S+?\]/g;
+                                subject.replace(regex, function (match) {
+                                    if (!IsStrNullOrEmpty(match)) {
+                                        var cName = match.slice(1, -1);
+                                        var cValue = element[cName];
+                                        if (!IsStrNullOrEmpty(cValue)) {
+                                            subject = subject.replace(match, cValue);
+                                        }
                                     }
-                                }
+                                });
                             });
-                        });
+                        }
                     }
-                }
-                if (!IsNullOrUndefined(mainlistData) && !IsNullOrUndefined(matchesBody) && matchesBody.length > 0) {
-                    replacedValuesBody = GetFieldsValueString(matchesBody, mainlistData);
-                    if (!IsNullOrUndefined(replacedValuesBody) && replacedValuesBody.length > 0) {
-                        replacedValuesBody.forEach(element => {
-                            var regex = /\[\S+?\]/g;
-                            body.replace(regex, function (match) {
-                                if (!IsStrNullOrEmpty(match)) {
-                                    var cName = match.slice(1, -1);
-                                    var cValue = element[cName];
-                                    if (!IsStrNullOrEmpty(cValue)) {
-                                        body = body.replace(match, cValue);
+                    if (!IsNullOrUndefined(mainlistData) && !IsNullOrUndefined(matchesBody) && matchesBody.length > 0) {
+                        replacedValuesBody = GetFieldsValueString(matchesBody, mainlistData);
+                        if (!IsNullOrUndefined(replacedValuesBody) && replacedValuesBody.length > 0) {
+                            replacedValuesBody.forEach(element => {
+                                var regex = /\[\S+?\]/g;
+                                body.replace(regex, function (match) {
+                                    if (!IsStrNullOrEmpty(match)) {
+                                        var cName = match.slice(1, -1);
+                                        var cValue = element[cName];
+                                        if (!IsStrNullOrEmpty(cValue)) {
+                                            body = body.replace(match, cValue);
+                                        }
                                     }
-                                }
+                                });
                             });
-                        });
+                        }
                     }
-                }
-                ////replacement with list item values end
+                    ////replacement with list item values end
 
-                if (!IsStrNullOrEmpty(subject) && !IsStrNullOrEmpty(body) && !IsNullOrUndefined(emailParam)) {
-                    SaveEmail(subject, body, emailParam);
+                    if (!IsStrNullOrEmpty(subject) && !IsStrNullOrEmpty(body) && !IsNullOrUndefined(emailParam)) {
+                        SaveEmail(subject, body, emailParam);
+                    }
                 }
-            }
-        });
+            });
+    } catch (exception) {
+        SaveErrorInList(exception, "Error");
+    }
 }
 
 function SaveEmail(subject, body, emailParam) {
-    var emailSaved = false;
-    //if (!IsStrNullOrEmpty(subject) && !IsStrNullOrEmpty(body) && !IsNullOrUndefined(emailParam) && emailParam.length > 0 && !IsStrNullOrEmpty(emailParam.TEMPLATENAME) && !IsStrNullOrEmpty(emailParam.FROM) && !IsStrNullOrEmpty(emailParam.TO) || !IsStrNullOrEmpty(emailParam.CC) || !IsStrNullOrEmpty(emailParam.BCC)) {
-    if (!IsStrNullOrEmpty(subject) && !IsStrNullOrEmpty(body) && !IsNullOrUndefined(emailParam) && !IsStrNullOrEmpty(emailParam.TEMPLATENAME) && !IsStrNullOrEmpty(emailParam.FROM) && !IsStrNullOrEmpty(emailParam.TO) || !IsStrNullOrEmpty(emailParam.CC) || !IsStrNullOrEmpty(emailParam.BCC)) {
-        var to = emailParam.TO;
-        if (!IsStrNullOrEmpty(to)) {
-            var strTo = TrimComma(to).split(",");
-            to = removeDuplicateFromArray(strTo).toString();
-        }
-
-        var cc = emailParam.CC;
-        if (!IsStrNullOrEmpty(cc)) {
-            var strCC = TrimComma(cc).split(",");
-            cc = removeDuplicateFromArray(strCC).toString();
-        }
-
-        var bcc = emailParam.BCC;
-        if (!IsStrNullOrEmpty(bcc)) {
-            var strBCC = TrimComma(bcc).split(",");
-            bcc = removeDuplicateFromArray(strBCC).toString();
-        }
-
-        var emailListArray = {};
-        // emailListArray["__metadata"] = {
-        //     "type": GetItemTypeForListName(ListNames.EMAILNOTIFICATION)
-        // };
-        emailListArray["To"] = to;
-        emailListArray["From"] = TrimComma(emailParam.FROM);
-        //if (!IsStrNullOrEmpty(cc)) {
-        emailListArray["CC"] = cc;
-        //}
-        // if (!IsStrNullOrEmpty(bcc)) {
-        emailListArray["BCC"] = bcc;
-        //  }
-        emailListArray["Title"] = emailParam.TEMPLATENAME;
-        emailListArray["ApplicationName"] = CommonConstant.APPLICATIONNAME;
-        emailListArray["FormName"] = CommonConstant.FORMNAME;
-        emailListArray["Subject"] = subject;
-        emailListArray["Body"] = body;
-        //emailListArray["IsRepeat"] = isRepeat;
-
-        // var url = CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILNOTIFICATION + "')/items";
-
-
-        $.ajax({
-            url: CommonConstant.SAVEEMAILINLIST,
-            type: 'POST',
-            headers: {
-                "content-type": "application/json",
-                "cache-control": "no-cache"
-            },
-            data: JSON.stringify(emailListArray),
-            async: false,
-            success: function (data) {
-            },
-            error: function (error) {
-
+    try {
+        var emailSaved = false;
+        //if (!IsStrNullOrEmpty(subject) && !IsStrNullOrEmpty(body) && !IsNullOrUndefined(emailParam) && emailParam.length > 0 && !IsStrNullOrEmpty(emailParam.TEMPLATENAME) && !IsStrNullOrEmpty(emailParam.FROM) && !IsStrNullOrEmpty(emailParam.TO) || !IsStrNullOrEmpty(emailParam.CC) || !IsStrNullOrEmpty(emailParam.BCC)) {
+        if (!IsStrNullOrEmpty(subject) && !IsStrNullOrEmpty(body) && !IsNullOrUndefined(emailParam) && !IsStrNullOrEmpty(emailParam.TEMPLATENAME) && !IsStrNullOrEmpty(emailParam.FROM) && !IsStrNullOrEmpty(emailParam.TO) || !IsStrNullOrEmpty(emailParam.CC) || !IsStrNullOrEmpty(emailParam.BCC)) {
+            var to = emailParam.TO;
+            if (!IsStrNullOrEmpty(to)) {
+                var strTo = TrimComma(to).split(",");
+                to = removeDuplicateFromArray(strTo).toString();
             }
-        });
+
+            var cc = emailParam.CC;
+            if (!IsStrNullOrEmpty(cc)) {
+                var strCC = TrimComma(cc).split(",");
+                cc = removeDuplicateFromArray(strCC).toString();
+            }
+
+            var bcc = emailParam.BCC;
+            if (!IsStrNullOrEmpty(bcc)) {
+                var strBCC = TrimComma(bcc).split(",");
+                bcc = removeDuplicateFromArray(strBCC).toString();
+            }
+
+            var emailListArray = {};
+            // emailListArray["__metadata"] = {
+            //     "type": GetItemTypeForListName(ListNames.EMAILNOTIFICATION)
+            // };
+            emailListArray["To"] = to;
+            emailListArray["From"] = TrimComma(emailParam.FROM);
+            //if (!IsStrNullOrEmpty(cc)) {
+            emailListArray["CC"] = cc;
+            //}
+            // if (!IsStrNullOrEmpty(bcc)) {
+            emailListArray["BCC"] = bcc;
+            //  }
+            emailListArray["Title"] = emailParam.TEMPLATENAME;
+            emailListArray["ApplicationName"] = CommonConstant.APPLICATIONNAME;
+            emailListArray["FormName"] = CommonConstant.FORMNAME;
+            emailListArray["Subject"] = subject;
+            emailListArray["Body"] = body;
+            //emailListArray["IsRepeat"] = isRepeat;
+
+            // var url = CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILNOTIFICATION + "')/items";
+
+
+            $.ajax({
+                url: CommonConstant.SAVEEMAILINLIST,
+                type: 'POST',
+                headers: {
+                    "content-type": "application/json",
+                    "cache-control": "no-cache"
+                },
+                data: JSON.stringify(emailListArray),
+                async: false,
+                success: function (data) {
+                },
+                error: function (error) {
+
+                }
+            });
+        }
+    } catch (exception) {
+        SaveErrorInList(exception, "Error");
     }
 
 }
