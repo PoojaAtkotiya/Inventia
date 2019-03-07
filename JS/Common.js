@@ -1775,63 +1775,78 @@ function OnSuccessNoRedirect(data) {
     catch (e) { window.location.reload(); }
 }
 
+/*Pooja Atkotiya*/
 function SaveActivityLog(sectionName, itemID, ActivityLogListName, listDataArray, isNewItem, buttonCaption) {
-    var stringActivity;
-    var itemType = GetItemTypeForListName(ActivityLogListName);
-    var today = new Date().format("yyyy-MM-ddTHH:mm:ssZ");
-    //var actionPerformed = Object.keys(ButtonActionStatus).filter(k => ButtonActionStatus[k] == $("#ActionStatus").val()).toString();
-    stringActivity = GetActivityString(listActivityLogDataArray, isNewItem);
-    url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ActivityLogListName + "')/items";
-    headers = {
-        "Accept": "application/json;odata=verbose",
-        "Content-Type": "application/json;odata=verbose",
-        "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-        "X-HTTP-Method": "POST"
-    };
+    try {
+        var stringActivity;
+        var itemType = GetItemTypeForListName(ActivityLogListName);
+        var today = new Date().format("yyyy-MM-ddTHH:mm:ssZ");
+        //var actionPerformed = Object.keys(ButtonActionStatus).filter(k => ButtonActionStatus[k] == $("#ActionStatus").val()).toString();
+        stringActivity = GetActivityString(listActivityLogDataArray, isNewItem);
+        url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ActivityLogListName + "')/items";
+        // headers = {
+        //     "Accept": "application/json;odata=verbose",
+        //     "Content-Type": "application/json;odata=verbose",
+        //     "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+        //     "X-HTTP-Method": "POST"
+        // };
 
-    $.ajax({
-        url: url,
-        type: "POST",
-        headers: headers,
-        async: false,
-        data: JSON.stringify
-            ({
-                __metadata: {
-                    "type": itemType
-                },
-                //Activity: actionPerformed,
-                Activity: buttonCaption,
-                Changes: stringActivity,
-                ActivityDate: today,
-                ActivityById: currentUser.Id,
-                RequestIDId: itemID,
-                SectionName: sectionName
-            }),
-        success: function (data, status, xhr) {
+        // $.ajax({
+        //     url: url,
+        //     type: "POST",
+        //     headers: headers,
+        //     async: false,
+        //     data: JSON.stringify
+        //         ({
+        //             __metadata: {
+        //                 "type": itemType
+        //             },
+        //             //Activity: actionPerformed,
+        //             Activity: buttonCaption,
+        //             Changes: stringActivity,
+        //             ActivityDate: today,
+        //             ActivityById: currentUser.Id,
+        //             RequestIDId: itemID,
+        //             SectionName: sectionName
+        //         }),
+        //     success: function (data, status, xhr) {
 
-        },
+        //     },
 
-    });
+        // });
 
 
-    /*Save Activity log using MS Flow 
+        /*Save Activity log using MS Flow  */
+        var activityLogTemplate = {};
+        activityLogTemplate['SiteUrl'] = CommonConstant.SPSITEURL;
+        //activityLogTemplate['ListName'] = ActivityLogListName;
+        activityLogTemplate['digest'] = jQuery("#__REQUESTDIGEST").val();
+        activityLogTemplate['SaveItemUrl'] = "/_api/web/lists/getByTitle('" + ActivityLogListName + "')/items";
 
-    var activityItem = [];
+        var activityItem = {};
+        activityItem['Activity'] = buttonCaption;
+        activityItem['Changes'] = stringActivity;
+        activityItem['ActivityDate'] = today;
+        activityItem['ActivityById'] = currentUser.Id;
+        activityItem['RequestIDId'] = itemID;
+        activityItem['SectionName'] = sectionName;
+        activityItem["__metadata"] = { "type": itemType };
 
-    activityItem.push({ 'Activity': buttonCaption });
-    activityItem.push({ 'Changes': stringActivity });
-    activityItem.push({ 'ActivityDate': today });
-    activityItem.push({ 'ActivityById': currentUser.Id });
-    activityItem.push({ 'RequestIDId': itemID });
-    activityItem.push({ 'SectionName': sectionName });
-    
+        activityLogTemplate["ActivityItem"] = activityItem;
 
-    var digest = jQuery("#__REQUESTDIGEST").val();
-    var saveItemUrl = "/_api/web/lists/getByTitle('" + ActivityLogListName + "')/items";
-    var resetDataTemplate = { "SaveItemUrl": saveItemUrl, "digest": digest.toString(), "ListItem":  };
-
-        */
-
+        AjaxCall({
+            url: CommonConstant.SAVEACTIVITYLOGFLOW,
+            httpmethod: 'POST',
+            calldatatype: 'JSON',
+            headers: {
+                "content-type": "application/json",
+                "cache-control": "no-cache"
+            },
+            postData: JSON.stringify(activityLogTemplate)
+        });
+    } catch (exception) {
+        SaveErrorInList(exception, "Error");
+    }
 }
 
 function GetActivityString(listActivityLogDataArray, isCurrentApproverField) {
@@ -2017,7 +2032,7 @@ function AjaxCall(options) {
                 ShowError(data.Data);
             }
             else {
-                if (sucesscallbackfunction != '') {
+                if (sucesscallbackfunction != '' && !IsNullOrUndefined(sucesscallbackfunction)) {
                     sucesscallbackfunction(data);
                 }
             }
