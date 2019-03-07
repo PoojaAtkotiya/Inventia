@@ -245,6 +245,7 @@ function Digit(objTextbox, event) {
 }
 
 function Integer(objTextbox, event) {
+   
     var keyCode = (event.which) ? event.which : (window.event) ? window.event.keyCode : -1;
     if (keyCode >= 48 && keyCode <= 57 || keyCode == 45) {
         if (keyCode == 45) {
@@ -262,6 +263,7 @@ function Integer(objTextbox, event) {
     else {
         return false;
     }
+    
 }
 function Numeric(objTextbox, event) {
     var keyCode = (event.which) ? event.which : (window.event) ? window.event.keyCode : -1;
@@ -782,6 +784,8 @@ function ValidateForm(ele, saveCallBack) {
                         $("#" + errorItem.element.id).removeClass("valid");
                         $("#" + errorItem.element.id).next().remove();
                     });
+                    var btnID = $(ele).attr("id");
+                    $("#" + btnID).removeAttr('disabled');
                 }
                 catch (e1) {
                 }
@@ -1347,46 +1351,46 @@ function SaveActions(sectionName, itemID, actionPerformed) {
         case SectionNames.INITIATORSECTION:
             if (actionPerformed == "NextApproval") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['InitiatorAction'] = "Submitted By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                    formFieldValues['InitiatorAction'] = "Submitted"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted ;
                 }
                 else {
-                    formFieldValues['InitiatorAction'] = "Submitted By " + "," + currentUser.Title + "," + formatted;
+                    formFieldValues['InitiatorAction'] = "Submitted"+ ","+ "By" + "," + currentUser.Title + "," + formatted;
                 }
             }
             else if (actionPerformed == "SaveAsDraft") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['InitiatorAction'] = "Save As Draft By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                    formFieldValues['InitiatorAction'] = "Saved As Draft"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted ;
                 }
                 else {
-                    formFieldValues['InitiatorAction'] = "Save As Draft By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                    formFieldValues['InitiatorAction'] = "Saved As Draft"+ ","+ "By" + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
                 }
             }
             break;
         case SectionNames.HODSECTION:
             if (actionPerformed == "NextApproval") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['HODAction'] = "Approved By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                    formFieldValues['HODAction'] = "Approved"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted ;
                 }
                 else {
-                    formFieldValues['HODAction'] = "Approved By " + "," + currentUser.Title + "," + formatted;
+                    formFieldValues['HODAction'] = "Approved"+ ","+ "By"+ "," + currentUser.Title + "," + formatted;
                 }
             }
             else if (actionPerformed == "Rejected") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['HODAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                    formFieldValues['HODAction'] = "Rejected"+ ","+ "By"+ "," + currentUser.Title + "," + currentUserDepartment + "," + formatted ;
                 }
                 else {
-                    formFieldValues['HODAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted;
+                    formFieldValues['HODAction'] = "Rejected"+ ","+ "By" + "," + currentUser.Title + "," + formatted;
                 }
             }
             break;
         case SectionNames.PURCHASESECTION:
             if (actionPerformed == "NextApproval") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['PurchaseAction'] = "Submitted By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                    formFieldValues['PurchaseAction'] = "Submitted"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted ;
                 }
                 else {
-                    formFieldValues['PurchaseAction'] = "Submitted By " + "," + currentUser.Title + "," + formatted
+                    formFieldValues['PurchaseAction'] = "Submitted"+ ","+ "By" + "," + currentUser.Title + "," + formatted
                 }
             }
 
@@ -1394,36 +1398,36 @@ function SaveActions(sectionName, itemID, actionPerformed) {
         case SectionNames.FUNCTIONHEADSECTION:
             if (actionPerformed == "NextApproval") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['FuctionHeadAction'] = "Approved By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                    formFieldValues['FuctionHeadAction'] = "Approved"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted ;
                 }
                 else {
-                    formFieldValues['FuctionHeadAction'] = "Approved By " + "," + currentUser.Title + "," + formatted;
+                    formFieldValues['FuctionHeadAction'] = "Approved"+ ","+ "By" + "," + currentUser.Title + "," + formatted;
                 }
             }
             else if (actionPerformed == "Rejected") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['FuctionHeadAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                    formFieldValues['FuctionHeadAction'] = "Rejected"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
                 }
                 else {
-                    formFieldValues['FuctionHeadAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted;
+                    formFieldValues['FuctionHeadAction'] = "Rejected"+ ","+ "By" + "," + currentUser.Title + "," + formatted;
                 }
             }
             break;
         case SectionNames.MANAGEMENTSECTION:
             if (actionPerformed == "Complete") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['ManagementAction'] = "Approved By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                    formFieldValues['ManagementAction'] = "Approved"+ ","+ "By"+ "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
                 }
                 else {
-                    formFieldValues['ManagementAction'] = "Approved By " + "," + currentUser.Title + "," + formatted;
+                    formFieldValues['ManagementAction'] = "Approved"+ ","+ "By" + "," + currentUser.Title + "," + formatted;
                 }
             }
             else if (actionPerformed == "Rejected") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['ManagementAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                    formFieldValues['ManagementAction'] = "Rejected"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
                 }
                 else {
-                    formFieldValues['ManagementAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted;
+                    formFieldValues['ManagementAction'] = "Rejected"+ ","+ "By" + "," + currentUser.Title + "," + formatted;
                 }
             }
             break;

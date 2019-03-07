@@ -116,12 +116,14 @@ function Capex_SaveData(ele) {
             AlertModal('Validation', errMessage, true);
         }
     }
+    
+    var btnID = $(ele).attr("id");
+    $("#" + btnID).attr('disabled','disabled');
     ValidateForm(ele, SaveDataCallBack);
 
     function SaveDataCallBack(activeSection) {
+        
         var isError = FormBusinessLogic(activeSection);
-
-
         if (!isError) {
             SaveForm(activeSection, ele);
         }
@@ -212,34 +214,44 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
 
         if (mainListData.Status == "Draft") {
             BindInitiatorEditAttachmentFiles();
-            //  setFunctionbasedDept(department);
             bindAssetClassification();
         }
-        else { BindInitiatorAttachment(); }
-        bindAssetClassification();
-        //  bindEditAssetClassification();
-        bindEditAssetName(mainListData.AssetClassification);
+        else { 
+            BindInitiatorAttachment(); 
+            $('#AssetClassification').hide();
+            $('#AssetName').hide();
+            $("#AssetClassificationDisplay").html(mainListData.AssetClassification);
+            $("#AssetClassificationDisplay").show();
+            $("#AssetNameDisplay").html(mainListData.AssetName);
+            $("#AssetNameDisplay").show();
+            $("#CostCenterDisplay").html(mainListData.CostCenter);
+            $("#LocationDisplay").html(mainListData.Location);
+            $('#Location').hide();
+            $('#CostCenter').hide();
+            $("#CostCenterDisplay").show();
+            $("#LocationDisplay").show();
+            $('#UploadURSAttachment').hide();
+            $('#UploadSupportiveDocAttachment').hide();
+        }
+   
         displayAction();
         //Functions for Purchase
         if (mainListData.WorkflowStatus == "Pending for Purchase") {
             BindPurchaseEditAttachmentFiles();
-            if (isArray(mainListData.NextApproverId) && mainListData.NextApproverId.length > 0 && mainListData.NextApproverId.some(n => n == currentUser.Id)) {
+            if (IsArray(mainListData.NextApproverId) && mainListData.NextApproverId.length > 0 && mainListData.NextApproverId.some(n => n == currentUser.Id)) {
                 $('#btnAddVendor').show();
             }
             else if (mainListData.NextApproverId == currentUser.Id) {
                 $('#btnAddVendor').show();
             }
-            $('#AddVendor').hide();
+             $('#AddVendor').hide();
         }
-        else if (mainListData.WorkflowStatus == "Approved" || mainListData.WorkflowStatus == "Rejected" || mainListData.PendingWith == Roles.INITIATORHOD || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
+        
+        if (mainListData.WorkflowStatus == "Approved" || mainListData.WorkflowStatus == "Rejected" || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
+            setVendorDropDown();
             BindPurchaseAttachment();
             $('[id*="EditVendor_"]').hide();
             $('[id*="DeleteVendor_"]').hide();
-            $('#btnAddVendor').hide();
-            $('#AddVendor').hide();
-        }
-        if (mainListData.WorkflowStatus == "Approved" || mainListData.WorkflowStatus == "Rejected" || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
-            setVendorDropDown();
             $('#AddVendor').hide();
             BindHODAttachment();
             $("#CurrentValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.CurrentValue));
@@ -258,7 +270,8 @@ function displayAction() {
             initiatorActions = TrimComma(mainListData.InitiatorAction).split(",");
         }
         for (var i = 0; i < initiatorActions.length; i++) {
-            html = html + initiatorActions[i] + '<br />';
+            if(i==1){ html = html + initiatorActions[i] + '<br />';}
+            else{ html = html + initiatorActions[i].bold(); + '<br />';}
         }
         $('#dispInitiatorAction').html(html);
     }
@@ -269,7 +282,8 @@ function displayAction() {
             PurchaseActions = TrimComma(mainListData.PurchaseAction).split(",");
         }
         for (var i = 0; i < PurchaseActions.length; i++) {
-            html = html + PurchaseActions[i] + '<br />';
+            if(i==1){ html = html + PurchaseActions[i] + '<br />';}
+            else{html = html + PurchaseActions[i].bold(); + '<br />';}
         }
         $('#PurchaseAction').html(html);
     }
@@ -280,7 +294,8 @@ function displayAction() {
             HODActions = TrimComma(mainListData.HODAction).split(",");
         }
         for (var i = 0; i < HODActions.length; i++) {
-            html = html + HODActions[i] + '<br />';
+            if(i==1){ html = html + HODActions[i] + '<br />';}
+            else{ html = html + HODActions[i].bold(); + '<br />';}
 
         }
         $('#HODAction').html(html);
@@ -292,7 +307,8 @@ function displayAction() {
             functionHeadActions = TrimComma(mainListData.FuctionHeadAction).split(",");
         }
         for (var i = 0; i < functionHeadActions.length; i++) {
-            html = html + functionHeadActions[i] + '<br />';
+            if(i==1){ html = html + functionHeadActions[i] + '<br />';}
+            else{html = html + functionHeadActions[i].bold();  + '<br />';}
         }
         $('#FunctionHeadAction').html(html);
     }
@@ -303,7 +319,8 @@ function displayAction() {
             managementActions = TrimComma(mainListData.ManagementAction).split(",");
         }
         for (var i = 0; i < managementActions.length; i++) {
-            html = html + managementActions[i] + '<br />';
+            if(i==1){ html = html + managementActions[i] + '<br />';}
+            else{html = html + managementActions[i].bold(); + '<br />';}
         }
         $('#ManagementAction').html(html);
     }
@@ -342,10 +359,10 @@ function setVendorDropDown() {
     }
 }
 function setFunctionbasedDept(department) {
+    var department = encodeURIComponent(department);
     AjaxCall(
         {
-
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.DEPTFUNCTIONMASTER + "')/Items?$select=Title,DepartmentName,*&$filter=DepartmentName eq '" + department + "'",
+             url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.DEPTFUNCTIONMASTER + "')/Items?$select=Title,DepartmentName,*&$filter=DepartmentName eq '" + department + "'",
             httpmethod: 'GET',
             calldatatype: 'JSON',
             async: false,
@@ -364,9 +381,11 @@ function setFunctionbasedDept(department) {
 }
 function bindAssetClassification() {
     var functionValue = $('#Function').html();
+    var colVal = encodeURIComponent(functionValue);
     AjaxCall(
         {
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ASSETCLASSIFICATIONMASTER + "')/items?$select=Function/Title,AssetClassDescription,Title&$expand=Function/Title&$filter=Function/Title eq '" + functionValue + "'",
+           // url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ASSETCLASSIFICATIONMASTER + "')/items?$select=Function/Title,AssetClassDescription,Title&$expand=Function/Title&$filter=Function/Title eq '" + functionValue + "'",
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ASSETCLASSIFICATIONMASTER + "')/items?$select=Function/Title,AssetClassDescription,Title&$expand=Function/Title&$filter=(Function/Title eq '" + colVal + "')",
             httpmethod: 'GET',
             calldatatype: 'JSON',
             async: false,
@@ -399,6 +418,7 @@ function bindAssetClassification() {
 }
 function bindEditAssetClassification() {
     var functionValue = $('#Function').html();
+    functionValue = encodeURIComponent(functionValue);
     AjaxCall(
         {
             url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ASSETCLASSIFICATIONMASTER + "')/items?$select=Function/Title,AssetClassDescription,Title&$expand=Function/Title&$filter=Function/Title eq '" + functionValue + "'",
@@ -953,29 +973,8 @@ function BindPurchaseAttachmentFiles() {
                     var itemId = data.d.Id;
                     var item = $pnp.sp.web.lists.getByTitle("Attachments").items.getById(itemId);
                     item.attachmentFiles.addMultiple(fileURSArray).then(v => {
-                        // var htmlStr = "";
-                        // var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + itemId + "/" + fileName;
-
-                        // if (htmlStr === "") {
-                        //     htmlStr = "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + fileName + "</a><a href=\"javascript:removePurchaseFile('" + itemId + "')\"> Remove</a></li>";
-                        // }
-                        // else {
-                        //     htmlStr = htmlStr + "<li><a id='attachment' href='" + ServerRelativeUrl + "' target='_blank'>" + fileName + "</a></li><a href=\"javascript:removePurchaseFile('" + fileName + "')\"> Remove</a></li>";
-
-                        // }
-                        // fileCommonArray.push({
-                        //     "name": "Purchase",
-                        //     "id": itemId,
-                        //     "filename": fileName
-                        // });
-
-                        // fileURSArray = [];
-                        // $('#purchaseContainer').html(htmlStr);
-                        // HideWaitDialog();
-
                         var htmlStr = "";
-
-                        var checkFile = $('#fileListpurchaseContainer').html();
+                     var checkFile = $('#fileListpurchaseContainer').html();
                         var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + itemId + "/" + fileName;
 
                         if (checkFile === "") {
@@ -1075,16 +1074,6 @@ function removePurchaseFile(itemId) {
                 $(element).children().remove();
                 $(element).remove();
                 $(ele).remove();
-                // var index;
-                // fileCommonArray.forEach(element => {
-                //     if (element.id == itemId) {
-                //         index = fileCommonArray.indexOf(element);
-
-                //     }
-                // });
-                // if (index !== -1) fileCommonArray.splice(index, 1);
-                // var htmlStr = "";
-                // $('#purchaseContainer').html(htmlStr);
                 HideWaitDialog();
             },
             error: function (err) {
@@ -1170,8 +1159,6 @@ function BindHODEditAttachmentFiles() {
                         }
                         else {
                             htmlStr = checkFile + "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li><a style='color:brown' id='Remove_" + element.ID + "' href=\"javascript:removeHODFile('" + element.ID + "')\"> Remove</a></li>";
-                            //  htmlStr = checkFile + "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a> <a style='color:brown' id='Remove_" + element.ID + "' href=\"javascript:removeSupportiveFile('" + element.ID + "')\"> Remove</a></li>";
-
                         }
                         fileCommonArray.push({
                             "name": "HOD",

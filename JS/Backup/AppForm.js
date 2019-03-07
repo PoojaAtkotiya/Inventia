@@ -119,6 +119,7 @@ function Capex_SaveData(ele) {
     ValidateForm(ele, SaveDataCallBack);
 
     function SaveDataCallBack(activeSection) {
+        
         var isError = FormBusinessLogic(activeSection);
 
 
