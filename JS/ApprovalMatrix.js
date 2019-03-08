@@ -21,11 +21,11 @@ function GetGlobalApprovalMatrix(id) {
             calldatatype: 'JSON',
             async: false,
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json; odata=verbose",
-                "X-RequestDigest": gRequestDigestValue// data.d.GetContextWebInformation.FormDigestValue
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json; odata=verbose",
+                    "X-RequestDigest": gRequestDigestValue// data.d.GetContextWebInformation.FormDigestValue
+                },
             sucesscallbackfunction: function (data) {
                 globalApprovalMatrix = data.d.results;
                 /*Pooja Atkotiya */
@@ -45,11 +45,11 @@ function GetLocalApprovalMatrixData(id, mainListName) {
             calldatatype: 'JSON',
             async: false,
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val()
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
             sucesscallbackfunction: function (data) {
                 /*Pooja Atkotiya */
                 localApprovalMatrixdata = data.d.results;
@@ -85,7 +85,7 @@ function SetApprovalMatrix(id, mainListName) {
                 DisplayApplicationStatus(tempApproverMatrix);
             }
         }).fail(function () {
-          
+
         });
     } else {
         currentUserRole = Roles.CREATOR;
@@ -145,7 +145,7 @@ function GetCurrentUserRole(id, mainListName) {
         deferred.resolve(currentUserRole);
 
     }, function (sender, args) {
-      
+
         deferred.reject(currentUserRole);
     });
     return deferred.promise();
@@ -860,10 +860,10 @@ function SetCustomPermission(userWithRoles, requestId, listName) {
             async: false,
             dataType: 'json',
             success: function (data) {
-             
+
             },
             error: function (error) {
-               
+
             }
         });
 
@@ -871,7 +871,7 @@ function SetCustomPermission(userWithRoles, requestId, listName) {
 
 /*Pooja Atkotiya */
 function onFailbreakRoleInheritance(sender, args) {
-  
+
 }
 
 /*Pooja Atkotiya */
@@ -886,7 +886,7 @@ function BreakRoleInheritance(requestId, listName) {
     currentContext.executeQueryAsync(function () {
         deferred.resolve(permItem);
     }, function (sender, args) {
-      
+
         deferred.reject(permItem);
     });
     return deferred.promise();
@@ -894,7 +894,7 @@ function BreakRoleInheritance(requestId, listName) {
 
 /*Pooja Atkotiya */
 function onSetItemPermissionFailed(sender, args) {
-  
+
 }
 
 /*Pooja Atkotiya */
@@ -1034,20 +1034,89 @@ var stringifyData = function (isNewItem, approvalMatrixListName, temp, approverR
                 IsHOLD: !IsNullOrUndefined(temp.IsHOLD) ? temp.IsHOLD.toString() : '',
             })
     }
-
-
     return stringifyData;
-
 }
 
 /*Pooja Atkotiya */
 function SaveApprovalMatrixInList(tempApproverMatrix, approvalMatrixListName, isNewItem) {
     var url = '';
-    var headers;
-    tempApproverMatrix.forEach(temp => {
-        //For multiUser field of sharepoint list
-        var approverResults = [];
-        if (isNewItem) {
+    //var headers;
+    /* tempApproverMatrix.forEach(temp => {
+         //For multiUser field of sharepoint list
+         var approverResults = [];
+         if (isNewItem) {
+             if (!IsNullOrUndefined(temp.ApproverId)) {
+                 if (IsArray(temp.ApproverId)) {
+                     approverResults = temp.ApproverId;
+                 }
+                 else {
+                     approverResults.push(parseInt(temp.ApproverId));
+                 }
+             }
+             url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + approvalMatrixListName + "')/items";
+             headers = {
+                 "Accept": "application/json;odata=verbose",
+                 "Content-Type": "application/json;odata=verbose",
+                 "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                 "X-HTTP-Method": "POST"
+             };
+             AjaxCall({
+                 url: url,
+                 httpmethod: 'POST',
+                 calldatatype: 'JSON',
+                 headers: headers,
+                 async: false,
+                 postData: stringifyData(isNewItem, approvalMatrixListName, temp, approverResults),
+                 sucesscallbackfunction: function (data) {
+ 
+                 }
+             });
+         }
+         else {
+ 
+             var approvers = GetApprovers(temp.ApproverId);
+             if (!IsNullOrUndefined(approvers)) {
+                 if (IsArray(approvers)) {
+                     approverResults = approvers;// temp.ApproverId.results;
+                 }
+                 else {
+                     approverResults.push(parseInt(approvers));
+                 }
+             }
+             url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + approvalMatrixListName + "')/items(" + temp.Id + ")";
+             headers = {
+                 "Accept": "application/json;odata=verbose",
+                 "Content-Type": "application/json;odata=verbose",
+                 "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                 "IF-MATCH": "*",
+                 "X-HTTP-Method": "MERGE"
+             };
+ 
+             AjaxCall(
+                 {
+                     url: url,
+                     httpmethod: 'POST',
+                     calldatatype: 'JSON',
+                     headers: headers,
+                     async: false,
+                     postData: stringifyData(isNewItem, approvalMatrixListName, temp, approverResults),
+                     sucesscallbackfunction: function (data) {
+ 
+                     }
+                 });
+         }
+     }); */
+
+    /** Save Approval Matrix using MS Flow */
+    var appStatusTemplate = {};
+    appStatusTemplate['SiteUrl'] = CommonConstant.SPSITEURL;
+    appStatusTemplate['digest'] = $("#__REQUESTDIGEST").val();
+    appStatusTemplate['IsNewItem'] = isNewItem;
+    if (isNewItem) {
+        var appStatusRow = [];
+        url = "/_api/web/lists/getbytitle('" + approvalMatrixListName + "')/items";
+        tempApproverMatrix.forEach(temp => {
+            var approverResults = [];
             if (!IsNullOrUndefined(temp.ApproverId)) {
                 if (IsArray(temp.ApproverId)) {
                     approverResults = temp.ApproverId;
@@ -1056,27 +1125,14 @@ function SaveApprovalMatrixInList(tempApproverMatrix, approvalMatrixListName, is
                     approverResults.push(parseInt(temp.ApproverId));
                 }
             }
-            url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + approvalMatrixListName + "')/items";
-            headers = {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                "X-HTTP-Method": "POST"
-            };
-            AjaxCall({
-                url: url,
-                httpmethod: 'POST',
-                calldatatype: 'JSON',
-                headers: headers,
-                async: false,
-                postData: stringifyData(isNewItem, approvalMatrixListName, temp, approverResults),
-                sucesscallbackfunction: function (data) {
-                  
-                }
-            });
-        }
-        else {
-
+            appStatusRow.push({ 'itemUrl': url, 'appStatusItem': stringifyData(isNewItem, approvalMatrixListName, temp, approverResults) });
+        });
+    }
+    else {
+        var appStatusRow = [];
+        tempApproverMatrix.forEach(temp => {
+            url = "/_api/web/lists/getbytitle('" + approvalMatrixListName + "')/items(" + temp.Id + ")";
+            var approverResults = [];
             var approvers = GetApprovers(temp.ApproverId);
             if (!IsNullOrUndefined(approvers)) {
                 if (IsArray(approvers)) {
@@ -1086,38 +1142,22 @@ function SaveApprovalMatrixInList(tempApproverMatrix, approvalMatrixListName, is
                     approverResults.push(parseInt(approvers));
                 }
             }
-            url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + approvalMatrixListName + "')/items(" + temp.Id + ")";
-            headers = {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                "IF-MATCH": "*",
-                "X-HTTP-Method": "MERGE"
-            };
+            appStatusRow.push({ 'itemUrl': url, 'appStatusItem': stringifyData(isNewItem, approvalMatrixListName, temp, approverResults) });
+        });
+    }
 
-            AjaxCall(
-                {
-                    url: url,
-                    httpmethod: 'POST',
-                    calldatatype: 'JSON',
-                    headers: headers,
-                    async: false,
-                    postData: stringifyData(isNewItem, approvalMatrixListName, temp, approverResults),
-                    sucesscallbackfunction: function (data) {
-                      
-                    }
-                });
-        }
+    appStatusTemplate["appStatusRows"] = appStatusRow;
+
+    AjaxCall({
+        url: CommonConstant.SAVEAPPSTATUSFLOW,
+        httpmethod: 'POST',
+        calldatatype: 'JSON',
+        headers: {
+            "content-type": "application/json",
+            "cache-control": "no-cache"
+        },
+        postData: JSON.stringify(appStatusTemplate)
     });
-
-    /** Save Approval Matrix using MS Flow */
-    if (isNewItem) {
-        
-    }
-    else{
-
-    }
-
 }
 
 /*Pooja Atkotiya */
@@ -1228,15 +1268,15 @@ function SaveFormFields(formFieldValues, requestId) {
                 postData: JSON.stringify(mainlistDataArray),
                 async: false,
                 headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                    "IF-MATCH": "*",
-                    "X-Http-Method": "MERGE", //PATCH
-                },
+                    {
+                        "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                        "IF-MATCH": "*",
+                        "X-Http-Method": "MERGE", //PATCH
+                    },
                 sucesscallbackfunction: function (data) {
-                 
+
                 }
             });
     }
@@ -1283,7 +1323,7 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
                 case ButtonActionStatus.Save:
                 case ButtonActionStatus.SaveAsDraft:
                 case ButtonActionStatus.None:
-                 
+
                     if (tempApproverMatrix.some(t => t.Levels == currentLevel)) {
                         tempApproverMatrix.filter(function (temp) {
                             if (temp.Levels == currentLevel && temp.Status == ApproverStatus.NOTASSIGNED) {
