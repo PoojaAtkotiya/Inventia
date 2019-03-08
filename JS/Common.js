@@ -1061,7 +1061,8 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
                         }
                         );
                         testslice = itemDetails.slice(1);
-                        var value = testslice;
+                        var joinItemDetails = testslice.join(' ');
+                        var value = joinItemDetails;
 
                         // var value = itemDetails[1];
                         if (!IsNullOrUndefined(value[0])) {
@@ -1083,6 +1084,7 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
                             }
                             catch (err) {
                                 tdValue = value;
+                                
                             }
                         }
                         tr.append('<td>' + tdValue + '</td>');
