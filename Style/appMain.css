@@ -9561,7 +9561,24 @@ hr{
   border-width: 0.5px;
 }
 #btn1{
-    background-color: #06B53C!important;
+    background-color: #298445!important;
+    color: white;
+}
+a#btnExit {
+    background-color: #f30a18;
+    color: white;
+}
+#btn2,#btn3 {
+    background-color: #f0a317;
+    color: white;
+}
+button#btnYesPopup {
+    background-color: #298445!important;
+    color: white;
+}
+button#btnNoPopup {
+    background-color: #f30a18!important;
+    color: white;
 }
 .parent {
     width: 42px; 
