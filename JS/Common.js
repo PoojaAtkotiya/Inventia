@@ -4,13 +4,11 @@ var currentUser;
 var approverMaster;
 var securityToken;
 var currentContext;
-//var hostweburl;
 var listDataArray = {};
 var listActivityLogDataArray = [];
 var actionPerformed;
 var fileURSArray = [];
 var fileCommonArray = [];
-var fileSupportDocArray = [];
 var scriptbase; //= spSiteUrl + "/_layouts/15/";     ////_spPageContextInfo.layoutsUrl
 var fileIdCounter = 0;
 var currentApproverDetails = {};
@@ -19,18 +17,12 @@ var department;
 var gRequestDigest;
 var gRequestDigestValue;
 jQuery(document).ready(function () {
-
     jQuery.noConflict();
-    //jsErrLog.debugMode = true;
-
     GetFormDigest().done(function (data) {
         gRequestDigestValue = data.responseJSON.d.GetContextWebInformation.FormDigestValue;
     }).fail(function () {
     });
-
     var scriptbase = CommonConstant.SPSITEURL + "/_layouts/15/";
-    // Load the js files and continue to
-    // the execOperation function.
     $.getScript(scriptbase + "SP.Runtime.js",
         function () {
             $.getScript(scriptbase + "SP.js", loadConstants);
@@ -40,14 +32,12 @@ jQuery(document).ready(function () {
         $('myform').renameTag('form');
     }
     KeyPressNumericValidation();
-
     GetApproverMaster(function (approverListItems) {
         approverMaster = approverListItems;
     });
-
+HideWaitDialog();
 });
 
-/*Priya Rane */
 function loadConstants() {
     var clientContext = new SP.ClientContext(CommonConstant.SPSITEURL);
     this.oWebsite = clientContext.get_web();
@@ -57,10 +47,7 @@ function loadConstants() {
         Function.createDelegate(this, onloadConstantsFail)
     );
 }
-
-/*Priya Rane */
 function onloadConstantsSuccess(sender, args) {
-
     currentContext = SP.ClientContext.get_current();
     listItemId = getUrlParameter("ID");
     returnUrl = getUrlParameter("Source");
@@ -81,7 +68,6 @@ function onloadConstantsSuccess(sender, args) {
     }
     GetFormBusinessLogic(listItemId, activeSectionName, department);
 }
-
 function GetUserDepartment() {
     $.ajax({
         url: _spPageContextInfo.webAbsoluteUrl + "/_api/SP.UserProfiles.PeopleManager/GetMyProperties",
@@ -142,53 +128,9 @@ function GetLoginUserDepartment() {
     return currentUserDepartment;
 }
 
-
-/*Priya Rane */
-function setImageSignature() {
-    var item = mainListData;
-    if (!IsNullOrUndefined(item["InitiatorSignature"])) {
-        var img = new Image();
-        img.src = item["InitiatorSignature"];
-        img.width = 150;
-        img.height = 75;
-        img_Intiator.appendChild(img);
-    }
-    if (!IsNullOrUndefined(item["HODSignature"])) {
-        var img = new Image();
-        img.src = item["HODSignature"];
-        img.width = 150;
-        img.height = 75;
-        img_HOD.appendChild(img);
-    }
-    if (!IsNullOrUndefined(item["PurchaseSignature"])) {
-        var img = new Image();
-        img.src = item["PurchaseSignature"];
-        img.width = 150;
-        img.height = 75;
-        img_Purchase.appendChild(img);
-    }
-    if (!IsNullOrUndefined(item["FunctionHeadSignature"])) {
-        var img = new Image();
-        img.src = item["FunctionHeadSignature"];
-        img.width = 150;
-        img.height = 75;
-        img_FunctionHead.appendChild(img);
-    }
-    if (!IsNullOrUndefined(item["ManagementSignature"])) {
-        var img = new Image();
-        img.src = item["ManagementSignature"];
-        img.width = 150;
-        img.height = 75;
-        img_Management.appendChild(img);
-    }
-}
-
-/*Priya Rane */
 function onloadConstantsFail(sender, args) {
-
 }
 
-/*Monal Shah */
 function ShowWaitDialog() {
     try {
         jQuery("#loading").show();
@@ -197,12 +139,9 @@ function ShowWaitDialog() {
         // blank catch to handle ie issue in case of CK editor
     }
 }
-
-/*Monal Shah */
 function HideWaitDialog() {
     jQuery("#loading").hide();
 }
-
 function DatePickerControl(ele) {
     // $(ele).find('.datepicker').each(function () {
     //     $(this).datepicker({
@@ -212,8 +151,6 @@ function DatePickerControl(ele) {
     //     });
     // });
 }
-
-/*Pooja Atkotiya */
 function GetUsersForDDL(roleName, eleID) {
     //sync call to avoid conflicts in deriving role wise users
     AjaxCall(
@@ -227,8 +164,6 @@ function GetUsersForDDL(roleName, eleID) {
             }
         });
 }
-
-/*Pooja Atkotiya */
 function OnGetUsersForDDLSuccess(data, eleID) {
     var dataResults = data.value[0].UserName;
     var allUsers = [];
@@ -239,8 +174,6 @@ function OnGetUsersForDDLSuccess(data, eleID) {
     }
     setUsersInDDL(allUsers, eleID);
 }
-
-/*Pooja Atkotiya */
 function setUsersInDDL(allUsers, eleID) {
     $("#" + eleID).html('');
     $("#" + eleID).html("<option value=''>Select</option>");
@@ -312,6 +245,7 @@ function Digit(objTextbox, event) {
 }
 
 function Integer(objTextbox, event) {
+   
     var keyCode = (event.which) ? event.which : (window.event) ? window.event.keyCode : -1;
     if (keyCode >= 48 && keyCode <= 57 || keyCode == 45) {
         if (keyCode == 45) {
@@ -329,6 +263,7 @@ function Integer(objTextbox, event) {
     else {
         return false;
     }
+    
 }
 function Numeric(objTextbox, event) {
     var keyCode = (event.which) ? event.which : (window.event) ? window.event.keyCode : -1;
@@ -412,7 +347,6 @@ function PositiveNumeric(objTextbox, event) {
 }
 //#endregion
 
-/*Monal Shah */
 function ValidateFormControls(divObjectId, IgnoreBlankValues) {
     if (IgnoreBlankValues == undefined)
         IgnoreBlankValues = true;
@@ -477,7 +411,6 @@ function ValidateFormControls(divObjectId, IgnoreBlankValues) {
     return noerror;
 }
 
-/*Himil Jani */
 function GetCurrentUserDetails() {
     AjaxCall(
         {
@@ -494,7 +427,6 @@ function GetCurrentUserDetails() {
         });
 }
 
-/*Pooja Atkotiya */
 function getUrlParameter(name) {
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
@@ -502,14 +434,12 @@ function getUrlParameter(name) {
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 };
 
-/*Pooja Atkotiya */
 function cancel() {
     if (returnUrl == "")
         returnUrl = location.pathname.substring(0, location.pathname.lastIndexOf("/"));
     location.href = decodeURIComponent(returnUrl);
 }
 
-/*Himil Jani */
 function GetFormDigest() {
     var deferred = $.Deferred();
     gRequestDigest = $.ajax({
@@ -522,36 +452,6 @@ function GetFormDigest() {
     return deferred.promise();
 }
 
-function BindDatePicker(selector) {
-    // if ($.trim(selector) != "") {
-    //     selector += selector + " ";
-    // }
-    var todayDate = new Date();
-    $(selector).find('.datepicker').each(function () {
-        var tempValue = $(this).find("input:first").val();
-        $(this).datetimepicker({
-            format: 'L', //for Date+++
-            widgetParent: $(this).parent().is("td") ? "body" : null,
-            //widgetPositioning: $(this).parent().is("td") ? { horizontal: "left", vertical: "bottom" } : { horizontal: "auto", vertical: "auto" },
-            minDate: $(this).hasClass("pastDisabled") ? new Date(todayDate.getFullYear(), todayDate.getMonth(), todayDate.getDate(), 00, 00, 00) : undefined
-        }).on("dp.change", function () {
-            $(this).find("input").change();
-        });
-        $(this).find("input:first").val(tempValue);
-    });
-    $(selector).find('.timepicker').each(function () {
-        var tempValue = $(this).find("input:first").val();
-        $(this).datetimepicker({
-            format: 'LT' //for Date+++
-            , widgetParent: $(this).parent().is("td") ? "body" : null
-        }).on("dp.change", function () {
-            $(this).find("input").change();
-        });
-        $(this).find("input:first").val(tempValue);
-    });
-}
-
-/*Pooja Atkotiya */
 function setFieldValue(controlId, item, fieldType, fieldName) {
     if (!fieldName || fieldName == "") {
         fieldName = controlId;
@@ -613,7 +513,6 @@ function setFieldValue(controlId, item, fieldType, fieldName) {
     }
 }
 
-/*Pooja Atkotiya */
 function setStaticFieldValue(controlId, item, fieldType, cType, fieldName) {
 
     if (!fieldName || fieldName == "") {
@@ -657,12 +556,9 @@ function setStaticFieldValue(controlId, item, fieldType, cType, fieldName) {
             break;
     }
 }
-/*Pooja Atkotiya */
 function GetItemTypeForListName(name) {
     return "SP.Data." + name.charAt(0).toUpperCase() + name.split(" ").join("").slice(1) + "ListItem";
 }
-
-/*Monal Shah */
 function ConfirmationDailog(options) {
     $("#ConfirmDialog").remove();
     var confirmDlg = "<div class='modal fade bs-example-modal-sm' tabindex='-1' role='dialog' id='ConfirmDialog' aria-labelledby='mySmallModalLabel'><div class='modal-dialog modal-sm'><div class='modal-content'><div class='modal-header'>" +
@@ -677,6 +573,8 @@ function ConfirmationDailog(options) {
         }
     });
     $("#ConfirmDialog #btnNoPopup").on("click", function () {
+        $("#" + btnID).removeAttr('disabled');
+        btnID = null;
         if (typeof (options.cancelCallback) !== "undefined" && !IsNullOrUndefined(options.cancelCallback)) {
             options.cancelCallback();
         }
@@ -689,8 +587,6 @@ function ConfirmationDailog(options) {
         }
     });
 }
-
-/*Monal Shah */
 function ConfirmPopupYes(url, id, okCallback) {
     ShowWaitDialog();
     if (typeof (url) !== "undefined" && !IsNullOrUndefined(url)) {
@@ -721,8 +617,6 @@ function ConfirmPopupYes(url, id, okCallback) {
         //HideWaitDialog();
     }
 }
-
-/*Monal Shah */
 function AlertModal(title, msg, isExit, callback) {
     $("div[id='PopupDialog']").remove();
     var popupDlg = '<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" id="PopupDialog" aria-labelledby="mySmallModalLabel"><div class="modal-dialog modal-sm"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="ModalTitle">Modal title</h4></div><div class="modal-body" id="ModalContent"></div><div class="modal-footer"><button type="button" id="ClosePopup" isdialogclose="false" class="btn btn-default" data-dismiss="modal">Close</button> </div></div></div></div>';
@@ -755,8 +649,6 @@ function AlertModal(title, msg, isExit, callback) {
         }
     });
 }
-
-/*Monal Shah */
 function Exit() {
     try {
         parent.postMessage(CommonConstant.SPSITEURL, CommonConstant.SPSITEURL);
@@ -765,13 +657,9 @@ function Exit() {
         parent.postMessage($("#hdnSPHOSTURL").val(), $("#hdnSPHOST").val());
     }
 }
-
-/*Monal Shah */
 function UserAborted(xhr) {
     return !xhr.getAllResponseHeaders();
 }
-
-/*Monal Shah */
 function onAjaxError(xhr) {
     if (!UserAborted(xhr)) {
         if (xhr.status.toString().substr(0, 1) == "4" || xhr.status == 504) {
@@ -779,8 +667,6 @@ function onAjaxError(xhr) {
         }
     }
 }
-
-/*Monal Shah */
 function resetFormValidator(formId) {
     $(formId).removeData('validator');
     $(formId).removeData('unobtrusiveValidation');
@@ -788,8 +674,6 @@ function resetFormValidator(formId) {
     $(formId).data('unobtrusiveValidation');
     $.validator.unobtrusive.parse(formId);
 }
-
-/*Monal Shah */
 //Replace '<myform>' tag to '<form>'
 $.fn.renameTag = function (replaceWithTag) {
     this.each(function () {
@@ -803,8 +687,6 @@ $.fn.renameTag = function (replaceWithTag) {
     });
     return this;
 }
-
-/*Monal Shah */
 function ValidateForm(ele, saveCallBack) {
     //Get Active Section
     var activeSection = $('div[section]').not(".disabled");
@@ -910,7 +792,9 @@ function ValidateForm(ele, saveCallBack) {
             }
         });
     }
+    if(isValid ==false){ $("#" + btnID).removeAttr('disabled');  btnID = null;$("#errorDisplay").html("Please Fill all mandatory fields");$("#errorDisplay").show(); }
     if (isValid) {
+        $("#errorDisplay").hide();
         $("input[id='ActionStatus']").val($(ele).attr("data-action"));
         $("input[id='SendBackTo']").val($(ele).attr("data-sendbackto"));
         $("input[id='SendToRole']").val($(ele).attr("data-sendtorole"));
@@ -938,19 +822,11 @@ function ValidateForm(ele, saveCallBack) {
     }
     HideWaitDialog();
 }
-
-
-/*Monal Shah */
 function onQuerySucceeded(sender, args) {
-    // console.log("Success");
 }
-
-/*Monal Shah */
 function onQueryFailed(sender, args) {
     //  console.log('Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
 }
-
-/*Pooja Atkotiya */
 function GetFormControlsValue(id, elementType, listDataArray, elementvaluetype = undefined) {
     var obj = '#' + id;
     switch (elementType) {
@@ -1014,8 +890,6 @@ function GetFormControlsValue(id, elementType, listDataArray, elementvaluetype =
     }
     return listDataArray;
 }
-
-/*Pooja Atkotiya */
 function GetStaticFormControlValue(id, elementType, listDataArray, elementvaluetype) {
     var obj = '#' + id;
     switch (elementType) {
@@ -1063,8 +937,6 @@ function GetStaticFormControlValue(id, elementType, listDataArray, elementvaluet
     }
     return listDataArray;
 }
-
-/*Priya Rane */
 function GetFormControlsValueAndType(id, elementType, elementProperty, listActivityLogDataArray) {
     var obj = '#' + id;
     switch (elementType) {
@@ -1132,7 +1004,6 @@ function GetFormControlsValueAndType(id, elementType, elementProperty, listActiv
     }
     return listActivityLogDataArray;
 }
-
 function GetActivityLog(activityLogListName, lookupId, tableId) {
     AjaxCall(
         {
@@ -1178,9 +1049,7 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
         var tr, tdValue;
         for (var i = 0; i < activity.length; i++) {
             var item = activity[i];
-            // if (!IsNullOrUndefined(item) && item.split('\t').length == 2) {
-            //    var itemDetails = item.split('\t');
-            /* Condition Changed by Hirvita */
+          
             if (item.split(' ').length > 1) {
                 if (!IsNullOrUndefined(item)) {
                     var itemDetails = item.split(' ');
@@ -1227,8 +1096,6 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
         }
     }
 }
-
-/*Monal Shah */
 function DisplayApplicationStatus(approverMatrix) {
     var tr;
     var result = [];
@@ -1281,7 +1148,6 @@ function DisplayApplicationStatus(approverMatrix) {
     }
 }
 
-/*Pooja Atkotiya */
 function formatDate(input) {
     var datePart = input.match(/\d+/g);
     var day = (datePart[1].length > 1) ? datePart[1] : "0" + datePart[1];
@@ -1290,7 +1156,6 @@ function formatDate(input) {
     return day + '/' + month + '/' + year;
 }
 
-/*Pooja Atkotiya */
 function SaveFormData(activeSection, ele) {
     var mainListName = $($('div').find('[mainlistname]')).attr('mainlistname');
     if (!IsNullOrUndefined(mainListName) && !IsStrNullOrEmpty(mainListName)) {
@@ -1344,7 +1209,6 @@ function SaveFormData(activeSection, ele) {
     }
 }
 
-/*Pooja Atkotiya */
 function SaveData(listname, listDataArray, sectionName, ele) {
     var itemType = GetItemTypeForListName(listname);
     var isNewItem = true;
@@ -1391,7 +1255,6 @@ function SaveData(listname, listDataArray, sectionName, ele) {
 
     }
 }
-
 function OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCaption) {
     var itemID = listItemId;
     if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d)) {
@@ -1470,13 +1333,11 @@ function OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCap
         });
     });
 }
-
 function CommonBusinessLogic(sectionName, itemID, listDataArray) {
     var actionStatus = $("#ActionStatus").val();
 
     var keys = Object.keys(ButtonActionStatus).filter(k => ButtonActionStatus[k] == actionStatus);
     var actionPerformed = keys.toString();
-    // SaveImageSignaturePath(sectionName, itemID);
     SaveActions(sectionName, itemID, actionPerformed);
     if (sectionName == SectionNames.INITIATORSECTION && actionPerformed == "NextApproval") {
         SaveCapitalAssetRequisitionNumber(itemID, listDataArray, actionPerformed);
@@ -1503,46 +1364,46 @@ function SaveActions(sectionName, itemID, actionPerformed) {
         case SectionNames.INITIATORSECTION:
             if (actionPerformed == "NextApproval") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['InitiatorAction'] = "Submitted By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                    formFieldValues['InitiatorAction'] = "Submitted"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted ;
                 }
                 else {
-                    formFieldValues['InitiatorAction'] = "Submitted By " + "," + currentUser.Title + "," + formatted;
+                    formFieldValues['InitiatorAction'] = "Submitted"+ ","+ "By" + "," + currentUser.Title + "," + formatted;
                 }
             }
             else if (actionPerformed == "SaveAsDraft") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['InitiatorAction'] = "Save As Draft By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                    formFieldValues['InitiatorAction'] = "Saved As Draft"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted ;
                 }
                 else {
-                    formFieldValues['InitiatorAction'] = "Save As Draft By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                    formFieldValues['InitiatorAction'] = "Saved As Draft"+ ","+ "By" + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
                 }
             }
             break;
         case SectionNames.HODSECTION:
             if (actionPerformed == "NextApproval") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['HODAction'] = "Approved By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                    formFieldValues['HODAction'] = "Approved"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted ;
                 }
                 else {
-                    formFieldValues['HODAction'] = "Approved By " + "," + currentUser.Title + "," + formatted;
+                    formFieldValues['HODAction'] = "Approved"+ ","+ "By"+ "," + currentUser.Title + "," + formatted;
                 }
             }
             else if (actionPerformed == "Rejected") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['HODAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                    formFieldValues['HODAction'] = "Rejected"+ ","+ "By"+ "," + currentUser.Title + "," + currentUserDepartment + "," + formatted ;
                 }
                 else {
-                    formFieldValues['HODAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted;
+                    formFieldValues['HODAction'] = "Rejected"+ ","+ "By" + "," + currentUser.Title + "," + formatted;
                 }
             }
             break;
         case SectionNames.PURCHASESECTION:
             if (actionPerformed == "NextApproval") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['PurchaseAction'] = "Submitted By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                    formFieldValues['PurchaseAction'] = "Submitted"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted ;
                 }
                 else {
-                    formFieldValues['PurchaseAction'] = "Submitted By " + "," + currentUser.Title + "," + formatted
+                    formFieldValues['PurchaseAction'] = "Submitted"+ ","+ "By" + "," + currentUser.Title + "," + formatted
                 }
             }
 
@@ -1550,36 +1411,36 @@ function SaveActions(sectionName, itemID, actionPerformed) {
         case SectionNames.FUNCTIONHEADSECTION:
             if (actionPerformed == "NextApproval") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['FuctionHeadAction'] = "Approved By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                    formFieldValues['FuctionHeadAction'] = "Approved"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted ;
                 }
                 else {
-                    formFieldValues['FuctionHeadAction'] = "Approved By " + "," + currentUser.Title + "," + formatted;
+                    formFieldValues['FuctionHeadAction'] = "Approved"+ ","+ "By" + "," + currentUser.Title + "," + formatted;
                 }
             }
             else if (actionPerformed == "Rejected") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['FuctionHeadAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                    formFieldValues['FuctionHeadAction'] = "Rejected"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
                 }
                 else {
-                    formFieldValues['FuctionHeadAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted;
+                    formFieldValues['FuctionHeadAction'] = "Rejected"+ ","+ "By" + "," + currentUser.Title + "," + formatted;
                 }
             }
             break;
         case SectionNames.MANAGEMENTSECTION:
             if (actionPerformed == "Complete") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['ManagementAction'] = "Approved By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                    formFieldValues['ManagementAction'] = "Approved"+ ","+ "By"+ "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
                 }
                 else {
-                    formFieldValues['ManagementAction'] = "Approved By " + "," + currentUser.Title + "," + formatted;
+                    formFieldValues['ManagementAction'] = "Approved"+ ","+ "By" + "," + currentUser.Title + "," + formatted;
                 }
             }
             else if (actionPerformed == "Rejected") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['ManagementAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                    formFieldValues['ManagementAction'] = "Rejected"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
                 }
                 else {
-                    formFieldValues['ManagementAction'] = "Rejected By " + "," + currentUser.Title + "," + formatted;
+                    formFieldValues['ManagementAction'] = "Rejected"+ ","+ "By" + "," + currentUser.Title + "," + formatted;
                 }
             }
             break;
@@ -1594,66 +1455,6 @@ function SaveCapitalAssetRequisitionNumber(itemID, listDataArray, actionPerforme
     formFieldValues['Title'] = listDataArray.CostCenter + '/' + todayDate.getFullYear() + ("0" + (todayDate.getMonth() + 1)).slice(-2) + '/' + itemID;
     SaveFormFields(formFieldValues, itemID);
 }
-
-function SavehrefColumn(itemID) {
-    var formFieldValues = [];
-    formFieldValues['ViewRequest'] = "<a href='https://synoverge.sharepoint.com/sites/dev/Pages/InventiaNew.aspx?ID=' " + itemID + ">View<a>";
-    SaveFormFields(formFieldValues, itemID);
-}
-/*Priya Rane */
-function SaveImageSignaturePath(sectionName, itemID) {
-    var formFieldValues = [];
-    if (IsStrNullOrEmpty(currentUser.Email)) {
-        currentUser.Email = currentUser.LoginName.split('|')[2];
-    }
-    $.ajax({
-        url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('EmployeeSignature')/Items?$select=FileRef/FileRef&$filter=EmployeeEmail eq '" + currentUser.Email + "'",
-        type: "GET",
-        async: false,
-        headers: { "accept": "application/json;odata=verbose" },
-        success: function (data) {
-            if (data.d.results) {
-                switch (sectionName) {
-                    case SectionNames.INITIATORSECTION:
-                        formFieldValues['InitiatorSignature'] = data.d.results[0].FileRef;
-                        break;
-                    case SectionNames.HODSECTION:
-                        formFieldValues['HODSignature'] = data.d.results[0].FileRef;
-                        break;
-                    case SectionNames.PURCHASESECTION:
-                        formFieldValues['PurchaseSignature'] = data.d.results[0].FileRef;
-                        break;
-                    case SectionNames.FUNCTIONHEADSECTION:
-                        formFieldValues['FunctionHeadSignature'] = data.d.results[0].FileRef;
-                        break;
-                    case SectionNames.MANAGEMENTSECTION:
-                        formFieldValues['ManagementSignature'] = data.d.results[0].FileRef;
-                        break;
-                }
-                SaveFormFields(formFieldValues, itemID);
-            }
-        },
-        error: function (xhr) {
-        }
-    });
-
-}
-
-/*Monal Shah */
-function ParseMessage(msg) {
-    if (msg.length == 1) {
-        return msg[0];
-    } else {
-        var finalMSg = "<ul>";
-        $(msg).each(function (i, item) {
-            finalMSg += "<li>" + item + "</li>";
-        });
-        finalMSg += "</ul>";
-        return finalMSg;
-    }
-}
-
-/*Monal Shah */
 function OnSuccess(data) {
     try {
         if (data.IsSucceed) {
@@ -1685,8 +1486,6 @@ function OnSuccess(data) {
     }
     catch (e) { window.location.reload(); }
 }
-
-/*Monal Shah */
 function OnFailure(xhr, status, error) {
     try {
         if (xhr.status.toString().substr(0, 1) == "4" || xhr.status == 504) {
@@ -1698,8 +1497,6 @@ function OnFailure(xhr, status, error) {
     }
     catch (e) { window.location.reload(); }
 }
-
-/*Monal Shah */
 function OnDelete(ele) {
     var Id = $('#ListDetails_0__ItemId').val();
 
@@ -1718,7 +1515,6 @@ function OnDelete(ele) {
     });
 }
 
-/*Monal Shah */
 function OnSuccessConfirmSubmitNoRedirect(data) {
     try {
         if (data.IsSucceed) {
@@ -1755,7 +1551,6 @@ function OnSuccessConfirmSubmitNoRedirect(data) {
     catch (e) { window.location.reload(); }
 }
 
-/*Monal Shah */
 function OnSuccessNoRedirect(data) {
     try {
         if (data.IsSucceed) {
@@ -1896,7 +1691,6 @@ function GetActivityString(listActivityLogDataArray, isCurrentApproverField) {
     return stringActivity;
 }
 
-/*Priya Rane */
 function GetUserNamebyUserID(userid) {
     var userName = "";
     if (!IsNullOrUndefined(userid)) {
@@ -1922,8 +1716,6 @@ function GetUserNamebyUserID(userid) {
     return userName;
 }
 
-/*Priya Rane */
-//  Get array of User Names from user ids
 function GetUserNamesbyUserID(allUsersIDs) {
     var userNames = '';
     if (!IsNullOrUndefined(allUsersIDs) && allUsersIDs.length > 0) {
@@ -1956,7 +1748,6 @@ function GetUserNamesbyUserID(allUsersIDs) {
     return userNames;
 }
 
-/*Priya Rane */
 function GetUserEmailbyUserID(userid) {
     var userEmail = "";
     if (!IsNullOrUndefined(userid)) {
@@ -1983,8 +1774,6 @@ function GetUserEmailbyUserID(userid) {
     return userEmail;
 }
 
-/*Priya Rane */
-//  Get array of User Email from user ids
 function GetUserEmailsbyUserID(allUsersIDs) {
     var userEmails = "";
     if (!IsNullOrUndefined(allUsersIDs) && allUsersIDs.length > 0) {
@@ -2014,7 +1803,6 @@ function GetUserEmailsbyUserID(allUsersIDs) {
     return userEmails;
 }
 
-/*Monal Shah */
 function AjaxCall(options) {
     var url = options.url;
     var postData = options.postData;
@@ -2059,7 +1847,6 @@ function AjaxCall(options) {
     });
 }
 
-/*Monal Shah */
 function ShowError(ModelStateErrors) {
     jQuery('input').removeClass("input-validation-error")
     var messages = "";
@@ -2071,13 +1858,11 @@ function ShowError(ModelStateErrors) {
     AlertModal("error", messages, function () { })
 }
 
-/*Pooja Atkotiya */
 function removeDuplicateFromArray(arr) {
     let unique_array = Array.from(new Set(arr))
     return unique_array;
 }
 
-/*Pooja Atkotiya */
 function getTermFromManagedColumn(managedColumn) {
     var resultValue = '';
     if (!IsNullOrUndefined(managedColumn)) {
@@ -2091,7 +1876,6 @@ function getTermFromManagedColumn(managedColumn) {
     return resultValue;
 }
 
-/*Pooja Atkotiya */
 function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, mainListName, nextLevel, currentLevel, param, isNewItem) {
     try {
         var nextApproverIds = "";
@@ -2272,7 +2056,6 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
     }
 }
 
-/*Pooja Atkotiya */
 function GetEmailUsers(tempApproverMatrix, nextLevel, isNewItem) {
 
     var userWithRoles = GetPermissionDictionary(tempApproverMatrix, nextLevel, true, isNewItem);
@@ -2287,7 +2070,6 @@ function GetEmailUsers(tempApproverMatrix, nextLevel, isNewItem) {
     return userIdString;
 }
 
-/*Priya Rane */
 function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role, emailParam) {
     try {
         var emailTemplate = [];
@@ -2343,7 +2125,6 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
     }
 }
 
-/*Pooja Atkotiya */
 function CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, emailParam) {
     var emailBodyWithCustomData = [];
     var emailBodyWithAllData = [];
@@ -2423,7 +2204,6 @@ function CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, 
 
 }
 
-/*Priya Rane */
 function GetFieldsValueString(matches, mainlistData) {
     var replacedValues = [];
     matches.forEach(temp => {
@@ -2447,7 +2227,6 @@ function GetFieldsValueString(matches, mainlistData) {
     return replacedValues;
 }
 
-/*Pooja Atkotiya */
 function GetDatafromList(itemID, mainListName, subject, matchesSubject, body, matchesBody, emailParam) {
     try {
         var mainlistData;
@@ -2514,7 +2293,6 @@ function GetDatafromList(itemID, mainListName, subject, matchesSubject, body, ma
     }
 }
 
-/*Pooja Atkotiya */
 function SaveEmail(subject, body, emailParam) {
     try {
         var emailSaved = false;
@@ -2582,7 +2360,6 @@ function SaveEmail(subject, body, emailParam) {
 
 }
 
-/*Pooja Atkotiya */
 function IsValidDate(dateObj) {
     var isValid = false;
     if (Object.prototype.toString.call(dateObj) === "[object Date]") {
@@ -2601,7 +2378,6 @@ function IsValidDate(dateObj) {
     return isValid;
 }
 
-/*Pooja Atkotiya */
 function TrimComma(yourString) {
     var result = yourString;
     if (!IsStrNullOrEmpty(yourString)) {
@@ -2637,8 +2413,6 @@ function RemoveHtmlForMultiLine(multiLineValue) {
     }
 }
 
-
-/*Pooja Atkotiya */
 function IsGroupMember(groupName) {
     var isAuthorized = false;
     if (!IsNullOrUndefined(currentUser.Groups) && !IsNullOrUndefined(currentUser.Groups.results) && currentUser.Groups.results.length > 0) {
@@ -2650,7 +2424,6 @@ function IsGroupMember(groupName) {
     }
 }
 
-/*Pooja Atkotiya */
 function GetSPGroupIDByName(grpName, handleData) {
     if (!IsStrNullOrEmpty(grpName)) {
         AjaxCall(
@@ -2671,18 +2444,6 @@ function GetSPGroupIDByName(grpName, handleData) {
             });
     }
 }
-
-/*Priya Rane */
-function checkDuplicateFileName(fileName) {
-    var isDuplicate = true;
-    fileCommonArray.forEach(function (element) {
-        if (element.name == fileName) {
-            isDuplicate = false;
-        }
-    });
-    return isDuplicate;
-}
-
 function updateRequestIDAttachmentList(attchmentID, itemID) {
     var itemType = GetItemTypeForListName(ListNames.ATTACHMENTLIST);
     var item = {
@@ -2711,7 +2472,6 @@ function updateRequestIDAttachmentList(attchmentID, itemID) {
         }
     });
 }
-
 function SaveErrorInList(xhr, activityoccur) {
     var itemType = GetItemTypeForListName(ListNames.ERRORList);
     var item = {
@@ -2735,19 +2495,14 @@ function SaveErrorInList(xhr, activityoccur) {
         }
     });
 }
-
 function isSpacesOnly(field) {
     r = field.replace(/\s/g, "")
     return (r.length == 0)
 }
-
-/* Pooja Atkotiya */
 function GetApprovers(approver) {
     var nextUsers = (!IsNullOrUndefined(approver) && !IsNullOrUndefined(approver.results) && approver.results.length > 0) ? approver.results : ((!IsNullOrUndefined(approver) && !IsStrNullOrEmpty(approver)) ? approver : null);
     return nextUsers;
 }
-
-/* Pooja Atkotiya */
 function IsNullOrUndefinedApprover(approver) {
     var isNull = true;
     if ((!IsNullOrUndefined(approver) && !IsNullOrUndefined(approver.results)) ? approver.results.length > 0 : (!IsNullOrUndefined(approver) && !IsStrNullOrEmpty(approver))) {
