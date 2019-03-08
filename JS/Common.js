@@ -35,7 +35,7 @@ jQuery(document).ready(function () {
     GetApproverMaster(function (approverListItems) {
         approverMaster = approverListItems;
     });
-
+HideWaitDialog();
 });
 
 function loadConstants() {
@@ -573,6 +573,8 @@ function ConfirmationDailog(options) {
         }
     });
     $("#ConfirmDialog #btnNoPopup").on("click", function () {
+        $("#" + btnID).removeAttr('disabled');
+        btnID = null;
         if (typeof (options.cancelCallback) !== "undefined" && !IsNullOrUndefined(options.cancelCallback)) {
             options.cancelCallback();
         }
@@ -784,15 +786,15 @@ function ValidateForm(ele, saveCallBack) {
                         $("#" + errorItem.element.id).removeClass("valid");
                         $("#" + errorItem.element.id).next().remove();
                     });
-                    var btnID = $(ele).attr("id");
-                    $("#" + btnID).removeAttr('disabled');
                 }
                 catch (e1) {
                 }
             }
         });
     }
+    if(isValid ==false){ $("#" + btnID).removeAttr('disabled');  btnID = null;$("#errorDisplay").html("Please Fill all mandatory fields");$("#errorDisplay").show(); }
     if (isValid) {
+        $("#errorDisplay").hide();
         $("input[id='ActionStatus']").val($(ele).attr("data-action"));
         $("input[id='SendBackTo']").val($(ele).attr("data-sendbackto"));
         $("input[id='SendToRole']").val($(ele).attr("data-sendtorole"));

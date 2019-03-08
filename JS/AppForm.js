@@ -8,6 +8,7 @@ var sendToLevel = 0;
 var collListItem = null;
 var param = {};
 var activityTrack;
+var btnID;
 
 $(document).ready(function () {
  $(document).on('click', 'a[id*="btnActivityLog_"]', function () {
@@ -117,7 +118,7 @@ function Capex_SaveData(ele) {
         }
     }
     
-    var btnID = $(ele).attr("id");
+    btnID = $(ele).attr("id");
     $("#" + btnID).attr('disabled','disabled');
     ValidateForm(ele, SaveDataCallBack);
 
@@ -191,12 +192,12 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     }
     if (listItemId > 0) {
         //Functions for Initiator HOD
-        if (mainListData.PendingWith == "Initiator HOD") {
-            setVendorDropDown();
-            SetBudgetValue();
-            BindHODEditAttachmentFiles();
-            $('#AddVendor').hide();
-        }
+        // if (mainListData.PendingWith == "Initiator HOD") {
+        //     setVendorDropDown();
+        //     SetBudgetValue();
+        //     BindHODEditAttachmentFiles();
+        //     $('#AddVendor').hide();
+        // }
         $("#RaisedOnDisplay").html(new Date(mainListData.RaisedOn).format("dd/MM/yyyy"));
         $("#ProposedVendor").show();
         $("#proposedVendor").show();
@@ -215,6 +216,7 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
         if (mainListData.Status == "Draft") {
             BindInitiatorEditAttachmentFiles();
             bindAssetClassification();
+            bindEditAssetName(mainListData.AssetClassification);
         }
         else { 
             BindInitiatorAttachment(); 
@@ -270,8 +272,9 @@ function displayAction() {
             initiatorActions = TrimComma(mainListData.InitiatorAction).split(",");
         }
         for (var i = 0; i < initiatorActions.length; i++) {
-            if(i==1){ html = html + initiatorActions[i] + '<br />';}
-            else{ html = html + initiatorActions[i].bold(); + '<br />';}
+            if(i==1){ html = html + " "+ initiatorActions[i] + '<br />';}
+            else if(i==0){ html = html + initiatorActions[i].bold();}
+            else{ html = html + initiatorActions[i].bold() + '<br />';}
         }
         $('#dispInitiatorAction').html(html);
     }
@@ -282,8 +285,9 @@ function displayAction() {
             PurchaseActions = TrimComma(mainListData.PurchaseAction).split(",");
         }
         for (var i = 0; i < PurchaseActions.length; i++) {
-            if(i==1){ html = html + PurchaseActions[i] + '<br />';}
-            else{html = html + PurchaseActions[i].bold(); + '<br />';}
+            if(i==1){ html = html + " "+ PurchaseActions[i] + '<br />';}
+            else if(i==0){ html = html + PurchaseActions[i].bold();}
+            else{html = html + PurchaseActions[i].bold() + '<br />';}
         }
         $('#PurchaseAction').html(html);
     }
@@ -294,8 +298,9 @@ function displayAction() {
             HODActions = TrimComma(mainListData.HODAction).split(",");
         }
         for (var i = 0; i < HODActions.length; i++) {
-            if(i==1){ html = html + HODActions[i] + '<br />';}
-            else{ html = html + HODActions[i].bold(); + '<br />';}
+            if(i==1){ html = html + " "+ HODActions[i]+ '<br />';}
+            else if(i==0){ html = html + HODActions[i].bold();}
+            else{ html = html + HODActions[i].bold() + '<br />';}
 
         }
         $('#HODAction').html(html);
@@ -307,8 +312,9 @@ function displayAction() {
             functionHeadActions = TrimComma(mainListData.FuctionHeadAction).split(",");
         }
         for (var i = 0; i < functionHeadActions.length; i++) {
-            if(i==1){ html = html + functionHeadActions[i] + '<br />';}
-            else{html = html + functionHeadActions[i].bold();  + '<br />';}
+            if(i==1){ html = html + " "+ functionHeadActions[i]+ '<br />';}
+            else if(i==0){ html = html + functionHeadActions[i].bold();}
+            else{html = html + functionHeadActions[i].bold()  + '<br />';}
         }
         $('#FunctionHeadAction').html(html);
     }
@@ -319,8 +325,9 @@ function displayAction() {
             managementActions = TrimComma(mainListData.ManagementAction).split(",");
         }
         for (var i = 0; i < managementActions.length; i++) {
-            if(i==1){ html = html + managementActions[i] + '<br />';}
-            else{html = html + managementActions[i].bold(); + '<br />';}
+            if(i==1){ html = html + " "+ managementActions[i]+ '<br />';}
+            else if(i==0){ html = html + managementActions[i].bold();}
+            else{html = html + managementActions[i].bold() + '<br />';}
         }
         $('#ManagementAction').html(html);
     }
@@ -1158,7 +1165,7 @@ function BindHODEditAttachmentFiles() {
                             htmlStr = "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a><a style='color:brown' id='Remove_" + element.ID + "' href=\"javascript:removeHODFile('" + element.ID + "')\"> Remove</a></li>";
                         }
                         else {
-                            htmlStr = checkFile + "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a></li><a style='color:brown' id='Remove_" + element.ID + "' href=\"javascript:removeHODFile('" + element.ID + "')\"> Remove</a></li>";
+                            htmlStr = checkFile + "<li id=li_" + element.ID + "><a id='attachment_" + element.ID + "' href='" + ServerRelativeUrl + "' target='_blank'>" + element.FileName + "</a><a style='color:brown' id='Remove_" + element.ID + "' href=\"javascript:removeHODFile('" + element.ID + "')\"> Remove</a></li>";
                         }
                         fileCommonArray.push({
                             "name": "HOD",
@@ -1422,7 +1429,11 @@ function SetCurrentValue() {
         $(listTempGridDataArray).each(function (i, e) {
             if (vendorname == listTempGridDataArray[i].VendorName) {
                 $("#CurrentValue").val(listTempGridDataArray[i].TotalValue);
-                var TotalUtilizedValue = (+$("#UtilizedValue").val()) + (+listTempGridDataArray[i].TotalValue);
+                var utilizedVal= $("#UtilizedValue").val();
+                if(utilizedVal == null || utilizedVal ==""){
+                    utilizedVal=mainListData.UtilizedValue;
+                }
+                var TotalUtilizedValue = (+utilizedVal) + (+listTempGridDataArray[i].TotalValue);
                 var budgetedVal = $("#BudgetedValue").val();
                 if (budgetedVal == "") {
                     budgetedVal = mainListData.BudgetedValue;
