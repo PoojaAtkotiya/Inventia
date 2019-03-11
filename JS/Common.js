@@ -35,7 +35,7 @@ jQuery(document).ready(function () {
     GetApproverMaster(function (approverListItems) {
         approverMaster = approverListItems;
     });
-HideWaitDialog();
+//HideWaitDialog();
 });
 
 function loadConstants() {
@@ -1053,7 +1053,7 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
             if (item.split(' ').length > 1) {
                 if (!IsNullOrUndefined(item)) {
                     var itemDetails = item.split(' ');
-                    if (itemDetails[0] != "RaisedBy" && itemDetails[0] != "Files") {
+                    if (itemDetails[0] != "RaisedBy" && itemDetails[0] != "Files" && itemDetails[0] != "Assigned") {
                         tr = $('<tr/>');
                         tr.append('<td>' + itemDetails[0] + '</td>');
                         itemDetails.forEach(value1 => {
