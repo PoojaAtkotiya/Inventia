@@ -8,6 +8,7 @@ const CommonConstant = {
     ROOTURL: "https://synoverge.sharepoint.com/sites/dms",
     MAINLISTEDITURL: "/sites/QACapex/Pages/CapitalAssetRequisition.aspx?ID=",
     SAVEACTIVITYLOGFLOW: "https://prod-10.centralindia.logic.azure.com:443/workflows/d34b6d4c22b0448d852ac684b00f6e91/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=DuR9T49zRIZda3lRSCicc7UVlojrPm48VoznpHmXXKI",
+    SAVEAPPSTATUSFLOW: "https://prod-14.centralindia.logic.azure.com:443/workflows/f537cbbc0737453597e9acaaee919239/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=6GnqYyXD0KZnUbZJP7wjXFOH8gKOhWR8VGN8YCfEK4w",
     /*Dev */
     /*
     SETITEMPERMISSION: "https://prod-05.centralindia.logic.azure.com:443/workflows/068a2cd297de410ab19fc808be3a2735/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=eSrKcDBAxAwGqTouTX6xZ8sUpoQIl--H02rmq8EW3c8",
