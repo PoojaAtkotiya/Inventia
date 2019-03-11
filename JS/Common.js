@@ -35,7 +35,7 @@ jQuery(document).ready(function () {
     GetApproverMaster(function (approverListItems) {
         approverMaster = approverListItems;
     });
-HideWaitDialog();
+    //HideWaitDialog();
 });
 
 function loadConstants() {
@@ -245,7 +245,7 @@ function Digit(objTextbox, event) {
 }
 
 function Integer(objTextbox, event) {
-   
+
     var keyCode = (event.which) ? event.which : (window.event) ? window.event.keyCode : -1;
     if (keyCode >= 48 && keyCode <= 57 || keyCode == 45) {
         if (keyCode == 45) {
@@ -263,7 +263,7 @@ function Integer(objTextbox, event) {
     else {
         return false;
     }
-    
+
 }
 function Numeric(objTextbox, event) {
     var keyCode = (event.which) ? event.which : (window.event) ? window.event.keyCode : -1;
@@ -792,7 +792,7 @@ function ValidateForm(ele, saveCallBack) {
             }
         });
     }
-    if(isValid ==false){ $("#" + btnID).removeAttr('disabled');  btnID = null;$("#errorDisplay").html("Please Fill all mandatory fields");$("#errorDisplay").show(); }
+    if (isValid == false) { $("#" + btnID).removeAttr('disabled'); btnID = null; $("#errorDisplay").html("Please Fill all mandatory fields"); $("#errorDisplay").show(); }
     if (isValid) {
         $("#errorDisplay").hide();
         $("input[id='ActionStatus']").val($(ele).attr("data-action"));
@@ -937,12 +937,12 @@ function GetStaticFormControlValue(id, elementType, listDataArray, elementvaluet
     }
     return listDataArray;
 }
-function GetFormControlsValueAndType(id, elementType, elementProperty, listActivityLogDataArray) {
+function GetFormControlsValueAndType(id, dispLabel, elementType, elementProperty, listActivityLogDataArray) {
     var obj = '#' + id;
     switch (elementType) {
         case "text":
             if (!IsStrNullOrEmpty($(obj).val())) {
-                listActivityLogDataArray.push({ id: id, value: $(obj).val(), type: 'text' });
+                listActivityLogDataArray.push({ id: dispLabel, value: $(obj).val(), type: 'text' });
             }
             break;
         case "terms":
@@ -961,10 +961,10 @@ function GetFormControlsValueAndType(id, elementType, elementProperty, listActiv
             // if (IsNullOrUndefined($(obj).val()) || IsStrNullOrEmpty($(obj).val())) {
             //     $(obj).val(0);
             // }
-            listActivityLogDataArray.push({ id: id, value: $(obj).val(), type: 'text' });
+            listActivityLogDataArray.push({ id: dispLabel, value: $(obj).val(), type: 'text' });
             break;
         case "multitext":
-            listActivityLogDataArray.push({ id: id, value: $(obj).val(), type: 'multitext' });
+            listActivityLogDataArray.push({ id: dispLabel, value: $(obj).val(), type: 'multitext' });
             break;
         case "date":
             var month = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getMonth() + 1 : null;
@@ -972,11 +972,11 @@ function GetFormControlsValueAndType(id, elementType, elementProperty, listActiv
             var year = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getFullYear() : null;
             var date = (!IsNullOrUndefined(month) && !IsNullOrUndefined(date) && !IsNullOrUndefined(year)) ? new Date(year.toString() + "-" + month.toString() + "-" + date.toString()).format("yyyy-MM-ddTHH:mm:ssZ") : null;
             if (date) {
-                listActivityLogDataArray.push({ id: id, value: date, type: 'date' });
+                listActivityLogDataArray.push({ id: dispLabel, value: date, type: 'date' });
             }
             break;
         case "checkbox":
-            listActivityLogDataArray.push({ id: id, value: $(obj)[0]['checked'], type: 'checkbox' });
+            listActivityLogDataArray.push({ id: dispLabel, value: $(obj)[0]['checked'], type: 'checkbox' });
             break;
         case "multicheckbox":
             var parenType = $(obj).attr('cParent');
@@ -994,12 +994,12 @@ function GetFormControlsValueAndType(id, elementType, elementProperty, listActiv
         case "radiogroup":
             var parenType = $(obj).attr('cParent');
             if (!IsNullOrUndefined($(obj)) && !IsNullOrUndefined($(obj)[0]) && !IsNullOrUndefined($(obj)[0].id))
-                listActivityLogDataArray.push({ id: id, value: $(obj)[0].id, type: 'radiogroup' });
-                
-                break;
+                listActivityLogDataArray.push({ id: dispLabel, value: $(obj)[0].id, type: 'radiogroup' });
+
+            break;
         case "label":
             if (!IsStrNullOrEmpty($(obj).html())) {
-                listActivityLogDataArray.push({ id: id, value: $(obj).html(), type: 'label' });
+                listActivityLogDataArray.push({ id: dispLabel, value: $(obj).html(), type: 'label' });
             }
             break;
     }
@@ -1050,11 +1050,11 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
         var tr, tdValue;
         for (var i = 0; i < activity.length; i++) {
             var item = activity[i];
-          
+
             if (item.split(' ').length > 1) {
                 if (!IsNullOrUndefined(item)) {
-                    var itemDetails = item.split(' ');
-                    if (itemDetails[0] != "RaisedBy" && itemDetails[0] != "Files") {
+                    var itemDetails = item.split('#');
+                    if (itemDetails[0] != "RaisedBy" && itemDetails[0] != "Files" && itemDetails[0] != "Assigned") {
                         tr = $('<tr/>');
                         tr.append('<td>' + itemDetails[0] + '</td>');
                         itemDetails.forEach(value1 => {
@@ -1068,10 +1068,10 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
                         // var value = itemDetails[1];
                         if (!IsNullOrUndefined(value[0])) {
                             try {
-                               if (value.toLowerCase() == "true" || value.toLowerCase() == "false") {
-                                 // if(value == "true" || value == "false"){
+                                if (value.toLowerCase() == "true" || value.toLowerCase() == "false") {
+                                    // if(value == "true" || value == "false"){
                                     tdValue = value.toLowerCase() == "true" ? "Yes" : "No";
-                                   //tdValue = value == "true" ? "Yes" : "No";
+                                    //tdValue = value == "true" ? "Yes" : "No";
                                 }
                                 else {
                                     if (value.includes("/") && value.includes(":") && (value.includes("AM") || value.includes("PM"))) {
@@ -1087,7 +1087,7 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
                             }
                             catch (err) {
                                 tdValue = value;
-                                
+
                             }
                         }
                         tr.append('<td>' + tdValue + '</td>');
@@ -1170,6 +1170,7 @@ function SaveFormData(activeSection, ele) {
 
         $(activeSection).find('input[listtype=main],select[listtype=main],radio[listtype=main],textarea[listtype=main],input[reflisttype=main],select[reflisttype=main],radio[reflisttype=main],textarea[reflisttype=main]').each(function () {
             var elementId = $(this).attr('id');
+            var dispLabel = $(this).attr('dispLabel');
             var elementType = $(this).attr('controlType');
             var elementProperty = $(this).attr('controlProperty');
             var elementvaluetype = $(this).attr('controlvaluetype');
@@ -1178,7 +1179,7 @@ function SaveFormData(activeSection, ele) {
                 elementId = $("input[name='" + elementName + "']:checked").val();
             }
             listDataArray = GetFormControlsValue(elementId, elementType, listDataArray, elementvaluetype);
-            listActivityLogDataArray = GetFormControlsValueAndType(elementId, elementType, elementProperty, listActivityLogDataArray);
+            listActivityLogDataArray = GetFormControlsValueAndType(elementId, dispLabel, elementType, elementProperty, listActivityLogDataArray);
         });
         $(activeSection).find('.static-control').each(function () {
             var elementId = $(this).attr('id');
@@ -1369,46 +1370,46 @@ function SaveActions(sectionName, itemID, actionPerformed) {
         case SectionNames.INITIATORSECTION:
             if (actionPerformed == "NextApproval") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['InitiatorAction'] = "Submitted"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted ;
+                    formFieldValues['InitiatorAction'] = "Submitted" + "," + "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
                 }
                 else {
-                    formFieldValues['InitiatorAction'] = "Submitted"+ ","+ "By" + "," + currentUser.Title + "," + formatted;
+                    formFieldValues['InitiatorAction'] = "Submitted" + "," + "By" + "," + currentUser.Title + "," + formatted;
                 }
             }
             else if (actionPerformed == "SaveAsDraft") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['InitiatorAction'] = "Saved As Draft"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted ;
+                    formFieldValues['InitiatorAction'] = "Saved As Draft" + "," + "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
                 }
                 else {
-                    formFieldValues['InitiatorAction'] = "Saved As Draft"+ ","+ "By" + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                    formFieldValues['InitiatorAction'] = "Saved As Draft" + "," + "By" + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
                 }
             }
             break;
         case SectionNames.HODSECTION:
             if (actionPerformed == "NextApproval") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['HODAction'] = "Approved"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted ;
+                    formFieldValues['HODAction'] = "Approved" + "," + "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
                 }
                 else {
-                    formFieldValues['HODAction'] = "Approved"+ ","+ "By"+ "," + currentUser.Title + "," + formatted;
+                    formFieldValues['HODAction'] = "Approved" + "," + "By" + "," + currentUser.Title + "," + formatted;
                 }
             }
             else if (actionPerformed == "Rejected") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['HODAction'] = "Rejected"+ ","+ "By"+ "," + currentUser.Title + "," + currentUserDepartment + "," + formatted ;
+                    formFieldValues['HODAction'] = "Rejected" + "," + "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
                 }
                 else {
-                    formFieldValues['HODAction'] = "Rejected"+ ","+ "By" + "," + currentUser.Title + "," + formatted;
+                    formFieldValues['HODAction'] = "Rejected" + "," + "By" + "," + currentUser.Title + "," + formatted;
                 }
             }
             break;
         case SectionNames.PURCHASESECTION:
             if (actionPerformed == "NextApproval") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['PurchaseAction'] = "Submitted"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted ;
+                    formFieldValues['PurchaseAction'] = "Submitted" + "," + "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
                 }
                 else {
-                    formFieldValues['PurchaseAction'] = "Submitted"+ ","+ "By" + "," + currentUser.Title + "," + formatted
+                    formFieldValues['PurchaseAction'] = "Submitted" + "," + "By" + "," + currentUser.Title + "," + formatted
                 }
             }
 
@@ -1416,36 +1417,36 @@ function SaveActions(sectionName, itemID, actionPerformed) {
         case SectionNames.FUNCTIONHEADSECTION:
             if (actionPerformed == "NextApproval") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['FuctionHeadAction'] = "Approved"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted ;
+                    formFieldValues['FuctionHeadAction'] = "Approved" + "," + "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
                 }
                 else {
-                    formFieldValues['FuctionHeadAction'] = "Approved"+ ","+ "By" + "," + currentUser.Title + "," + formatted;
+                    formFieldValues['FuctionHeadAction'] = "Approved" + "," + "By" + "," + currentUser.Title + "," + formatted;
                 }
             }
             else if (actionPerformed == "Rejected") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['FuctionHeadAction'] = "Rejected"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
+                    formFieldValues['FuctionHeadAction'] = "Rejected" + "," + "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
                 }
                 else {
-                    formFieldValues['FuctionHeadAction'] = "Rejected"+ ","+ "By" + "," + currentUser.Title + "," + formatted;
+                    formFieldValues['FuctionHeadAction'] = "Rejected" + "," + "By" + "," + currentUser.Title + "," + formatted;
                 }
             }
             break;
         case SectionNames.MANAGEMENTSECTION:
             if (actionPerformed == "Complete") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['ManagementAction'] = "Approved"+ ","+ "By"+ "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
+                    formFieldValues['ManagementAction'] = "Approved" + "," + "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
                 }
                 else {
-                    formFieldValues['ManagementAction'] = "Approved"+ ","+ "By" + "," + currentUser.Title + "," + formatted;
+                    formFieldValues['ManagementAction'] = "Approved" + "," + "By" + "," + currentUser.Title + "," + formatted;
                 }
             }
             else if (actionPerformed == "Rejected") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['ManagementAction'] = "Rejected"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
+                    formFieldValues['ManagementAction'] = "Rejected" + "," + "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
                 }
                 else {
-                    formFieldValues['ManagementAction'] = "Rejected"+ ","+ "By" + "," + currentUser.Title + "," + formatted;
+                    formFieldValues['ManagementAction'] = "Rejected" + "," + "By" + "," + currentUser.Title + "," + formatted;
                 }
             }
             break;
@@ -1667,15 +1668,15 @@ function GetActivityString(listActivityLogDataArray, isCurrentApproverField) {
             if (element.type == "peoplepicker") {
                 element.value = GetUserNamebyUserID(element.value);
             }
-            if (!IsNullOrUndefined(stringActivity) && stringActivity != ' ') {
+            if (!IsNullOrUndefined(stringActivity) && stringActivity != ' ' && !IsStrNullOrEmpty(stringActivity)) {
                 stringActivity = stringActivity + '~';
                 stringActivity = stringActivity + element.id;
-                stringActivity = stringActivity + ' ';
+                stringActivity = stringActivity + '#';
                 stringActivity = stringActivity + element.value;
             }
             else {
                 stringActivity = element.id;
-                stringActivity = stringActivity + ' ';
+                stringActivity = stringActivity + '#';
                 stringActivity = stringActivity + element.value;
             }
         });
