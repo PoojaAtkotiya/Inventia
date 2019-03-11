@@ -995,7 +995,8 @@ function GetFormControlsValueAndType(id, elementType, elementProperty, listActiv
             var parenType = $(obj).attr('cParent');
             if (!IsNullOrUndefined($(obj)) && !IsNullOrUndefined($(obj)[0]) && !IsNullOrUndefined($(obj)[0].id))
                 listActivityLogDataArray.push({ id: id, value: $(obj)[0].id, type: 'radiogroup' });
-            break;
+                
+                break;
         case "label":
             if (!IsStrNullOrEmpty($(obj).html())) {
                 listActivityLogDataArray.push({ id: id, value: $(obj).html(), type: 'label' });
@@ -1067,8 +1068,10 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
                         // var value = itemDetails[1];
                         if (!IsNullOrUndefined(value[0])) {
                             try {
-                                if (value.toLowerCase() == "true" || value.toLowerCase() == "false") {
+                               if (value.toLowerCase() == "true" || value.toLowerCase() == "false") {
+                                 // if(value == "true" || value == "false"){
                                     tdValue = value.toLowerCase() == "true" ? "Yes" : "No";
+                                   //tdValue = value == "true" ? "Yes" : "No";
                                 }
                                 else {
                                     if (value.includes("/") && value.includes(":") && (value.includes("AM") || value.includes("PM"))) {

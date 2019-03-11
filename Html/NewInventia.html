@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- #region QA-->
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Content/font-awesome.min.css"
     />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Content/datatable.css"
@@ -42,7 +42,7 @@
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/masterComp.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/tranComp.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/AppForm.js"></script>
-    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script> -->
 
     <!-- #endregion -->
     <!-- #region dev-->
@@ -75,13 +75,13 @@
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/jquery.validate.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/jquery.validate.unobtrusive.js"></script>
 
-    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/ConstantsComp.js"></script>
-    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/AppConstantsComp.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/Constants.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/AppConstants.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/Common.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/ApprovalMatrix.js"></script>
-    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/ButtonComp.js"></script>
-    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/masterComp.js"></script>
-    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/tranComp.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/Button.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/master.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/tran.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/AppForm.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script>
 
@@ -273,311 +273,312 @@
                     <div class="tab-content responsive" id="generalTabContent">
                         <div id="divCapexForm" mainlistname="CapexRequisition">
                             <div class="card">
-                                <div class="card-head" id="card-head-InitiatorSection">
-                                    <b> REQUEST </b>
-                                    <div class="btn collapse-btn collapsed">
-                                        <i class="fa fa-chevron-down"></i>
+                                    <div class="card-head" id="card-head-InitiatorSection">
+                                            <b> REQUEST </b>
+                                            <div class="btn collapse-btn collapsed">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </div>
                                     </div>
-                                </div>
-                                <myform enctype="multipart/form-data" id="form_InitiatorSection" method="post" novalidate="novalidate" autocomplete="off">
-                                    <div class="card-body disabled" id="InitiatorSection" section="Initiator Section" sectionOwner="" FillByRole="" style="display: none">
-                                        <div class="form-horizontal">
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                            <span class="text-danger text-default-light">*</span>
-                                                            Capex Requisition Sr No.
-                                                        </label>
-                                                        <label id="CapitalAssetRequisitionNumber" class="col-md-8 static-control labeltop" controlType="text" listtype="main"></label>
+                                        <myform enctype="multipart/form-data" id="form_InitiatorSection" method="post" novalidate="novalidate" autocomplete="off">
+                                            <div class="card-body disabled" id="InitiatorSection" section="Initiator Section" sectionOwner="" FillByRole="" style="display: none">
+                                                <div class="form-horizontal">
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">
+                                                                    <span class="text-danger text-default-light">*</span>
+                                                                    Capex Requisition Sr No.
+                                                                </label>
+                                                                <label id="CapitalAssetRequisitionNumber" class="col-md-8 static-control labeltop" controlType="text" listtype="main"></label>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                            <span class="text-danger text-default-light">*</span>
-                                                            Raised By
-                                                        </label>
-
-                                                        <label id="RaisedBy" class="col-md-8 static-control labeltop" controlType="person" listtype="main"></label>
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">
+                                                                    <span class="text-danger text-default-light">*</span>
+                                                                    Raised By
+                                                                </label>
+        
+                                                                <label id="RaisedBy" class="col-md-8 static-control labeltop" controlType="person" listtype="main"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">
+                                                                    <span class="text-danger text-default-light">*</span>
+                                                                    Raised On
+                                                                </label>
+                                                                <label id="RaisedOnDisplay" class="col-md-8 labeltop"></label>
+                                                                <label id="RaisedOn" class="static-control" listtype="main" controlType="date" style="display: none"></label>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                            <span class="text-danger text-default-light">*</span>
-                                                            Raised On
-                                                        </label>
-                                                        <label id="RaisedOnDisplay" class="col-md-8 labeltop"></label>
-                                                        <label id="RaisedOn" class="static-control" listtype="main" controlType="date" style="display: none"></label>
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">
+                                                                    <span class="text-danger text-default-light">*</span>
+                                                                    Department
+                                                                </label>
+                                                                <label id="Department" class="col-md-8 static-control labeltop" controlType="text" listtype="main"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">
+                                                                    <span class="text-danger text-default-light">*</span>
+                                                                    Function
+                                                                </label>
+                                                                <label id="Function" class="col-md-8 static-control labeltop" controlType="text" listtype="main"></label>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                            <span class="text-danger text-default-light">*</span>
-                                                            Department
-                                                        </label>
-                                                        <label id="Department" class="col-md-8 static-control labeltop" controlType="text" listtype="main"></label>
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">
+                                                                    <span class="text-danger text-default-light">*</span>
+                                                                    Location
+                                                                </label>
+                                                                <div class="col-md-8">
+                                                                    <select class="form-control m-b-n-sm dynamic-control" id="Location" controlType="combo" listtype="master" reflisttype="main"
+                                                                        listname="LocationMaster" data-selected="Location" valuebindingcolumn="Title"
+                                                                        textbindingcolumnn="Title" name="Location" required="required"
+                                                                        required>
+                                                                    </select>
+                                                                    <label id="LocationDisplay" class="col-md-8 labeltop" style="display:none;"></label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                            <span class="text-danger text-default-light">*</span>
-                                                            Function
-                                                        </label>
-                                                        <label id="Function" class="col-md-8 static-control labeltop" controlType="text" listtype="main"></label>
+                                                    <hr>
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">
+                                                                    <span class="text-danger text-default-light">*</span>
+                                                                    Asset Classification
+                                                                </label>
+                                                                <div class="col-md-8">
+                                                                    <select class="form-control m-b-n-sm dynamic-control requiredOnDraft" id="AssetClassification" controlType="combo" data-selected="AssetClassification"
+                                                                        reflisttype="main" valuebindingcolumn="AssetClassification" listname="DepartmentFunctionMappingMaster"
+                                                                        textbindingcolumnn="AssetClassification" name="AssetClassification"
+                                                                        required="required">
+                                                                    </select>
+                                                                    <label id="AssetClassificationDisplay" class="col-md-8 labeltop" style="display:none;"></label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">
+                                                                    <span class="text-danger text-default-light">*</span>
+                                                                    Asset Name
+                                                                </label>
+                                                                <div class="col-md-8">
+                                                                    <select class="form-control m-b-n-sm dynamic-control requiredOnDraft" id="AssetName" controlType="combo" data-selected="AssetName"
+                                                                        reflisttype="main" valuebindingcolumn="AssetName" listname="BudgetMaster"
+                                                                        textbindingcolumnn="AssetName" name="AssetName" required="required">
+                                                                    </select>
+                                                                    <label id="AssetNameDisplay" class="col-md-8 labeltop" style="display:none;"></label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                            <span class="text-danger text-default-light">*</span>
-                                                            Location
-                                                        </label>
-                                                        <div class="col-md-8">
-                                                            <select class="form-control m-b-n-sm dynamic-control" id="Location" controlType="combo" listtype="master" reflisttype="main"
-                                                                listname="LocationMaster" data-selected="Location" valuebindingcolumn="Title"
-                                                                textbindingcolumnn="Title" name="Location" required="required"
-                                                                required>
-                                                            </select>
-                                                            <label id="LocationDisplay" class="col-md-8 labeltop" style="display:none;"></label>
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">
+                                                                    <span class="text-danger text-default-light">*</span>
+                                                                    Number of Units
+                                                                    <i class="fa fa-question" aria-hidden="true"></i>
+                                                                </label>
+                                                                <div class="col-md-8">
+                                                                    <input type="text" id="NumberofUnits" class="form-control dynamic-control" placeholder="Number of Units" data="digit" controlType="text"
+                                                                        listtype="main" maxlength="15" name="NumberofUnits" required="required"
+                                                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">
+                                                                    <span class="text-danger text-default-light">*</span>
+                                                                    Life of Asset (Years)
+                                                                    <i class="fa fa-question" aria-hidden="true"></i>
+                                                                </label>
+                                                                <div class="col-md-8">
+                                                                    <input type="text" id="AssetLife" class="form-control dynamic-control" placeholder="Life of Asset" controlType="text" name="AssetLife"
+                                                                        maxlength="15" listtype="main" required="required" data="digit"
+                                                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">
+                                                                    <span class="text-danger text-default-light">*</span>
+                                                                    Imported?
+                                                                </label>
+                                                                <div class="col-md-8 ">
+                                                                    <label class="col-md-3 control-label radio-label">
+                                                                        <input class="dynamic-control" type="radio" id="ImportedYes" name="Imported" value="ImportedYes" controlType="radiogroup"
+                                                                            cParent="Imported" listtype="main" defaultVal="ImportedYes"
+                                                                            checked>Yes
+                                                                    </label>
+                                                                    <label class="col-md-4 control-label radio-label">
+                                                                        <input class="dynamic-control" type="radio" id="ImportedNo" name="Imported" value="ImportedNo" controlType="radiogroup" cParent="Imported"
+                                                                            listtype="main" defaultVal="ImportedYes">No
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">
+                                                                    <span class="text-danger text-default-light">*</span>
+                                                                    Cost Center
+                                                                </label>
+                                                                <div class="col-md-8">
+                                                                    <select class="form-control m-b-n-sm dynamic-control" id="CostCenter" controlType="combo" listtype="master" reflisttype="main"
+                                                                        listname="CostCenter" data-selected="CostCenter" valuebindingcolumn="Title"
+                                                                        textbindingcolumnn="Title" name="CostCenter" required="required">
+                                                                    </select>
+                                                                    <label id="CostCenterDisplay" class="col-md-8 labeltop" style="display:none;"></label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <br>
+        
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="col-md-6 control-label">
+                                                                    <a class="btn btn-primary pull-left" value="Add Proposed Vendor"
+                                                                        id="AddVendor" onclick="">Add Proposed Vendor</a>
+                                                                </label>
+                                                                <div class="col-md-6">
+        
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group" id="IsNewVendor">
+                                                                <label class="col-md-4 control-label">
+                                                                    Vendor Name
+                                                                </label>
+                                                                <div class="col-md-8">
+                                                                    <input type="text" id="NewVendorName" class="form-control dynamic-control" placeholder="Vendor Name" controlType="text" maxlength="255"
+                                                                        name="VendorName" listtype="main" />
+                                                                    <input type="hidden" id="isVendorAdded" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" id="proposedVendor" style="display:none;">
+                                                        <div class="col-lg-12">
+                                                            <div class="form-group">
+                                                                <label class="col-md-2 control-label">
+                                                                    Proposed Vendor(s)
+                                                                </label>
+                                                                <label id="ProposedVendor" class="col-md-10 static-control labeltop" controlType="text" listtype="main"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="form-group">
+                                                                <label class="col-md-2 control-label">
+                                                                    <span class="text-danger text-default-light">*</span>
+                                                                    Justification for Purchase</label>
+                                                                <div class="col-md-10">
+                                                                    <input type="text" id="JustificationforPurchase" class="form-control dynamic-control" placeholder="Justification for Purchase"
+                                                                        controlType="text" maxlength="1000" name="JustificationforPurchase"
+                                                                        listtype="main" required="required" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">
+                                                                    <span class="text-danger text-default-light">*</span>
+                                                                    URS Attachment
+                                                                </label>
+                                                                <div class="col-md-8">
+                                                                    <input type="file" class="form-control dynamic-control" id="UploadURSAttachment" name="myfiles" controlType="file" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+                                                                    text/plain, application/pdf, image/*" required="required" />
+        
+                                                                    <div id="URSContainer"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">
+                                                                    Supportive Documents
+                                                                </label>
+                                                                <div class="col-md-8">
+                                                                    <input type="file" class="form-control dynamic-control" id="UploadSupportiveDocAttachment" name="myfiles" controlType="file"
+                                                                        accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+                                                                    text/plain, application/pdf, image/*" />
+                                                                    <br>
+                                                                    <ul id="fileListSupportiveDoc"></ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="form-group">
+                                                                <label class="col-md-2 control-label"> Comment(s)</label>
+                                                                <div class="col-md-10">
+                                                                    <textarea id="InitiatorSection_Comments" class="form-control approver-control" maxlength="1000" controlType="multitext" listname="main"
+                                                                        name="InitiatorSection_Comments" rows="5" cols="40" wrap="hard"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">
+                                                                </label>
+                                                                <div class="col-md-8 ">
+                                                                    <div id="img_Intiator" class="col-md-8" width="250px"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">
+                                                                </label>
+                                                                <div class="col-md-8">
+                                                                    <label id="dispInitiatorAction" class="col-md-8 labeltop"></label>
+                                                                    <input type="hidden" id="InitiatorAction" class="static-control" listtype="main" controlType="text" />
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <hr>
-                                            <br>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                            <span class="text-danger text-default-light">*</span>
-                                                            Asset Classification
-                                                        </label>
-                                                        <div class="col-md-8">
-                                                            <select class="form-control m-b-n-sm dynamic-control requiredOnDraft" id="AssetClassification" controlType="combo" data-selected="AssetClassification"
-                                                                reflisttype="main" valuebindingcolumn="AssetClassification" listname="DepartmentFunctionMappingMaster"
-                                                                textbindingcolumnn="AssetClassification" name="AssetClassification"
-                                                                required="required">
-                                                            </select>
-                                                            <label id="AssetClassificationDisplay" class="col-md-8 labeltop" style="display:none;"></label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                            <span class="text-danger text-default-light">*</span>
-                                                            Asset Name
-                                                        </label>
-                                                        <div class="col-md-8">
-                                                            <select class="form-control m-b-n-sm dynamic-control requiredOnDraft" id="AssetName" controlType="combo" data-selected="AssetName"
-                                                                reflisttype="main" valuebindingcolumn="AssetName" listname="BudgetMaster"
-                                                                textbindingcolumnn="AssetName" name="AssetName" required="required">
-                                                            </select>
-                                                            <label id="AssetNameDisplay" class="col-md-8 labeltop" style="display:none;"></label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                            <span class="text-danger text-default-light">*</span>
-                                                            Number of Units
-                                                            <i class="fa fa-question" aria-hidden="true"></i>
-                                                        </label>
-                                                        <div class="col-md-8">
-                                                            <input type="text" id="NumberofUnits" class="form-control dynamic-control" placeholder="Number of Units" data="digit" controlType="text"
-                                                                listtype="main" maxlength="15" name="NumberofUnits" required="required"
-                                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                            <span class="text-danger text-default-light">*</span>
-                                                            Life of Asset (Years)
-                                                            <i class="fa fa-question" aria-hidden="true"></i>
-                                                        </label>
-                                                        <div class="col-md-8">
-                                                            <input type="text" id="AssetLife" class="form-control dynamic-control" placeholder="Life of Asset" controlType="text" name="AssetLife"
-                                                                maxlength="15" listtype="main" required="required" data="digit"
-                                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                            <span class="text-danger text-default-light">*</span>
-                                                            Imported?
-                                                        </label>
-                                                        <div class="col-md-8 ">
-                                                            <label class="col-md-3 control-label radio-label">
-                                                                <input class="dynamic-control" type="radio" id="ImportedYes" name="Imported" value="ImportedYes" controlType="radiogroup"
-                                                                    cParent="Imported" listtype="main" defaultVal="ImportedYes"
-                                                                    checked>Yes
-                                                            </label>
-                                                            <label class="col-md-4 control-label radio-label">
-                                                                <input class="dynamic-control" type="radio" id="ImportedNo" name="Imported" value="ImportedNo" controlType="radiogroup" cParent="Imported"
-                                                                    listtype="main" defaultVal="ImportedYes">No
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                            <span class="text-danger text-default-light">*</span>
-                                                            Cost Center
-                                                        </label>
-                                                        <div class="col-md-8">
-                                                            <select class="form-control m-b-n-sm dynamic-control" id="CostCenter" controlType="combo" listtype="master" reflisttype="main"
-                                                                listname="CostCenter" data-selected="CostCenter" valuebindingcolumn="Title"
-                                                                textbindingcolumnn="Title" name="CostCenter" required="required">
-                                                            </select>
-                                                            <label id="CostCenterDisplay" class="col-md-8 labeltop" style="display:none;"></label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <br>
-
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-6 control-label">
-                                                            <a class="btn btn-primary pull-left" value="Add Proposed Vendor"
-                                                                id="AddVendor" onclick="">Add Proposed Vendor</a>
-                                                        </label>
-                                                        <div class="col-md-6">
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group" id="IsNewVendor">
-                                                        <label class="col-md-4 control-label">
-                                                            Vendor Name
-                                                        </label>
-                                                        <div class="col-md-8">
-                                                            <input type="text" id="NewVendorName" class="form-control dynamic-control" placeholder="Vendor Name" controlType="text" maxlength="255"
-                                                                name="VendorName" listtype="main" />
-                                                            <input type="hidden" id="isVendorAdded" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row" id="proposedVendor" style="display:none;">
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <label class="col-md-2 control-label">
-                                                            Proposed Vendor(s)
-                                                        </label>
-                                                        <label id="ProposedVendor" class="col-md-10 static-control labeltop" controlType="text" listtype="main"></label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <br>
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <label class="col-md-2 control-label">
-                                                            <span class="text-danger text-default-light">*</span>
-                                                            Justification for Purchase</label>
-                                                        <div class="col-md-10">
-                                                            <input type="text" id="JustificationforPurchase" class="form-control dynamic-control" placeholder="Justification for Purchase"
-                                                                controlType="text" maxlength="1000" name="JustificationforPurchase"
-                                                                listtype="main" required="required" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                            <span class="text-danger text-default-light">*</span>
-                                                            URS Attachment
-                                                        </label>
-                                                        <div class="col-md-8">
-                                                            <input type="file" class="form-control dynamic-control" id="UploadURSAttachment" name="myfiles" controlType="file" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
-                                                            text/plain, application/pdf, image/*" required="required" />
-
-                                                            <div id="URSContainer"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                            Supportive Documents
-                                                        </label>
-                                                        <div class="col-md-8">
-                                                            <input type="file" class="form-control dynamic-control" id="UploadSupportiveDocAttachment" name="myfiles" controlType="file"
-                                                                accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
-                                                            text/plain, application/pdf, image/*" />
-                                                            <br>
-                                                            <ul id="fileListSupportiveDoc"></ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <label class="col-md-2 control-label"> Comment(s)</label>
-                                                        <div class="col-md-10">
-                                                            <textarea id="InitiatorSection_Comments" class="form-control approver-control" maxlength="1000" controlType="multitext" listname="main"
-                                                                name="InitiatorSection_Comments" rows="5" cols="40" wrap="hard"></textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <br>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                        </label>
-                                                        <div class="col-md-8 ">
-                                                            <div id="img_Intiator" class="col-md-8" width="250px"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                        </label>
-                                                        <div class="col-md-8">
-                                                            <label id="dispInitiatorAction" class="col-md-8 labeltop"></label>
-                                                            <input type="hidden" id="InitiatorAction" class="static-control" listtype="main" controlType="text" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                </myform>
-                                </div>
-                                <div class="card">
+                                        </myform>
+                                        <div class="clearfix"></div>
+                            </div>
+                            <div class="card">
                                     <div class="card-head" id="card-head-PurchaseSection">
                                         <b>VENDOR INFORMATION </b>
                                         <div class="btn collapse-btn">
@@ -641,12 +642,12 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="clearfix"></div>
+                                             <div class="clearfix"></div>
                                         </div>
                                     </myform>
                                     <div class="clearfix"></div>
-                                </div>
-                                <div class="card">
+                            </div>
+                            <div class="card">
                                     <div class="card-head" id="card-head-HodSection">
                                         <b>HOD REVIEW </b>
                                         <div class="btn collapse-btn">
@@ -854,8 +855,8 @@
                                         </div>
                                     </myform>
                                     <div class="clearfix"></div>
-                                </div>
-                                <div class="card">
+                            </div>
+                            <div class="card">
                                     <div class="card-head" id="card-head-FunctionHead">
                                         <b> FUNCTION REVIEW </b>
                                         <div class="btn collapse-btn">
@@ -906,56 +907,58 @@
                                     <div class="clearfix"></div>
                             </div>
                             <div class="card">
-                                <div class="card-head" id="card-head-ManagementSection">
-                                    <b> MANAGEMENT APPROVAL</b>
-                                    <div class="btn collapse-btn">
-                                        <i class="fa fa-chevron-down"></i>
+                                    <div class="card-head" id="card-head-ManagementSection">
+                                        <b> MANAGEMENT APPROVAL</b>
+                                        <div class="btn collapse-btn">
+                                            <i class="fa fa-chevron-down"></i>
+                                        </div>
                                     </div>
-                                </div>
-                                <myform enctype="multipart/form-data" id="form_ManagementSection" method="post" novalidate="novalidate" autocomplete="off">
-                                    <div class="card-body disabled" id="ManagementSection" section="Management Section" sectionOwner="" FillByRole="" style="display: none">
-                                        <div class="form-horizontal">
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <label class="col-md-2 control-label">
-                                                            Comment(s)
-                                                        </label>
-                                                        <div class="col-md-8">
-                                                            <textarea class="form-control approver-control" maxlength="1000" controlType="multitext" listname="" name="Comments" id="ManagementSection_Comments"
-                                                                name="ManagementSection_Comments" rows="5" cols="40" wrap="hard"></textarea>
+                                    <myform enctype="multipart/form-data" id="form_ManagementSection" method="post" novalidate="novalidate" autocomplete="off">
+                                        <div class="card-body disabled" id="ManagementSection" section="Management Section" sectionOwner="" FillByRole="" style="display: none">
+                                            <div class="form-horizontal">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group">
+                                                            <label class="col-md-2 control-label">
+                                                                Comment(s)
+                                                            </label>
+                                                            <div class="col-md-8">
+                                                                <textarea class="form-control approver-control" maxlength="1000" controlType="multitext" listname="" name="Comments" id="ManagementSection_Comments"
+                                                                    name="ManagementSection_Comments" rows="5" cols="40" wrap="hard"></textarea>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <hr>
-                                            <br>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                        </label>
-                                                        <div class="col-md-8">
-                                                            <div id="img_Management" class="col-md-8" width="100" height="100"></div>
+                                                <hr>
+                                                <br>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">
+                                                            </label>
+                                                            <div class="col-md-8">
+                                                                <div id="img_Management" class="col-md-8" width="100" height="100"></div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-                                                        </label>
-                                                        <div class="col-md-8">
-                                                            <label id="ManagementAction" class="col-md-8 static-control labeltop" listtype="main" controlType="text"></label>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">
+                                                            </label>
+                                                            <div class="col-md-8">
+                                                                <label id="ManagementAction" class="col-md-8 static-control labeltop" listtype="main" controlType="text"></label>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </myform>
+                                    </myform>  
                             </div>
                             <div data-include="ApplicationStatus"></div>
                             <div data-include="ActivityLog"></div>
+                            
+                            
                         </div>
                     </div>
                 </div>
