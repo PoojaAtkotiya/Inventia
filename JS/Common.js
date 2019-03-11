@@ -35,7 +35,7 @@ jQuery(document).ready(function () {
     GetApproverMaster(function (approverListItems) {
         approverMaster = approverListItems;
     });
-    HideWaitDialog();
+    //HideWaitDialog();
 });
 
 function loadConstants() {
@@ -937,12 +937,12 @@ function GetStaticFormControlValue(id, elementType, listDataArray, elementvaluet
     }
     return listDataArray;
 }
-function GetFormControlsValueAndType(id, elementType, elementProperty, listActivityLogDataArray) {
+function GetFormControlsValueAndType(id, dispLabel, elementType, elementProperty, listActivityLogDataArray) {
     var obj = '#' + id;
     switch (elementType) {
         case "text":
             if (!IsStrNullOrEmpty($(obj).val())) {
-                listActivityLogDataArray.push({ id: id, value: $(obj).val(), type: 'text' });
+                listActivityLogDataArray.push({ id: dispLabel, value: $(obj).val(), type: 'text' });
             }
             break;
         case "terms":
@@ -961,10 +961,10 @@ function GetFormControlsValueAndType(id, elementType, elementProperty, listActiv
             // if (IsNullOrUndefined($(obj).val()) || IsStrNullOrEmpty($(obj).val())) {
             //     $(obj).val(0);
             // }
-            listActivityLogDataArray.push({ id: id, value: $(obj).val(), type: 'text' });
+            listActivityLogDataArray.push({ id: dispLabel, value: $(obj).val(), type: 'text' });
             break;
         case "multitext":
-            listActivityLogDataArray.push({ id: id, value: $(obj).val(), type: 'multitext' });
+            listActivityLogDataArray.push({ id: dispLabel, value: $(obj).val(), type: 'multitext' });
             break;
         case "date":
             var month = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getMonth() + 1 : null;
@@ -972,11 +972,11 @@ function GetFormControlsValueAndType(id, elementType, elementProperty, listActiv
             var year = !IsNullOrUndefined($(obj).datepicker('getDate')) ? $(obj).datepicker('getDate').getFullYear() : null;
             var date = (!IsNullOrUndefined(month) && !IsNullOrUndefined(date) && !IsNullOrUndefined(year)) ? new Date(year.toString() + "-" + month.toString() + "-" + date.toString()).format("yyyy-MM-ddTHH:mm:ssZ") : null;
             if (date) {
-                listActivityLogDataArray.push({ id: id, value: date, type: 'date' });
+                listActivityLogDataArray.push({ id: dispLabel, value: date, type: 'date' });
             }
             break;
         case "checkbox":
-            listActivityLogDataArray.push({ id: id, value: $(obj)[0]['checked'], type: 'checkbox' });
+            listActivityLogDataArray.push({ id: dispLabel, value: $(obj)[0]['checked'], type: 'checkbox' });
             break;
         case "multicheckbox":
             var parenType = $(obj).attr('cParent');
@@ -994,11 +994,12 @@ function GetFormControlsValueAndType(id, elementType, elementProperty, listActiv
         case "radiogroup":
             var parenType = $(obj).attr('cParent');
             if (!IsNullOrUndefined($(obj)) && !IsNullOrUndefined($(obj)[0]) && !IsNullOrUndefined($(obj)[0].id))
-                listActivityLogDataArray.push({ id: id, value: $(obj)[0].id, type: 'radiogroup' });
+                listActivityLogDataArray.push({ id: dispLabel, value: $(obj)[0].id, type: 'radiogroup' });
+
             break;
         case "label":
             if (!IsStrNullOrEmpty($(obj).html())) {
-                listActivityLogDataArray.push({ id: id, value: $(obj).html(), type: 'label' });
+                listActivityLogDataArray.push({ id: dispLabel, value: $(obj).html(), type: 'label' });
             }
             break;
     }
@@ -1052,8 +1053,8 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
 
             if (item.split(' ').length > 1) {
                 if (!IsNullOrUndefined(item)) {
-                    var itemDetails = item.split(' ');
-                    if (itemDetails[0] != "RaisedBy" && itemDetails[0] != "Files") {
+                    var itemDetails = item.split('#');
+                    if (itemDetails[0] != "RaisedBy" && itemDetails[0] != "Files" && itemDetails[0] != "Assigned") {
                         tr = $('<tr/>');
                         tr.append('<td>' + itemDetails[0] + '</td>');
                         itemDetails.forEach(value1 => {
@@ -1068,7 +1069,9 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
                         if (!IsNullOrUndefined(value[0])) {
                             try {
                                 if (value.toLowerCase() == "true" || value.toLowerCase() == "false") {
+                                    // if(value == "true" || value == "false"){
                                     tdValue = value.toLowerCase() == "true" ? "Yes" : "No";
+                                    //tdValue = value == "true" ? "Yes" : "No";
                                 }
                                 else {
                                     if (value.includes("/") && value.includes(":") && (value.includes("AM") || value.includes("PM"))) {
@@ -1167,6 +1170,7 @@ function SaveFormData(activeSection, ele) {
 
         $(activeSection).find('input[listtype=main],select[listtype=main],radio[listtype=main],textarea[listtype=main],input[reflisttype=main],select[reflisttype=main],radio[reflisttype=main],textarea[reflisttype=main]').each(function () {
             var elementId = $(this).attr('id');
+            var dispLabel = $(this).attr('dispLabel');
             var elementType = $(this).attr('controlType');
             var elementProperty = $(this).attr('controlProperty');
             var elementvaluetype = $(this).attr('controlvaluetype');
@@ -1175,7 +1179,7 @@ function SaveFormData(activeSection, ele) {
                 elementId = $("input[name='" + elementName + "']:checked").val();
             }
             listDataArray = GetFormControlsValue(elementId, elementType, listDataArray, elementvaluetype);
-            listActivityLogDataArray = GetFormControlsValueAndType(elementId, elementType, elementProperty, listActivityLogDataArray);
+            listActivityLogDataArray = GetFormControlsValueAndType(elementId, dispLabel, elementType, elementProperty, listActivityLogDataArray);
         });
         $(activeSection).find('.static-control').each(function () {
             var elementId = $(this).attr('id');
@@ -1664,7 +1668,7 @@ function GetActivityString(listActivityLogDataArray, isCurrentApproverField) {
             if (element.type == "peoplepicker") {
                 element.value = GetUserNamebyUserID(element.value);
             }
-            if (!IsNullOrUndefined(stringActivity) && stringActivity != ' ') {
+            if (!IsNullOrUndefined(stringActivity) && stringActivity != ' ' && !IsStrNullOrEmpty(stringActivity)) {
                 stringActivity = stringActivity + '~';
                 stringActivity = stringActivity + element.id;
                 stringActivity = stringActivity + '#';
@@ -1672,7 +1676,7 @@ function GetActivityString(listActivityLogDataArray, isCurrentApproverField) {
             }
             else {
                 stringActivity = element.id;
-                stringActivity = stringActivity + ' ';
+                stringActivity = stringActivity + '#';
                 stringActivity = stringActivity + element.value;
             }
         });
