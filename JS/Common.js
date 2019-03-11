@@ -35,7 +35,7 @@ jQuery(document).ready(function () {
     GetApproverMaster(function (approverListItems) {
         approverMaster = approverListItems;
     });
-HideWaitDialog();
+    HideWaitDialog();
 });
 
 function loadConstants() {
@@ -245,7 +245,7 @@ function Digit(objTextbox, event) {
 }
 
 function Integer(objTextbox, event) {
-   
+
     var keyCode = (event.which) ? event.which : (window.event) ? window.event.keyCode : -1;
     if (keyCode >= 48 && keyCode <= 57 || keyCode == 45) {
         if (keyCode == 45) {
@@ -263,7 +263,7 @@ function Integer(objTextbox, event) {
     else {
         return false;
     }
-    
+
 }
 function Numeric(objTextbox, event) {
     var keyCode = (event.which) ? event.which : (window.event) ? window.event.keyCode : -1;
@@ -792,7 +792,7 @@ function ValidateForm(ele, saveCallBack) {
             }
         });
     }
-    if(isValid ==false){ $("#" + btnID).removeAttr('disabled');  btnID = null;$("#errorDisplay").html("Please Fill all mandatory fields");$("#errorDisplay").show(); }
+    if (isValid == false) { $("#" + btnID).removeAttr('disabled'); btnID = null; $("#errorDisplay").html("Please Fill all mandatory fields"); $("#errorDisplay").show(); }
     if (isValid) {
         $("#errorDisplay").hide();
         $("input[id='ActionStatus']").val($(ele).attr("data-action"));
@@ -1049,7 +1049,7 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
         var tr, tdValue;
         for (var i = 0; i < activity.length; i++) {
             var item = activity[i];
-          
+
             if (item.split(' ').length > 1) {
                 if (!IsNullOrUndefined(item)) {
                     var itemDetails = item.split(' ');
@@ -1084,7 +1084,7 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
                             }
                             catch (err) {
                                 tdValue = value;
-                                
+
                             }
                         }
                         tr.append('<td>' + tdValue + '</td>');
@@ -1366,46 +1366,46 @@ function SaveActions(sectionName, itemID, actionPerformed) {
         case SectionNames.INITIATORSECTION:
             if (actionPerformed == "NextApproval") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['InitiatorAction'] = "Submitted"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted ;
+                    formFieldValues['InitiatorAction'] = "Submitted" + "," + "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
                 }
                 else {
-                    formFieldValues['InitiatorAction'] = "Submitted"+ ","+ "By" + "," + currentUser.Title + "," + formatted;
+                    formFieldValues['InitiatorAction'] = "Submitted" + "," + "By" + "," + currentUser.Title + "," + formatted;
                 }
             }
             else if (actionPerformed == "SaveAsDraft") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['InitiatorAction'] = "Saved As Draft"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted ;
+                    formFieldValues['InitiatorAction'] = "Saved As Draft" + "," + "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
                 }
                 else {
-                    formFieldValues['InitiatorAction'] = "Saved As Draft"+ ","+ "By" + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                    formFieldValues['InitiatorAction'] = "Saved As Draft" + "," + "By" + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
                 }
             }
             break;
         case SectionNames.HODSECTION:
             if (actionPerformed == "NextApproval") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['HODAction'] = "Approved"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted ;
+                    formFieldValues['HODAction'] = "Approved" + "," + "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
                 }
                 else {
-                    formFieldValues['HODAction'] = "Approved"+ ","+ "By"+ "," + currentUser.Title + "," + formatted;
+                    formFieldValues['HODAction'] = "Approved" + "," + "By" + "," + currentUser.Title + "," + formatted;
                 }
             }
             else if (actionPerformed == "Rejected") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['HODAction'] = "Rejected"+ ","+ "By"+ "," + currentUser.Title + "," + currentUserDepartment + "," + formatted ;
+                    formFieldValues['HODAction'] = "Rejected" + "," + "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
                 }
                 else {
-                    formFieldValues['HODAction'] = "Rejected"+ ","+ "By" + "," + currentUser.Title + "," + formatted;
+                    formFieldValues['HODAction'] = "Rejected" + "," + "By" + "," + currentUser.Title + "," + formatted;
                 }
             }
             break;
         case SectionNames.PURCHASESECTION:
             if (actionPerformed == "NextApproval") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['PurchaseAction'] = "Submitted"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted ;
+                    formFieldValues['PurchaseAction'] = "Submitted" + "," + "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
                 }
                 else {
-                    formFieldValues['PurchaseAction'] = "Submitted"+ ","+ "By" + "," + currentUser.Title + "," + formatted
+                    formFieldValues['PurchaseAction'] = "Submitted" + "," + "By" + "," + currentUser.Title + "," + formatted
                 }
             }
 
@@ -1413,36 +1413,36 @@ function SaveActions(sectionName, itemID, actionPerformed) {
         case SectionNames.FUNCTIONHEADSECTION:
             if (actionPerformed == "NextApproval") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['FuctionHeadAction'] = "Approved"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted ;
+                    formFieldValues['FuctionHeadAction'] = "Approved" + "," + "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
                 }
                 else {
-                    formFieldValues['FuctionHeadAction'] = "Approved"+ ","+ "By" + "," + currentUser.Title + "," + formatted;
+                    formFieldValues['FuctionHeadAction'] = "Approved" + "," + "By" + "," + currentUser.Title + "," + formatted;
                 }
             }
             else if (actionPerformed == "Rejected") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['FuctionHeadAction'] = "Rejected"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
+                    formFieldValues['FuctionHeadAction'] = "Rejected" + "," + "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
                 }
                 else {
-                    formFieldValues['FuctionHeadAction'] = "Rejected"+ ","+ "By" + "," + currentUser.Title + "," + formatted;
+                    formFieldValues['FuctionHeadAction'] = "Rejected" + "," + "By" + "," + currentUser.Title + "," + formatted;
                 }
             }
             break;
         case SectionNames.MANAGEMENTSECTION:
             if (actionPerformed == "Complete") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['ManagementAction'] = "Approved"+ ","+ "By"+ "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
+                    formFieldValues['ManagementAction'] = "Approved" + "," + "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
                 }
                 else {
-                    formFieldValues['ManagementAction'] = "Approved"+ ","+ "By" + "," + currentUser.Title + "," + formatted;
+                    formFieldValues['ManagementAction'] = "Approved" + "," + "By" + "," + currentUser.Title + "," + formatted;
                 }
             }
             else if (actionPerformed == "Rejected") {
                 if (currentUserDepartment != undefined && currentUserDepartment != null) {
-                    formFieldValues['ManagementAction'] = "Rejected"+ ","+ "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
+                    formFieldValues['ManagementAction'] = "Rejected" + "," + "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
                 }
                 else {
-                    formFieldValues['ManagementAction'] = "Rejected"+ ","+ "By" + "," + currentUser.Title + "," + formatted;
+                    formFieldValues['ManagementAction'] = "Rejected" + "," + "By" + "," + currentUser.Title + "," + formatted;
                 }
             }
             break;
@@ -1667,7 +1667,7 @@ function GetActivityString(listActivityLogDataArray, isCurrentApproverField) {
             if (!IsNullOrUndefined(stringActivity) && stringActivity != ' ') {
                 stringActivity = stringActivity + '~';
                 stringActivity = stringActivity + element.id;
-                stringActivity = stringActivity + ' ';
+                stringActivity = stringActivity + '#';
                 stringActivity = stringActivity + element.value;
             }
             else {
