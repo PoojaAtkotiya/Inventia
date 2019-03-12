@@ -1290,6 +1290,7 @@ function OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCap
             CommonBusinessLogic(sectionName, itemID, listDataArray);
             SaveLocalApprovalMatrix(sectionName, itemID, listname, isNewItem, oListItem, ListNames.APPROVALMATRIXLIST);
             SaveActivityLog(sectionName, itemID, ListNames.ACTIVITYLOGLIST, listDataArray, isNewItem, buttonCaption);
+           
             if (!isNaN(itemID)) {
                 // SaveTranListData(itemID);
                 SaveAllTrans(itemID);

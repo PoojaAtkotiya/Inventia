@@ -697,7 +697,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
             currentLevel = previousLevel;
             break;
     }
-
+    
     if (!IsNullOrUndefined(formFieldValues)) {
         if (!IsNullOrUndefined(formFieldValues["Status"]) && !IsStrNullOrEmpty(formFieldValues["Status"])) {
             UpdateWorkflowStatus(formFieldValues);
@@ -1171,6 +1171,7 @@ function SaveApprovalMatrixInList(tempApproverMatrix, approvalMatrixListName, is
 
 /*Pooja Atkotiya */
 function SaveFormFields(formFieldValues, requestId) {
+    SaveErrorInList("SaveFormFields start","Action");
     var mainlistDataArray = {};
 
     if (!IsNullOrUndefined(formFieldValues['RaisedBy'])) {
@@ -1285,10 +1286,11 @@ function SaveFormFields(formFieldValues, requestId) {
                         "X-Http-Method": "MERGE", //PATCH
                     },
                 sucesscallbackfunction: function (data) {
-
+                    SaveErrorInList("SaveFormFields success","Action");
                 }
             });
     }
+    SaveErrorInList("SaveFormFields End","Action");
 }
 
 /*Pooja Atkotiya */
