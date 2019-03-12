@@ -54,6 +54,7 @@ function onloadConstantsSuccess(sender, args) {
     ExecuteOrDelayUntilScriptLoaded(GetCurrentUserDetails, "sp.js");
     if (listItemId == "" || IsNullOrUndefined(listItemId)) {
         GetUserDepartment();
+        setFunctionbasedDept(department);
     }
     else if (listItemId > 0) {
         department = mainListData.Department;
@@ -1046,56 +1047,62 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
     if (!IsNullOrUndefined(activityLogChangeDetails)) {
         $('#ActivityLogChanges').modal('show');
         $('#tblActivityChanges tbody').empty();
-        var activity = activityLogChangeDetails.split('~');
+        var activity = removeDuplicateFromArray(activityLogChangeDetails.split('~'));
         var tr, tdValue;
         for (var i = 0; i < activity.length; i++) {
             var item = activity[i];
 
-            if (item.split(' ').length > 1) {
-                if (!IsNullOrUndefined(item)) {
-                    var itemDetails = item.split('#');
-                    if (itemDetails[0] != "RaisedBy" && itemDetails[0] != "Files" && itemDetails[0] != "Assigned") {
-                        tr = $('<tr/>');
-                        tr.append('<td>' + itemDetails[0] + '</td>');
-                        itemDetails.forEach(value1 => {
-                            var value2 = value1;
-                        }
-                        );
-                        testslice = itemDetails.slice(1);
-                        var joinItemDetails = testslice.join(' ');
-                        var value = joinItemDetails;
+            // if (item.split(' ').length > 1) {
+            if (!IsNullOrUndefined(item) && !IsStrNullOrEmpty(item)) {
+                var itemDetails = item.split('#');
+                if (itemDetails[0] != "RaisedBy" && itemDetails[0] != "Files" && itemDetails[0] != "Assigned") {
+                    tr = $('<tr/>');
+                    tr.append('<td>' + itemDetails[0] + '</td>');
+                    value = itemDetails[1];
+                    // itemDetails.forEach(value1 => {
+                    //     var value2 = value1;
+                    // });
+                    // testslice = itemDetails.slice(1);
+                    // var joinItemDetails = testslice.join(' ');
+                    // var value = joinItemDetails;
 
-                        // var value = itemDetails[1];
-                        if (!IsNullOrUndefined(value[0])) {
-                            try {
-                                if (value.toLowerCase() == "true" || value.toLowerCase() == "false") {
-                                    // if(value == "true" || value == "false"){
-                                    tdValue = value.toLowerCase() == "true" ? "Yes" : "No";
-                                    //tdValue = value == "true" ? "Yes" : "No";
+                    // var value = itemDetails[1];
+                    if (!IsNullOrUndefined(value) && !IsStrNullOrEmpty(value)) {
+                        try {
+                            if (value.toLowerCase() == "ImportedYes" || value.toLowerCase() == "RecommendedYes" && value.toLowerCase() == "NegotiatedYes") {
+                                tdValue = "Yes";
+                            }
+                            if (value.toLowerCase() == "ImportedNo" || value.toLowerCase() == "RecommendedNo" || value.toLowerCase() == "NegotiatedNo") {
+                                tdValue = "No";
+                            }
+                            if (value.toLowerCase() == "true" || value.toLowerCase() == "false") {
+                                // if(value == "true" || value == "false"){
+                                tdValue = value.toLowerCase() == "true" ? "Yes" : "No";
+                                //tdValue = value == "true" ? "Yes" : "No";
+                            }
+                            else {
+                                if (value.includes("/") && value.includes(":") && (value.includes("AM") || value.includes("PM"))) {
+                                    var datetimepart = value.split(' ');
+                                    var datepart = datetimepart[0].split('/');
+                                    var dt = new DateTime(parseInt(datepart[2]), parseInt(datepart[0]), parseInt(datepart[1]));
+                                    tdValue = dt.toString("dd/MM/yyyy") + (itemDetails[0].toLowerCase().includes("time") ? " " + datetimepart[1] + " " + datetimepart[2] : "");
                                 }
                                 else {
-                                    if (value.includes("/") && value.includes(":") && (value.includes("AM") || value.includes("PM"))) {
-                                        var datetimepart = value.split(' ');
-                                        var datepart = datetimepart[0].split('/');
-                                        var dt = new DateTime(parseInt(datepart[2]), parseInt(datepart[0]), parseInt(datepart[1]));
-                                        tdValue = dt.toString("dd/MM/yyyy") + (itemDetails[0].toLowerCase().includes("time") ? " " + datetimepart[1] + " " + datetimepart[2] : "");
-                                    }
-                                    else {
-                                        tdValue = value;
-                                    }
+                                    tdValue = value;
                                 }
                             }
-                            catch (err) {
-                                tdValue = value;
-
-                            }
                         }
-                        tr.append('<td>' + tdValue + '</td>');
-                        $('#tblActivityChanges tbody').append(tr);
-                    }
+                        catch (err) {
+                            tdValue = value;
 
+                        }
+                    }
+                    tr.append('<td>' + tdValue + '</td>');
+                    $('#tblActivityChanges tbody').append(tr);
                 }
+
             }
+            //}
 
 
         }
