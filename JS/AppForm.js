@@ -11,7 +11,7 @@ var activityTrack;
 var btnID;
 
 $(document).ready(function () {
- $(document).on('click', 'a[id*="btnActivityLog_"]', function () {
+    $(document).on('click', 'a[id*="btnActivityLog_"]', function () {
         var iterationId = jQuery(this).attr('id').split('_')[1];
         var activityChanges = jQuery(this).attr('data-val');
         DisplayActvityLogChanges(iterationId, activityChanges);
@@ -117,13 +117,13 @@ function Capex_SaveData(ele) {
             AlertModal('Validation', errMessage, true);
         }
     }
-    
+
     btnID = $(ele).attr("id");
-    $("#" + btnID).attr('disabled','disabled');
+    $("#" + btnID).attr('disabled', 'disabled');
     ValidateForm(ele, SaveDataCallBack);
 
     function SaveDataCallBack(activeSection) {
-        
+
         var isError = FormBusinessLogic(activeSection);
         if (!isError) {
             SaveForm(activeSection, ele);
@@ -185,7 +185,7 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     //Functions for Initiator
     if (listItemId == "") {
         setNewFormParamters(department);
-        setFunctionbasedDept(department);
+        //setFunctionbasedDept(department);
         bindAssetClassification();
         $("#ProposedVendor").hide();
         $("#ImportedYes").prop("checked", true);
@@ -211,7 +211,7 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
             BindPurchaseAttachment();
             $('[id*="EditVendor_"]').hide();
             $('[id*="DeleteVendor_"]').hide();
-            if(mainListData.PayBackPeriod == true){
+            if (mainListData.PayBackPeriod == true) {
                 $("#PayBackPeriodDurationDiv").show();
             }
         }
@@ -221,8 +221,8 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
             bindAssetClassification();
             bindEditAssetName(mainListData.AssetClassification);
         }
-        else { 
-            BindInitiatorAttachment(); 
+        else {
+            BindInitiatorAttachment();
             $('#AssetClassification').hide();
             $('#AssetName').hide();
             $("#AssetClassificationDisplay").html(mainListData.AssetClassification);
@@ -238,7 +238,7 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
             $('#UploadURSAttachment').hide();
             $('#UploadSupportiveDocAttachment').hide();
         }
-   
+
         displayAction();
         //Functions for Purchase
         if (mainListData.WorkflowStatus == "Pending for Purchase") {
@@ -249,16 +249,16 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
             else if (mainListData.NextApproverId == currentUser.Id) {
                 $('#btnAddVendor').show();
             }
-             $('#AddVendor').hide();
+            $('#AddVendor').hide();
         }
-        
+
         if (mainListData.WorkflowStatus == "Approved" || mainListData.WorkflowStatus == "Rejected" || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
             setVendorDropDown();
             BindPurchaseAttachment();
             $('[id*="EditVendor_"]').hide();
             $('[id*="DeleteVendor_"]').hide();
             $('#AddVendor').hide();
-            if(mainListData.PayBackPeriod == true){
+            if (mainListData.PayBackPeriod == true) {
                 $("#PayBackPeriodDurationDiv").show();
             }
             BindHODAttachment();
@@ -279,9 +279,9 @@ function displayAction() {
             initiatorActions = TrimComma(mainListData.InitiatorAction).split(",");
         }
         for (var i = 0; i < initiatorActions.length; i++) {
-            if(i==1){ html = html + " "+ initiatorActions[i] + '<br />';}
-            else if(i==0){ html = html + initiatorActions[i].bold();}
-            else{ html = html + initiatorActions[i].bold() + '<br />';}
+            if (i == 1) { html = html + " " + initiatorActions[i] + '<br />'; }
+            else if (i == 0) { html = html + initiatorActions[i].bold(); }
+            else { html = html + initiatorActions[i].bold() + '<br />'; }
         }
         $('#dispInitiatorAction').html(html);
     }
@@ -292,9 +292,9 @@ function displayAction() {
             PurchaseActions = TrimComma(mainListData.PurchaseAction).split(",");
         }
         for (var i = 0; i < PurchaseActions.length; i++) {
-            if(i==1){ html = html + " "+ PurchaseActions[i] + '<br />';}
-            else if(i==0){ html = html + PurchaseActions[i].bold();}
-            else{html = html + PurchaseActions[i].bold() + '<br />';}
+            if (i == 1) { html = html + " " + PurchaseActions[i] + '<br />'; }
+            else if (i == 0) { html = html + PurchaseActions[i].bold(); }
+            else { html = html + PurchaseActions[i].bold() + '<br />'; }
         }
         $('#PurchaseAction').html(html);
     }
@@ -305,9 +305,9 @@ function displayAction() {
             HODActions = TrimComma(mainListData.HODAction).split(",");
         }
         for (var i = 0; i < HODActions.length; i++) {
-            if(i==1){ html = html + " "+ HODActions[i]+ '<br />';}
-            else if(i==0){ html = html + HODActions[i].bold();}
-            else{ html = html + HODActions[i].bold() + '<br />';}
+            if (i == 1) { html = html + " " + HODActions[i] + '<br />'; }
+            else if (i == 0) { html = html + HODActions[i].bold(); }
+            else { html = html + HODActions[i].bold() + '<br />'; }
 
         }
         $('#HODAction').html(html);
@@ -319,9 +319,9 @@ function displayAction() {
             functionHeadActions = TrimComma(mainListData.FuctionHeadAction).split(",");
         }
         for (var i = 0; i < functionHeadActions.length; i++) {
-            if(i==1){ html = html + " "+ functionHeadActions[i]+ '<br />';}
-            else if(i==0){ html = html + functionHeadActions[i].bold();}
-            else{html = html + functionHeadActions[i].bold()  + '<br />';}
+            if (i == 1) { html = html + " " + functionHeadActions[i] + '<br />'; }
+            else if (i == 0) { html = html + functionHeadActions[i].bold(); }
+            else { html = html + functionHeadActions[i].bold() + '<br />'; }
         }
         $('#FunctionHeadAction').html(html);
     }
@@ -332,9 +332,9 @@ function displayAction() {
             managementActions = TrimComma(mainListData.ManagementAction).split(",");
         }
         for (var i = 0; i < managementActions.length; i++) {
-            if(i==1){ html = html + " "+ managementActions[i]+ '<br />';}
-            else if(i==0){ html = html + managementActions[i].bold();}
-            else{html = html + managementActions[i].bold() + '<br />';}
+            if (i == 1) { html = html + " " + managementActions[i] + '<br />'; }
+            else if (i == 0) { html = html + managementActions[i].bold(); }
+            else { html = html + managementActions[i].bold() + '<br />'; }
         }
         $('#ManagementAction').html(html);
     }
@@ -376,7 +376,7 @@ function setFunctionbasedDept(department) {
     var department = encodeURIComponent(department);
     AjaxCall(
         {
-             url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.DEPTFUNCTIONMASTER + "')/Items?$select=Title,DepartmentName,*&$filter=DepartmentName eq '" + department + "'",
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.DEPTFUNCTIONMASTER + "')/Items?$select=Title,DepartmentName,*&$filter=DepartmentName eq '" + department + "'",
             httpmethod: 'GET',
             calldatatype: 'JSON',
             async: false,
@@ -398,7 +398,7 @@ function bindAssetClassification() {
     var colVal = encodeURIComponent(functionValue);
     AjaxCall(
         {
-           // url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ASSETCLASSIFICATIONMASTER + "')/items?$select=Function/Title,AssetClassDescription,Title&$expand=Function/Title&$filter=Function/Title eq '" + functionValue + "'",
+            // url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ASSETCLASSIFICATIONMASTER + "')/items?$select=Function/Title,AssetClassDescription,Title&$expand=Function/Title&$filter=Function/Title eq '" + functionValue + "'",
             url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ASSETCLASSIFICATIONMASTER + "')/items?$select=Function/Title,AssetClassDescription,Title&$expand=Function/Title&$filter=(Function/Title eq '" + colVal + "')",
             httpmethod: 'GET',
             calldatatype: 'JSON',
@@ -988,7 +988,7 @@ function BindPurchaseAttachmentFiles() {
                     var item = $pnp.sp.web.lists.getByTitle("Attachments").items.getById(itemId);
                     item.attachmentFiles.addMultiple(fileURSArray).then(v => {
                         var htmlStr = "";
-                     var checkFile = $('#fileListpurchaseContainer').html();
+                        var checkFile = $('#fileListpurchaseContainer').html();
                         var ServerRelativeUrl = _spPageContextInfo.siteAbsoluteUrl + "/Lists/Attachments/Attachments/" + itemId + "/" + fileName;
 
                         if (checkFile === "") {
@@ -1436,9 +1436,9 @@ function SetCurrentValue() {
         $(listTempGridDataArray).each(function (i, e) {
             if (vendorname == listTempGridDataArray[i].VendorName) {
                 $("#CurrentValue").val(listTempGridDataArray[i].TotalValue);
-                var utilizedVal= $("#UtilizedValue").val();
-                if(utilizedVal == null || utilizedVal ==""){
-                    utilizedVal=mainListData.UtilizedValue;
+                var utilizedVal = $("#UtilizedValue").val();
+                if (utilizedVal == null || utilizedVal == "") {
+                    utilizedVal = mainListData.UtilizedValue;
                 }
                 var TotalUtilizedValue = (+utilizedVal) + (+listTempGridDataArray[i].TotalValue);
                 var budgetedVal = $("#BudgetedValue").val();

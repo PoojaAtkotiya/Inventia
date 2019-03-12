@@ -27,6 +27,10 @@
     .modal-dialog{
         width: 94%!important;
     }
+    .page-header-topbar{
+        height: 50px;
+    }
+ 
 }
 
 @media (max-width: 768px) {
@@ -54,6 +58,7 @@
    }
     .page-title-breadcrumb{
         margin-top: 10px;
+        height: 100px;
     }
     .page-title-breadcrumb .page-header .page-title{
         font-size: 21px; 
@@ -160,6 +165,7 @@
      #tab-general{
         margin-top:33px;
     }
+    
 }
 
 @media (max-width: 640px) {
@@ -213,6 +219,10 @@
 	.page-content {
     	padding: 170px 20px 50px 20px;
     }
+    .page-title-breadcrumb{
+        height: auto;
+    }
+    
 }
 @media only screen and (max-width: 360px) {
     html {
@@ -226,9 +236,11 @@
     .o365cs-nav-header16, #s4-ribbonrow{
         width:75%;
     }
+   
 }
 @media only screen and (max-width: 320px) {
     .o365cs-nav-header16, #s4-ribbonrow{
         width:67%;
     }
+   
 }
