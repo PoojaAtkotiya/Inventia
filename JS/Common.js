@@ -1069,7 +1069,7 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
                     // var value = itemDetails[1];
                     if (!IsNullOrUndefined(value) && !IsStrNullOrEmpty(value)) {
                         try {
-                            if (value.toLowerCase() == "ImportedYes" || value.toLowerCase() == "RecommendedYes" && value.toLowerCase() == "NegotiatedYes") {
+                            if (value.toLowerCase() == "ImportedYes" || value.toLowerCase() == "RecommendedYes" || value.toLowerCase() == "NegotiatedYes") {
                                 tdValue = "Yes";
                             }
                             if (value.toLowerCase() == "ImportedNo" || value.toLowerCase() == "RecommendedNo" || value.toLowerCase() == "NegotiatedNo") {
