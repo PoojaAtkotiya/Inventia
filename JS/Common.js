@@ -1069,27 +1069,26 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
                     // var value = itemDetails[1];
                     if (!IsNullOrUndefined(value) && !IsStrNullOrEmpty(value)) {
                         try {
-                            if (value.toLowerCase() == "importedyes" || value.toLowerCase() == "recommendedyes" || value.toLowerCase() == "negotiatedyes") {
+                            // if (value.toLowerCase() == "true" || value.toLowerCase() == "false") {
+
+                            //     tdValue = value.toLowerCase() == "true" ? "Yes" : "No";
+
+                            // }
+
+                            if (value.includes("/") && value.includes(":") && (value.includes("AM") || value.includes("PM"))) {
+                                var datetimepart = value.split(' ');
+                                var datepart = datetimepart[0].split('/');
+                                var dt = new DateTime(parseInt(datepart[2]), parseInt(datepart[0]), parseInt(datepart[1]));
+                                tdValue = dt.toString("dd/MM/yyyy") + (itemDetails[0].toLowerCase().includes("time") ? " " + datetimepart[1] + " " + datetimepart[2] : "");
+                            }
+                            else if (value.toLowerCase() == "importedyes" || value.toLowerCase() == "recommendedyes" || value.toLowerCase() == "negotiatedyes") {
                                 tdValue = "Yes";
                             }
-                            if (value.toLowerCase() == "importedNo" || value.toLowerCase() == "recommendedno" || value.toLowerCase() == "negotiatedno") {
+                            else if (value.toLowerCase() == "importedNo" || value.toLowerCase() == "recommendedno" || value.toLowerCase() == "negotiatedno") {
                                 tdValue = "No";
                             }
-                            if (value.toLowerCase() == "true" || value.toLowerCase() == "false") {
-                                // if(value == "true" || value == "false"){
-                                tdValue = value.toLowerCase() == "true" ? "Yes" : "No";
-                                //tdValue = value == "true" ? "Yes" : "No";
-                            }
                             else {
-                                if (value.includes("/") && value.includes(":") && (value.includes("AM") || value.includes("PM"))) {
-                                    var datetimepart = value.split(' ');
-                                    var datepart = datetimepart[0].split('/');
-                                    var dt = new DateTime(parseInt(datepart[2]), parseInt(datepart[0]), parseInt(datepart[1]));
-                                    tdValue = dt.toString("dd/MM/yyyy") + (itemDetails[0].toLowerCase().includes("time") ? " " + datetimepart[1] + " " + datetimepart[2] : "");
-                                }
-                                else {
-                                    tdValue = value;
-                                }
+                                tdValue = value;
                             }
                         }
                         catch (err) {
