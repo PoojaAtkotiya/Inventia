@@ -1069,10 +1069,10 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
                     // var value = itemDetails[1];
                     if (!IsNullOrUndefined(value) && !IsStrNullOrEmpty(value)) {
                         try {
-                            if (value.toLowerCase() == "ImportedYes" || value.toLowerCase() == "RecommendedYes" || value.toLowerCase() == "NegotiatedYes") {
+                            if (value.toLowerCase() == "importedyes" || value.toLowerCase() == "recommendedyes" || value.toLowerCase() == "negotiatedyes") {
                                 tdValue = "Yes";
                             }
-                            if (value.toLowerCase() == "ImportedNo" || value.toLowerCase() == "RecommendedNo" || value.toLowerCase() == "NegotiatedNo") {
+                            if (value.toLowerCase() == "importedNo" || value.toLowerCase() == "recommendedno" || value.toLowerCase() == "negotiatedno") {
                                 tdValue = "No";
                             }
                             if (value.toLowerCase() == "true" || value.toLowerCase() == "false") {
