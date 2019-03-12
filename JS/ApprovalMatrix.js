@@ -265,7 +265,6 @@ function SetSectionWiseRoles(id) {
 //#region Custom Logic here
 /*Pooja Atkotiya */
 function SetApproversInApprovalMatrix(id) {
-    debugger
     var initiatorDept = $('#Department').html();
     var initFunction = $('#Function').html();
     if (initiatorDept == undefined || initiatorDept == null || initiatorDept == "") { initiatorDept = department; }

@@ -1084,7 +1084,7 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
                             else if (value.toLowerCase() == "importedyes" || value.toLowerCase() == "recommendedyes" || value.toLowerCase() == "negotiatedyes") {
                                 tdValue = "Yes";
                             }
-                            else if (value.toLowerCase() == "importedNo" || value.toLowerCase() == "recommendedno" || value.toLowerCase() == "negotiatedno") {
+                            else if (value.toLowerCase() == "importedno" || value.toLowerCase() == "recommendedno" || value.toLowerCase() == "negotiatedno") {
                                 tdValue = "No";
                             }
                             else {
@@ -1689,9 +1689,9 @@ function GetActivityString(listActivityLogDataArray, isCurrentApproverField) {
     }
     if (!isCurrentApproverField) {
         var today = new Date().format("yyyy-MM-ddTHH:mm:ssZ");
-        var approverActivityLog = "Assigned date" + "" + currentApproverDetails.AssignDate;
-        approverActivityLog += "\nApproved/Updated date" + "" + today;
-        approverActivityLog += "\n" + "Approver Comment" + "" + currentApproverDetails.COMMENTS;
+        var approverActivityLog = "Assigned date" + "#" + currentApproverDetails.AssignDate;
+        approverActivityLog += "~Approved/Updated date" + "#" + today;
+        approverActivityLog += "~" + "Approver Comment" + "#" + currentApproverDetails[CurrentApprover.COMMENTS];
         if (!IsNullOrUndefined(stringActivity) && stringActivity != '') {
             stringActivity = stringActivity + '~';
             stringActivity = stringActivity + approverActivityLog;
