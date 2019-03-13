@@ -266,13 +266,22 @@ function SetSectionWiseRoles(id) {
 /*Pooja Atkotiya */
 function SetApproversInApprovalMatrix(id) {
     var initiatorDept = $('#Department').html();
+    var initFunction = $('#Function').html();
     if (initiatorDept == undefined || initiatorDept == null || initiatorDept == "") { initiatorDept = department; }
     if (IsStrNullOrEmpty(initiatorDept) && !IsStrNullOrEmpty(currentUserRole) && currentUserRole == Roles.CREATOR) {
         var errMessage = "Dear Initiator, you cannot create request as your Department is not defined.It would be ideal if you contact your Admin for same.";
         AlertModal('Validation', errMessage, true);
     }
-    else if (!IsStrNullOrEmpty(currentUserRole) && currentUserRole == Roles.CREATOR && approverMaster.some(app => (app.Role == Roles.FUNCTIONHEAD || app.Role == Roles.INITIATORHOD) && (!IsNullOrUndefined(app.Department) && !IsNullOrUndefined(app.Department.results) && app.Department.results <= 0))) {
-        var errMessage = "Dear Initiator, you cannot create request as Department is not defined for Role '" + Roles.FUNCTIONHEAD + "'/'" + Roles.INITIATORHOD + "' in Approver Master.It would be ideal if you contact your Admin for same.";
+    if (IsStrNullOrEmpty(initFunction) && !IsStrNullOrEmpty(currentUserRole) && currentUserRole == Roles.CREATOR) {
+        var errMessage = "Dear Initiator, you cannot create request as your Function is not defined.It would be ideal if you contact your Admin for same.";
+        AlertModal('Validation', errMessage, true);
+    }
+    else if (!IsStrNullOrEmpty(currentUserRole) && currentUserRole == Roles.CREATOR && approverMaster.some(app => (app.Role == Roles.INITIATORHOD) && (!IsNullOrUndefined(app.Department) && !IsNullOrUndefined(app.Department.results) && app.Department.results <= 0))) {
+        var errMessage = "Dear Initiator, you cannot create request as Department is not defined for Role '" + Roles.INITIATORHOD + "' in Approver Master.It would be ideal if you contact your Admin for same.";
+        AlertModal('Validation', errMessage, true);
+    }
+    else if (!IsStrNullOrEmpty(currentUserRole) && !IsStrNullOrEmpty(initFunction) && currentUserRole == Roles.CREATOR && approverMaster.some(app => (app.Role == Roles.FUNCTIONHEAD) && IsNullOrUndefined(app.Function))) {
+        var errMessage = "Dear Initiator, you cannot create request as Function is not defined for Role '" + Roles.FUNCTIONHEAD + "' in Approver Master.It would be ideal if you contact your Admin for same.";
         AlertModal('Validation', errMessage, true);
     }
     else if (!IsStrNullOrEmpty(currentUserRole) && currentUserRole == Roles.CREATOR && approverMaster.some(app => (app.Role == Roles.MANAGEMENT) && IsStrNullOrEmpty(app.Location.Title))) {
@@ -307,7 +316,7 @@ function SetApproversInApprovalMatrix(id) {
                                     }
                                 }
                             } else if (t.Role == Roles.FUNCTIONHEAD) {
-                                if (t.Role == a.Role && a.UserSelection == true && !IsNullOrUndefined(a.Department) && !IsNullOrUndefined(a.Department.results) && a.Department.results.length > 0 && a.Department.results.some(d => d.Title == initiatorDept)) {
+                                if (t.Role == a.Role && a.UserSelection == true && !IsNullOrUndefined(a.Function) && !IsStrNullOrEmpty(a.Function.Title) && a.Function.Title == initFunction) {
                                     if (a.UserNameId.results.length > 0) {
                                         t.ApproverId = a.UserNameId.results;
                                     }
@@ -688,7 +697,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
             currentLevel = previousLevel;
             break;
     }
-
+    
     if (!IsNullOrUndefined(formFieldValues)) {
         if (!IsNullOrUndefined(formFieldValues["Status"]) && !IsStrNullOrEmpty(formFieldValues["Status"])) {
             UpdateWorkflowStatus(formFieldValues);
@@ -1162,6 +1171,7 @@ function SaveApprovalMatrixInList(tempApproverMatrix, approvalMatrixListName, is
 
 /*Pooja Atkotiya */
 function SaveFormFields(formFieldValues, requestId) {
+    SaveErrorInList("SaveFormFields start","Action");
     var mainlistDataArray = {};
 
     if (!IsNullOrUndefined(formFieldValues['RaisedBy'])) {
@@ -1276,10 +1286,11 @@ function SaveFormFields(formFieldValues, requestId) {
                         "X-Http-Method": "MERGE", //PATCH
                     },
                 sucesscallbackfunction: function (data) {
-
+                    SaveErrorInList("SaveFormFields success","Action");
                 }
             });
     }
+    SaveErrorInList("SaveFormFields End","Action");
 }
 
 /*Pooja Atkotiya */

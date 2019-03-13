@@ -76,7 +76,7 @@ function GetMasterData(masterlistname) {
 function GetApproverMaster(handleData) {
     AjaxCall(
         {
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.APPROVERMASTERLIST + "')/items?$select=*,Department/Title,Location/Title&$expand=Department/Title,Location/Title",
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.APPROVERMASTERLIST + "')/items?$select=*,Department/Title,Function/Title,Location/Title&$expand=Department/Title,Function/Title,Location/Title",
             httpmethod: 'GET',
             calldatatype: 'JSON',
             async: false,
