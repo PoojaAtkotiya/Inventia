@@ -64,9 +64,6 @@ function GetMasterData(masterlistname) {
                 }
             });
     }
-    else {
-       
-    }
 }
 
 //#endregion

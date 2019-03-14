@@ -51,7 +51,6 @@ function GetTranData(tranlistname, lookupId) {
                                 fieldName = $(this).attr("cParent");
                             else if (elementType == 'checkbox')
                                 fieldName = $("#" + elementId)[0].checked;
-                            //  $("#" + elementId)[0].checked = item[fieldName];
                             setFieldValue(elementId, item, elementType, fieldName);
                         });
                     }
@@ -113,7 +112,6 @@ function SetTranDataValues(tranlistname, lookupId) {
                 var elementId = $(this).attr('id');
                 var elementType = $(this).attr('controlType');
                 tranListData = GetFormControlsValue(elementId, elementType, tranListData, elementvaluetype);
-                //saveDataArray = GetFormControlsValue(elementId, elementType, saveDataArray,elementvaluetype);
             });
             SaveTranData(tranlistname, tranListData, lookupId);
         }
@@ -217,7 +215,6 @@ function GetTranList(tranList, lookupId) {
     var listName = tranList["ListName"];
     var tranArrayName = tranList["TranArrayName"];
     var jsFunction = tranList["JSFunction"];
-    // and (Status Ne '" + ItemActionStatus.DELETED + "')
     AjaxCall(
         {
             url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + listName + "')/items?$select=*&$filter=((RequestIDId eq " + lookupId + ") and (Status ne '" + ItemActionStatus.DELETED + "'))",
@@ -255,7 +252,6 @@ function SaveAllTrans(requestId) {
             var tranListName = element.TranListName;
             if (!IsNullOrUndefined(tranList) && tranList.length > 0) {
                 tranList.forEach(tranItem => {
-                    // var tranListName = tranItem.ListName;
                     var status = tranItem.Status;
                     var id = tranItem.ID;
                     var url = '';
@@ -303,7 +299,6 @@ function SaveAllTrans(requestId) {
                     //Column which not to be saved/not column in list are removed 
                     delete tranItem.Type;
                     delete tranItem.Index;
-                    // delete tranItem.ListName;
 
                     tranItem["__metadata"] = {
                         "type": GetItemTypeForListName(tranListName)
