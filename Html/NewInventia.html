@@ -75,7 +75,7 @@
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/jquery.validate.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/jquery.validate.unobtrusive.js"></script>
 
-    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/Constants.js"></script>
+    <!-- <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/Constants.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/AppConstants.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/Common.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/ApprovalMatrix.js"></script>
@@ -83,10 +83,22 @@
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/master.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/tran.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/AppForm.js"></script>
-    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script> -->
 
     <!-- #endregion -->
+
     <script type="text/javascript">
+
+        var versionUpdate = (new Date()).getTime();
+        var jsFilePath = 'https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/';
+        var jsFilesArray = ['Constants', 'AppConstants', 'Common', 'ApprovalMatrix', 'Button', 'master', 'tran', 'AppForm', 'CRUDjs'];
+        jsFilesArray.forEach(jsFile => {
+            var script = document.createElement("script");
+            script.type = "text/javascript";
+            script.src = jsFilePath + jsFile + ".js?v=" + versionUpdate;
+            document.head.appendChild(script);
+        });
+
         var formData = {};
         $(document).ready(function () {
 
