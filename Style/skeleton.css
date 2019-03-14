@@ -4,7 +4,23 @@
         margin: 7px auto;
     }
 }
-
+@media (min-width: 1025px) {
+    .left-side-collapsed .page-title-breadcrumb{
+        width: calc(100% - 55px);
+        left: 55px;
+    }
+    .page-title-breadcrumb {
+        width: calc(100% - 13%);
+        left: 13%;
+    }
+    .navbar-static-top{
+        margin-bottom: 0;
+        position: fixed;
+    }
+    #side-menu{
+        padding-top:55px;
+    }
+} 
 
 @media (max-width: 1024px) {
     #page-wrapper{
@@ -27,14 +43,70 @@
     .modal-dialog{
         width: 94%!important;
     }
-    .page-header-topbar{
-        height: 50px;
+    
+    .left-side-collapsed .page-title-breadcrumb{
+        width:100%;
+        left: 1px;
+        top:-10px;
     }
+    .page-title-breadcrumb {
+        width:100%;
+        left: 0;
+        position: relative;
+        top:-10px;
+    }
+    .page-content {
+        padding: 0 20px 120px 20px;
+        min-height: 100vh;
+    }
+    #s4-bodyContainer {
+        height: 55px;
+        position: fixed;
+        width: 100%;
+        top:0;
+    }
+    
  
 }
 
-@media (max-width: 768px) {
+@media only screen and (min-device-width : 767px) and (max-device-width : 1024px) { 
+    .page-title-breadcrumb .page-header{
+        display: block !important;
+    }
+    .page-title-breadcrumb .page-header .page-title {
+         font-size: 18px !important;
+        font-weight: 300;
+        display: block !important;
+        color: #666;
+        padding-top: 8px;
+    }
+    .header-nav{
+        display: block !important;
+        width: auto !important;
+    }
+    .navbar-right li a {
+        padding: 6px 10px !important;
+        font-size: 13px;
     
+    }
+    .header-nav {
+        width: auto !important;
+    }
+    .page-title-breadcrumb{
+        padding: 10px 20px !important;
+        height: 75px;
+    }
+    #sidebar {
+        height: 100vh !important;
+        padding-top:0 !important;
+    }
+}
+
+@media (max-width: 768px) {
+    html {
+        width: 100% !important;
+        margin: 0 auto !important;
+    }
     .modal-dialog {
         left: 0%!important;
         padding-top: 6px!important;
@@ -49,17 +121,13 @@
     .header-nav{margin:10px 0 0 0; }
     
 }
-
+ 
 @media (max-width: 767px) {
     html {
     overflow-x:hidden;
-    width:700px !important;
+    width:100% !important;
      margin:0 auto !important;
    }
-    .page-title-breadcrumb{
-        margin-top: 10px;
-        height: 100px;
-    }
     .page-title-breadcrumb .page-header .page-title{
         font-size: 21px; 
         padding-bottom: 15px;
@@ -127,13 +195,14 @@
        text-align: center;
     }
     #page-wrapper{
-        margin: 0;
-        width: 90%;
+        margin: 0 auto;
+        width: 100%;
+        left: 0;
     }
     .custom-scroll > ul{
         display: block!important;
 		background: #4b2465!important;
-		top:50px;
+		top:0;
     }
     .ms-welcome-root{
         background:rgba(255,255,255,10);
@@ -141,14 +210,29 @@
         float:right;
         width:auto !important;
     }
-    
+    .page-header-topbar {
+        top: 0;
+    }
+    .left-side-collapsed .page-title-breadcrumb, .page-title-breadcrumb{
+        top:0;
+    }
+    #s4-bodyContainer {
+        height: 112px;
+        top: 5px;
+        position: absolute;
+        width: 100%;
+    }
+    .page-title-breadcrumb{
+        height: auto;
+    }
+   
 	
 }
 
 @media only screen and (max-width: 700px) {
     html {
     overflow-x:hidden;
-   width:600px !important;
+   width:100% !important;
     margin:0 auto !important;
     }
      #tab-general{
@@ -159,7 +243,7 @@
 @media only screen and (max-width: 600px) {
     html {
     overflow-x:hidden;
-    width:550px !important;
+    width:100% !important;
      margin:0 auto !important;
     }
      #tab-general{
@@ -185,7 +269,7 @@
 @media only screen and (max-width: 550px) {
     html {
     overflow-x:hidden;
-    width:480px !important;
+    width:100% !important;
      margin:0 auto !important;
     }
     #tab-general{
@@ -195,7 +279,7 @@
 
 @media (max-width: 480px) {
     #ctl00_welcome, #ctl00_welcome .ms-welcome-root{
-        margin-right: 0;
+        margin-right: 5px;
     }
     .page-form {
         width: 280px;
@@ -214,12 +298,15 @@
 }
 @media only screen and (max-width: 400px) {
     .o365cs-nav-header16, #s4-ribbonrow{
-        width:84%;
+        width:100%;
     }
 	.page-content {
-    	padding: 170px 20px 50px 20px;
+    	padding: 0px 20px 50px 20px;
     }
     .page-title-breadcrumb{
+        height: auto;
+    }
+    #topbar .topbar-main {
         height: auto;
     }
     
@@ -234,13 +321,13 @@
         margin-top:33px;
     }
     .o365cs-nav-header16, #s4-ribbonrow{
-        width:75%;
+        width:100%;
     }
    
 }
 @media only screen and (max-width: 320px) {
     .o365cs-nav-header16, #s4-ribbonrow{
-        width:67%;
+        width:100%;
     }
    
 }

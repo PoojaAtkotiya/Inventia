@@ -159,7 +159,7 @@ hr {
 #topbar {
     background: #ffffff;
     width: 100%;
-    height: 50px;
+    height: 55px;
 }
 
     #topbar.navbar-default {
@@ -196,7 +196,7 @@ hr {
 
     #topbar .topbar-main {
         display: block;
-        height: 100%;
+        height: 55px;
         background: #4b2465;
         
     }
@@ -642,7 +642,7 @@ hr {
 
 
 
-.page-title-breadcrumb {
+/* .page-title-breadcrumb {
     padding: 10px 20px;
     background: #fff;
     -webkit-box-shadow: 0 2px 2px rgba(0,0,0,.05), 0 1px 0 rgba(0,0,0,.05);
@@ -654,7 +654,24 @@ hr {
     width: 100%;
     z-index: 999 !important;
     top: 0;
+} */
+.page-title-breadcrumb {
+    padding: 10px 20px;
+    background: #fff;
+    -webkit-box-shadow: 0 2px 2px rgba(0,0,0,.05), 0 1px 0 rgba(0,0,0,.05);
+    box-shadow: 0 2px 2px rgba(0,0,0,.05), 0 1px 0 rgba(0,0,0,.05);
+    clear: both;
+    border-bottom: 5px solid #e5e5e5!important;
+    box-shadow: none!important;
+    position: fixed;
+    z-index: 999 !important;
+    padding-top: 70px;
+  
 }
+/* .left-side-collapsed .page-title-breadcrumb{
+    width: calc(100% - 8.4rem);
+    left: 55px;
+} */
 
     .page-title-breadcrumb .page-header {
         margin: 0;
@@ -1307,8 +1324,8 @@ hr {
         }
 
 .left-side-collapsed #page-wrapper {
-    margin: 0 0 0 55px;
-    width: 96.5%!important;
+    width: calc(100% - 55px);
+        left: 55px;
 }
 /* End Left Sidebar Collapsed */
 /* Begin Right Sidebar Collapsed */
@@ -1382,7 +1399,7 @@ hr {
 }
 /* End Left Sidebar Collapsed */
 .page-content {
-    padding: 80px 20px 120px 20px;
+    padding: 110px 20px 120px 20px;
     min-height: 700px;
 }
 
@@ -8619,8 +8636,8 @@ ul.submenu {
 
 .page-header-topbar {
     box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
-    /* z-index: 1000000; */
-    z-index: 0!important;
+    /* z-index: 1000000;
+    z-index: 0!important; */
     position: relative;
 }
 
@@ -9227,7 +9244,7 @@ label > label {
     overflow: hidden;
     text-align: center;
     z-index: 99999999;
-    background-color: #0072BC;
+    background-color: #4b2465;
     color: #fff;
     width: 45px;
     height: 45px;
@@ -9306,7 +9323,7 @@ label > label {
 }
 #page-wrapper {
     position: relative;
-    margin: 0 0 0 13%;
+    margin:0 auto;
     padding: 0;
 }
 
@@ -9498,9 +9515,9 @@ h2 {
 /* #Note{
     width: 277px !important;
 } */
-#header-topbar-option-demo{
+/* #header-topbar-option-demo{
     z-index: 1000000 !important;
-}
+} */
 .ms-core-menu-box.ms-core-defaultFont.ms-shadow{left:-81px!important; display: block!important;}
 /* Navbar toggle dropdown important css start*/
 .navbar-right li {padding: 0 5px!important;margin: 0!important;}
@@ -9513,14 +9530,15 @@ a:hover .ms-core-menu-label{ color:#fff!important; padding: 5px!important; }
 .ms-siteicon-img{width: 160px; margin-top:5px;}
 #page-wrapper{
     float: left;
-    width: 87%; 
+    width: calc(100% - 13%);
+        left: 13%;
  }
 
 
 
-.modal-open .modal {
+/*.modal-open .modal {
     z-index: 9999999;
-}
+}*/
 .example {
     padding: 5px 0 0 0;
     font-size: 11px;
@@ -9545,9 +9563,9 @@ a:hover .ms-core-menu-label{ color:#fff!important; padding: 5px!important; }
 .modal-dialog {
     width: 950px;
 }
-.modal{
-    z-index:99999999;
-}
+/*.modal{
+    z-index:1000005 !important;
+}*/
 .ms-welcome-root{
     width:auto;
 }
@@ -9595,3 +9613,30 @@ input[type=radio] {
     vertical-align: text-top;
 }
    
+   .scrollTop {
+    position: fixed;
+    right: 10%;
+    bottom: 10px;
+    background-color: #BE3F48;
+    padding: 20px;
+    opacity: 0;
+    transition: all 0.4s ease-in-out 0s;
+  }
+  
+  .scrollTop a {
+    font-size: 18px;
+    color: #fff;
+  }
+ #tab-general{
+     margin-top: 20px;
+ }
+#ms-designer-ribbon{
+    height: 85px;
+}
+td {
+    white-space: normal !important; 
+    word-wrap: break-word;  
+  }
+  table {
+    table-layout: fixed;
+  }

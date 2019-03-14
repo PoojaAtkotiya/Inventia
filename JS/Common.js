@@ -9,7 +9,7 @@ var listActivityLogDataArray = [];
 var actionPerformed;
 var fileURSArray = [];
 var fileCommonArray = [];
-var scriptbase; //= spSiteUrl + "/_layouts/15/";     ////_spPageContextInfo.layoutsUrl
+var scriptbase;
 var fileIdCounter = 0;
 var currentApproverDetails = {};
 var gTranArray = [];
@@ -381,17 +381,14 @@ function ValidateFormControls(divObjectId, IgnoreBlankValues) {
                             noerror = false;
                         }
                     }
-
                     //check string data type validation
                     if (jQuery.trim(jQuery(control).val()) == '') {
                         jQuery(control).addClass('input-validation-error');
                         noerror = false;
                     }
                 }
-
                 //numericdatarequired attribute allows 0.00 incase of numeric data
                 if (jQuery(control).attr('numericdatarequired') != undefined) {
-
                     //check numeric data type validation
                     if (jQuery(control).attr('data') != undefined) {
                         if (jQuery.trim(jQuery(control).val()) == '') {
@@ -462,9 +459,6 @@ function setFieldValue(controlId, item, fieldType, fieldName) {
             case "text":
                 $("#" + controlId).val(item[fieldName]).change();
                 break;
-            // case "number":
-            //     $("#" + controlId).val(item[fieldName]).change();
-            //     break;
             case "label":
                 $("#" + controlId).text(item[fieldName]);
                 break;
@@ -589,6 +583,7 @@ function ConfirmationDailog(options) {
     });
 }
 function ConfirmPopupYes(url, id, okCallback) {
+    $("#ConfirmDialog #btnYesPopup").attr('disabled', 'disabled');
     ShowWaitDialog();
     if (typeof (url) !== "undefined" && !IsNullOrUndefined(url)) {
         url = url;
@@ -836,9 +831,6 @@ function GetFormControlsValue(id, elementType, listDataArray, elementvaluetype =
                 listDataArray[id] = $(obj).val();
             }
             break;
-        // case "hidden":
-        //     listDataArray[id] = $(obj).val();
-        //     break;
         case "terms":
             var metaObject = {
                 __metadata: { "type": "SP.Taxonomy.TaxonomyFieldValue" },
@@ -912,29 +904,8 @@ function GetStaticFormControlValue(id, elementType, listDataArray, elementvaluet
             break;
         case "date":
             // listDataArray[id] = new Date($(obj).text()).format("yyyy-MM-ddTHH:mm:ssZ");
-
             listDataArray[id] = ($(obj).text());
             break;
-        // case "checkbox":
-        //     listDataArray[id] = $(obj)[0]['checked'];
-        //     break;
-        // case "multicheckbox":
-        //     var parenType = $(obj).attr('cParent');
-        //     if (listDataArray[parenType] == undefined)
-        //         listDataArray[parenType] = { "__metadata": { "type": "Collection(Edm.String)" }, "results": [] };
-
-        //     var isChecked = $(obj)[0]['checked'];
-        //     var choiceName = $(obj)[0].id;
-        //     var idx = listDataArray[parenType].results.indexOf(choiceName);
-        //     if (isChecked && idx == -1)
-        //         listDataArray[parenType].results.push(choiceName);
-        //     else if (idx > -1)
-        //         listDataArray[parenType].results.splice(idx, 1);
-        //     break;
-        // case "radiogroup":
-        //     var parenType = $(obj).attr('cParent');
-        //     listDataArray[parenType] = $(obj)[0].id;
-        //     break;
     }
     return listDataArray;
 }
@@ -955,7 +926,6 @@ function GetFormControlsValueAndType(id, dispLabel, elementType, elementProperty
             }
             break;
         case "combo":
-
             // if (elementProperty == 'peoplepicker') {
             //     listActivityLogDataArray.push({ id: id, value: $(obj).val(), type: 'peoplepicker' });
             // }
@@ -1052,29 +1022,15 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
         for (var i = 0; i < activity.length; i++) {
             var item = activity[i];
 
-            // if (item.split(' ').length > 1) {
             if (!IsNullOrUndefined(item) && !IsStrNullOrEmpty(item)) {
                 var itemDetails = item.split('#');
                 if (itemDetails[0] != "RaisedBy" && itemDetails[0] != "Files" && itemDetails[0] != "Assigned") {
                     tr = $('<tr/>');
                     tr.append('<td>' + itemDetails[0] + '</td>');
                     value = itemDetails[1];
-                    // itemDetails.forEach(value1 => {
-                    //     var value2 = value1;
-                    // });
-                    // testslice = itemDetails.slice(1);
-                    // var joinItemDetails = testslice.join(' ');
-                    // var value = joinItemDetails;
 
-                    // var value = itemDetails[1];
                     if (!IsNullOrUndefined(value) && !IsStrNullOrEmpty(value)) {
                         try {
-                            // if (value.toLowerCase() == "true" || value.toLowerCase() == "false") {
-
-                            //     tdValue = value.toLowerCase() == "true" ? "Yes" : "No";
-
-                            // }
-
                             if (value.includes("/") && value.includes(":") && (value.includes("AM") || value.includes("PM"))) {
                                 var datetimepart = value.split(' ');
                                 var datepart = datetimepart[0].split('/');
@@ -1099,11 +1055,7 @@ function DisplayActvityLogChanges(iteration, activityLogChangeDetails) {
                     tr.append('<td>' + tdValue + '</td>');
                     $('#tblActivityChanges tbody').append(tr);
                 }
-
             }
-            //}
-
-
         }
     }
 }
@@ -1112,7 +1064,6 @@ function DisplayApplicationStatus(approverMatrix) {
     var result = [];
 
     for (var i = 0; i < approverMatrix.length; i++) {
-        //if (approverMatrix[i].Levels >= 0 && !IsNullOrUndefined(approverMatrix[i].Approver) && !IsNullOrUndefined(approverMatrix[i].Approver.results) && !IsNullOrUndefined(approverMatrix[i].Approver.results).length > 0) {
         if (approverMatrix[i].Levels >= 0 && !IsNullOrUndefinedApprover(approverMatrix[i].ApproverId)) {
             var AssignDate = "-", DueDate = "-", ApprovalDate = "-", Comments = "-", Status = "-";
             if (!IsNullOrUndefined(approverMatrix[i].Status)) {
@@ -1290,15 +1241,12 @@ function OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCap
             CommonBusinessLogic(sectionName, itemID, listDataArray);
             SaveLocalApprovalMatrix(sectionName, itemID, listname, isNewItem, oListItem, ListNames.APPROVALMATRIXLIST);
             SaveActivityLog(sectionName, itemID, ListNames.ACTIVITYLOGLIST, listDataArray, isNewItem, buttonCaption);
-           
+
             if (!isNaN(itemID)) {
-                // SaveTranListData(itemID);
                 SaveAllTrans(itemID);
             }
-            // else {
-            //     SaveTranListData(itemID);
-            // }
             HideWaitDialog();
+            $("#ConfirmDialog").hide();
             var buttoncaption = buttonCaption.toLowerCase();
             var displayMessage;
             switch (buttoncaption) {
@@ -1637,7 +1585,6 @@ function SaveActivityLog(sectionName, itemID, ActivityLogListName, listDataArray
         /*Save Activity log using MS Flow  */
         var activityLogTemplate = {};
         activityLogTemplate['SiteUrl'] = CommonConstant.SPSITEURL;
-        //activityLogTemplate['ListName'] = ActivityLogListName;
         activityLogTemplate['digest'] = jQuery("#__REQUESTDIGEST").val();
         activityLogTemplate['SaveItemUrl'] = "/_api/web/lists/getByTitle('" + ActivityLogListName + "')/items";
 
@@ -1732,10 +1679,8 @@ function GetUserNamebyUserID(userid) {
 function GetUserNamesbyUserID(allUsersIDs) {
     var userNames = '';
     if (!IsNullOrUndefined(allUsersIDs) && allUsersIDs.length > 0) {
-
         allUsersIDs.forEach(user => {
             if (!isNaN(user)) {
-                //  if (user != "") {
                 url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + user + ")";
                 headers = {
                     "Accept": "application/json;odata=verbose",
@@ -1753,7 +1698,6 @@ function GetUserNamesbyUserID(allUsersIDs) {
                         headers: headers,
                         sucesscallbackfunction: function (data) { userNames = userNames + data.d.Title + ","; }
                     });
-                //  }
             }
         });
         userNames = userNames.substr(0, userNames.lastIndexOf(',')).replace(/\,/g, ', ');
@@ -1894,22 +1838,20 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
         var nextApproverIds = "";
         var from = "", to = "", cc = "", role = "", tmplName = "", strAllusers = "", email = [], mailCustomValues = [];
         var emailParam = {};
-
         if (currentLevel < 0) {
             currentLevel = 0;
         }
         var strAllUsers = GetEmailUsers(tempApproverMatrix, nextLevel, isNewItem);
         tempApproverMatrix.forEach(temp => {
 
-            var approvers = !IsNullOrUndefinedApprover(temp.ApproverId) ? GetApprovers(temp.ApproverId) : null; // (!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results : ((!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId)) ? temp.ApproverId : null);
+            var approvers = !IsNullOrUndefinedApprover(temp.ApproverId) ? GetApprovers(temp.ApproverId) : null;
             if (temp.Levels == nextLevel && !IsNullOrUndefined(approvers) && temp.Status != "Not Required") {
-                nextApproverIds = nextApproverIds + "," + approvers;//temp.ApproverId;
+                nextApproverIds = nextApproverIds + "," + approvers;
             }
         });
         nextApproverIds = TrimComma(nextApproverIds);
         mailCustomValues.push({ "CurrentApproverName": currentUser.Title });
         //  mailCustomValues.push("NextApproverName",GetUserNamesbyUserID(nextApproverIds));
-
         switch (actionPerformed) {
             case ButtonActionStatus.SaveAsDraft:
                 break;
@@ -1917,11 +1859,8 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
             case ButtonActionStatus.SaveAndNoStatusUpdateWithEmail:
             case ButtonActionStatus.Save:
                 if (!IsStrNullOrEmpty(strAllusers) && !IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
-
                     from = currentUser.Email;
-                    to = TrimComma(strAllusers);
-                    //  to = cleanArray(to);
-                    to = GetUserEmailsbyUserID(cleanArray(to));
+                    to = GetUserEmailsbyUserID(cleanArray(TrimComma(strAllusers)));
                     role = tempApproverMatrix.filter(p => parseInt(p.Levels) == currentLevel)[0].Role;
                     tmplName = EmailTemplateName.NEWREQUESTMAIL;
                     emailParam["TEMPLATENAME"] = tmplName;
@@ -1936,32 +1875,26 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
             case ButtonActionStatus.Delegate:
             case ButtonActionStatus.NextApproval:
                 if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
-
                     from = currentUser.Email;
                     var allToUsers = "";
                     tempApproverMatrix.forEach(temp => {
                         var approvers = !IsNullOrUndefinedApprover(temp.ApproverId) ? GetApprovers(temp.ApproverId) : null;
-                        // var approvers = (!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results : ((!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId)) ? temp.ApproverId : null);
                         if (temp.Levels == nextLevel && !IsNullOrUndefined(approvers) && temp.Status == ApproverStatus.PENDING) {
-                            allToUsers = allToUsers.trim() + "," + approvers;//temp.ApproverId;
+                            allToUsers = allToUsers.trim() + "," + approvers;
                         }
                     });
-                    to = TrimComma(allToUsers).split(",");
-                    to = GetUserEmailsbyUserID(cleanArray(to));
+                    to = GetUserEmailsbyUserID(cleanArray(TrimComma(allToUsers).split(",")));
                     tempApproverMatrix.forEach(temp => {
                         var approvers = !IsNullOrUndefinedApprover(temp.ApproverId) ? GetApprovers(temp.ApproverId) : null;
-                        //var approvers = (!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results : ((!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId)) ? temp.ApproverId : null);
                         if (temp.Role == Roles.CREATOR) {
-
                             if (!IsNullOrUndefined(approvers)) {
-                                cc = approvers; //temp.ApproverId;
+                                cc = approvers;
                             }
                             // else if (!IsNullOrUndefined(temp.ApproverId.results)) {
                             //     cc = temp.ApproverId.results;
                             // }
                             /////Pending to check for multi user field
-                            cc = TrimComma(cc).split(",");
-                            cc = GetUserEmailsbyUserID(cleanArray(cc));
+                            cc = GetUserEmailsbyUserID(cleanArray(TrimComma(cc).split(",")));
                         }
                         if (temp.Levels == currentLevel) {
                             role = temp.Role;
@@ -1986,21 +1919,17 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
                     var allToUsers = "";
                     tempApproverMatrix.ForEach(temp => {
                         var approvers = !IsNullOrUndefinedApprover(temp.ApproverId) ? GetApprovers(temp.ApproverId) : null;
-                        //var approvers = (!IsNullOrUndefined(temp.ApproverId) && !IsNullOrUndefined(temp.ApproverId.results) && temp.ApproverId.results.length > 0) ? temp.ApproverId.results : ((!IsNullOrUndefined(temp.ApproverId) && !IsStrNullOrEmpty(temp.ApproverId)) ? temp.ApproverId : null);
                         if (temp.Levels == nextLevel && !IsNullOrUndefined(approvers)) {
-                            allToUsers = allToUsers.trim() + "," + approvers;//temp.ApproverId;
+                            allToUsers = allToUsers.trim() + "," + approvers;
                         }
                         if (temp.Levels == currentLevel && !IsNullOrUndefined(approvers)) {
-                            cc = TrimComma(cc) + "," + approvers;// temp.ApproverId;
+                            cc = TrimComma(cc) + "," + approvers;
                         }
                     });
                     to = TrimComma(allToUsers).split(",");
-                    // to = cleanArray(to);
                     to = GetUserEmailsbyUserID(cleanArray(to));
-
                     cc = (TrimComma(cc) + "," + TrimComma(tempApproverMatrix.filter(p => p.Role == Roles.CREATOR)[0].ApproverId));
-                    cc = TrimComma(cc).split(",");
-                    cc = GetUserEmailsbyUserID(cleanArray(cc));
+                    cc = GetUserEmailsbyUserID(cleanArray(TrimComma(cc).split(",")));
                     //  cc = GetUserEmailsbyUserID(cc);
                     role = tempApproverMatrix.filter(p => parseInt(p.Levels) == currentLevel)[0].Role;
                     tmplName = EmailTemplateName.SENDBACKMAIL;
@@ -2016,9 +1945,7 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
             case ButtonActionStatus.Cancel:
                 if (!IsStrNullOrEmpty(strAllusers) && !IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
                     from = currentUser.Email;
-                    to = TrimComma(strAllusers);
-                    // to = cleanArray(to);
-                    to = GetUserEmailsbyUserID(cleanArray(to));
+                    to = GetUserEmailsbyUserID(cleanArray(TrimComma(strAllusers)));
                     role = tempApproverMatrix.filter(p => parseInt(p.Levels) == nextLevel)[0].Role;
                     tmplName = EmailTemplateName.REQUESTCANCELED;
                     emailParam["TEMPLATENAME"] = tmplName;
@@ -2045,14 +1972,12 @@ function SendMail(actionPerformed, currentUserId, itemID, tempApproverMatrix, ma
             case ButtonActionStatus.Complete:
                 if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length != 0) {
                     from = currentUser.Email;
-
                     // to = tempApproverMatrix.filter(p => p.Role == Roles.CREATOR).ApproverId;
                     cc = !IsNullOrUndefined(strAllUsers) ? GetUserEmailsbyUserID(cleanArray(TrimComma(strAllUsers).split(","))) : cc;
                     role = tempApproverMatrix.filter(p => parseInt(p.Levels) == currentLevel)[0].Role;
                     tmplName = EmailTemplateName.REQUESTCLOSERMAIL;
                     emailParam["TEMPLATENAME"] = tmplName;
                     emailParam["FROM"] = from;
-                    // emailParam["TO"] = to;
                     emailParam["TO"] = GetUserEmailbyUserID(mainListData.RaisedById);
                     emailParam["CC"] = cc;
                     emailParam["ROLE"] = role;
@@ -2097,7 +2022,7 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
                     {
                         "Accept": "application/json;odata=verbose",
                         "Content-Type": "application/json; odata=verbose",
-                        "X-RequestDigest": gRequestDigestValue          //data.d.GetContextWebInformation.FormDigestValue
+                        "X-RequestDigest": gRequestDigestValue
                     },
                 sucesscallbackfunction: function (data) {
                     if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results) && data.d.results.length > 0) {
@@ -2211,8 +2136,8 @@ function CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, 
                 }
             }
         });
-        GetDatafromList(itemID, mainListName, subject, matchesSubject, body, matchesBody, emailParam);
-
+        // GetDatafromList(itemID, mainListName,subject, matchesSubject, body, matchesBody, emailParam );
+        ReplaceEmailParameters(subject, matchesSubject, body, matchesBody, emailParam)
     }
 
 }
@@ -2220,24 +2145,75 @@ function CreateEmailBody(emailTemplate, itemID, mainListName, mailCustomValues, 
 function GetFieldsValueString(matches, mainlistData) {
     var replacedValues = [];
     matches.forEach(temp => {
-        var columnName = temp.slice(1, -1);
+        var columnName = temp.slice(1, -1).trim();
         if (columnName.localeCompare("RaisedById") == 0) {
+            // if (columnName.slice(0, columnName.length - 1).localeCompare("RaisedById") == 0) {
             var raisebyUseName = GetUserNamebyUserID(mainlistData.RaisedById);
             replacedValues.push({ [columnName]: raisebyUseName });
         }
-        if (columnName.localeCompare("NextApproverId") == 0) {
+        else if (columnName.localeCompare("NextApproverId") == 0) {
+            // else if (columnName.slice(0, columnName.length - 1).localeCompare("NextApproverId") == 0) {
             var NextApproverUseName = GetUserNamesbyUserID(mainlistData.NextApproverId.results);
             replacedValues.push({ [columnName]: NextApproverUseName });
         }
-
-        if (columnName.localeCompare("LastActionBy") == 0) {
+        else if (columnName.localeCompare("LastActionBy") == 0) {
             var LastActionUseName = GetUserNamebyUserID(mainlistData.LastActionBy);
             replacedValues.push({ [columnName]: LastActionUseName });
         }
-
-        replacedValues.push({ [columnName]: mainlistData[columnName] });/*Pooja Atkotiya */
+        else {
+            replacedValues.push({ [columnName]: mainlistData[columnName] });
+        }
     });
     return replacedValues;
+}
+
+function ReplaceEmailParameters(subject, matchesSubject, body, matchesBody, emailParam) {
+    try {
+        var mainlistData = mainListForEMail;
+        var replacedValuesSubject = [];
+        var replacedValuesBody = [];
+
+        if (!IsNullOrUndefined(mainlistData) && !IsNullOrUndefined(matchesSubject) && matchesSubject.length > 0) {
+            replacedValuesSubject = GetFieldsValueString(matchesSubject, mainlistData);
+            if (!IsNullOrUndefined(replacedValuesSubject) && replacedValuesSubject.length > 0) {
+                replacedValuesSubject.forEach(element => {
+                    var regex = /\[\S+?\]/g;
+                    subject.replace(regex, function (match) {
+                        if (!IsStrNullOrEmpty(match)) {
+                            var cName = match.slice(1, -1);
+                            var cValue = element[cName];
+                            if (!IsStrNullOrEmpty(cValue)) {
+                                subject = subject.replace(match, cValue);
+                            }
+                        }
+                    });
+                });
+            }
+        }
+        if (!IsNullOrUndefined(mainlistData) && !IsNullOrUndefined(matchesBody) && matchesBody.length > 0) {
+            replacedValuesBody = GetFieldsValueString(matchesBody, mainlistData);
+            if (!IsNullOrUndefined(replacedValuesBody) && replacedValuesBody.length > 0) {
+                replacedValuesBody.forEach(element => {
+                    var regex = /\[\S+?\]/g;
+                    body.replace(regex, function (match) {
+                        if (!IsStrNullOrEmpty(match)) {
+                            var cName = match.slice(1, -1);
+                            var cValue = element[cName];
+                            if (!IsStrNullOrEmpty(cValue)) {
+                                body = body.replace(match, cValue);
+                            }
+                        }
+                    });
+                });
+            }
+        }
+        ////replacement with list item values end
+        if (!IsStrNullOrEmpty(subject) && !IsStrNullOrEmpty(body) && !IsNullOrUndefined(emailParam)) {
+            SaveEmail(subject, body, emailParam);
+        }
+    } catch (exception) {
+        SaveErrorInList(exception, "Error");
+    }
 }
 
 function GetDatafromList(itemID, mainListName, subject, matchesSubject, body, matchesBody, emailParam) {
@@ -2259,7 +2235,6 @@ function GetDatafromList(itemID, mainListName, subject, matchesSubject, body, ma
                     },
                 sucesscallbackfunction: function (data) {
                     mainlistData = data.d;
-                    ////replacement with list item values start
                     if (!IsNullOrUndefined(mainlistData) && !IsNullOrUndefined(matchesSubject) && matchesSubject.length > 0) {
                         replacedValuesSubject = GetFieldsValueString(matchesSubject, mainlistData);
                         if (!IsNullOrUndefined(replacedValuesSubject) && replacedValuesSubject.length > 0) {
@@ -2294,8 +2269,6 @@ function GetDatafromList(itemID, mainListName, subject, matchesSubject, body, ma
                             });
                         }
                     }
-                    ////replacement with list item values end
-
                     if (!IsStrNullOrEmpty(subject) && !IsStrNullOrEmpty(body) && !IsNullOrUndefined(emailParam)) {
                         SaveEmail(subject, body, emailParam);
                     }
@@ -2322,25 +2295,19 @@ function SaveEmail(subject, body, emailParam) {
                 var strCC = TrimComma(cc).split(",");
                 cc = removeDuplicateFromArray(strCC).toString();
             }
-
             var bcc = emailParam.BCC;
             if (!IsStrNullOrEmpty(bcc)) {
                 var strBCC = TrimComma(bcc).split(",");
                 bcc = removeDuplicateFromArray(strBCC).toString();
             }
-
             var emailListArray = {};
             // emailListArray["__metadata"] = {
             //     "type": GetItemTypeForListName(ListNames.EMAILNOTIFICATION)
             // };
             emailListArray["To"] = to;
             emailListArray["From"] = TrimComma(emailParam.FROM);
-            //if (!IsStrNullOrEmpty(cc)) {
             emailListArray["CC"] = cc;
-            //}
-            // if (!IsStrNullOrEmpty(bcc)) {
             emailListArray["BCC"] = bcc;
-            //  }
             emailListArray["Title"] = emailParam.TEMPLATENAME;
             emailListArray["ApplicationName"] = CommonConstant.APPLICATIONNAME;
             emailListArray["FormName"] = CommonConstant.FORMNAME;
@@ -2349,8 +2316,6 @@ function SaveEmail(subject, body, emailParam) {
             //emailListArray["IsRepeat"] = isRepeat;
 
             // var url = CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.EMAILNOTIFICATION + "')/items";
-
-
             $.ajax({
                 url: CommonConstant.SAVEEMAILINLIST,
                 type: 'POST',
@@ -2360,17 +2325,13 @@ function SaveEmail(subject, body, emailParam) {
                 },
                 data: JSON.stringify(emailListArray),
                 async: false,
-                success: function (data) {
-                },
-                error: function (error) {
-
-                }
+                success: function (data) { },
+                error: function (error) { }
             });
         }
     } catch (exception) {
         SaveErrorInList(exception, "Error");
     }
-
 }
 
 function IsValidDate(dateObj) {
@@ -2425,7 +2386,6 @@ function RemoveHtmlForMultiLine(multiLineValue) {
         return "";
     }
 }
-
 function IsGroupMember(groupName) {
     var isAuthorized = false;
     if (!IsNullOrUndefined(currentUser.Groups) && !IsNullOrUndefined(currentUser.Groups.results) && currentUser.Groups.results.length > 0) {
@@ -2433,10 +2393,8 @@ function IsGroupMember(groupName) {
         if (currentUserGrps.some(grp => grp.LoginName == groupName)) {
             isAuthorized = true;
         }
-
     }
 }
-
 function GetSPGroupIDByName(grpName, handleData) {
     if (!IsStrNullOrEmpty(grpName)) {
         AjaxCall(
@@ -2463,7 +2421,6 @@ function updateRequestIDAttachmentList(attchmentID, itemID) {
         "__metadata": { "type": itemType },
         "RequestIDId": itemID
     };
-
     $.ajax({
         url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ATTACHMENTLIST + "')/items(" + attchmentID + ")",
         type: "POST",
@@ -2477,12 +2434,8 @@ function updateRequestIDAttachmentList(attchmentID, itemID) {
                 "IF-MATCH": "*",
                 "X-HTTP-Method": "MERGE"
             },
-        success: function (data) {
-
-        },
-        error: function (data) {
-            failure(data);
-        }
+        success: function (data) { },
+        error: function (data) { failure(data); }
     });
 }
 function SaveErrorInList(xhr, activityoccur) {
@@ -2503,9 +2456,7 @@ function SaveErrorInList(xhr, activityoccur) {
             "Accept": "application/json;odata=verbose",
             "X-RequestDigest": $("#__REQUESTDIGEST").val()
         },
-        success: function (data) {
-
-        }
+        success: function (data) { }
     });
 }
 function isSpacesOnly(field) {

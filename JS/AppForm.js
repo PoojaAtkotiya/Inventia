@@ -18,7 +18,6 @@ $(document).ready(function () {
     });
 });
 function GetSetFormData() {
-    //GetTranListData(listItemId);
     GetAllTranlists(listItemId);
     var mainListName = $($('div').find('[mainlistname]')).attr('mainlistname');
     AjaxCall(
@@ -185,7 +184,6 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     //Functions for Initiator
     if (listItemId == "") {
         setNewFormParamters(department);
-        //setFunctionbasedDept(department);
         bindAssetClassification();
         $("#ProposedVendor").hide();
         $("#ImportedYes").prop("checked", true);
@@ -557,7 +555,6 @@ function BindURSAttachmentFiles() {
                 var reader = new FileReader();
                 reader.onload = (function (file) {
                     return function (e) {
-
                         //Push the converted file into array
                         fileURSArray.push({
                             "name": file.name,
