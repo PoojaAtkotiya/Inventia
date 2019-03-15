@@ -9639,3 +9639,9 @@ td,th {
   table {
     table-layout: fixed;
   }
+
+  .capital-body .iframe-section {
+    height: 100vh !important;  
+    
+  }
+  
