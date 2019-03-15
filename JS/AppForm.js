@@ -616,12 +616,12 @@ function BindURSAttachmentFiles() {
                         }).catch(function (err) {
                             HideWaitDialog();
                             fileURSArray = [];
-                            AlertModal('Error', "There is some problem to upload file Pl try again");
+                            AlertModal('Error', "There is some problem to upload file please try again");
                         });
                     },
                     error: function (data) {
                         HideWaitDialog();
-                        AlertModal('Error', "There is some problem to upload file Pl try again");
+                        AlertModal('Error', "There is some problem to upload file please try again");
                     }
                 });
             }
@@ -881,12 +881,12 @@ function BindSupportDocAttachmentFiles() {
                     }).catch(function (err) {
                         HideWaitDialog();
                         fileURSArray = [];
-                        AlertModal('Error', "There is some problem to upload file Pl try again");
+                        AlertModal('Error', "There is some problem to upload file please try again");
                     });
                 },
                 error: function (data) {
                     HideWaitDialog();
-                    AlertModal('Error', "There is some problem to upload file Pl try again");
+                    AlertModal('Error', "There is some problem to upload file please try again");
                 }
             });
         }
@@ -1008,12 +1008,12 @@ function BindPurchaseAttachmentFiles() {
                     }).catch(function (err) {
                         HideWaitDialog();
                         fileURSArray = [];
-                        AlertModal('Error', "There is some problem to upload file Pl try again");
+                        AlertModal('Error', "There is some problem to upload file please try again");
                     });
                 },
                 error: function (data) {
                     HideWaitDialog();
-                    AlertModal('Error', "There is some problem to upload file Pl try again");
+                    AlertModal('Error', "There is some problem to upload file please try again");
                 }
             });
         }
@@ -1259,12 +1259,12 @@ function BindHODAttachmentFiles() {
                     }).catch(function (err) {
                         HideWaitDialog();
                         fileURSArray = [];
-                        AlertModal('Error', "There is some problem to upload file Pl try again");
+                        AlertModal('Error', "There is some problem to upload file please try again");
                     });
                 },
                 error: function (data) {
                     HideWaitDialog();
-                    AlertModal('Error', "There is some problem to upload file Pl try again");
+                    AlertModal('Error', "There is some problem to upload file please try again");
                 }
             });
         }
