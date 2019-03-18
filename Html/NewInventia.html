@@ -140,9 +140,9 @@
     <!-- #endregion -->
 
     <script type="text/javascript">
-        var formData = {};
+        // var formData = {};
         $(document).ready(function () {
-
+            $('#loadingimage').attr("src", CommonConstant.LOADINGIMAGESRC);
             var includes = $('[data-include]');
             jQuery.each(includes, function () {
                 var file = CommonConstant.HTMLFILSEPATH + $(this).data('include') + '.html';
@@ -178,7 +178,6 @@
                     BindHODAttachmentFiles();
                 }
             });
-
             $(document).on("change", "#AssetClassification", function () {
                 var selectedAssetCode = $("#AssetClassification").val();
                 if (selectedAssetCode != "Select") {
@@ -194,7 +193,6 @@
                 $("#ProposedVendor").show();
 
             });
-
             $("#NewVendorName").change(function () {
                 var checkspace = isSpacesOnly($("#NewVendorName").val());
                 if (!checkspace) {
@@ -225,87 +223,73 @@
                 }
 
             });
-            $('.form-control').change(function () {
-                var type = $(this).attr('controlType');
-                var id = $(this).attr('id');
-                switch (type) {
-                    case "text":
-                        formData[id] = $(this).val();
-                        break;
-                    // case "number":
-                    //     formData[id] = $(this).val();
-                    //     break;
-                    case "terms":
-                        var metaObject = {
-                            __metadata: { "type": "SP.Taxonomy.TaxonomyFieldValue" },
-                            Label: $("select#" + id + ">option:selected").text(),
-                            TermGuid: $(this).val(),
-                            WssId: -1
-                        }
-                        formData[id] = metaObject;
-                        break;
-                    case "combo":
-                        formData[id] = $(this).val();
-                        break;
-                    case "multitext":
-                        formData[id] = $(this).val();
-                        break;
-                    case "date":
-                        formData[id] = $(this).val();
-                        break;
-                    case "checkbox":
-                        formData[id] = $(this)[0]['checked'];
-                        break;
-                    case "multicheckbox":
-                        var parenType = $(this).attr('cParent');
-                        if (formData[parenType] == undefined)
-                            formData[parenType] = { "__metadata": { "type": "Collection(Edm.String)" }, "results": [] };
-
-                        var isChecked = $(this)[0]['checked'];
-                        var choiceName = $(this)[0].id;
-                        var idx = formData[parenType].results.indexOf(choiceName);
-                        if (isChecked && idx == -1)
-                            formData[parenType].results.push(choiceName);
-                        else if (idx > -1)
-                            formData[parenType].results.splice(idx, 1);
-                        break;
-                    case "radiogroup":
-                        var parenType = $(this).attr('cParent');
-                        formData[parenType] = $(this)[0].id;
-                        break;
-                }
-            });
+            // $('.form-control').change(function () {
+            //     var type = $(this).attr('controlType');
+            //     var id = $(this).attr('id');
+            //     switch (type) {
+            //         case "text":
+            //             formData[id] = $(this).val();
+            //             break;
+            //         case "terms":
+            //             var metaObject = {
+            //                 __metadata: { "type": "SP.Taxonomy.TaxonomyFieldValue" },
+            //                 Label: $("select#" + id + ">option:selected").text(),
+            //                 TermGuid: $(this).val(),
+            //                 WssId: -1
+            //             }
+            //             formData[id] = metaObject;
+            //             break;
+            //         case "combo":
+            //             formData[id] = $(this).val();
+            //             break;
+            //         case "multitext":
+            //             formData[id] = $(this).val();
+            //             break;
+            //         case "date":
+            //             formData[id] = $(this).val();
+            //             break;
+            //         case "checkbox":
+            //             formData[id] = $(this)[0]['checked'];
+            //             break;
+            //         case "multicheckbox":
+            //             var parenType = $(this).attr('cParent');
+            //             if (formData[parenType] == undefined)
+            //                 formData[parenType] = { "__metadata": { "type": "Collection(Edm.String)" }, "results": [] };
+            //             var isChecked = $(this)[0]['checked'];
+            //             var choiceName = $(this)[0].id;
+            //             var idx = formData[parenType].results.indexOf(choiceName);
+            //             if (isChecked && idx == -1)
+            //                 formData[parenType].results.push(choiceName);
+            //             else if (idx > -1)
+            //                 formData[parenType].results.splice(idx, 1);
+            //             break;
+            //         case "radiogroup":
+            //             var parenType = $(this).attr('cParent');
+            //             formData[parenType] = $(this)[0].id;
+            //             break;
+            //     }
+            // });
         });
         jQuery(document).ready(function ($) {
-
             $("#card-head-InitiatorSection").click(function () {
                 $("#InitiatorSection").slideToggle("slow");
             });
-
             $("#card-head-PurchaseSection").click(function () {
                 $("#PurchaseSection").slideToggle("slow");
             });
-
             $("#card-head-HodSection").click(function () {
                 $("#HodSection").slideToggle("slow");
             });
-
             $("#card-head-FunctionHead").click(function () {
                 $("#FunctionHead").slideToggle("slow");
             });
-
             $("#card-head-ManagementSection").click(function () {
                 $("#ManagementSection").slideToggle("slow");
             });
-
         });
-
     </script>
-
 </head>
-
 <body>
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
         <div class="page-header pull-left">
@@ -315,14 +299,12 @@
         <ul class="header-nav header-nav-options nav navbar-nav navbar-right" id="dynamicButtonli"></ul>
         <div class="clearfix"></div>
     </div>
-
     <div class="page-content" id="top">
         <label id="errorDisplay" style="color:red;display:none;float: right;"></label>
         <input type="hidden" id="ActionStatus" />
         <input type="hidden" id="SendBackTo" />
         <input type="hidden" id="SendToRole" />
         <div id="tab-general">
-
             <div class="row mbl">
                 <div class="col-lg-12">
                     <div class="tab-content responsive" id="generalTabContent">
@@ -356,7 +338,6 @@
                                                             <span class="text-danger text-default-light">*</span>
                                                             Raised By
                                                         </label>
-
                                                         <label id="RaisedBy" dispLabel="Raised By" class="col-md-8 static-control labeltop" controlType="person" listtype="main"></label>
                                                     </div>
                                                 </div>
@@ -367,8 +348,7 @@
                                                             Raised On
                                                         </label>
                                                         <label id="RaisedOnDisplay" class="col-md-8 labeltop"></label>
-                                                        <label id="RaisedOn" dispLabel="Raised On" class="static-control" listtype="main" controlType="date" style="display: none"
-                                                        />
+                                                        <label id="RaisedOn" dispLabel="Raised On" class="static-control" listtype="main" controlType="date" style="display: none"></label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -389,14 +369,10 @@
                                                             Function
                                                         </label>
                                                         <label id="Function" dispLabel="Function" class="col-md-8 static-control labeltop" controlType="text" listtype="main"></label>
-
-                                                        </label>
-
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row">
-
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
                                                         <label class="col-md-4 control-label">
@@ -410,7 +386,6 @@
                                                                 required="required" required>
                                                             </select>
                                                             <label id="LocationDisplay" class="col-md-8 labeltop" style="display:none;"></label>
-                                                            </label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -418,7 +393,6 @@
                                             <hr>
                                             <br>
                                             <div class="row">
-
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
                                                         <label class="col-md-4 control-label">
@@ -433,7 +407,6 @@
                                                                 required="required">
                                                             </select>
                                                             <label id="AssetClassificationDisplay" class="col-md-8 labeltop" style="display:none;"></label>
-                                                            </label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -450,7 +423,6 @@
                                                                 required="required">
                                                             </select>
                                                             <label id="AssetNameDisplay" class="col-md-8 labeltop" style="display:none;"></label>
-                                                            </label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -463,7 +435,6 @@
                                                             Number of Units
                                                             <i class="fa fa-question" aria-hidden="true" title="Number Only"></i>
                                                         </label>
-
                                                         <div class="col-md-8">
                                                             <input type="text" id="NumberofUnits" dispLabel="Number of Units" class="form-control dynamic-control" placeholder="Number of Units"
                                                                 data="digit" controlType="text" listtype="main" maxlength="15"
@@ -520,24 +491,20 @@
                                                                 valuebindingcolumn="Title" textbindingcolumnn="Title" name="CostCenter"
                                                                 required="required">
                                                             </select>
-                                                            <label id="CostCenterDisplay" class="col-md-8 labeltop" style="display:none;"></label>
-                                                            </label>
+                                                            <label id="CostCenterDisplay" class="col-md-8 labeltop" style="display:none"></label>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <hr>
                                             <br>
-
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
                                                         <label class="col-md-6 control-label">
                                                             <a class="btn btn-primary pull-left" value="Add Proposed Vendor" id="AddVendor" onclick="">Add Proposed Vendor</a>
                                                         </label>
-                                                        <div class="col-md-6">
-
-                                                        </div>
+                                                        <div class="col-md-6"></div>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
@@ -553,19 +520,14 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </div>
                                             <div class="row" id="proposedVendor" style="display:none;">
                                                 <div class="col-lg-12">
                                                     <div class="form-group">
-                                                        <label class="col-md-2 control-label">
-                                                            Proposed Vendor(s)
-                                                        </label>
+                                                        <label class="col-md-2 control-label"> Proposed Vendor(s) </label>
                                                         <label id="ProposedVendor" dispLabel="Proposed Vendor(s)" class="col-md-10 static-control labeltop" controlType="text" listtype="main"></label>
-
                                                     </div>
                                                 </div>
-
                                             </div>
                                             <hr>
                                             <br>
@@ -583,8 +545,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
-
                                             </div>
                                             <div class="row">
                                                 <div class="col-lg-6">
@@ -596,589 +556,427 @@
                                                         <div class="col-md-8">
                                                             <input type="file" class="form-control dynamic-control" id="UploadURSAttachment" dispLabel="URS Attachment" name="myfiles"
                                                                 controlType="file" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
-                                                            text/plain, application/pdf, image/*" required="required">
-
+                                                                    text/plain, application/pdf, image/*" required="required"
+                                                            />
                                                             <div id="URSContainer"></div>
                                                         </div>
-
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
-                                                        <label class="col-md-4 control-label">
-
-                                                            Supportive Documents
-                                                        </label>
+                                                        <label class="col-md-4 control-label">Supportive Documents</label>
                                                         <div class="col-md-8">
                                                             <input type="file" class="form-control dynamic-control" id="UploadSupportiveDocAttachment" name="myfiles" dispLabel="Supportive Documents"
                                                                 controlType="file" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
-                                                            text/plain, application/pdf, image/*">
+                                                                    text/plain, application/pdf, image/*" />
                                                             <br>
                                                             <ul id="fileListSupportiveDoc"></ul>
                                                         </div>
-
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row>
-                                                <div class=" col-lg-12 ">
-                                                <div class="form-group ">
-                                                    <label class="col-md-2 control-label ">
-
-                                                        Comment(s)
-                                                    </label>
-                                                    <div class="col-md-10 ">
-                                                        <textarea id="InitiatorSection_Comments " dispLabel="Comment(s) "
-                                                            class="form-control approver-control " maxlength="1000 "
-                                                            controlType="multitext " listname="main "
-                                                            name="InitiatorSection_Comments " rows="5 " cols="40 "
-                                                            wrap="hard "></textarea>
+                                            <div class="row">
+                                                <div class=" col-lg-12">
+                                                    <div class="form-group">
+                                                        <label class="col-md-2 control-label">Comment(s)</label>
+                                                        <div class="col-md-10">
+                                                            <textarea id="InitiatorSection_Comments" dispLabel="Comment(s)" class="form-control approver-control" maxlength="1000" controlType="multitext"
+                                                                listname="main" name="InitiatorSection_Comments" rows="5" cols="40"
+                                                                wrap="hard"></textarea>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <hr>
-                                        <br>
-                                        <div class="row ">
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group ">
-                                                    <label class="col-md-4 control-label ">
-                                                    </label>
-                                                    <div class="col-md-8 ">
-                                                        <div id="img_Intiator " class="col-md-8 " width="250px; "></div>
+                                            <hr>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label"></label>
+                                                        <div class="col-md-8">
+                                                            <div id="img_Intiator" class="col-md-8" width="250px;"></div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="form-group ">
-                                                    <label class="col-md-4 control-label ">
-                                                    </label>
-                                                    <div class="col-md-8 ">
-                                                        <label id="dispInitiatorAction "
-                                                            class="col-md-8 labeltop "></label>
-                                                        <input type="hidden " id="InitiatorAction " class="static-control
-                                                " dispLabel="Initiator Action "
-                                                            listtype="main " controlType="text " />
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label"></label>
+                                                        <div class="col-md-8">
+                                                            <label id="dispInitiatorAction" class="col-md-8 labeltop"></label>
+                                                            <input type="hidden" id="InitiatorAction" class="static-control" dispLabel="Initiator Action" listtype="main" controlType="text"
+                                                            />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-
-
-
                                     </div>
                                 </myform>
-
                             </div>
-                            <div class="card ">
-                                <div class="card-head " id="card-head-PurchaseSection ">
+                            <div class="card">
+                                <div class="card-head" id="card-head-PurchaseSection">
                                     <b>VENDOR INFORMATION </b>
-                                    <div class="btn collapse-btn ">
-                                        <i class="fa fa-chevron-down "></i>
+                                    <div class="btn collapse-btn">
+                                        <i class="fa fa-chevron-down"></i>
                                     </div>
                                 </div>
-                                <myform enctype="multipart/form-data " id="form_PurchaseSection " method="post "
-                                    novalidate="novalidate " autocomplete="off ">
-                                    <div class="card-body disabled " id="PurchaseSection " section="Purchase Section "
-                                        sectionOwner=" " FillByRole=" " style="display: none ">
-                                        <div data-include="VendorInventia "></div>
-                                        <div class="form-horizontal ">
-                                            <div class="row ">
-                                                <div class="col-lg-12 ">
-                                                    <div class="form-group ">
-                                                        <label class="col-md-2 control-label ">
+                                <myform enctype="multipart/form-data" id="form_PurchaseSection" method="post" novalidate="novalidate" autocomplete="off">
+                                    <div class="card-body disabled" id="PurchaseSection" section="Purchase Section" sectionOwner="" FillByRole="" style="display: none">
+                                        <div data-include="VendorInventia"></div>
+                                        <div class="form-horizontal">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <label class="col-md-2 control-label">
                                                             Comment(s)
                                                         </label>
-                                                        <div class="col-md-10 ">
-                                                            <textarea class="form-control approver-control "
-                                                                maxlength="1000 " controlType="multitext " listname=" "
-                                                                name="Comments " id="PurchaseSection_Comments
-                                                " dispLabel="Comment(s) "
-                                                                name="PurchaseSection_Comments " rows="5 " cols="40 "
-                                                                wrap="hard "></textarea>
+                                                        <div class="col-md-10">
+                                                            <textarea class="form-control approver-control" maxlength="1000" controlType="multitext" listname="" name="Comments" id="PurchaseSection_Comments"
+                                                                dispLabel="Comment(s)" name="PurchaseSection_Comments" rows="5"
+                                                                cols="40" wrap="hard"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </div>
-                                            <div class="row ">
-                                                <div class="col-lg-6 ">
-                                                    <div class="form-group ">
-                                                        <label class="col-md-4 control-label ">
-
-                                                            Attachments
-                                                        </label>
-                                                        <div class="col-md-8 ">
-                                                            <input type="file " class="form-control dynamic-control "
-                                                                id="UploadPurchaseAttachment " name="myfiles
-                                                " dispLabel="Attachments "
-                                                                controlType="file " accept="application/msword, application/vnd.ms-excel,
-                                                application/vnd.ms-powerpoint, text/plain, application/pdf, image/* ">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label">Attachments</label>
+                                                        <div class="col-md-8">
+                                                            <input type="file" class="form-control dynamic-control" id="UploadPurchaseAttachment" name="myfiles" dispLabel="Attachments"
+                                                                controlType="file" accept="application/msword, application/vnd.ms-excel,application/vnd.ms-powerpoint, text/plain, application/pdf, image/*">
                                                             <br>
-                                                            <!-- <div id="purchaseContainer "></div> -->
-
-                                                            <ul id="fileListpurchaseContainer "></ul>
+                                                            <ul id="fileListpurchaseContainer"></ul>
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </div>
                                             <hr>
                                             <br>
-                                            <div class="row ">
-                                                <div class="col-lg-6 ">
-                                                    <div class="form-group ">
-                                                        <label class="col-md-4 control-label ">
-
-
-                                                        </label>
-                                                        <div class="col-md-8 ">
-                                                            <div id="img_Purchase " class="col-md-8 " width="100 "
-                                                                height="100 "></div>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label"></label>
+                                                        <div class="col-md-8">
+                                                            <div id="img_Purchase" class="col-md-8" width="100" height="100"></div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 ">
-                                                    <div class="form-group ">
-                                                        <label class="col-md-4 control-label ">
-
-
-                                                        </label>
-                                                        <div class="col-md-8 ">
-                                                            <label id="PurchaseAction " dispLabel="Purchase Action "
-                                                                class="col-md-8 static-control labeltop " listtype="main "
-                                                                controlType="text "></label>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label"></label>
+                                                        <div class="col-md-8">
+                                                            <label id="PurchaseAction" dispLabel="Purchase Action" class="col-md-8 static-control labeltop" listtype="main" controlType="text"></label>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="clearfix "></div>
+                                        <div class="clearfix"></div>
                                     </div>
                                 </myform>
-                                <div class="clearfix "></div>
+                                <div class="clearfix"></div>
                             </div>
-                            <div class="card ">
-                                <div class="card-head " id="card-head-HodSection ">
+                            <div class="card">
+                                <div class="card-head" id="card-head-HodSection">
                                     <b>HOD REVIEW </b>
-                                    <div class="btn collapse-btn ">
-                                        <i class="fa fa-chevron-down "></i>
+                                    <div class="btn collapse-btn">
+                                        <i class="fa fa-chevron-down"></i>
                                     </div>
                                 </div>
-                                <myform enctype="multipart/form-data " id="form_HodSection " method="post "
-                                    novalidate="novalidate " autocomplete="off ">
-
-                                    <div class="card-body disabled " id="HodSection " section="Initiator HOD Section "
-                                        sectionOwner=" " FillByRole=" " style="display: none ">
-                                        <div class="form-horizontal ">
-                                            <div class="row ">
-                                                <div class="col-lg-6 ">
-                                                    <div class="form-group ">
-                                                        <label class="col-md-4 control-label ">
-                                                            <span class="text-danger text-default-light ">*</span>
+                                <myform enctype="multipart/form-data" id="form_HodSection" method="post" novalidate="novalidate" autocomplete="off">
+                                    <div class="card-body disabled" id="HodSection" section="Initiator HOD Section" sectionOwner="" FillByRole="" style="display: none">
+                                        <div class="form-horizontal">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label">
+                                                            <span class="text-danger text-default-light">*</span>
                                                             Selected Vendor
                                                         </label>
-                                                        <div class="col-md-8 ">
-                                                            <select
-                                                                class="form-control m-b-n-sm dynamic-control requiredOnDraft
-                                                " dispLabel="Selected Vendor "
-                                                                id="SelectedVendor " controlType="combo " listtype="main "
-                                                                data-selected="SelectedVendor " name="SelectedVendor "
-                                                                required="required " onchange="SetCurrentValue() ">
+                                                        <div class="col-md-8">
+                                                            <select class="form-control m-b-n-sm dynamic-control requiredOnDraft" dispLabel="Selected Vendor" id="SelectedVendor" controlType="combo"
+                                                                listtype="main" data-selected="SelectedVendor" name="SelectedVendor"
+                                                                required="required" onchange="SetCurrentValue()">
                                                             </select>
-
-
                                                         </div>
-
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 ">
-
-                                                </div>
+                                                <div class="col-lg-6"></div>
                                             </div>
-                                            <div class="row ">
-                                                <div class="col-lg-6 ">
-                                                    <div class="form-group ">
-                                                        <label class="col-md-4 control-label ">
-                                                            <span class="text-danger text-default-light ">*</span>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label">
+                                                            <span class="text-danger text-default-light">*</span>
                                                             Reason for Selection
                                                         </label>
-                                                        <div class="col-md-8 ">
-                                                            <select
-                                                                class="form-control m-b-n-sm dynamic-control requiredOnDraft "
-                                                                id="ReasonforSelection " dispLabel="Reason for Selection
-                                                " controlType="combo "
-                                                                listtype="master " reflisttype="main "
-                                                                listname="ReasonMaster " data-selected="ReasonMaster "
-                                                                valuebindingcolumn="Title " textbindingcolumnn="Title "
-                                                                name="ReasonforSelection " required="required ">
+                                                        <div class="col-md-8">
+                                                            <select class="form-control m-b-n-sm dynamic-control requiredOnDraft" id="ReasonforSelection" dispLabel="Reason for Selection"
+                                                                controlType="combo" listtype="master" reflisttype="main" listname="ReasonMaster"
+                                                                data-selected="ReasonMaster" valuebindingcolumn="Title" textbindingcolumnn="Title"
+                                                                name="ReasonforSelection" required="required">
                                                             </select>
                                                         </div>
-
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 ">
-                                                    <div class="form-group " style="display:none " id="descriptionDiv ">
-                                                        <label class="col-md-4 control-label ">
-                                                            <span class="text-danger text-default-light ">*</span>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group" style="display:none" id="descriptionDiv">
+                                                        <label class="col-md-4 control-label">
+                                                            <span class="text-danger text-default-light">*</span>
                                                             Description
                                                         </label>
-                                                        <div class="col-md-8 ">
-                                                            <input type="text " id="Description " dispLabel="Description "
-                                                                class="form-control dynamic-control "
-                                                                placeholder="Description " controlType="text "
-                                                                name="Description " listtype="main "
-                                                                required="required " />
+                                                        <div class="col-md-8">
+                                                            <input type="text" id="Description" dispLabel="Description" class="form-control dynamic-control" placeholder="Description"
+                                                                controlType="text" name="Description" listtype="main" required="required"
+                                                            />
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div class="row ">
-                                                <div class="col-lg-6 ">
-                                                    <div class="form-group ">
-                                                        <label class="col-md-4 col-xs-12 control-label ">
-                                                            <span class="text-danger text-default-light ">*</span>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 col-xs-12 control-label">
+                                                            <span class="text-danger text-default-light">*</span>
                                                             Pay Back Period Applicable?
                                                         </label>
-                                                        <div class="col-md-8 ">
-                                                            <input type="checkbox " id="PayBackPeriod " dispLabel="Pay
-                                                Back Period Applicable? "
-                                                                class="form-control dynamic-control "
-                                                                name="PayBackPeriod " controlType="checkbox "
-                                                                listtype="main " />
+                                                        <div class="col-md-8">
+                                                            <input type="checkbox" id="PayBackPeriod" dispLabel="Pay Back Period Applicable?" class="form-control dynamic-control" name="PayBackPeriod"
+                                                                controlType="checkbox" listtype="main" />
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 ">
-                                                    <div class="form-group " style="display:none "
-                                                        id="PayBackPeriodDurationDiv ">
-                                                        <label class="col-md-4 control-label ">
-                                                            <span class="text-danger text-default-light ">*</span>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group" style="display:none" id="PayBackPeriodDurationDiv">
+                                                        <label class="col-md-4 control-label">
+                                                            <span class="text-danger text-default-light">*</span>
                                                             Pay Back Period(Years)
                                                         </label>
-                                                        <div class="col-md-8 ">
-                                                            <input type="text " id="PayBackPeriodDuration " dispLabel="Pay
-                                                Back Period(Years) "
-                                                                class="form-control dynamic-control "
-                                                                placeholder="Pay Back Period " controlType="text "
-                                                                name="PayBackPeriodDuration " listtype="main "
-                                                                data="digit " required="required "
-                                                                oninput="this.value=t his.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g,
-                                                '$1'); " />
+                                                        <div class="col-md-8">
+                                                            <input type="text" id="PayBackPeriodDuration" dispLabel="Pay Back Period(Years)" class="form-control dynamic-control" placeholder="Pay Back Period"
+                                                                controlType="text" name="PayBackPeriodDuration" listtype="main"
+                                                                data="digit" required="required" oninput="this.value=this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g,'$1');"
+                                                            />
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <hr>
                                             <br>
-                                            <div class="table-wrapper ">
-                                                <div class="table-responsive ">
-
-                                                    <table class="table table-hover table-bordered someTable ">
+                                            <div class="table-wrapper">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover table-bordered someTable">
                                                         <thead>
                                                             <tr>
                                                                 <th width='20%'>Budgeted Value (Rupee in Lakhs)</th>
                                                                 <th width='20%'>Utilised Value(Rupee in Lakhs)</th>
                                                                 <th width='20%'>Current Value(Rupee in Lakhs)</th>
-                                                                <th width='20%'>Total Utilised Value(Rupee in Lakhs)
-                                                                </th>
+                                                                <th width='20%'>Total Utilised Value(Rupee in Lakhs)</th>
                                                                 <th width='20%'>Balance(Rupee in Lakhs)</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <tr>
-                                                                <td class="col-md-2 ">
-                                                                    <input id="BudgetedValue " dispLabel="BudgetedValue "
-                                                                        class="form-control dynamic-control disabled "
-                                                                        name="BudgetedValue "
-                                                                        placeholder="Budgeted Value " type="text "
-                                                                        controlType="text " data="digit " maxlength="15 "
-                                                                        listtype="main " style="display:none; " />
-                                                                    <label id="BudgetedValueDisplay "
-                                                                        class="col-md-8 static-control labeltop ">&#8360;</label>
+                                                                <td class="col-md-2">
+                                                                    <input id="BudgetedValue" dispLabel="BudgetedValue" class="form-control dynamic-control disabled" name="BudgetedValue" placeholder="Budgeted Value"
+                                                                        type="text" controlType="text" data="digit" maxlength="15"
+                                                                        listtype="main" style="display:none;" />
+                                                                    <label id="BudgetedValueDisplay" class="col-md-8 static-control labeltop">&#8360;</label>
                                                                 </td>
-                                                                <td class="col-md-2 ">
-                                                                    <input id="UtilizedValue " dispLabel="Utilized Value "
-                                                                        class="form-control dynamic-control disabled "
-                                                                        name="UtilizedValue "
-                                                                        placeholder="Utilised Value " type="text "
-                                                                        controlType="text " data="digit " maxlength="15 "
-                                                                        listtype="main " style="display:none; " />
-                                                                    <label id="UtilizedValueDisplay "
-                                                                        class="col-md-8 static-control labeltop "></label>
+                                                                <td class="col-md-2">
+                                                                    <input id="UtilizedValue" dispLabel="Utilized Value" class="form-control dynamic-control disabled" name="UtilizedValue" placeholder="Utilised Value"
+                                                                        type="text" controlType="text" data="digit" maxlength="15"
+                                                                        listtype="main" style="display:none;" />
+                                                                    <label id="UtilizedValueDisplay" class="col-md-8 static-control labeltop"></label>
                                                                 </td>
-                                                                <td class="col-md-2 ">
-                                                                    <input id="CurrentValue "
-                                                                        class="form-control dynamic-control disabled
-                                                " dispLabel="Current Value "
-                                                                        name="CurrentValue " placeholder="Current Value "
-                                                                        type="text " controlType="combo " data="digit "
-                                                                        maxlength="15 " listtype="main "
-                                                                        style="display:none; " />
-                                                                    <label id="CurrentValueDisplay "
-                                                                        class="col-md-8 static-control labeltop "></label>
+                                                                <td class="col-md-2">
+                                                                    <input id="CurrentValue" class="form-control dynamic-control disabled" dispLabel="Current Value" name="CurrentValue" placeholder="Current Value"
+                                                                        type="text" controlType="combo" data="digit" maxlength="15"
+                                                                        listtype="main" style="display:none;" />
+                                                                    <label id="CurrentValueDisplay" class="col-md-8 static-control labeltop"></label>
                                                                 </td>
-                                                                <td class="col-md-2 ">
-                                                                    <input id="TotalUtilizedValue " dispLabel="Total Utilized
-                                                Value "
-                                                                        class="form-control dynamic-control disabled "
-                                                                        name="TotalUtilizedValue "
-                                                                        placeholder="Total Utilised Value " type="text "
-                                                                        controlType="text " listtype="main " data="digit "
-                                                                        maxlength="15 " style="display:none; " />
-                                                                    <label id="TotalUtilizedValueDisplay "
-                                                                        class="col-md-8 static-control labeltop "></label>
+                                                                <td class="col-md-2">
+                                                                    <input id="TotalUtilizedValue" dispLabel="Total Utilized Value" class="form-control dynamic-control disabled" name="TotalUtilizedValue"
+                                                                        placeholder="Total Utilised Value" type="text" controlType="text"
+                                                                        listtype="main" data="digit" maxlength="15" style="display:none;"
+                                                                    />
+                                                                    <label id="TotalUtilizedValueDisplay" class="col-md-8 static-control labeltop"></label>
                                                                 </td>
-                                                                <td class="col-md-2 ">
-                                                                    <input id="Balance " dispLabel="Balance "
-                                                                        class="form-control dynamic-control disabled "
-                                                                        name="Balance " placeholder="Balance Value "
-                                                                        type="text " controlType="text " listtype="main "
-                                                                        data="digit " maxlength="15 "
-                                                                        style="display:none; " />
-                                                                    <label id="BalanceDisplay "
-                                                                        class="col-md-8 static-control labeltop "></label>
+                                                                <td class="col-md-2">
+                                                                    <input id="Balance" dispLabel="Balance" class="form-control dynamic-control disabled" name="Balance" placeholder="Balance Value"
+                                                                        type="text" controlType="text" listtype="main" data="digit"
+                                                                        maxlength="15" style="display:none;" />
+                                                                    <label id="BalanceDisplay" class="col-md-8 static-control labeltop"></label>
                                                                 </td>
-
                                                             </tr>
-
-
-
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>
-
                                             <hr>
                                             <br>
-                                            <div class="row ">
-                                                <div class="col-lg-12 ">
-                                                    <div class="form-group ">
-                                                        <label class="col-md-2 control-label ">
-
-                                                            Comment(s)
-                                                        </label>
-                                                        <div class="col-md-10 ">
-
-                                                            <textarea class="form-control approver-control
-                                                " dispLabel="Comment(s) "
-                                                                maxlength="1000 " controlType="multitext " listname=" "
-                                                                name="Comments " id="HodSection_Comments "
-                                                                name="HodSection_Comments " rows="5 " cols="40 "
-                                                                wrap="hard "></textarea>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <label class="col-md-2 control-label">Comment(s)</label>
+                                                        <div class="col-md-10">
+                                                            <textarea class="form-control approver-control" dispLabel="Comment(s)" maxlength="1000" controlType="multitext" listname=""
+                                                                name="Comments" id="HodSection_Comments" name="HodSection_Comments"
+                                                                rows="5" cols="40" wrap="hard"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </div>
-                                            <div class="row ">
-                                                <div class="col-lg-6 ">
-                                                    <div class="form-group ">
-                                                        <label class="col-md-4 control-label ">
-
-                                                            Attachments
-                                                        </label>
-                                                        <div class="col-md-8 ">
-                                                            <input type="file " class="form-control dynamic-control "
-                                                                id="UploadHODAttachment " dispLabel="Attachments
-                                                " name="myfiles " 
-                                                                controlType="file " accept="application/msword, application/vnd.ms-excel,
-                                                application/vnd.ms-powerpoint, text/plain, application/pdf, image/* ">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label">Attachments</label>
+                                                        <div class="col-md-8">
+                                                            <input type="file" class="form-control dynamic-control" id="UploadHODAttachment" dispLabel="Attachments" name="myfiles" controlType="file"
+                                                                accept="application/msword, application/vnd.ms-excel,
+                                                    application/vnd.ms-powerpoint, text/plain, application/pdf, image/*">
                                                             <br>
-                                                            <!-- <div id="HODContainer "></div> -->
-                                                            <ul id="fileListHODContainer "></ul>
+                                                            <ul id="fileListHODContainer"></ul>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 ">
-                                                    <div class="form-group ">
-
-                                                    </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group"></div>
                                                 </div>
                                             </div>
                                             <hr>
                                             <br>
-                                            <div class="row ">
-                                                <div class="col-lg-6 ">
-                                                    <div class="form-group ">
-                                                        <label class="col-md-4 control-label ">
-
-
-                                                        </label>
-                                                        <div class="col-md-8 ">
-                                                            <div id="img_HOD " class="col-md-8 " width="100 " height="100 ">
-                                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label"></label>
+                                                        <div class="col-md-8">
+                                                            <div id="img_HOD" class="col-md-8" width="100" height="100"></div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 ">
-                                                    <div class="form-group ">
-                                                        <label class="col-md-4 control-label ">
-
-
-                                                        </label>
-                                                        <div class="col-md-8 ">
-                                                            <label id="HODAction "
-                                                                class="col-md-8 static-control labeltop " listtype="main "
-                                                                controlType="text "></label>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label"></label>
+                                                        <div class="col-md-8">
+                                                            <label id="HODAction" class="col-md-8 static-control labeltop" listtype="main" controlType="text"></label>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="clearfix "></div>
+                                        <div class="clearfix"></div>
                                     </div>
                                 </myform>
-                                <div class="clearfix "></div>
+                                <div class="clearfix"></div>
                             </div>
-                            <div class="card ">
-                                <div class="card-head " id="card-head-FunctionHead ">
+                            <div class="card">
+                                <div class="card-head" id="card-head-FunctionHead">
                                     <b> FUNCTION REVIEW </b>
-                                    <div class="btn collapse-btn ">
-                                        <i class="fa fa-chevron-down "></i>
+                                    <div class="btn collapse-btn">
+                                        <i class="fa fa-chevron-down"></i>
                                     </div>
                                 </div>
-                                <myform enctype="multipart/form-data " id="form_FunctionHead " method="post "
-                                    novalidate="novalidate " autocomplete="off ">
-
-                                    <div class="card-body disabled " id="FunctionHead " section="Function Head Section "
-                                        sectionOwner=" " FillByRole=" " style="display: none ">
-                                        <div class="form-horizontal ">
-                                            <div class="row ">
-                                                <div class="col-lg-12 ">
-                                                    <div class="form-group ">
-                                                        <label class="col-md-2 control-label ">
-
-                                                            Comment(s)
-                                                        </label>
-                                                        <div class="col-md-10 ">
-
-                                                            <textarea class="form-control approver-control "
-                                                                maxlength="1000 " controlType="multitext " listname=" "
-                                                                name="Comments " id="FunctionHead_Comments
-                                                " dispLabel=" Comment(s) "
-                                                                name="FunctionHead_Comments " rows="5 " cols="40 "
-                                                                wrap="hard "></textarea>
+                                <myform enctype="multipart/form-data" id="form_FunctionHead" method="post" novalidate="novalidate" autocomplete="off">
+                                    <div class="card-body disabled" id="FunctionHead" section="Function Head Section" sectionOwner="" FillByRole="" style="display: none;">
+                                        <div class="form-horizontal">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <label class="col-md-2 control-label">Comment(s)</label>
+                                                        <div class="col-md-10">
+                                                            <textarea class="form-control approver-control" maxlength="1000" controlType="multitext" listname="" name="Comments" id="FunctionHead_Comments"
+                                                                dispLabel=" Comment(s)" name="FunctionHead_Comments" rows="5"
+                                                                cols="40" wrap="hard"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </div>
                                             <hr>
                                             <br>
-                                            <div class="row ">
-                                                <div class="col-lg-6 ">
-                                                    <div class="form-group ">
-                                                        <label class="col-md-4 control-label ">
-
-
-                                                        </label>
-                                                        <div class="col-md-8 ">
-                                                            <div id="img_FunctionHead " class="col-md-8 " width="100 "
-                                                                height="100 "></div>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label"></label>
+                                                        <div class="col-md-8">
+                                                            <div id="img_FunctionHead" class="col-md-8" width="100" height="100"></div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 ">
-                                                    <div class="form-group ">
-                                                        <label class="col-md-4 control-label ">
-
-
-                                                        </label>
-                                                        <div class="col-md-8 ">
-                                                            <label id="FunctionHeadAction "  dispLabel="Function Head Action "Comment(s)
-                                                                class="col-md-8 static-control labeltop " listtype="main "
-                                                                controlType="text "></label>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label"></label>
+                                                        <div class="col-md-8">
+                                                            <label id="FunctionHeadAction" dispLabel="Function Head Action" class="col-md-8 static-control labeltop" listtype="main"
+                                                                controlType="text"></label>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
                                 </myform>
-                                <div class="clearfix "></div>
+                                <div class="clearfix"></div>
                             </div>
-                            <div class="card ">
-                                <div class="card-head " id="card-head-ManagementSection ">
+                            <div class="card">
+                                <div class="card-head" id="card-head-ManagementSection">
                                     <b> MANAGEMENT APPROVAL</b>
-                                    <div class="btn collapse-btn ">
-                                        <i class="fa fa-chevron-down "></i>
+                                    <div class="btn collapse-btn">
+                                        <i class="fa fa-chevron-down"></i>
                                     </div>
                                 </div>
-                                <myform enctype="multipart/form-data " id="form_ManagementSection " method="post "
-                                    novalidate="novalidate " autocomplete="off ">
-                                    <div class="card-body disabled " id="ManagementSection " section="Management Section "
-                                        sectionOwner=" " FillByRole=" " style="display: none ">
-                                        <div class="form-horizontal ">
-                                            <div class="row ">
-                                                <div class="col-lg-12 ">
-                                                    <div class="form-group ">
-                                                        <label class="col-md-2 control-label ">
-
-                                                            Comment(s)
-                                                        </label>
-                                                        <div class="col-md-8 ">
-                                                            <textarea class="form-control approver-control "
-                                                                maxlength="1000 " controlType="multitext " listname=" "
-                                                                name="Comments " id="ManagementSection_Comments
-                                                " dispLabel="Management Section Comments "
-                                                                name="ManagementSection_Comments " rows="5 " cols="40 "
-                                                                wrap="hard "></textarea>
+                                <myform enctype="multipart/form-data" id="form_ManagementSection" method="post" novalidate="novalidate" autocomplete="off">
+                                    <div class="card-body disabled" id="ManagementSection" section="Management Section" sectionOwner="" FillByRole="" style="display: none">
+                                        <div class="form-horizontal">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <label class="col-md-2 control-label">Comment(s)</label>
+                                                        <div class="col-md-8">
+                                                            <textarea class="form-control approver-control" maxlength="1000" controlType="multitext" listname="" name="Comments" id="ManagementSection_Comments"
+                                                                dispLabel="Management Section Comments" name="ManagementSection_Comments"
+                                                                rows="5" cols="40" wrap="hard">
+                                                                    </textarea>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <hr>
                                             <br>
-                                            <div class="row ">
-                                                <div class="col-lg-6 ">
-                                                    <div class="form-group ">
-                                                        <label class="col-md-4 control-label ">
-                                                        </label>
-                                                        <div class="col-md-8 ">
-                                                            <div id="img_Management " class="col-md-8 " width="100 "
-                                                                height="100 "></div>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label"></label>
+                                                        <div class="col-md-8">
+                                                            <div id="img_Management" class="col-md-8" width="100" height="100"></div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 ">
-                                                    <div class="form-group ">
-                                                        <label class="col-md-4 control-label ">
-
-
-                                                        </label>
-                                                        <div class="col-md-8 ">
-                                                            <label id="ManagementAction "  dispLabel="Management Action "
-                                                                class="col-md-8 static-control labeltop " listtype="main "
-                                                                controlType="text "></label>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label"></label>
+                                                        <div class="col-md-8">
+                                                            <label id="ManagementAction" dispLabel="Management Action" class="col-md-8 static-control labeltop" listtype="main" controlType="text"></label>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
-
                                     </div>
                                 </myform>
                             </div>
-                            <div data-include="ApplicationStatus "></div>
-                            <div data-include="ActivityLog "></div>
+                            <div data-include="ApplicationStatus"></div>
+                            <div data-include="ActivityLog"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- </div>
-    </div> -->
-    <div id="loading ">
-        <div id="pageLoading ">
+    <div id="loading">
+        <div id="pageLoading">
         </div>
-        <img id="loadingimage " src="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/loading.gif "
-            alt="Please Wait " />
+        <img id="loadingimage" src="" alt="Please Wait" />
     </div>
 </body>
-
 </html>

@@ -62,9 +62,9 @@ function AddVendorDetails() {
     $("#CRUDVendorModal").modal('show');
     $("#spanTitle").html('Add Vendor Details');
     $('input[type=checkbox]').prop('checked', false);
-   // $('input[name=Recommended]').prop('checked', false);
-   $('input[id=RecommendedYes]').prop('checked', true);
-   $('input[id=NegotiatedYes]').prop('checked', true);
+    // $('input[name=Recommended]').prop('checked', false);
+    $('input[id=RecommendedYes]').prop('checked', true);
+    $('input[id=NegotiatedYes]').prop('checked', true);
     $('#btnSave').show();
 }
 
@@ -146,11 +146,11 @@ function GetVendorDetailsById(id) {
             async: false,
             datatype: 'json',
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val()
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
             success: function (data) {
                 VendorDetailresult = data.d;
             }
@@ -244,12 +244,12 @@ function SaveVendorNameInMaster(listDataArray) {
             postData: JSON.stringify(mainlistDataArray),
             async: false,
             headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                "IF-MATCH": "*",
-            },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "IF-MATCH": "*",
+                },
             sucesscallbackfunction: function (data) {
                 listDataArray.isVendorAdded = "Yes";
             }
@@ -276,7 +276,7 @@ function ValidateModalForm() {
             });
         }
         catch (e1) {
-           
+
         }
     }
     return isValid;
@@ -362,7 +362,7 @@ function GetVendorDetails(listTempGridDataArray) {
                 if (IsStrNullOrEmpty(arrayItem.Type)) {
                     arrayItem.Type = "Edit";
                 }
-                var displayNegotiated;var recommend;
+                var displayNegotiated; var recommend;
                 if (arrayItem.Negotiated == "NegotiatedYes") {
                     displayNegotiated = "Yes";
                 }
@@ -370,7 +370,7 @@ function GetVendorDetails(listTempGridDataArray) {
                     displayNegotiated = "No";
                 }
                 if (arrayItem.Recommended == "RecommendedYes") {
-                    recommend= "Yes";
+                    recommend = "Yes";
                 }
                 else {
                     recommend = "No";
