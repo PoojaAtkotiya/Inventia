@@ -665,7 +665,7 @@ hr {
     box-shadow: none!important;
     position: fixed;
     z-index: 999 !important;
-    padding-top: 70px;
+    padding-top: 59px;
   
 }
 /* .left-side-collapsed .page-title-breadcrumb{
@@ -4660,10 +4660,6 @@ body.sidebar-icons #wrapper #page-wrapper {
     .table tbody tr.calendar-month-header:first-child th span {
         padding-bottom: 0;
     }
-
-.table tbody tr td {
-    border-top: 1px solid #efefef;
-}
 
 .ticker-wrapper.has-js {
     margin: 0;
@@ -8771,6 +8767,9 @@ ul.submenu {
 
 .table tbody tr td {
     text-align: left;
+    white-space: normal;
+    word-break: break-all;
+    border-top: 1px solid #efefef;
     /*word-break: break-all !important;*/
 }
 
@@ -9528,7 +9527,7 @@ a:hover .ms-core-menu-label{ color:#fff!important; padding: 5px!important; }
 }
 .ms-welcome-root{width: inherit!important;}
 .ms-siteicon-img{width: 160px; margin-top:5px;}
-#page-wrapper{
+.main-content{
     float: left;
     width: calc(100% - 13%);
         left: 13%;
@@ -9633,10 +9632,16 @@ input[type=radio] {
 #ms-designer-ribbon{
     height: 85px;
 }
-td {
+td,th {
     white-space: normal !important; 
     word-wrap: break-word;  
   }
   table {
     table-layout: fixed;
   }
+
+  .capital-body .iframe-section {
+    height: 100vh !important;  
+    
+  }
+  

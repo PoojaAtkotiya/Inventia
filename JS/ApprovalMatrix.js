@@ -306,19 +306,19 @@ function SetApproversInApprovalMatrix(id) {
 
                             } else if (t.Role == Roles.PURCHASE) {
                                 if (t.Role == a.Role && a.UserSelection == true) {
-                                    if (a.UserNameId.results.length > 0) {
+                                    if (!IsNullOrUndefinedApprover(a.UserNameId) && a.UserNameId.results.length > 0) {
                                         t.ApproverId = a.UserNameId.results;
                                     }
                                 }
                             } else if (t.Role == Roles.INITIATORHOD) {
                                 if (t.Role == a.Role && a.UserSelection == true && !IsNullOrUndefined(a.Department) && !IsNullOrUndefined(a.Department.results) && a.Department.results.length > 0 && a.Department.results.some(d => d.Title == initiatorDept)) {
-                                    if (a.UserNameId.results.length > 0) {
+                                    if (!IsNullOrUndefinedApprover(a.UserNameId) && a.UserNameId.results.length > 0) {
                                         t.ApproverId = a.UserNameId.results;
                                     }
                                 }
                             } else if (t.Role == Roles.FUNCTIONHEAD) {
                                 if (t.Role == a.Role && a.UserSelection == true && !IsNullOrUndefined(a.Function) && !IsStrNullOrEmpty(a.Function.Title) && a.Function.Title == initFunction) {
-                                    if (a.UserNameId.results.length > 0) {
+                                    if (!IsNullOrUndefinedApprover(a.UserNameId) && a.UserNameId.results.length > 0) {
                                         t.ApproverId = a.UserNameId.results;
                                     }
                                 }
@@ -597,7 +597,7 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
                 formFieldValues['NextApprover'] = '';
                 formFieldValues['FormLevel'] = currentLevel + "|" + currentLevel;
                 formFieldValues['ApprovalStatus'] = "Completed";
-                formFieldValues['Status'] = WFStatus.COMPLETED; 
+                formFieldValues['Status'] = WFStatus.COMPLETED;
                 formFieldValues['PendingWith'] = '';
                 makeAllUsersViewer = true;
                 isTaskAssignMailSend = true;
@@ -1361,7 +1361,7 @@ function UpdateStatusofApprovalMatrix(tempApproverMatrix, currentLevel, previous
                             }
                         }
                         if (temp.Levels == currentLevel && isuser) {
-                            temp.Status = ApproverStatus.APPROVED; 
+                            temp.Status = ApproverStatus.APPROVED;
                         }
                     });
                     ////Get Next Level

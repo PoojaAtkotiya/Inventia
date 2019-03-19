@@ -1096,8 +1096,13 @@ function DisplayApplicationStatus(approverMatrix) {
                 approvers = GetUserNamebyUserID(approvers);
             }
 
+            var role = approverMatrix[i].Role;
+            if (approverMatrix[i].Role == "Creator") {
+                role = "Initiator";
+            }
+
             tr = $('<tr/>');
-            tr.append("<td width='20%'>" + approverMatrix[i].Role + "</td>");
+            tr.append("<td width='20%'>" + role + "</td>");
             // tr.append("<td width='20%'>" + GetUserNamesbyUserID(approverMatrix[i].ApproverId.results) + "</td>");
             tr.append("<td width='20%'>" + approvers + "</td>");
             tr.append("<td width='10%'>" + Status + "</td>");
