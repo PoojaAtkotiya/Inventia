@@ -1323,7 +1323,7 @@ hr {
             display: none;
         }
 
-.left-side-collapsed #page-wrapper {
+.left-side-collapsed .main-content {
     width: calc(100% - 55px);
         left: 55px;
 }
@@ -9644,4 +9644,65 @@ td,th {
     height: 100vh !important;  
     
   }
-  
+  .left-side-collapsed .sidebar-left{
+width: 55px;
+  }
+  /********popup********/
+  .overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 9999;
+  }
+  .overlay:target {
+    visibility: visible;
+    opacity: 1;
+  }
+  .popup {
+    margin: 70px auto;
+    padding: 0;
+    background: #fff;
+    border-radius: 5px;
+    width: 50%;
+    position: relative;
+    transition: all 2s ease-in-out;
+  }
+  .popup .close {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    transition: all 200ms;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+  }
+  .popup .content {
+    max-height: 30%;
+    overflow: auto;
+  }
+  .popup-header{
+      padding: 10px 0;
+      border-bottom:1px solid #ccc; 
+  }
+  .popup-content{
+    padding: 20px;
+  }
+  .popup-footer{
+    padding: 10px;
+    overflow: hidden;
+    border-top: 1px solid #ccc;
+}
+  .popup-header .modal-title{
+    padding-left:20px;
+  }
+  .popup-footer .btn-default{
+    margin-left: 5px;
+    display: inline-block;
+  }
