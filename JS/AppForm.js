@@ -2,7 +2,7 @@ var listName = ListNames.MAINLIST;
 var appName = CommonConstant.APPLICATIONNAME;
 var formName = CommonConstant.FORMNAME;
 var masterDataArray;
-var formData = {};
+// var formData = {};
 var mainListData = {};
 var sendToLevel = 0;
 var collListItem = null;
@@ -371,7 +371,9 @@ function setVendorDropDown() {
     }
 }
 function setFunctionbasedDept(department) {
-    var department = encodeURIComponent(department);
+    // var department = encodeURIComponent(department);
+    //  var department = encodeURI(department);
+    var department = department.replace("&", "and");
     AjaxCall(
         {
             url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.DEPTFUNCTIONMASTER + "')/Items?$select=Title,DepartmentName,*&$filter=DepartmentName eq '" + department + "'",
@@ -393,7 +395,8 @@ function setFunctionbasedDept(department) {
 }
 function bindAssetClassification() {
     var functionValue = $('#Function').html();
-    var colVal = encodeURIComponent(functionValue);
+    var colVal = functionValue;
+    // var colVal = encodeURIComponent(functionValue);
     AjaxCall(
         {
             // url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ASSETCLASSIFICATIONMASTER + "')/items?$select=Function/Title,AssetClassDescription,Title&$expand=Function/Title&$filter=Function/Title eq '" + functionValue + "'",
@@ -430,7 +433,8 @@ function bindAssetClassification() {
 }
 function bindEditAssetClassification() {
     var functionValue = $('#Function').html();
-    functionValue = encodeURIComponent(functionValue);
+    //functionValue = encodeURIComponent(functionValue);
+
     AjaxCall(
         {
             url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ASSETCLASSIFICATIONMASTER + "')/items?$select=Function/Title,AssetClassDescription,Title&$expand=Function/Title&$filter=Function/Title eq '" + functionValue + "'",

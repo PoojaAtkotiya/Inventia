@@ -14,7 +14,8 @@ const CommonConstant = {
     ROOTURL: "https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Root",
     SETITEMPERMISSION: "https://prod-11.centralindia.logic.azure.com:443/workflows/ad958571b1b74c0ea80bef5473e7f466/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=SsBi__Lp6JvVFZMRF1DSRusGyn1l1THNZhoImJtiChQ",
     SAVEEMAILINLIST: "https://prod-18.centralindia.logic.azure.com:443/workflows/2d1869b9e18a4a159674343c840b9c99/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=D1VJtnHCN8Bnpm5gBu3Evc1GtX18DjyUck2TNAVefV8",
-    MAINLISTEDITURL: "/sites/Inv_CAR_STG_Application1/Pages/CapitalAssetRequisition.aspx?ID="
+    MAINLISTEDITURL: "/sites/Inv_CAR_STG_Application1/Pages/CapitalAssetRequisition.aspx?ID=",
+    LOADINGIMAGESRC: 'https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/loading.gif
     */
 
     /*Dev */
@@ -24,7 +25,8 @@ const CommonConstant = {
     ROOTURL: "https://synoverge.sharepoint.com/sites/dms",
     SAVEEMAILINLIST: "https://prod-28.centralindia.logic.azure.com:443/workflows/39aadd88abae45ce92cc56e5d60c16c6/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=gZi0rLYpjmoGdTEr_Zg6FZvx12v_NKXyyGEhnpVzDQ8",
     SETITEMPERMISSION: "https://prod-05.centralindia.logic.azure.com:443/workflows/068a2cd297de410ab19fc808be3a2735/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=eSrKcDBAxAwGqTouTX6xZ8sUpoQIl--H02rmq8EW3c8",
-    MAINLISTEDITURL: "/sites/dev/Pages/InventiaNew.aspx?ID="
+    MAINLISTEDITURL: "/sites/dev/Pages/InventiaNew.aspx?ID=",
+    LOADINGIMAGESRC: 'https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/loading.gif'
 
 
     /*QA
@@ -34,7 +36,8 @@ const CommonConstant = {
     ROOTURL: "https://synoverge.sharepoint.com/sites/dms", 
     SAVEEMAILINLIST: "https://prod-28.centralindia.logic.azure.com:443/workflows/39aadd88abae45ce92cc56e5d60c16c6/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=gZi0rLYpjmoGdTEr_Zg6FZvx12v_NKXyyGEhnpVzDQ8",
     SETITEMPERMISSION: "https://prod-09.centralindia.logic.azure.com:443/workflows/af272fa2e21b4ccab37d736a790f7424/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Rzv-URVzOF6Jxclr8_I4f4rcbtCUUiB8OzBPRRviJZU",
-     MAINLISTEDITURL: "/sites/QACapex/Pages/CapitalAssetRequisition.aspx?ID=",
+    MAINLISTEDITURL: "/sites/QACapex/Pages/CapitalAssetRequisition.aspx?ID=",
+    LOADINGIMAGESRC: 'https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/loading.gif'
     */
 
 }
