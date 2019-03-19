@@ -8,6 +8,7 @@
     .left-side-collapsed .page-title-breadcrumb{
         width: calc(100% - 55px);
         left: 55px;
+        padding-top: 60px;
     }
     .page-title-breadcrumb {
         width: calc(100% - 13%);
@@ -20,11 +21,13 @@
     #side-menu{
         padding-top:55px;
     }
+  
 } 
 
 @media (max-width: 1024px) {
     #page-wrapper{
        float: left;
+       width: 100% !important;
     
     }
     .iframe-section div:first-child .table-responsive {
@@ -64,6 +67,9 @@
         position: fixed;
         width: 100%;
         top:0;
+    }
+    .popup{
+        width: 90%;
     }
     
  
@@ -224,7 +230,26 @@
     }
     .page-title-breadcrumb{
         height: auto;
+        padding-top: 0;
     }
+    .overlay{
+        overflow-y: scroll;
+    }
+    .main-content{
+        left: 0 !important;
+        width: 100% !important;
+    }
+    .left-side-collapsed #main-content{
+        left: 0 !important;
+        width: 100% !important;
+    }
+    .sidebar-left{
+        z-index: 9999;
+    }
+    .left-side-collapsed .sidebar-left #sidebar{
+        left: 0;
+    }
+    
    
 	
 }

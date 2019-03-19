@@ -732,9 +732,12 @@ function ValidateForm(ele, saveCallBack) {
             if (dataAction == "2" || dataAction == "34") {
                 $(this).validate().settings.ignore = "*";
                 if (dataAction == "2" || dataAction == "34") {
-                    $(".error").addClass("valid");
-                    $(".valid").removeClass("error");
+                    if (!$(".requiredOnDraft").hasClass("error")) {
+                        $(".error").addClass("valid");
+                        $(".valid").removeClass("error");
+                    }
                     $(this).validate().settings.ignore = ":not(.requiredOnDraft)";
+
                 }
                 if (buttonCaption == "submit" || buttonCaption == "complete") {
                     $(".error").addClass("valid");
@@ -743,20 +746,26 @@ function ValidateForm(ele, saveCallBack) {
             }
             else if (dataAction == "23") {
                 $(this).validate().settings.ignore = "*";
-                $(".error").addClass("valid");
-                $(".valid").removeClass("error");
+                if (!$(".requiredOnSendBack").hasClass("error")) {
+                    $(".error").addClass("valid");
+                    $(".valid").removeClass("error");
+                }
                 $(this).validate().settings.ignore = ":not(.requiredOnSendBack)";
             }
             else if (dataAction == "41") {
                 $(this).validate().settings.ignore = "*";
-                $(".error").addClass("valid");
-                $(".valid").removeClass("error");
+                if (!$(".requiredOnReject").hasClass("error")) {
+                    $(".error").addClass("valid");
+                    $(".valid").removeClass("error");
+                }
                 $(this).validate().settings.ignore = ":not(.requiredOnReject)";
             }
             else if (dataAction == "42") {
                 $(this).validate().settings.ignore = "*";
-                $(".error").addClass("valid");
-                $(".valid").removeClass("error");
+                if (!$(".requiredOnDelegate").hasClass("error")) {
+                    $(".error").addClass("valid");
+                    $(".valid").removeClass("error");
+                }
                 $(this).validate().settings.ignore = ":not(.requiredOnDelegate)";
             }
             else {
