@@ -282,15 +282,12 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
             $('[id*="EditVendor_"]').hide();
             $('[id*="DeleteVendor_"]').hide();
             $('#AddVendor').hide();
-<<<<<<< HEAD
+
              if (mainListData.PayBackPeriod == 'PayBackPeriodYes') {
                  $("#PayBackPeriodDurationDiv").show();
              }
-=======
-            if (mainListData.PayBackPeriod == 'PayBackPeriodYes') {
-                $("#PayBackPeriodDurationDiv").show();
-            }
->>>>>>> 6a8c6b5f6840ec8f8bbc0c089a4208be4f391050
+
+           
             BindHODAttachment();
             $("#CurrentValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.CurrentValue));
             $("#TotalUtilizedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.TotalUtilizedValue));
@@ -1653,4 +1650,4 @@ function ReplaceNumberWithCommas(yourNumber) {
         //Combines the two sections
         return n.join(".");
     }
-}
+}}
