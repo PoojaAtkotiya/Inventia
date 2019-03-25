@@ -46,7 +46,7 @@ function GetButtonsByRole(id, currentUserRole, formStatus) {
         var isVisible = currentRoleButtons[i].IsVisible ? "" : "class=hide";
         btnli = btnli + '<li class="pull-left"><a id="btn' + (buttonCount++) + '" ' + isVisible + ' onClick="' + CommonConstant.APPLICATIONSHORTNAME + '_SaveData(this);"' + ' data-action="' + dataactionid + '" data-sendbackto="' + currentRoleButtons[i].SendBackTo + '" data-sendtorole="' + currentRoleButtons[i].SendToRole + '" class="btn btn-default pull-right" title="' + currentRoleButtons[i].ToolTip + '" data-placement="bottom"><i class="' + currentRoleButtons[i].Icon + '"></i>&nbsp;' + currentRoleButtons[i].Title + '</a></li>'
     }
-    btnli = btnli + '<li class="pull-left"><a id="btnExit" class="btn btn-default pull-right" onclick="Exit(this);" title="Exit without saving any data"  data-placement="bottom"><i class="fa fa-sign-out"></i>&nbsp;Cancel</a></li>';
+    btnli = btnli + '<li class="pull-left"><a id="btnExit" class="btn btn-default pull-right" onclick="Exit(this);" title="Exit without saving any data"  data-placement="bottom"><i class="fa fa-sign-out"></i>&nbsp;Home</a></li>';
     $('#dynamicButtonli').html(btnli);
     // HideWaitDialog();
 }

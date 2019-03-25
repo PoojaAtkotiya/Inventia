@@ -22,7 +22,7 @@ function GetMasterData(masterlistname) {
     if (!IsNullOrUndefined(masterlistname) && masterlistname != '') {
         AjaxCall(
             {
-                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + masterlistname + "')/items",
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + masterlistname + "')/items?$top=1000",
                 httpmethod: 'GET',
                 calldatatype: 'JSON',
                 async: false,

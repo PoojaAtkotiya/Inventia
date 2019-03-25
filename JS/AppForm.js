@@ -81,13 +81,28 @@ function setCustomApprovers() {
             tempApproverMatrix.filter(function (temp) {
                 if (temp.Role == Roles.MANAGEMENT && temp.Status != "Not Required") {
                     approverMaster.filter(app => {
-                        if (temp.Role == app.Role && app.UserSelection == true && !IsNullOrUndefined(app.Location) && !IsStrNullOrEmpty(app.Location.Title) && app.Location.Title == location) {
-                            if (app.UserNameId.results.length > 0) {
-                                temp.ApproverId = app.UserNameId.results;
+                        // if (temp.Role == app.Role && app.UserSelection == true && !IsNullOrUndefined(app.Location) && !IsStrNullOrEmpty(app.Location.Title) && app.Location.Title == location) {
+                        //     if (app.UserNameId.results.length > 0) {
+                        //         temp.ApproverId = app.UserNameId.results;
+                        //     }
+                        // }
+
+                        if (app.Role.results[0] == temp.Role && app.UserSelection == true) {
+                            if (!IsNullOrUndefined(app.Location) && !IsStrNullOrEmpty(app.Location.results) && app.Location.results.length > 0 && app.Location.results.some(d => d.Title == location)) {
+                                if (!IsNullOrUndefinedApprover(app.UserNameId) && app.UserNameId.results.length > 0) {
+                                    if (temp.ApproverId == null) {
+                                        temp.ApproverId = app.UserNameId.results;
+                                    }
+                                    else {
+                                        if (!IsNullOrUndefinedApprover(app.UserNameId) && app.UserNameId.results.length > 0) {
+                                            temp.ApproverId = temp.ApproverId.results.concat(app.UserNameId.results[0]);
+                                            temp.ApproverId = removeDuplicateFromArray(temp.ApproverId);
+                                        }
+                                    }
+                                }
                             }
                         }
                     });
-
                 }
             });
         }
@@ -175,7 +190,6 @@ function SaveForm(activeSection, ele) {
 }
 
 function GetFormBusinessLogic(listItemId, activeSectionName, department) {
-
     $('#btnAddVendor').hide();   ////by default hide button
     //Get Department of Initiator
     if (IsNullOrUndefined(department)) {
@@ -184,18 +198,11 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     //Functions for Initiator
     if (listItemId == "") {
         setNewFormParamters(department);
-        bindAssetClassification();
+        //  bindAssetClassification();
         $("#ProposedVendor").hide();
         $("#ImportedYes").prop("checked", true);
     }
     if (listItemId > 0) {
-        //Functions for Initiator HOD
-        // if (mainListData.PendingWith == "Initiator HOD") {
-        //     setVendorDropDown();
-        //     SetBudgetValue();
-        //     BindHODEditAttachmentFiles();
-        //     $('#AddVendor').hide();
-        // }
         $("#RaisedOnDisplay").html(new Date(mainListData.RaisedOn).format("dd/MM/yyyy"));
         $("#ProposedVendor").show();
         $("#proposedVendor").show();
@@ -209,10 +216,11 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
             BindPurchaseAttachment();
             $('[id*="EditVendor_"]').hide();
             $('[id*="DeleteVendor_"]').hide();
-             if (mainListData.PayBackPeriod == 'PayBackPeriodYes') {
-                 $("#PayBackPeriodDurationDiv").show();
-             }
-        }
+
+            if (mainListData.PayBackPeriod == 'PayBackPeriodYes') {
+                $("#PayBackPeriodDurationDiv").show();
+            }
+        else { $('#UploadHODAttachment').hide(); }
 
         if (mainListData.Status == "Draft") {
             BindInitiatorEditAttachmentFiles();
@@ -229,12 +237,29 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
             $("#AssetNameDisplay").show();
             $("#CostCenterDisplay").html(mainListData.CostCenter);
             $("#LocationDisplay").html(mainListData.Location);
+            $('#JustificationforPurchaseDisplay').html(mainListData.JustificationforPurchase);
+            $('#AssetLifeDisplay').html(mainListData.AssetLife);
+            $('#NumberofUnitsDisplay').html(mainListData.NumberofUnits);
+            if (mainListData.Imported == "ImportedYes") {
+                $('#ImportedDisplay').html("Yes");
+            } else { $('#ImportedDisplay').html("No"); }
             $('#Location').hide();
             $('#CostCenter').hide();
             $("#CostCenterDisplay").show();
             $("#LocationDisplay").show();
             $('#UploadURSAttachment').hide();
+            $('#InitiatorSection_Comments').hide();
+            $('#ImportedYesLabel').hide();
+            $('#ImportedNoLabel').hide();
             $('#UploadSupportiveDocAttachment').hide();
+            $('#NumberofUnits').hide();
+            $('#AssetLife').hide();
+            $('#JustificationforPurchase').hide();
+            $('#JustificationforPurchaseDisplay').show();
+            $('#AssetLifeDisplay').show();
+            $('#NumberofUnitsDisplay').show();
+            $('#ImportedDisplay').show();
+            $('#InitiatorSection_CommentsDisplay').show();
         }
 
         displayAction();
@@ -253,12 +278,19 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
         if (mainListData.WorkflowStatus == "Approved" || mainListData.WorkflowStatus == "Rejected" || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
             setVendorDropDown();
             BindPurchaseAttachment();
+            $('#UploadPurchaseAttachment').hide();
             $('[id*="EditVendor_"]').hide();
             $('[id*="DeleteVendor_"]').hide();
             $('#AddVendor').hide();
+<<<<<<< HEAD
              if (mainListData.PayBackPeriod == 'PayBackPeriodYes') {
                  $("#PayBackPeriodDurationDiv").show();
              }
+=======
+            if (mainListData.PayBackPeriod == 'PayBackPeriodYes') {
+                $("#PayBackPeriodDurationDiv").show();
+            }
+>>>>>>> 6a8c6b5f6840ec8f8bbc0c089a4208be4f391050
             BindHODAttachment();
             $("#CurrentValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.CurrentValue));
             $("#TotalUtilizedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.TotalUtilizedValue));
@@ -370,106 +402,215 @@ function setVendorDropDown() {
         setSelectedValue(objSelect, mainListData.SelectedVendor);
     }
 }
+// function setFunctionbasedDept(department) {
+//     // var department = encodeURIComponent(department);
+//     //  var department = encodeURI(department);
+//     var department = department.replace("&", "and");
+//     AjaxCall(
+//         {
+//            // url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.DEPTFUNCTIONMASTER + "')/Items?$select=Title,DepartmentName,*&$filter=DepartmentName eq '" + department + "'",
+//            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.DEPTFUNCTIONMASTER + "')/items?$select=FunctionName/Title,DepartmentName/Title&$expand=FunctionName/Title,DepartmentName/Title&$filter=(DepartmentName/Title eq '" + department + "')",
+//             httpmethod: 'GET',
+//             calldatatype: 'JSON',
+//             async: false,
+//             headers:
+//                 {
+//                     "Accept": "application/json;odata=verbose",
+//                     "Content-Type": "application/json;odata=verbose",
+//                     "X-RequestDigest": $("#__REQUESTDIGEST").val()
+//                 },
+//             sucesscallbackfunction: function (data) {
+//                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results) && data.d.results.length > 0) {
+//                     $("#Function").html(data.d.results[0].FunctionName.Title);
+//                 }
+//             }
+//         });
+// }
+
 function setFunctionbasedDept(department) {
-    // var department = encodeURIComponent(department);
-    //  var department = encodeURI(department);
-    var department = department.replace("&", "and");
-    AjaxCall(
-        {
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.DEPTFUNCTIONMASTER + "')/Items?$select=Title,DepartmentName,*&$filter=DepartmentName eq '" + department + "'",
-            httpmethod: 'GET',
-            calldatatype: 'JSON',
-            async: false,
-            headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
-            sucesscallbackfunction: function (data) {
-                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results) && data.d.results.length > 0) {
-                    $("#Function").html(data.d.results[0].Title);
-                }
-            }
-        });
+
+    var clientContext = new SP.ClientContext();
+    var oList = clientContext.get_web().get_lists().getByTitle(ListNames.DEPTFUNCTIONMASTER);
+    var camlQuery = new SP.CamlQuery();
+    camlQuery.set_viewXml(
+
+        '<View><Query><Where><Eq><FieldRef Name=\'DepartmentName\'/>' +
+
+        '<Value Type=\'Lookup\'>' + department + '</Value></Eq></Where></Query>></View>'
+
+    );
+
+    this.collListItem = oList.getItems(camlQuery);
+
+    clientContext.load(collListItem);
+
+    clientContext.executeQueryAsync(
+
+        Function.createDelegate(this, this.onQuerySucceeded),
+
+        Function.createDelegate(this, this.onQueryFailed)
+
+    );
+    return dfd;
 }
+
+function onQuerySucceeded(sender, args) {
+
+    var listItemInfo = '';
+
+    var listItemEnumerator = collListItem.getEnumerator();
+
+    while (listItemEnumerator.moveNext()) {
+
+        var oListItem = listItemEnumerator.get_current();
+
+        listItemInfo = oListItem.get_item('FunctionName').get_lookupValue();
+
+    }
+
+    $("#Function").html(listItemInfo);
+    dfd.resolve(sender, args);
+}
+
+function onQueryFailed(sender, args) {
+
+    dfd.reject(sender, args);
+}
+
+// function bindAssetClassification() {
+//     var functionValue = $('#Function').html();
+//     var colVal = functionValue;
+//   // colVal = functionValue.replace("&", "and");
+//     AjaxCall(
+//         {
+//             // url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ASSETCLASSIFICATIONMASTER + "')/items?$select=Function/Title,AssetClassDescription,Title&$expand=Function/Title&$filter=Function/Title eq '" + functionValue + "'",
+//             url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ASSETCLASSIFICATIONMASTER + "')/items?$select=Function/Title,AssetClassDescription,Title&$expand=Function/Title&$filter=(Function/Title eq '" + colVal + "')",
+//             httpmethod: 'GET',
+//             calldatatype: 'JSON',
+//             async: false,
+//             headers:
+//                 {
+//                     "Accept": "application/json;odata=verbose",
+//                     "Content-Type": "application/json;odata=verbose",
+//                     "X-RequestDigest": $("#__REQUESTDIGEST").val()
+//                 },
+//             sucesscallbackfunction: function (data) {
+//                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
+//                     var result = data.d.results;
+//                     $("#AssetClassification").html('');
+//                     $("#AssetClassification").html("<option value=''>Select</option>");
+//                     $(result).each(function (i, e) {
+//                         var cmditem = result[i].Title + '-' + result[i].AssetClassDescription;
+//                         var opt = $("<option/>");
+//                         opt.text(cmditem);
+//                         opt.attr("value", cmditem);
+//                         opt.appendTo($("#AssetClassification"));
+//                     });
+//                     if (mainListData.AssetClassification != undefined) {
+//                         var objSelect = document.getElementById("AssetClassification");
+//                         setSelectedValue(objSelect, mainListData.AssetClassification);
+//                     }
+//                 }
+//             }
+//         });
+
+// }
 function bindAssetClassification() {
     var functionValue = $('#Function').html();
     var colVal = functionValue;
-    // var colVal = encodeURIComponent(functionValue);
-    AjaxCall(
-        {
-            // url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ASSETCLASSIFICATIONMASTER + "')/items?$select=Function/Title,AssetClassDescription,Title&$expand=Function/Title&$filter=Function/Title eq '" + functionValue + "'",
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ASSETCLASSIFICATIONMASTER + "')/items?$select=Function/Title,AssetClassDescription,Title&$expand=Function/Title&$filter=(Function/Title eq '" + colVal + "')",
-            httpmethod: 'GET',
-            calldatatype: 'JSON',
-            async: false,
-            headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
-            sucesscallbackfunction: function (data) {
-                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
-                    var result = data.d.results;
-                    $("#AssetClassification").html('');
-                    $("#AssetClassification").html("<option value=''>Select</option>");
-                    $(result).each(function (i, e) {
-                        var cmditem = result[i].Title + '-' + result[i].AssetClassDescription;
-                        var opt = $("<option/>");
-                        opt.text(cmditem);
-                        opt.attr("value", cmditem);
-                        opt.appendTo($("#AssetClassification"));
-                    });
-                    if (mainListData.AssetClassification != undefined) {
-                        var objSelect = document.getElementById("AssetClassification");
-                        setSelectedValue(objSelect, mainListData.AssetClassification);
-                    }
-                }
-            }
-        });
+    var clientContext = new SP.ClientContext();
+    var oList = clientContext.get_web().get_lists().getByTitle(ListNames.ASSETCLASSIFICATIONMASTER);
+    var camlQuery = new SP.CamlQuery();
+    camlQuery.set_viewXml(
 
+        '<View><Query><Where><Eq><FieldRef Name=\'Function\'/>' +
+
+        '<Value Type=\'Lookup\'>' + colVal + '</Value></Eq></Where></Query>></View>'
+
+    );
+
+    this.collListItem = oList.getItems(camlQuery);
+
+    clientContext.load(collListItem);
+
+    clientContext.executeQueryAsync(
+
+        Function.createDelegate(this, this.onQueryAssetSucceeded),
+
+        Function.createDelegate(this, this.onQueryAssetFailed)
+
+    );
+    return dfd;
 }
-function bindEditAssetClassification() {
-    var functionValue = $('#Function').html();
-    //functionValue = encodeURIComponent(functionValue);
+function onQueryAssetSucceeded(sender, args) {
+    var listItemInfo = '';
+    var result = [];
+    var listItemEnumerator = collListItem.getEnumerator();
+    while (listItemEnumerator.moveNext()) {
+        var oListItem = listItemEnumerator.get_current();
+        result.push({ Title: oListItem.get_item('Title'), AssetClassDescription: oListItem.get_item('AssetClassDescription') });
 
-    AjaxCall(
-        {
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ASSETCLASSIFICATIONMASTER + "')/items?$select=Function/Title,AssetClassDescription,Title&$expand=Function/Title&$filter=Function/Title eq '" + functionValue + "'",
-            httpmethod: 'GET',
-            calldatatype: 'JSON',
-            async: false,
-            headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
-            sucesscallbackfunction: function (data) {
-                if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
-                    var result = data.d.results;
-                    $("#AssetClassification").html('');
-                    $("#AssetClassification").html("<option value=''>Select</option>");
-                    $(result).each(function (i, e) {
-                        var cmditem = result[i].Title + '-' + result[i].AssetClassDescription;
-                        var opt = $("<option/>");
-                        opt.text(cmditem);
-                        opt.attr("value", cmditem);
-                        opt.appendTo($("#AssetClassification"));
-                    });
-                    if (mainListData.AssetClassification != undefined) {
-                        var objSelect = document.getElementById("AssetClassification");
-                        setSelectedValue(objSelect, mainListData.AssetClassification);
-                        // bindAssetName(mainListData.AssetClassification);
+    }
+    $("#AssetClassification").html('');
+    $("#AssetClassification").html("<option value=''>Select</option>");
+    $(result).each(function (i, e) {
+        var cmditem = result[i].Title + '-' + result[i].AssetClassDescription;
+        var opt = $("<option/>");
+        opt.text(cmditem);
+        opt.attr("value", cmditem);
+        opt.appendTo($("#AssetClassification"));
+    });
+    if (mainListData.AssetClassification != undefined) {
+        var objSelect = document.getElementById("AssetClassification");
+        setSelectedValue(objSelect, mainListData.AssetClassification);
+    }
 
-                    }
-                }
-            }
-        });
-
+    dfd.resolve(sender, args);
 }
+
+function onQueryAssetFailed(sender, args) {
+
+    dfd.reject(sender, args);
+}
+// function bindEditAssetClassification() {
+//     var functionValue = $('#Function').html();
+//     //functionValue = encodeURIComponent(functionValue);
+
+//     AjaxCall(
+//         {
+//             url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.ASSETCLASSIFICATIONMASTER + "')/items?$select=Function/Title,AssetClassDescription,Title&$expand=Function/Title&$filter=Function/Title eq '" + functionValue + "'",
+//             httpmethod: 'GET',
+//             calldatatype: 'JSON',
+//             async: false,
+//             headers:
+//                 {
+//                     "Accept": "application/json;odata=verbose",
+//                     "Content-Type": "application/json;odata=verbose",
+//                     "X-RequestDigest": $("#__REQUESTDIGEST").val()
+//                 },
+//             sucesscallbackfunction: function (data) {
+//                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
+//                     var result = data.d.results;
+//                     $("#AssetClassification").html('');
+//                     $("#AssetClassification").html("<option value=''>Select</option>");
+//                     $(result).each(function (i, e) {
+//                         var cmditem = result[i].Title + '-' + result[i].AssetClassDescription;
+//                         var opt = $("<option/>");
+//                         opt.text(cmditem);
+//                         opt.attr("value", cmditem);
+//                         opt.appendTo($("#AssetClassification"));
+//                     });
+//                     if (mainListData.AssetClassification != undefined) {
+//                         var objSelect = document.getElementById("AssetClassification");
+//                         setSelectedValue(objSelect, mainListData.AssetClassification);
+//                         // bindAssetName(mainListData.AssetClassification);
+
+//                     }
+//                 }
+//             }
+//         });
+
+// }
 function bindAssetName(assetclassification) {
     if (assetclassification != undefined) {
         var assetCode = TrimComma(assetclassification).split("-");
@@ -614,7 +755,7 @@ function BindURSAttachmentFiles() {
                             $('#URSContainer').html(htmlStr);
                             $('#UploadURSAttachment').hide();
                             $("#UploadURSAttachment").val('');
-                            $("#UploadURSAttachment").attr("required", false);
+                            //   $("#UploadURSAttachment").attr("required", false);
                             HideWaitDialog();
 
                         }).catch(function (err) {
@@ -794,7 +935,7 @@ function removeURSFile(itemId) {
                 var htmlStr = "";
                 $('#URSContainer').html(htmlStr);
                 $('#UploadURSAttachment').show();
-                $("#UploadURSAttachment").attr("required", true);
+                //   $("#UploadURSAttachment").attr("required", true);
                 $("#UploadURSAttachment").val('');
                 HideWaitDialog();
             },
@@ -1493,9 +1634,9 @@ function ValidateSize(file) {
     var isValid = false;
     if (file.files[0] != undefined) {
         var FileSize = file.files[0].size / 1024 / 1024; // in MB
-        if (FileSize > 2) {
+        if (FileSize > 5) {
             $(file).val('');
-            AlertModal('Error', "File size exceeds 2 MB");
+            AlertModal('Error', "File size exceeds 5 MB");
 
         } else {
             isValid = true;
