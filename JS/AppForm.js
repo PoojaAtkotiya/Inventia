@@ -209,9 +209,9 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
             BindPurchaseAttachment();
             $('[id*="EditVendor_"]').hide();
             $('[id*="DeleteVendor_"]').hide();
-            if (mainListData.PayBackPeriod == true) {
-                $("#PayBackPeriodDurationDiv").show();
-            }
+             if (mainListData.PayBackPeriod == 'PayBackPeriodYes') {
+                 $("#PayBackPeriodDurationDiv").show();
+             }
         }
 
         if (mainListData.Status == "Draft") {
@@ -256,9 +256,9 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
             $('[id*="EditVendor_"]').hide();
             $('[id*="DeleteVendor_"]').hide();
             $('#AddVendor').hide();
-            if (mainListData.PayBackPeriod == true) {
-                $("#PayBackPeriodDurationDiv").show();
-            }
+             if (mainListData.PayBackPeriod == 'PayBackPeriodYes') {
+                 $("#PayBackPeriodDurationDiv").show();
+             }
             BindHODAttachment();
             $("#CurrentValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.CurrentValue));
             $("#TotalUtilizedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.TotalUtilizedValue));
