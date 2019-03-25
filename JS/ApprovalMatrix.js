@@ -81,7 +81,7 @@ function SetApprovalMatrix(id, mainListName) {
             tempApproverMatrix = tempApproverMatrix.sort(function (a, b) {
                 return a.Levels - b.Levels;
             });
-            SetApproversInApprovalMatrix(id);
+           // SetApproversInApprovalMatrix(id);
             if (!IsNullOrUndefined(tempApproverMatrix) && tempApproverMatrix.length > 0) {
                 DisplayApplicationStatus(tempApproverMatrix);
             }
@@ -267,7 +267,8 @@ function SetSectionWiseRoles(id) {
 /*Pooja Atkotiya */
 function SetApproversInApprovalMatrix(id) {
     var initiatorDept = $('#Department').html();
-    var initFunction = $('#Function').html();
+   // var initFunction = $('#Function').html();.
+   var initFunction = $('#Function')[0].innerText;
     if (initiatorDept == undefined || initiatorDept == null || initiatorDept == "") { initiatorDept = department; }
     if (IsStrNullOrEmpty(initiatorDept) && !IsStrNullOrEmpty(currentUserRole) && currentUserRole == Roles.CREATOR) {
         var errMessage = "Dear Initiator, you cannot create request as your Department is not defined.It would be ideal if you contact your Admin for same.";
@@ -305,23 +306,48 @@ function SetApproversInApprovalMatrix(id) {
                             if (t.Role == Roles.CREATOR) {
 
                             } else if (t.Role == Roles.PURCHASE) {
-                                if (t.Role == a.Role && a.UserSelection == true) {
+
+                               if((a.Role.results.indexOf(t.Role) > -1) && a.UserSelection == true){
+                                // if (t.Role == a.Role && a.UserSelection == true) {
                                     if (!IsNullOrUndefinedApprover(a.UserNameId) && a.UserNameId.results.length > 0) {
+                                        if(t.ApproverId ==null){
                                         t.ApproverId = a.UserNameId.results;
+                                        }
+                                        else
+                                        {
+                                            t.ApproverId =t.ApproverId.concat(a.UserNameId.results[0]);
+                                        }
                                     }
                                 }
                             } else if (t.Role == Roles.INITIATORHOD) {
-                                if (t.Role == a.Role && a.UserSelection == true && !IsNullOrUndefined(a.Department) && !IsNullOrUndefined(a.Department.results) && a.Department.results.length > 0 && a.Department.results.some(d => d.Title == initiatorDept)) {
+                                if((a.Role.results.indexOf(t.Role) > -1) && a.UserSelection == true){
+                               // if (t.Role == a.Role && a.UserSelection == true && !IsNullOrUndefined(a.Department) && !IsNullOrUndefined(a.Department.results) && a.Department.results.length > 0 && a.Department.results.some(d => d.Title == initiatorDept)) {
+                                if (!IsNullOrUndefined(a.Department) && !IsNullOrUndefined(a.Department.results) && a.Department.results.length > 0 && a.Department.results.some(d => d.Title == initiatorDept)) {
                                     if (!IsNullOrUndefinedApprover(a.UserNameId) && a.UserNameId.results.length > 0) {
-                                        t.ApproverId = a.UserNameId.results;
+                                        if(t.ApproverId ==null){
+                                            t.ApproverId = a.UserNameId.results;
+                                            }
+                                            else
+                                            {
+                                                t.ApproverId =t.ApproverId.concat(a.UserNameId.results[0]);
+                                            }
                                     }
                                 }
+                            }
                             } else if (t.Role == Roles.FUNCTIONHEAD) {
-                                if (t.Role == a.Role && a.UserSelection == true && !IsNullOrUndefined(a.Function) && !IsStrNullOrEmpty(a.Function.Title) && a.Function.Title == initFunction) {
+                                if((a.Role.results.indexOf(t.Role) > -1) && a.UserSelection == true){
+                                if (!IsNullOrUndefined(a.Function) && !IsStrNullOrEmpty(a.Function.results) && a.Function.results.length > 0 && a.Function.results.some(d => d.Title == initFunction)) {
                                     if (!IsNullOrUndefinedApprover(a.UserNameId) && a.UserNameId.results.length > 0) {
-                                        t.ApproverId = a.UserNameId.results;
+                                        if(t.ApproverId ==null){
+                                            t.ApproverId = a.UserNameId.results;
+                                            }
+                                            else
+                                            {
+                                                t.ApproverId =t.ApproverId.concat(a.UserNameId.results[0]);
+                                            }
                                     }
                                 }
+                            }
                             }
                             else if (t.Role == Roles.MANAGEMENT) {
 

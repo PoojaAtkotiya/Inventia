@@ -16,6 +16,7 @@ var gTranArray = [];
 var department;
 var gRequestDigest;
 var gRequestDigestValue;
+var dfd = $.Deferred();
 jQuery(document).ready(function () {
     jQuery.noConflict();
     GetFormDigest().done(function (data) {
@@ -54,7 +55,8 @@ function onloadConstantsSuccess(sender, args) {
     ExecuteOrDelayUntilScriptLoaded(GetCurrentUserDetails, "sp.js");
     if (listItemId == "" || IsNullOrUndefined(listItemId)) {
         GetUserDepartment();
-        setFunctionbasedDept(department);
+       // setFunctionbasedDept(department);
+     
     }
     else if (listItemId > 0) {
         department = mainListData.Department;
@@ -65,7 +67,15 @@ function onloadConstantsSuccess(sender, args) {
         GetSetFormData();
     }
     else {
-        GetGlobalApprovalMatrix(listItemId);
+        $.when(setFunctionbasedDept(department))
+        .done(function (data) {
+               bindAssetClassification();
+               GetGlobalApprovalMatrix(listItemId);
+        })
+        .fail(function (sender, args) {
+           alert('Failed');
+        });  
+   //  GetGlobalApprovalMatrix(listItemId);
     }
     GetFormBusinessLogic(listItemId, activeSectionName, department);
 }
@@ -1116,7 +1126,7 @@ function DisplayApplicationStatus(approverMatrix) {
             tr.append("<td width='20%'>" + approvers + "</td>");
             tr.append("<td width='10%'>" + Status + "</td>");
             tr.append("<td width='10%'>" + AssignDate + "</td>");
-            tr.append("<td width='10%'>" + DueDate + "</td>");
+          //  tr.append("<td width='10%'>" + DueDate + "</td>");
             tr.append("<td width='10%'>" + ApprovalDate + "</td>");
             tr.append("<td width='20%'>" + Comments + "</td>");
             $('#tblApplicationStatus').append(tr);

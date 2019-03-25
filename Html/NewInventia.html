@@ -7,7 +7,7 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
     <!-- #region  Inventia UAT -->
-    <!--
+   
     <link rel="stylesheet" type="text/css" href="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/CSSFiles/font-awesome.min.css"
     />
     <link rel="stylesheet" type="text/css" href="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/CSSFiles/datatable.css"
@@ -23,11 +23,11 @@
     <link rel="stylesheet" type="text/css" href="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/CSSFiles/skeleton.css"
     />
     
-    -->
+   
     <!-- #endregion -->
 
     <!-- #region Syno DEV-->
-    <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/CSSFiles/font-awesome.min.css"
+    <!-- <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/CSSFiles/font-awesome.min.css"
     />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/CSSFiles/datatable.css"
     />
@@ -40,7 +40,7 @@
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/CSSFiles/appMain.css"
     />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/CSSFiles/skeleton.css"
-    />
+    /> -->
 
     <!-- #endregion -->
 
@@ -66,7 +66,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     <!-- #region Inventia UAT-->
-    <!--
+    
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/JSFiles/moment.js"></script>
     <script type="text/javascript" src="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/JSFiles/bootstrap.min.js"></script>
@@ -88,11 +88,11 @@
     <script type="text/javascript" src="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/JSFiles/AppForm.js"></script>
     <script type="text/javascript" src="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script>
 
-    -->
+   
     <!-- #endregion -->
 
     <!-- #region Syno DEV-->
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/moment.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/bootstrap-datetimepicker.min.js"></script>
@@ -110,13 +110,13 @@
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/master.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/tran.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/AppForm.js"></script>
-    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/dev/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script> -->
 
     <!-- #endregion -->
 
     <!-- #region Syno QA-->
-    <!--
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   
+    <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/moment.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/bootstrap-datetimepicker.min.js"></script>
@@ -135,8 +135,8 @@
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/tran.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/AppForm.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script>
+ -->
 
-    -->
     <!-- #endregion -->
 
     <script type="text/javascript">
@@ -213,62 +213,25 @@
                     $("#description").removeAttr("required");
                 }
             });
-            $(document).on("change", "#PayBackPeriod", function () {
-                var checkBox = document.getElementById("PayBackPeriod");
-                if (checkBox.checked == true) {
-                    $("#PayBackPeriodDurationDiv").show();
-                } else {
-                    $("#PayBackPeriodDurationDiv").hide();
-                    $("#PayBackPeriodDuration").removeAttr("required");
-                }
-
-            });
-            // $('.form-control').change(function () {
-            //     var type = $(this).attr('controlType');
-            //     var id = $(this).attr('id');
-            //     switch (type) {
-            //         case "text":
-            //             formData[id] = $(this).val();
-            //             break;
-            //         case "terms":
-            //             var metaObject = {
-            //                 __metadata: { "type": "SP.Taxonomy.TaxonomyFieldValue" },
-            //                 Label: $("select#" + id + ">option:selected").text(),
-            //                 TermGuid: $(this).val(),
-            //                 WssId: -1
-            //             }
-            //             formData[id] = metaObject;
-            //             break;
-            //         case "combo":
-            //             formData[id] = $(this).val();
-            //             break;
-            //         case "multitext":
-            //             formData[id] = $(this).val();
-            //             break;
-            //         case "date":
-            //             formData[id] = $(this).val();
-            //             break;
-            //         case "checkbox":
-            //             formData[id] = $(this)[0]['checked'];
-            //             break;
-            //         case "multicheckbox":
-            //             var parenType = $(this).attr('cParent');
-            //             if (formData[parenType] == undefined)
-            //                 formData[parenType] = { "__metadata": { "type": "Collection(Edm.String)" }, "results": [] };
-            //             var isChecked = $(this)[0]['checked'];
-            //             var choiceName = $(this)[0].id;
-            //             var idx = formData[parenType].results.indexOf(choiceName);
-            //             if (isChecked && idx == -1)
-            //                 formData[parenType].results.push(choiceName);
-            //             else if (idx > -1)
-            //                 formData[parenType].results.splice(idx, 1);
-            //             break;
-            //         case "radiogroup":
-            //             var parenType = $(this).attr('cParent');
-            //             formData[parenType] = $(this)[0].id;
-            //             break;
+            // $(document).on("change", "#PayBackPeriod", function () {
+            //     var checkBox = document.getElementById("PayBackPeriod");
+            //     if (checkBox.checked == true) {
+            //         $("#PayBackPeriodDurationDiv").show();
+            //     } else {
+            //         $("#PayBackPeriodDurationDiv").hide();
+            //         $("#PayBackPeriodDuration").removeAttr("required");
             //     }
+
             // });
+            $(function () {
+            $("input[name='PayBackPeriod']").click(function () {
+            if ($("#PayBackPeriodYes").is(":checked")) {
+                $("#PayBackPeriodDurationDiv").show();
+            } else {
+                $("#PayBackPeriodDurationDiv").hide();
+            }
+                });
+            });
         });
         jQuery(document).ready(function ($) {
             $("#card-head-InitiatorSection").click(function () {
@@ -385,7 +348,7 @@
                                                                 valuebindingcolumn="Title" textbindingcolumnn="Title" name="Location"
                                                                 required="required" required>
                                                             </select>
-                                                            <label id="LocationDisplay" class="col-md-8 labeltop" style="display:none;"></label>
+                                                            <label id="LocationDisplay" class="col-md-8 static-control labeltop" style="display:none;"></label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -406,7 +369,7 @@
                                                                 textbindingcolumnn="AssetClassification" name="AssetClassification"
                                                                 required="required">
                                                             </select>
-                                                            <label id="AssetClassificationDisplay" class="col-md-8 labeltop" style="display:none;"></label>
+                                                            <label id="AssetClassificationDisplay" class="col-md-8 static-control labeltop" style="display:none;"></label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -422,7 +385,7 @@
                                                                 listname="BudgetMaster" textbindingcolumnn="AssetName" name="AssetName"
                                                                 required="required">
                                                             </select>
-                                                            <label id="AssetNameDisplay" class="col-md-8 labeltop" style="display:none;"></label>
+                                                            <label id="AssetNameDisplay" class="col-md-8 static-control labeltop" style="display:none;"></label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -440,6 +403,7 @@
                                                                 data="digit" controlType="text" listtype="main" maxlength="15"
                                                                 name="NumberofUnits" required="required" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
                                                             />
+                                                            <label id="NumberofUnitsDisplay" class="col-md-8 static-control labeltop" style="display:none;"></label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -455,6 +419,7 @@
                                                                 controlType="text" name="AssetLife" maxlength="15" listtype="main"
                                                                 required="required" data="digit" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
                                                             />
+                                                            <label id="AssetLifeDisplay" class="col-md-8 static-control labeltop" style="display:none;"></label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -467,15 +432,16 @@
                                                             Imported?
                                                         </label>
                                                         <div class="col-md-8 ">
-                                                            <label class="col-md-3 control-label radio-label">
+                                                            <label class="col-md-3 control-label radio-label" id="ImportedYesLabel">
                                                                 <input class="dynamic-control" type="radio" id="ImportedYes" name="Imported" value="ImportedYes" dispLabel="Imported?" controlType="radiogroup"
                                                                     cParent="Imported" listtype="main" defaultVal="ImportedYes"
                                                                     checked>Yes
                                                             </label>
-                                                            <label class="col-md-4 control-label radio-label">
+                                                            <label class="col-md-4 control-label radio-label" id="ImportedNoLabel">
                                                                 <input class="dynamic-control" type="radio" id="ImportedNo" dispLabel="Imported?" name="Imported" value="ImportedNo" controlType="radiogroup"
                                                                     cParent="Imported" listtype="main" defaultVal="ImportedYes">No
                                                             </label>
+                                                            <label id="ImportedDisplay" class="col-md-8 static-control labeltop" style="display:none;"></label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -491,7 +457,7 @@
                                                                 valuebindingcolumn="Title" textbindingcolumnn="Title" name="CostCenter"
                                                                 required="required">
                                                             </select>
-                                                            <label id="CostCenterDisplay" class="col-md-8 labeltop" style="display:none"></label>
+                                                            <label id="CostCenterDisplay" class="col-md-8 static-control labeltop" style="display:none"></label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -542,6 +508,7 @@
                                                                 placeholder="Justification for Purchase" controlType="text" maxlength="1000"
                                                                 name="JustificationforPurchase" listtype="main" required="required"
                                                             />
+                                                            <label id="JustificationforPurchaseDisplay" class="col-md-8 static-control labeltop" style="display:none;"></label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -550,13 +517,13 @@
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
                                                         <label class="col-md-4 control-label">
-                                                            <span class="text-danger text-default-light">*</span>
+                                                           
                                                             URS Attachment
                                                         </label>
                                                         <div class="col-md-8">
                                                             <input type="file" class="form-control dynamic-control" id="UploadURSAttachment" dispLabel="URS Attachment" name="myfiles"
                                                                 controlType="file" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
-                                                                    text/plain, application/pdf, image/*" required="required"
+                                                                    text/plain, application/pdf, image/*" 
                                                             />
                                                             <div id="URSContainer"></div>
                                                         </div>
@@ -569,7 +536,7 @@
                                                             <input type="file" class="form-control dynamic-control" id="UploadSupportiveDocAttachment" name="myfiles" dispLabel="Supportive Documents"
                                                                 controlType="file" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
                                                                     text/plain, application/pdf, image/*" />
-                                                            <br>
+                                                         
                                                             <ul id="fileListSupportiveDoc"></ul>
                                                         </div>
                                                     </div>
@@ -583,6 +550,7 @@
                                                             <textarea id="InitiatorSection_Comments" dispLabel="Comment(s)" class="form-control approver-control" maxlength="1000" controlType="multitext"
                                                                 listname="main" name="InitiatorSection_Comments" rows="5" cols="40"
                                                                 wrap="hard"></textarea>
+                                                                <label id="InitiatorSection_CommentsDisplay" class="col-md-8 static-control labeltop" style="display:none;"></label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -742,13 +710,24 @@
                                                             Pay Back Period Applicable?
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <input type="checkbox" id="PayBackPeriod" dispLabel="Pay Back Period Applicable?" class="form-control dynamic-control" name="PayBackPeriod"
-                                                                controlType="checkbox" listtype="main" />
+                                                            <!-- <input type="checkbox" id="PayBackPeriod" dispLabel="Pay Back Period Applicable?" class="form-control dynamic-control" name="PayBackPeriod"
+                                                                controlType="checkbox" listtype="main" /> -->
+                                                                <label class="col-md-3 control-label radio-label">
+                                                                    <input class="dynamic-control" type="radio" id="PayBackPeriodYes" name="PayBackPeriod"
+                                                                        value="PayBackPeriodYes" controlType="radiogroup" dispLabel="Pay Back Period Applicable?" cParent="PayBackPeriod"
+                                                                        listtype="main" defaultVal="PayBackPeriodYes" checked/>Yes
+                                                                </label>
+                                                                <label class="col-md-4 control-label radio-label">
+                                                                    <input class="dynamic-control" type="radio" id="PayBackPeriodNo" name="PayBackPeriod"
+                                                                        value="PayBackPeriodNo" controlType="radiogroup" cParent="PayBackPeriod"
+                                                                        listtype="main" defaultVal="PayBackPeriodYes" />No
+                                                                </label>
+
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <div class="form-group" style="display:none" id="PayBackPeriodDurationDiv">
+                                                    <div class="form-group" id="PayBackPeriodDurationDiv">
                                                         <label class="col-md-4 control-label">
                                                             <span class="text-danger text-default-light">*</span>
                                                             Pay Back Period(Years)
@@ -976,16 +955,8 @@
     <div id="loading">
         <div id="pageLoading">
         </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-        <img id="loadingimage" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/loading.gif"
-=======
-        <img id="loadingimage" src="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/loading.gif"
->>>>>>> 48e3f06dcb7725577eb93394b92ce39903853f83
-            alt="Please Wait" />
-=======
         <img id="loadingimage" src="" alt="Please Wait" />
->>>>>>> 97d643e17326c941ed044b537f07416f5ce28d7f
+
     </div>
 </body>
 </html>
