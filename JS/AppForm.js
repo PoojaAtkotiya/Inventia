@@ -216,11 +216,10 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
             BindPurchaseAttachment();
             $('[id*="EditVendor_"]').hide();
             $('[id*="DeleteVendor_"]').hide();
+
             if (mainListData.PayBackPeriod == 'PayBackPeriodYes') {
                 $("#PayBackPeriodDurationDiv").show();
             }
-            $('#UploadPurchaseAttachment').hide();
-        }
         else { $('#UploadHODAttachment').hide(); }
 
         if (mainListData.Status == "Draft") {
@@ -283,9 +282,12 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
             $('[id*="EditVendor_"]').hide();
             $('[id*="DeleteVendor_"]').hide();
             $('#AddVendor').hide();
-            if (mainListData.PayBackPeriod == 'PayBackPeriodYes') {
-                $("#PayBackPeriodDurationDiv").show();
-            }
+
+             if (mainListData.PayBackPeriod == 'PayBackPeriodYes') {
+                 $("#PayBackPeriodDurationDiv").show();
+             }
+
+           
             BindHODAttachment();
             $("#CurrentValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.CurrentValue));
             $("#TotalUtilizedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.TotalUtilizedValue));
@@ -1648,4 +1650,4 @@ function ReplaceNumberWithCommas(yourNumber) {
         //Combines the two sections
         return n.join(".");
     }
-}
+}}

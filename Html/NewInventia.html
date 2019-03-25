@@ -7,7 +7,8 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
     <!-- #region  Inventia UAT -->
-   
+
+    <!-- -->
     <link rel="stylesheet" type="text/css" href="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/CSSFiles/font-awesome.min.css"
     />
     <link rel="stylesheet" type="text/css" href="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/CSSFiles/datatable.css"
@@ -22,8 +23,6 @@
     />
     <link rel="stylesheet" type="text/css" href="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/CSSFiles/skeleton.css"
     />
-    
-   
     <!-- #endregion -->
 
     <!-- #region Syno DEV-->
@@ -45,7 +44,7 @@
     <!-- #endregion -->
 
     <!-- #region Syno QA-->
-    <!--  <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/CSSFiles/font-awesome.min.css"
+     <!-- <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/CSSFiles/font-awesome.min.css"
     />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/CSSFiles/datatable.css"
     />
@@ -58,15 +57,15 @@
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/CSSFiles/appMain.css"
     />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/CSSFiles/skeleton.css"
-    />-->
-
+    /> -->
+    
     <!-- #endregion -->
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     <!-- #region Inventia UAT-->
-    
+    <!-- -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/JSFiles/moment.js"></script>
     <script type="text/javascript" src="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/JSFiles/bootstrap.min.js"></script>
@@ -115,8 +114,9 @@
     <!-- #endregion -->
 
     <!-- #region Syno QA-->
-   
-    <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!--     
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/moment.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/bootstrap-datetimepicker.min.js"></script>
@@ -220,6 +220,64 @@
             //     } else {
             //         $("#PayBackPeriodDurationDiv").hide();
             //         $("#PayBackPeriodDuration").removeAttr("required");
+
+            //     }
+
+            // });
+        
+            $(function () {
+            $("input[name='PayBackPeriod']").click(function () {
+            if ($("#PayBackPeriodYes").is(":checked")) {
+                $("#PayBackPeriodDurationDiv").show();
+            } else {
+                $("#PayBackPeriodDurationDiv").hide();
+            }
+                });
+            });
+            // $('.form-control').change(function () {
+            //     var type = $(this).attr('controlType');
+            //     var id = $(this).attr('id');
+            //     switch (type) {
+            //         case "text":
+            //             formData[id] = $(this).val();
+            //             break;
+            //         case "terms":
+            //             var metaObject = {
+            //                 __metadata: { "type": "SP.Taxonomy.TaxonomyFieldValue" },
+            //                 Label: $("select#" + id + ">option:selected").text(),
+            //                 TermGuid: $(this).val(),
+            //                 WssId: -1
+            //             }
+            //             formData[id] = metaObject;
+            //             break;
+            //         case "combo":
+            //             formData[id] = $(this).val();
+            //             break;
+            //         case "multitext":
+            //             formData[id] = $(this).val();
+            //             break;
+            //         case "date":
+            //             formData[id] = $(this).val();
+            //             break;
+            //         case "checkbox":
+            //             formData[id] = $(this)[0]['checked'];
+            //             break;
+            //         case "multicheckbox":
+            //             var parenType = $(this).attr('cParent');
+            //             if (formData[parenType] == undefined)
+            //                 formData[parenType] = { "__metadata": { "type": "Collection(Edm.String)" }, "results": [] };
+            //             var isChecked = $(this)[0]['checked'];
+            //             var choiceName = $(this)[0].id;
+            //             var idx = formData[parenType].results.indexOf(choiceName);
+            //             if (isChecked && idx == -1)
+            //                 formData[parenType].results.push(choiceName);
+            //             else if (idx > -1)
+            //                 formData[parenType].results.splice(idx, 1);
+            //             break;
+            //         case "radiogroup":
+            //             var parenType = $(this).attr('cParent');
+            //             formData[parenType] = $(this)[0].id;
+            //             break;
             //     }
 
             // });
@@ -348,7 +406,8 @@
                                                                 valuebindingcolumn="Title" textbindingcolumnn="Title" name="Location"
                                                                 required="required" required>
                                                             </select>
-                                                            <label id="LocationDisplay" class="col-md-8 static-control labeltop" style="display:none;"></label>
+                                                            <label id="LocationDisplay" class="col-md-8 static-control labeltop p-l-0" style="display:none;"></label>
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -369,7 +428,7 @@
                                                                 textbindingcolumnn="AssetClassification" name="AssetClassification"
                                                                 required="required">
                                                             </select>
-                                                            <label id="AssetClassificationDisplay" class="col-md-8 static-control labeltop" style="display:none;"></label>
+                                                            <label id="AssetClassificationDisplay" class="col-md-8 static-control labeltop p-l-0" style="display:none;"></label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -385,7 +444,8 @@
                                                                 listname="BudgetMaster" textbindingcolumnn="AssetName" name="AssetName"
                                                                 required="required">
                                                             </select>
-                                                            <label id="AssetNameDisplay" class="col-md-8 static-control labeltop" style="display:none;"></label>
+                                                            <label id="AssetNameDisplay" class="col-md-8 static-control labeltop p-l-0" style="display:none;"></label>
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -457,7 +517,8 @@
                                                                 valuebindingcolumn="Title" textbindingcolumnn="Title" name="CostCenter"
                                                                 required="required">
                                                             </select>
-                                                            <label id="CostCenterDisplay" class="col-md-8 static-control labeltop" style="display:none"></label>
+                                                            <label id="CostCenterDisplay" class="col-md-8 static-control labeltop  p-l-0" style="display:none"></label>
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -491,7 +552,7 @@
                                                 <div class="col-lg-12">
                                                     <div class="form-group">
                                                         <label class="col-md-2 control-label"> Proposed Vendor(s) </label>
-                                                        <label id="ProposedVendor" dispLabel="Proposed Vendor(s)" class="col-md-10 static-control labeltop" controlType="text" listtype="main"></label>
+                                                        <label id="ProposedVendor" dispLabel="Proposed Vendor(s)" class="col-md-10 static-control labeltop p-l-0" controlType="text" listtype="main"></label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -709,9 +770,17 @@
                                                             <span class="text-danger text-default-light">*</span>
                                                             Pay Back Period Applicable?
                                                         </label>
-                                                        <div class="col-md-8">
+
+                                                         <!-- <div class="col-md-8">
+                                                            <input type="checkbox" id="PayBackPeriod" dispLabel="Pay Back Period Applicable?" class="form-control dynamic-control" name="PayBackPeriod"
+                                                                controlType="checkbox" listtype="main" />
+                                                        </div> -->
+                                                        <div class="col-md-8 ">
+
+                                                       
                                                             <!-- <input type="checkbox" id="PayBackPeriod" dispLabel="Pay Back Period Applicable?" class="form-control dynamic-control" name="PayBackPeriod"
                                                                 controlType="checkbox" listtype="main" /> -->
+
                                                                 <label class="col-md-3 control-label radio-label">
                                                                     <input class="dynamic-control" type="radio" id="PayBackPeriodYes" name="PayBackPeriod"
                                                                         value="PayBackPeriodYes" controlType="radiogroup" dispLabel="Pay Back Period Applicable?" cParent="PayBackPeriod"
@@ -722,8 +791,7 @@
                                                                         value="PayBackPeriodNo" controlType="radiogroup" cParent="PayBackPeriod"
                                                                         listtype="main" defaultVal="PayBackPeriodYes" />No
                                                                 </label>
-
-                                                        </div>
+                                                       </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
