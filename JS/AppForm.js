@@ -87,7 +87,7 @@ function setCustomApprovers() {
                         //     }
                         // }
 
-                        if (app.Role.results[0] == temp.Role && app.UserSelection == true) {
+                        if (app.Role.results.some(a => a == temp.Role) && app.UserSelection == true) {
                             if (!IsNullOrUndefined(app.Location) && !IsStrNullOrEmpty(app.Location.results) && app.Location.results.length > 0 && app.Location.results.some(d => d.Title == location)) {
                                 if (!IsNullOrUndefinedApprover(app.UserNameId) && app.UserNameId.results.length > 0) {
                                     if (temp.ApproverId == null) {
