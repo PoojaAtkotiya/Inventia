@@ -593,7 +593,7 @@ function ConfirmationDailog(options) {
     });
 }
 function ConfirmPopupYes(url, id, okCallback) {
-    $("#ConfirmDialog #btnYesPopup").attr('disabled', 'disabled');
+  //  $("#ConfirmDialog #btnYesPopup").attr('disabled', 'disabled');
     ShowWaitDialog();
     if (typeof (url) !== "undefined" && !IsNullOrUndefined(url)) {
         url = url;
