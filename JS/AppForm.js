@@ -81,28 +81,13 @@ function setCustomApprovers() {
             tempApproverMatrix.filter(function (temp) {
                 if (temp.Role == Roles.MANAGEMENT && temp.Status != "Not Required") {
                     approverMaster.filter(app => {
-                        // if (temp.Role == app.Role && app.UserSelection == true && !IsNullOrUndefined(app.Location) && !IsStrNullOrEmpty(app.Location.Title) && app.Location.Title == location) {
-                        //     if (app.UserNameId.results.length > 0) {
-                        //         temp.ApproverId = app.UserNameId.results;
-                        //     }
-                        // }
-
-                        if (app.Role.results.some(a => a == temp.Role) && app.UserSelection == true) {
-                            if (!IsNullOrUndefined(app.Location) && !IsStrNullOrEmpty(app.Location.results) && app.Location.results.length > 0 && app.Location.results.some(d => d.Title == location)) {
-                                if (!IsNullOrUndefinedApprover(app.UserNameId) && app.UserNameId.results.length > 0) {
-                                    if (temp.ApproverId == null) {
-                                        temp.ApproverId = app.UserNameId.results;
-                                    }
-                                    else {
-                                        if (!IsNullOrUndefinedApprover(app.UserNameId) && app.UserNameId.results.length > 0) {
-                                            temp.ApproverId = temp.ApproverId.results.concat(app.UserNameId.results[0]);
-                                            temp.ApproverId = removeDuplicateFromArray(temp.ApproverId);
-                                        }
-                                    }
-                                }
+                        if (temp.Role == app.Role && app.UserSelection == true && !IsNullOrUndefined(app.Location) && !IsStrNullOrEmpty(app.Location.Title) && app.Location.Title == location) {
+                            if (app.UserNameId.results.length > 0) {
+                                temp.ApproverId = app.UserNameId.results;
                             }
                         }
                     });
+
                 }
             });
         }
@@ -198,7 +183,7 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
     //Functions for Initiator
     if (listItemId == "") {
         setNewFormParamters(department);
-        //  bindAssetClassification();
+      //  bindAssetClassification();
         $("#ProposedVendor").hide();
         $("#ImportedYes").prop("checked", true);
     }
@@ -216,11 +201,12 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
             BindPurchaseAttachment();
             $('[id*="EditVendor_"]').hide();
             $('[id*="DeleteVendor_"]').hide();
-
             if (mainListData.PayBackPeriod == 'PayBackPeriodYes') {
                 $("#PayBackPeriodDurationDiv").show();
             }
-        else { $('#UploadHODAttachment').hide(); }
+            $('#UploadPurchaseAttachment').hide();
+        }
+        else{ $('#UploadHODAttachment').hide();}
 
         if (mainListData.Status == "Draft") {
             BindInitiatorEditAttachmentFiles();
@@ -240,9 +226,8 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
             $('#JustificationforPurchaseDisplay').html(mainListData.JustificationforPurchase);
             $('#AssetLifeDisplay').html(mainListData.AssetLife);
             $('#NumberofUnitsDisplay').html(mainListData.NumberofUnits);
-            if (mainListData.Imported == "ImportedYes") {
-                $('#ImportedDisplay').html("Yes");
-            } else { $('#ImportedDisplay').html("No"); }
+            if(mainListData.Imported =="ImportedYes"){
+            $('#ImportedDisplay').html("Yes");}else{$('#ImportedDisplay').html("No");}
             $('#Location').hide();
             $('#CostCenter').hide();
             $("#CostCenterDisplay").show();
@@ -260,7 +245,7 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
             $('#NumberofUnitsDisplay').show();
             $('#ImportedDisplay').show();
             $('#InitiatorSection_CommentsDisplay').show();
-        }
+         }
 
         displayAction();
         //Functions for Purchase
@@ -282,12 +267,9 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
             $('[id*="EditVendor_"]').hide();
             $('[id*="DeleteVendor_"]').hide();
             $('#AddVendor').hide();
-
-             if (mainListData.PayBackPeriod == 'PayBackPeriodYes') {
-                 $("#PayBackPeriodDurationDiv").show();
-             }
-
-           
+            if (mainListData.PayBackPeriod == 'PayBackPeriodYes') {
+                $("#PayBackPeriodDurationDiv").show();
+            }
             BindHODAttachment();
             $("#CurrentValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.CurrentValue));
             $("#TotalUtilizedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.TotalUtilizedValue));
@@ -425,55 +407,55 @@ function setVendorDropDown() {
 // }
 
 function setFunctionbasedDept(department) {
-
+   
     var clientContext = new SP.ClientContext();
     var oList = clientContext.get_web().get_lists().getByTitle(ListNames.DEPTFUNCTIONMASTER);
     var camlQuery = new SP.CamlQuery();
     camlQuery.set_viewXml(
-
+ 
         '<View><Query><Where><Eq><FieldRef Name=\'DepartmentName\'/>' +
-
-        '<Value Type=\'Lookup\'>' + department + '</Value></Eq></Where></Query>></View>'
-
-    );
-
+         
+        '<Value Type=\'Lookup\'>'+department+'</Value></Eq></Where></Query>></View>'
+         
+        );
+      
     this.collListItem = oList.getItems(camlQuery);
-
+ 
     clientContext.load(collListItem);
-
+ 
     clientContext.executeQueryAsync(
-
-        Function.createDelegate(this, this.onQuerySucceeded),
-
-        Function.createDelegate(this, this.onQueryFailed)
-
+ 
+    Function.createDelegate(this, this.onQuerySucceeded),
+ 
+    Function.createDelegate(this, this.onQueryFailed)
+ 
     );
     return dfd;
 }
 
 function onQuerySucceeded(sender, args) {
-
+ 
     var listItemInfo = '';
-
+ 
     var listItemEnumerator = collListItem.getEnumerator();
-
+ 
     while (listItemEnumerator.moveNext()) {
-
+ 
         var oListItem = listItemEnumerator.get_current();
-
+ 
         listItemInfo = oListItem.get_item('FunctionName').get_lookupValue();
-
+ 
     }
-
+ 
     $("#Function").html(listItemInfo);
     dfd.resolve(sender, args);
 }
-
+ 
 function onQueryFailed(sender, args) {
-
+  
     dfd.reject(sender, args);
 }
-
+ 
 // function bindAssetClassification() {
 //     var functionValue = $('#Function').html();
 //     var colVal = functionValue;
@@ -519,34 +501,33 @@ function bindAssetClassification() {
     var oList = clientContext.get_web().get_lists().getByTitle(ListNames.ASSETCLASSIFICATIONMASTER);
     var camlQuery = new SP.CamlQuery();
     camlQuery.set_viewXml(
-
+ 
         '<View><Query><Where><Eq><FieldRef Name=\'Function\'/>' +
-
-        '<Value Type=\'Lookup\'>' + colVal + '</Value></Eq></Where></Query>></View>'
-
-    );
-
+         
+        '<Value Type=\'Lookup\'>'+colVal+'</Value></Eq></Where></Query>></View>'
+         
+        );
+      
     this.collListItem = oList.getItems(camlQuery);
-
+ 
     clientContext.load(collListItem);
-
+ 
     clientContext.executeQueryAsync(
-
-        Function.createDelegate(this, this.onQueryAssetSucceeded),
-
-        Function.createDelegate(this, this.onQueryAssetFailed)
-
+ 
+    Function.createDelegate(this, this.onQueryAssetSucceeded),
+ 
+    Function.createDelegate(this, this.onQueryAssetFailed)
+ 
     );
     return dfd;
 }
 function onQueryAssetSucceeded(sender, args) {
     var listItemInfo = '';
-    var result = [];
+    var result=[];
     var listItemEnumerator = collListItem.getEnumerator();
-    while (listItemEnumerator.moveNext()) {
-        var oListItem = listItemEnumerator.get_current();
+    while (listItemEnumerator.moveNext()) { var oListItem = listItemEnumerator.get_current();
         result.push({ Title: oListItem.get_item('Title'), AssetClassDescription: oListItem.get_item('AssetClassDescription') });
-
+               
     }
     $("#AssetClassification").html('');
     $("#AssetClassification").html("<option value=''>Select</option>");
@@ -561,12 +542,12 @@ function onQueryAssetSucceeded(sender, args) {
         var objSelect = document.getElementById("AssetClassification");
         setSelectedValue(objSelect, mainListData.AssetClassification);
     }
-
+   
     dfd.resolve(sender, args);
 }
-
+ 
 function onQueryAssetFailed(sender, args) {
-
+  
     dfd.reject(sender, args);
 }
 // function bindEditAssetClassification() {
@@ -752,7 +733,7 @@ function BindURSAttachmentFiles() {
                             $('#URSContainer').html(htmlStr);
                             $('#UploadURSAttachment').hide();
                             $("#UploadURSAttachment").val('');
-                            //   $("#UploadURSAttachment").attr("required", false);
+                         //   $("#UploadURSAttachment").attr("required", false);
                             HideWaitDialog();
 
                         }).catch(function (err) {
@@ -932,7 +913,7 @@ function removeURSFile(itemId) {
                 var htmlStr = "";
                 $('#URSContainer').html(htmlStr);
                 $('#UploadURSAttachment').show();
-                //   $("#UploadURSAttachment").attr("required", true);
+             //   $("#UploadURSAttachment").attr("required", true);
                 $("#UploadURSAttachment").val('');
                 HideWaitDialog();
             },
@@ -1650,4 +1631,4 @@ function ReplaceNumberWithCommas(yourNumber) {
         //Combines the two sections
         return n.join(".");
     }
-}}
+}
