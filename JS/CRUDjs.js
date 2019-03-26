@@ -341,8 +341,11 @@ function DeleteVendorDetails(obj) {
             });
 
             GetVendorDetails(listTempGridDataArray);
-            $("#CRUDVendorModal").modal('hide');
             HideWaitDialog();
+            $("#CRUDVendorModal").modal('hide');
+          //  $("#ConfirmDialog").hide();
+          //  $('.modal-backdrop fade in').css('display','none');
+          //  $("#ConfirmDialog").remove();
             AlertModal("Success", "Vendor Details deleted Successfully");
         }
     });
