@@ -8786,8 +8786,8 @@ ul.submenu {
 }
 
 .table-responsive {
-    overflow: auto;
-    max-height: 200px;
+    /*overflow: auto;
+    max-height: 200px;*/
     margin-bottom:20px;
 }
 
@@ -9585,9 +9585,13 @@ a#btnExit {
     background-color: #f30a18;
     color: white;
 }
-#btn2,#btn3 {
+#btn2{
     background-color: #f0a317;
     color: white;
+}
+#btn3 {
+    color: white;
+    background-color: #808080;
 }
 button#btnYesPopup {
     background-color: #298445!important;
@@ -9706,3 +9710,13 @@ width: 55px;
     margin-left: 5px;
     display: inline-block;
   }
+  #tblVendor .view{
+      cursor: pointer;
+  }
+  #tblVendor .edit{
+    cursor: pointer;
+}
+#tblVendor .delete{
+    cursor: pointer;
+}
+  

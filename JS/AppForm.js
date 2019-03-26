@@ -87,7 +87,7 @@ function setCustomApprovers() {
                         //     }
                         // }
 
-                        if (app.Role.results[0] == temp.Role && app.UserSelection == true) {
+                        if (app.Role.results.some(a => a == temp.Role) && app.UserSelection == true) {
                             if (!IsNullOrUndefined(app.Location) && !IsStrNullOrEmpty(app.Location.results) && app.Location.results.length > 0 && app.Location.results.some(d => d.Title == location)) {
                                 if (!IsNullOrUndefinedApprover(app.UserNameId) && app.UserNameId.results.length > 0) {
                                     if (temp.ApproverId == null) {
@@ -216,11 +216,10 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
             BindPurchaseAttachment();
             $('[id*="EditVendor_"]').hide();
             $('[id*="DeleteVendor_"]').hide();
+
             if (mainListData.PayBackPeriod == 'PayBackPeriodYes') {
                 $("#PayBackPeriodDurationDiv").show();
             }
-            $('#UploadPurchaseAttachment').hide();
-        }
         else { $('#UploadHODAttachment').hide(); }
 
         if (mainListData.Status == "Draft") {
@@ -283,9 +282,12 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
             $('[id*="EditVendor_"]').hide();
             $('[id*="DeleteVendor_"]').hide();
             $('#AddVendor').hide();
-            if (mainListData.PayBackPeriod == 'PayBackPeriodYes') {
-                $("#PayBackPeriodDurationDiv").show();
-            }
+
+             if (mainListData.PayBackPeriod == 'PayBackPeriodYes') {
+                 $("#PayBackPeriodDurationDiv").show();
+             }
+
+           
             BindHODAttachment();
             $("#CurrentValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.CurrentValue));
             $("#TotalUtilizedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.TotalUtilizedValue));
@@ -1648,4 +1650,4 @@ function ReplaceNumberWithCommas(yourNumber) {
         //Combines the two sections
         return n.join(".");
     }
-}
+}}
