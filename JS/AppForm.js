@@ -1648,7 +1648,7 @@ function ValidateSize(file) {
     return isValid;
 }
 
-var _validFileExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png", ".doc"];    
+var _validFileExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png", ".doc", ".docx",".pdf",".ppt",".xls",".xlsx",".txt",".pptx",".tiff"];    
 function ValidateSingleInput(oInput) {
     if (oInput.type == "file") {
         var sFileName = oInput.value;

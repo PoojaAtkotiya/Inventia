@@ -403,6 +403,17 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
                 temp.RequestIDId = requestId;
             }
         });
+        Date.prototype.monthNames = [
+            "January", "February", "March",
+            "April", "May", "June",
+            "July", "August", "September",
+            "October", "November", "December"
+        ];
+        Date.prototype.getMonthName = function () {
+            return this.monthNames[this.getMonth()];
+        };
+        formFieldValues["Month"] = (new Date().getMonthName()).toString();
+        formFieldValues["Year"] = (new Date().getFullYear()).toString();
     }
 
     ////Update status of all approvers in tempapprovalmatrix
@@ -722,20 +733,20 @@ function SaveLocalApprovalMatrix(sectionName, requestId, mainListName, isNewItem
             UpdateWorkflowStatus(formFieldValues);
         }
 
-        if (actionPerformed == ButtonActionStatus.NextApproval || actionPerformed == ButtonActionStatus.Delegate) {
+        // if (actionPerformed == ButtonActionStatus.NextApproval || actionPerformed == ButtonActionStatus.Delegate) {
 
-            Date.prototype.monthNames = [
-                "January", "February", "March",
-                "April", "May", "June",
-                "July", "August", "September",
-                "October", "November", "December"
-            ];
-            Date.prototype.getMonthName = function () {
-                return this.monthNames[this.getMonth()];
-            };
-            formFieldValues["Month"] = (new Date().getMonthName()).toString();
-            formFieldValues["Year"] = (new Date().getFullYear()).toString();
-        }
+        //     Date.prototype.monthNames = [
+        //         "January", "February", "March",
+        //         "April", "May", "June",
+        //         "July", "August", "September",
+        //         "October", "November", "December"
+        //     ];
+        //     Date.prototype.getMonthName = function () {
+        //         return this.monthNames[this.getMonth()];
+        //     };
+        //     formFieldValues["Month"] = (new Date().getMonthName()).toString();
+        //     formFieldValues["Year"] = (new Date().getFullYear()).toString();
+        // }
         ////saveFormFields in Main List
         SaveFormFields(formFieldValues, requestId);
     }
@@ -1192,9 +1203,7 @@ function SaveApprovalMatrixInList(tempApproverMatrix, approvalMatrixListName, is
 
 /*Pooja Atkotiya */
 function SaveFormFields(formFieldValues, requestId) {
-    SaveErrorInList("SaveFormFields start", "Action");
     var mainlistDataArray = {};
-
     if (!IsNullOrUndefined(formFieldValues['RaisedBy'])) {
         mainlistDataArray['RaisedById'] = formFieldValues['RaisedBy'];
     }
@@ -1307,11 +1316,10 @@ function SaveFormFields(formFieldValues, requestId) {
                         "X-Http-Method": "MERGE", //PATCH
                     },
                 sucesscallbackfunction: function (data) {
-                    SaveErrorInList("SaveFormFields success", "Action");
-                }
+                 }
             });
     }
-    SaveErrorInList("SaveFormFields End", "Action");
+   
 }
 
 /*Pooja Atkotiya */

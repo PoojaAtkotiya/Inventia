@@ -163,18 +163,21 @@
             });
             $(document).on("change", "#UploadSupportiveDocAttachment", function () {
                 var isValid = ValidateSize(this);
+                isValid=ValidateSingleInput(this);
                 if (isValid) {
                     BindSupportDocAttachmentFiles();
                 }
             });
             $(document).on("change", "#UploadPurchaseAttachment", function () {
                 var isValid = ValidateSize(this);
+                isValid=ValidateSingleInput(this);
                 if (isValid) {
                     BindPurchaseAttachmentFiles();
                 }
             });
             $(document).on("change", "#UploadHODAttachment", function () {
                 var isValid = ValidateSize(this);
+                isValid=ValidateSingleInput(this);
                 if (isValid) {
                     BindHODAttachmentFiles();
                 }
@@ -500,7 +503,7 @@
                                                                 <input class="dynamic-control" type="radio" id="ImportedNo" dispLabel="Imported?" name="Imported" value="ImportedNo" controlType="radiogroup"
                                                                     cParent="Imported" listtype="main" defaultVal="ImportedYes">No
                                                             </label>
-                                                            <label id="ImportedDisplay" class="col-md-8 static-control labeltop" style="display:none;"></label>
+                                                            <label id="ImportedDisplay" class="col-md-8 static-control labeltop p-l-0" style="display:none;"></label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -592,7 +595,7 @@
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
                                                         <label class="col-md-4 control-label">Supportive Documents</label>
-                                                        <div class="col-md-8">
+                                                        <div class="col-md-8 labeltop p-l-0">
                                                             <input type="file" class="form-control dynamic-control" id="UploadSupportiveDocAttachment" name="myfiles" dispLabel="Supportive Documents"
                                                                 controlType="file" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
                                                                     text/plain, application/pdf, image/*" />
