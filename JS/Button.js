@@ -4,8 +4,9 @@ var currentRoleButtons = [];
 function GetButtons(id, currentUserRole, formStatus) {
     AjaxCall(
         {
-            url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.BUTTONLIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And></Where></Query></View>\"}",
-            httpmethod: 'POST',
+           // url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.BUTTONLIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And></Where></Query></View>\"}",
+           url: CommonConstant.ROOTURL + "/_api/web/lists/getbytitle('" + ListNames.BUTTONLIST + "')/GetItems(query=@v1)?@v1={\"ViewXml\":\"<View><Query><Where><And><Eq><FieldRef Name='ApplicationName' /><Value Type='TaxonomyFieldType'>" + CommonConstant.APPLICATIONNAME + "</Value></Eq><Eq><FieldRef Name='FormName' /><Value Type='Text'>" + CommonConstant.FORMNAME + "</Value></Eq></And></Where><OrderBy><FieldRef Name='Sequence' Ascending='True' /></OrderBy></Query></View>\"}",
+           httpmethod: 'POST',
             calldatatype: 'JSON',
             async: false,
             headers:
@@ -48,5 +49,30 @@ function GetButtonsByRole(id, currentUserRole, formStatus) {
     }
     btnli = btnli + '<li class="pull-left"><a id="btnExit" class="btn btn-default pull-right" onclick="Exit(this);" title="Exit without saving any data"  data-placement="bottom"><i class="fa fa-sign-out"></i>&nbsp;Home</a></li>';
     $('#dynamicButtonli').html(btnli);
+               
+    $('#btn1').each(function() {
+    var savebutton = $('#btn1')[0].text.trim();
+    if(savebutton == "Save As Draft"){
+            document.getElementById("btn1").style.backgroundColor = '#f0a317';
+        }
+        else if(savebutton == "Approve"){
+            document.getElementById("btn1").style.backgroundColor = '#298445';
+        }
+        else if(savebutton == "Submit"){
+            document.getElementById("btn1").style.backgroundColor = '#298445';
+        }
+    });
+     $('#btn2').each(function() {
+        var savebutton2 = $('#btn2')[0].text.trim();
+         if(savebutton2 == "Submit"){
+            document.getElementById("btn2").style.backgroundColor = '#298445';
+        }
+        else if(savebutton2 == "Approve"){
+            document.getElementById("btn2").style.backgroundColor = '#298445';
+        }
+        else if(savebutton2 == "Reject"){
+            document.getElementById("btn2").style.backgroundColor = '#f30a18';
+        }
+     });
     // HideWaitDialog();
 }
