@@ -9578,20 +9578,20 @@ hr{
   border-width: 0.5px;
 }
 #btn1{
-    background-color: #298445!important;
+    background-color: #f0a317!important;
     color: white;
 }
 a#btnExit {
-    background-color: #f30a18;
+    background-color: #0a47f3;
     color: white;
 }
 #btn2{
-    background-color: #f0a317;
+    background-color: #298445;
     color: white;
 }
 #btn3 {
     color: white;
-    background-color: #808080;
+    background-color: #f30a18;
 }
 button#btnYesPopup {
     background-color: #298445!important;
