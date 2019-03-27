@@ -9,7 +9,7 @@
     <!-- #region  Inventia UAT -->
 
     <!-- -->
-    <link rel="stylesheet" type="text/css" href="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/CSSFiles/font-awesome.min.css"
+    <!-- <link rel="stylesheet" type="text/css" href="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/CSSFiles/font-awesome.min.css"
     />
     <link rel="stylesheet" type="text/css" href="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/CSSFiles/datatable.css"
     />
@@ -22,7 +22,7 @@
     <link rel="stylesheet" type="text/css" href="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/CSSFiles/appMain.css"
     />
     <link rel="stylesheet" type="text/css" href="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/CSSFiles/skeleton.css"
-    />
+    /> -->
     <!-- #endregion -->
 
     <!-- #region Syno DEV-->
@@ -44,7 +44,7 @@
     <!-- #endregion -->
 
     <!-- #region Syno QA-->
-     <!-- <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/CSSFiles/font-awesome.min.css"
+     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/CSSFiles/font-awesome.min.css"
     />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/CSSFiles/datatable.css"
     />
@@ -57,7 +57,7 @@
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/CSSFiles/appMain.css"
     />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/CSSFiles/skeleton.css"
-    /> -->
+    />
     
     <!-- #endregion -->
 
@@ -66,7 +66,7 @@
 
     <!-- #region Inventia UAT-->
     <!-- -->
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/JSFiles/moment.js"></script>
     <script type="text/javascript" src="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/JSFiles/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/JSFiles/bootstrap-datetimepicker.min.js"></script>
@@ -85,7 +85,7 @@
     <script type="text/javascript" src="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/JSFiles/master.js"></script>
     <script type="text/javascript" src="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/JSFiles/tran.js"></script>
     <script type="text/javascript" src="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/JSFiles/AppForm.js"></script>
-    <script type="text/javascript" src="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script> -->
+    <script type="text/javascript" src="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script> --> -->
 
    
     <!-- #endregion -->
@@ -115,7 +115,7 @@
 
     <!-- #region Syno QA-->
 
-<!--     
+     
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/moment.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/bootstrap.min.js"></script>
@@ -150,6 +150,7 @@
             });
             $(document).on("change", "#UploadURSAttachment", function () {
                 var isValid = ValidateSize(this);
+                isValid=ValidateSingleInput(this);
                 if (isValid) {
                     BindURSAttachmentFiles();
                 }
@@ -407,10 +408,6 @@
                                                                 required="required" required>
                                                             </select>
                                                             <label id="LocationDisplay" class="col-md-8 static-control labeltop p-l-0" style="display:none;"></label>
-<<<<<<< HEAD
-=======
-
->>>>>>> 6dd11f4276ffb98c885e98ed01f6aef68421d2f8
                                                         </div>
                                                     </div>
                                                 </div>
@@ -465,7 +462,7 @@
                                                                 data="digit" controlType="text" listtype="main" maxlength="15"
                                                                 name="NumberofUnits" required="required" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
                                                             />
-                                                            <label id="NumberofUnitsDisplay" class="col-md-8 static-control labeltop" style="display:none;"></label>
+                                                            <label id="NumberofUnitsDisplay" class="col-md-8 static-control labeltop p-l-0" style="display:none;"></label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -481,7 +478,7 @@
                                                                 controlType="text" name="AssetLife" maxlength="15" listtype="main"
                                                                 required="required" data="digit" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
                                                             />
-                                                            <label id="AssetLifeDisplay" class="col-md-8 static-control labeltop" style="display:none;"></label>
+                                                            <label id="AssetLifeDisplay" class="col-md-8 static-control labeltop p-l-0" style="display:none;"></label>
                                                         </div>
                                                     </div>
                                                 </div>
