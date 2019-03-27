@@ -95,7 +95,15 @@ function setCustomApprovers() {
                                     }
                                     else {
                                         if (!IsNullOrUndefinedApprover(app.UserNameId) && app.UserNameId.results.length > 0) {
-                                            temp.ApproverId = temp.ApproverId.results.concat(app.UserNameId.results[0]);
+                                            // temp.ApproverId = temp.ApproverId.results.concat(app.UserNameId.results[0]);
+                                            temp.ApproverId = GetApprovers(temp.ApproverId);
+                                            if (IsArray(temp.ApproverId)) {
+                                                temp.ApproverId = temp.ApproverId.concat(app.UserNameId.results[0]);
+                                            }
+                                            else {
+                                                temp.ApproverId = temp.ApproverId + "," + (app.UserNameId.results[0]);
+                                                temp.ApproverId = temp.ApproverId.split(",");
+                                            }
                                             temp.ApproverId = removeDuplicateFromArray(temp.ApproverId);
                                         }
                                     }
@@ -216,10 +224,11 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
             BindPurchaseAttachment();
             $('[id*="EditVendor_"]').hide();
             $('[id*="DeleteVendor_"]').hide();
-
             if (mainListData.PayBackPeriod == 'PayBackPeriodYes') {
                 $("#PayBackPeriodDurationDiv").show();
             }
+            $('#UploadPurchaseAttachment').hide();
+        }
         else { $('#UploadHODAttachment').hide(); }
 
         if (mainListData.Status == "Draft") {
@@ -282,12 +291,9 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
             $('[id*="EditVendor_"]').hide();
             $('[id*="DeleteVendor_"]').hide();
             $('#AddVendor').hide();
-
-             if (mainListData.PayBackPeriod == 'PayBackPeriodYes') {
-                 $("#PayBackPeriodDurationDiv").show();
-             }
-
-           
+            if (mainListData.PayBackPeriod == 'PayBackPeriodYes') {
+                $("#PayBackPeriodDurationDiv").show();
+            }
             BindHODAttachment();
             $("#CurrentValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.CurrentValue));
             $("#TotalUtilizedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.TotalUtilizedValue));
@@ -1642,6 +1648,30 @@ function ValidateSize(file) {
     return isValid;
 }
 
+var _validFileExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png", ".doc"];    
+function ValidateSingleInput(oInput) {
+    if (oInput.type == "file") {
+        var sFileName = oInput.value;
+         if (sFileName.length > 0) {
+            var blnValid = false;
+            for (var j = 0; j < _validFileExtensions.length; j++) {
+                var sCurExtension = _validFileExtensions[j];
+                if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                    blnValid = true;
+                    break;
+                }
+            }
+             
+            if (!blnValid) {
+                AlertModal('Error', "Invalid extension of file");
+                oInput.value = "";
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 function ReplaceNumberWithCommas(yourNumber) {
     if (yourNumber != null) {
         var n = yourNumber.toString().split(".");
@@ -1650,4 +1680,4 @@ function ReplaceNumberWithCommas(yourNumber) {
         //Combines the two sections
         return n.join(".");
     }
-}}
+}
