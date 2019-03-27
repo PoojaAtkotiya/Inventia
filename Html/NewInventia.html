@@ -22,7 +22,7 @@
     <link rel="stylesheet" type="text/css" href="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/CSSFiles/appMain.css"
     />
     <link rel="stylesheet" type="text/css" href="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/CSSFiles/skeleton.css"
-    /> 
+    />
     <!-- #endregion -->
 
     <!-- #region Syno DEV-->
@@ -57,7 +57,7 @@
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/CSSFiles/appMain.css"
     />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/CSSFiles/skeleton.css"
-    /> -->
+    />  -->
     
     <!-- #endregion -->
 
@@ -86,7 +86,7 @@
     <script type="text/javascript" src="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/JSFiles/tran.js"></script>
     <script type="text/javascript" src="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/JSFiles/AppForm.js"></script>
     <script type="text/javascript" src="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script> 
-
+     
    
     <!-- #endregion -->
 
@@ -116,7 +116,7 @@
     <!-- #region Syno QA-->
 
      
-    <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+     <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/moment.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/bootstrap-datetimepicker.min.js"></script>
@@ -134,7 +134,7 @@
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/master.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/tran.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/AppForm.js"></script>
-    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script> -->
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script>  -->
 
 
     <!-- #endregion -->
@@ -291,6 +291,7 @@
             }
                 });
             });
+           
         });
         jQuery(document).ready(function ($) {
             $("#card-head-InitiatorSection").click(function () {
@@ -308,7 +309,10 @@
             $("#card-head-ManagementSection").click(function () {
                 $("#ManagementSection").slideToggle("slow");
             });
+               
+           
         });
+       
     </script>
 </head>
 <body>
@@ -670,10 +674,10 @@
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
                                                         <label class="col-md-4 control-label">Attachments</label>
-                                                        <div class="col-md-8">
+                                                        <div class="col-md-8 labeltop p-l-0">
                                                             <input type="file" class="form-control dynamic-control" id="UploadPurchaseAttachment" name="myfiles" dispLabel="Attachments"
                                                                 controlType="file" accept="application/msword, application/vnd.ms-excel,application/vnd.ms-powerpoint, text/plain, application/pdf, image/*">
-                                                            <br>
+                                                            <!-- <br> -->
                                                             <ul id="fileListpurchaseContainer"></ul>
                                                         </div>
                                                     </div>
@@ -878,11 +882,11 @@
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
                                                         <label class="col-md-4 control-label">Attachments</label>
-                                                        <div class="col-md-8">
+                                                        <div class="col-md-8 labeltop p-l-0">
                                                             <input type="file" class="form-control dynamic-control" id="UploadHODAttachment" dispLabel="Attachments" name="myfiles" controlType="file"
                                                                 accept="application/msword, application/vnd.ms-excel,
                                                     application/vnd.ms-powerpoint, text/plain, application/pdf, image/*">
-                                                            <br>
+                                                            
                                                             <ul id="fileListHODContainer"></ul>
                                                         </div>
                                                     </div>

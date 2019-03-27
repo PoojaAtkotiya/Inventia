@@ -49,5 +49,30 @@ function GetButtonsByRole(id, currentUserRole, formStatus) {
     }
     btnli = btnli + '<li class="pull-left"><a id="btnExit" class="btn btn-default pull-right" onclick="Exit(this);" title="Exit without saving any data"  data-placement="bottom"><i class="fa fa-sign-out"></i>&nbsp;Home</a></li>';
     $('#dynamicButtonli').html(btnli);
+               
+    $('#btn1').each(function() {
+    var savebutton = $('#btn1')[0].text.trim();
+    if(savebutton == "Save As Draft"){
+            document.getElementById("btn1").style.backgroundColor = '#f0a317';
+        }
+        else if(savebutton == "Approve"){
+            document.getElementById("btn1").style.backgroundColor = '#298445';
+        }
+        else if(savebutton == "Submit"){
+            document.getElementById("btn1").style.backgroundColor = '#298445';
+        }
+    });
+     $('#btn2').each(function() {
+        var savebutton2 = $('#btn2')[0].text.trim();
+         if(savebutton2 == "Submit"){
+            document.getElementById("btn2").style.backgroundColor = '#298445';
+        }
+        else if(savebutton2 == "Approve"){
+            document.getElementById("btn2").style.backgroundColor = '#298445';
+        }
+        else if(savebutton2 == "Reject"){
+            document.getElementById("btn2").style.backgroundColor = '#f30a18';
+        }
+     });
     // HideWaitDialog();
 }
