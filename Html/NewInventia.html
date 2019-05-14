@@ -163,18 +163,21 @@
             });
             $(document).on("change", "#UploadSupportiveDocAttachment", function () {
                 var isValid = ValidateSize(this);
+                isValid=ValidateSingleInput(this);
                 if (isValid) {
                     BindSupportDocAttachmentFiles();
                 }
             });
             $(document).on("change", "#UploadPurchaseAttachment", function () {
                 var isValid = ValidateSize(this);
+                isValid=ValidateSingleInput(this);
                 if (isValid) {
                     BindPurchaseAttachmentFiles();
                 }
             });
             $(document).on("change", "#UploadHODAttachment", function () {
                 var isValid = ValidateSize(this);
+                isValid=ValidateSingleInput(this);
                 if (isValid) {
                     BindHODAttachmentFiles();
                 }
