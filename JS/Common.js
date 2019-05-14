@@ -1229,6 +1229,7 @@ function SaveData(listname, listDataArray, sectionName, ele) {
                 contentType: 'application/json; charset=utf-8',
                 async: false,
                 sucesscallbackfunction: function (data) {
+                   
                     OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCaption);
                 },
                 error: function (data) {

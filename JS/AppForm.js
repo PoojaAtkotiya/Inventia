@@ -167,6 +167,7 @@ function FormBusinessLogic(activeSection) {
                     param[ConstantKeys.ACTIONPERFORMED] = ButtonActionStatus.Complete;
                     UpdateBudget(budgetValue[1]);
                 }
+               
             }
         }
         if (activeSectionName == SectionNames.MANAGEMENTSECTION) {
@@ -356,7 +357,7 @@ function displayAction() {
             else if (i == 0) { html = html + functionHeadActions[i].bold(); }
             else { html = html + functionHeadActions[i].bold() + '<br />'; }
         }
-        $('#FunctionHeadAction').html(html);
+        $('#FuctionHeadAction').html(html);
     }
     if (mainListData.ManagementAction !== undefined && mainListData.ManagementAction != "") {
         var managementActions = [];
@@ -1506,10 +1507,12 @@ function SetBudgetValue() {
     var raisedDateYear;
     var assetClassification = TrimComma(mainListData.AssetClassification).split("-");
     var d = new Date(mainListData.RaisedOn);
+    var location = mainListData.Location;
     raisedDateYear = d.getFullYear();
     AjaxCall(
         {
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue&$expand=AssetClassification/AssetClassDescription&$filter=((AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "') and (StartYear eq '" + raisedDateYear + "'))",
+            //url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTERLIST + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue,LocationName/Title&$expand=AssetClassification/AssetClassDescription,LocationName/Title&$filter=((AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "') and (StartYear eq '" + raisedDateYear + "'))",
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTERLIST + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue,LocationName/Title&$expand=AssetClassification/AssetClassDescription,LocationName/Title&$filter=((AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "') and (StartYear eq '" + raisedDateYear + "') and(LocationName/Title eq '" + location + "'))",
             httpmethod: 'GET',
             calldatatype: 'JSON',
             async: false,
@@ -1543,13 +1546,15 @@ function GetBudgetValue() {
         var d = new Date(mainListData.RaisedOn);
         raisedDateYear = d.getFullYear();
     }
-    if (mainListData.AssetClassification != undefined) {
+    if (mainListData.AssetClassification != undefined && mainListData.Location != undefined) {
         var assetClassification = TrimComma(mainListData.AssetClassification).split("-");
         var d = new Date(mainListData.RaisedOn);
         raisedDateYear = d.getFullYear();
+        var location = mainListData.Location;
         AjaxCall(
             {
-                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue&$expand=AssetClassification/AssetClassDescription&$filter=((AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "') and (StartYear eq '" + raisedDateYear + "'))",
+                //url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTERLIST + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue,LocationName/Title&$expand=AssetClassification/AssetClassDescription,LocationName/Title&$filter=((AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "') and (StartYear eq '" + raisedDateYear + "'))",
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTERLIST + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue,LocationName/Title&$expand=AssetClassification/AssetClassDescription,LocationName/Title&$filter=((AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "') and (StartYear eq '" + raisedDateYear + "') and(LocationName/Title eq '" + location + "'))",
                 httpmethod: 'GET',
                 calldatatype: 'JSON',
                 async: false,
@@ -1605,7 +1610,7 @@ function UpdateBudget(Id) {
     var assetClassification = TrimComma(mainListData.AssetClassification).split("-");
     var utilizedValue = $('#TotalUtilizedValue').val();
     if (utilizedValue != undefined) {
-        var listName = ListNames.BUDGETMASTER;
+        var listName = ListNames.BUDGETMASTERLIST;
         var itemType = GetItemTypeForListName(listName);
         var item = {
             "__metadata": { "type": itemType },
@@ -1613,7 +1618,7 @@ function UpdateBudget(Id) {
         };
         $.ajax({
 
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.BUDGETMASTER + "')/items(" + Id + ")",
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.BUDGETMASTERLIST + "')/items(" + Id + ")",
             type: "POST",
             async: false,
             data: JSON.stringify(item),

@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
     <!-- #region  Inventia UAT -->
 
-    <!-- -->
+    <!--
      <link rel="stylesheet" type="text/css" href="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/CSSFiles/font-awesome.min.css"
     />
     <link rel="stylesheet" type="text/css" href="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/CSSFiles/datatable.css"
@@ -22,7 +22,7 @@
     <link rel="stylesheet" type="text/css" href="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/CSSFiles/appMain.css"
     />
     <link rel="stylesheet" type="text/css" href="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/CSSFiles/skeleton.css"
-    />
+    /> -->
     <!-- #endregion -->
 
     <!-- #region Syno DEV-->
@@ -44,7 +44,7 @@
     <!-- #endregion -->
 
     <!-- #region Syno QA-->
-     <!-- <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/CSSFiles/font-awesome.min.css"
+      <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/CSSFiles/font-awesome.min.css"
     />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/CSSFiles/datatable.css"
     />
@@ -57,7 +57,7 @@
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/CSSFiles/appMain.css"
     />
     <link rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/CSSFiles/skeleton.css"
-    />  -->
+    />  
     
     <!-- #endregion -->
 
@@ -65,7 +65,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     <!-- #region Inventia UAT-->
-    <!-- -->
+    <!-- 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/JSFiles/moment.js"></script>
     <script type="text/javascript" src="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/JSFiles/bootstrap.min.js"></script>
@@ -86,7 +86,7 @@
     <script type="text/javascript" src="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/JSFiles/tran.js"></script>
     <script type="text/javascript" src="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/JSFiles/AppForm.js"></script>
     <script type="text/javascript" src="https://inventiahealthcarepl.sharepoint.com/sites/Inv_CAR_STG_Application1/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script> 
-     
+     -->
    
     <!-- #endregion -->
 
@@ -116,7 +116,7 @@
     <!-- #region Syno QA-->
 
      
-     <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/moment.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/bootstrap-datetimepicker.min.js"></script>
@@ -134,7 +134,7 @@
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/master.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/tran.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/AppForm.js"></script>
-    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script>  -->
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/QACapex/SiteAssets/Inventia/JSFiles/CRUDjs.js"></script>  
 
 
     <!-- #endregion -->
@@ -406,8 +406,13 @@
                                                             Location
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <select class="form-control m-b-n-sm dynamic-control" id="Location" dispLabel="Location" controlType="combo" listtype="master"
+                                                            <!-- <select class="form-control m-b-n-sm dynamic-control" id="Location" dispLabel="Location" controlType="combo" listtype="master"
                                                                 reflisttype="main" listname="LocationMaster" data-selected="Location"
+                                                                valuebindingcolumn="Title" textbindingcolumnn="Title" name="Location"
+                                                                required="required" required>
+                                                            </select> -->
+                                                            <select class="form-control m-b-n-sm dynamic-control" id="Location" dispLabel="Location" controlType="combo" listtype="master"
+                                                                reflisttype="main" listname="Location" data-selected="Location"
                                                                 valuebindingcolumn="Title" textbindingcolumnn="Title" name="Location"
                                                                 required="required" required>
                                                             </select>
@@ -443,9 +448,14 @@
                                                             Asset Name
                                                         </label>
                                                         <div class="col-md-8">
-                                                            <select class="form-control m-b-n-sm dynamic-control requiredOnDraft" id="AssetName" dispLabel="Asset Name" controlType="combo"
+                                                            <!-- <select class="form-control m-b-n-sm dynamic-control requiredOnDraft" id="AssetName" dispLabel="Asset Name" controlType="combo"
                                                                 data-selected="AssetName" reflisttype="main" valuebindingcolumn="AssetName"
                                                                 listname="BudgetMaster" textbindingcolumnn="AssetName" name="AssetName"
+                                                                required="required">
+                                                            </select> -->
+                                                            <select class="form-control m-b-n-sm dynamic-control requiredOnDraft" id="AssetName" dispLabel="Asset Name" controlType="combo"
+                                                                data-selected="AssetName" reflisttype="main" valuebindingcolumn="AssetName"
+                                                                listname="BudgetMasterList" textbindingcolumnn="AssetName" name="AssetName"
                                                                 required="required">
                                                             </select>
                                                             <label id="AssetNameDisplay" class="col-md-8 static-control labeltop p-l-0" style="display:none;"></label>
@@ -958,7 +968,7 @@
                                                     <div class="form-group">
                                                         <label class="col-md-4 control-label"></label>
                                                         <div class="col-md-8">
-                                                            <label id="FunctionHeadAction" dispLabel="Function Head Action" class="col-md-8 static-control labeltop" listtype="main"
+                                                            <label id="FuctionHeadAction" dispLabel="Function Head Action" class="col-md-8 static-control labeltop" listtype="main"
                                                                 controlType="text"></label>
                                                         </div>
                                                     </div>
