@@ -269,6 +269,7 @@ function SetApproversInApprovalMatrix(id) {
     var initiatorDept = $('#Department').html();
     // var initFunction = $('#Function').html();.
     var initFunction = $('#Function')[0].innerText;
+    
     if (initiatorDept == undefined || initiatorDept == null || initiatorDept == "") { initiatorDept = department; }
     if (IsStrNullOrEmpty(initiatorDept) && !IsStrNullOrEmpty(currentUserRole) && currentUserRole == Roles.CREATOR) {
         var errMessage = "Dear Initiator, you cannot create request as your Department is not defined.It would be ideal if you contact your Admin for same.";
@@ -350,7 +351,7 @@ function SetApproversInApprovalMatrix(id) {
                                 }
                             }
                             else if (t.Role == Roles.MANAGEMENT) {
-
+                               
                             }
                         });
                     }

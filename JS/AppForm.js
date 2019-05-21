@@ -88,7 +88,8 @@ function setCustomApprovers() {
                         // }
 
                         if (app.Role.results.some(a => a == temp.Role) && app.UserSelection == true) {
-                            if (!IsNullOrUndefined(app.Location) && !IsStrNullOrEmpty(app.Location.results) && app.Location.results.length > 0 && app.Location.results.some(d => d.Title == location)) {
+                            //if (!IsNullOrUndefined(app.Location) && !IsStrNullOrEmpty(app.Location.results) && app.Location.results.length > 0 && app.Location.results.some(d => d.Title == location)) {
+                                if (!IsNullOrUndefined(app.Location)) {
                                 if (!IsNullOrUndefinedApprover(app.UserNameId) && app.UserNameId.results.length > 0) {
                                     if (temp.ApproverId == null) {
                                         temp.ApproverId = app.UserNameId.results;
@@ -167,7 +168,6 @@ function FormBusinessLogic(activeSection) {
                     param[ConstantKeys.ACTIONPERFORMED] = ButtonActionStatus.Complete;
                     UpdateBudget(budgetValue[1]);
                 }
-               
             }
         }
         if (activeSectionName == SectionNames.MANAGEMENTSECTION) {
@@ -1512,7 +1512,9 @@ function SetBudgetValue() {
     AjaxCall(
         {
             //url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTERLIST + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue,LocationName/Title&$expand=AssetClassification/AssetClassDescription,LocationName/Title&$filter=((AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "') and (StartYear eq '" + raisedDateYear + "'))",
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTERLIST + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue,LocationName/Title&$expand=AssetClassification/AssetClassDescription,LocationName/Title&$filter=((AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "') and (StartYear eq '" + raisedDateYear + "') and(LocationName/Title eq '" + location + "'))",
+           //Syno QA URL
+           // url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTERLIST + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue,LocationName/Title&$expand=AssetClassification/AssetClassDescription,LocationName/Title&$filter=((AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "') and (StartYear eq '" + raisedDateYear + "') and(LocationName/Title eq '" + location + "'))",
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue,LocationName/Title&$expand=AssetClassification/AssetClassDescription,LocationName/Title&$filter=((AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "') and (StartYear eq '" + raisedDateYear + "') and(LocationName/Title eq '" + location + "'))",
             httpmethod: 'GET',
             calldatatype: 'JSON',
             async: false,
@@ -1554,7 +1556,8 @@ function GetBudgetValue() {
         AjaxCall(
             {
                 //url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTERLIST + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue,LocationName/Title&$expand=AssetClassification/AssetClassDescription,LocationName/Title&$filter=((AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "') and (StartYear eq '" + raisedDateYear + "'))",
-                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTERLIST + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue,LocationName/Title&$expand=AssetClassification/AssetClassDescription,LocationName/Title&$filter=((AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "') and (StartYear eq '" + raisedDateYear + "') and(LocationName/Title eq '" + location + "'))",
+                //url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTERLIST + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue,LocationName/Title&$expand=AssetClassification/AssetClassDescription,LocationName/Title&$filter=((AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "') and (StartYear eq '" + raisedDateYear + "') and(LocationName/Title eq '" + location + "'))",
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue,LocationName/Title&$expand=AssetClassification/AssetClassDescription,LocationName/Title&$filter=((AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "') and (StartYear eq '" + raisedDateYear + "') and(LocationName/Title eq '" + location + "'))",
                 httpmethod: 'GET',
                 calldatatype: 'JSON',
                 async: false,
@@ -1610,7 +1613,8 @@ function UpdateBudget(Id) {
     var assetClassification = TrimComma(mainListData.AssetClassification).split("-");
     var utilizedValue = $('#TotalUtilizedValue').val();
     if (utilizedValue != undefined) {
-        var listName = ListNames.BUDGETMASTERLIST;
+       // var listName = ListNames.BUDGETMASTERLIST;
+        var listName = ListNames.BUDGETMASTER;
         var itemType = GetItemTypeForListName(listName);
         var item = {
             "__metadata": { "type": itemType },
@@ -1618,7 +1622,8 @@ function UpdateBudget(Id) {
         };
         $.ajax({
 
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.BUDGETMASTERLIST + "')/items(" + Id + ")",
+            //url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.BUDGETMASTERLIST + "')/items(" + Id + ")",
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.BUDGETMASTER + "')/items(" + Id + ")",
             type: "POST",
             async: false,
             data: JSON.stringify(item),
