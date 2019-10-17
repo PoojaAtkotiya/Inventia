@@ -22,11 +22,11 @@ function GetGlobalApprovalMatrix(id) {
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json; odata=verbose",
-                    "X-RequestDigest": gRequestDigestValue// data.d.GetContextWebInformation.FormDigestValue
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json; odata=verbose",
+                "X-RequestDigest": gRequestDigestValue// data.d.GetContextWebInformation.FormDigestValue
+            },
             sucesscallbackfunction: function (data) {
                 globalApprovalMatrix = data.d.results;
                 /*Pooja Atkotiya */
@@ -46,11 +46,11 @@ function GetLocalApprovalMatrixData(id, mainListName) {
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 /*Pooja Atkotiya */
                 localApprovalMatrixdata = data.d.results;
@@ -262,20 +262,35 @@ function SetSectionWiseRoles(id) {
 }
 
 //#endregion
-
+function CheckIfIsGroupMember(groupName) {
+    var isAuthorized = false;
+    if (!IsNullOrUndefined(currentUser.Groups) && !IsNullOrUndefined(currentUser.Groups.results) && currentUser.Groups.results.length > 0) {
+        var currentUserGrps = currentUser.Groups.results;
+        if (currentUserGrps.some(grp => grp.LoginName == groupName)) {
+            isAuthorized = true;
+        }
+    }
+    return isAuthorized;
+}
 //#region Custom Logic here
 /*Pooja Atkotiya */
 function SetApproversInApprovalMatrix(id) {
     var initiatorDept = $('#Department').html();
     // var initFunction = $('#Function').html();.
     var initFunction = $('#Function')[0].innerText;
-    
+
     if (initiatorDept == undefined || initiatorDept == null || initiatorDept == "") { initiatorDept = department; }
+   // var isCreator = CheckIfIsGroupMember("Creator");
+    // setFunctionbasedDept(department);
+  //  if (isCreator == false) {
+   //     var errMessage = "Dear Initiator, you cannot create request as your Role is not defined as Creator.It would be ideal if you contact your Admin for same.";
+    //    AlertModal('Validation', errMessage, true);
+   // }
     if (IsStrNullOrEmpty(initiatorDept) && !IsStrNullOrEmpty(currentUserRole) && currentUserRole == Roles.CREATOR) {
         var errMessage = "Dear Initiator, you cannot create request as your Department is not defined.It would be ideal if you contact your Admin for same.";
         AlertModal('Validation', errMessage, true);
     }
-    if (IsStrNullOrEmpty(initFunction) && !IsStrNullOrEmpty(currentUserRole) && currentUserRole == Roles.CREATOR) {
+    else if (IsStrNullOrEmpty(initFunction) && !IsStrNullOrEmpty(currentUserRole) && currentUserRole == Roles.CREATOR) {
         var errMessage = "Dear Initiator, you cannot create request as your Function is not defined.It would be ideal if you contact your Admin for same.";
         AlertModal('Validation', errMessage, true);
     }
@@ -351,7 +366,7 @@ function SetApproversInApprovalMatrix(id) {
                                 }
                             }
                             else if (t.Role == Roles.MANAGEMENT) {
-                               
+
                             }
                         });
                     }
@@ -795,11 +810,11 @@ function GetDataforMail(mainListName, listItemId) {
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json; odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json; odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 mainListForEMail = data.d;
             }
@@ -1309,18 +1324,18 @@ function SaveFormFields(formFieldValues, requestId) {
                 postData: JSON.stringify(mainlistDataArray),
                 async: false,
                 headers:
-                    {
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json;odata=verbose",
-                        "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                        "IF-MATCH": "*",
-                        "X-Http-Method": "MERGE", //PATCH
-                    },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "IF-MATCH": "*",
+                    "X-Http-Method": "MERGE", //PATCH
+                },
                 sucesscallbackfunction: function (data) {
-                 }
+                }
             });
     }
-   
+
 }
 
 /*Pooja Atkotiya */

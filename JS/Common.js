@@ -37,6 +37,9 @@ jQuery(document).ready(function () {
         approverMaster = approverListItems;
     });
     //HideWaitDialog();
+    if (listItemId > 0) {
+        $("#btnExit").hide();
+    }
 });
 
 function loadConstants() {
@@ -55,11 +58,11 @@ function onloadConstantsSuccess(sender, args) {
     ExecuteOrDelayUntilScriptLoaded(GetCurrentUserDetails, "sp.js");
     if (listItemId == "" || IsNullOrUndefined(listItemId)) {
         GetUserDepartment();
-       // setFunctionbasedDept(department);
-     
+
     }
     else if (listItemId > 0) {
         department = mainListData.Department;
+
     }
     GetAllMasterData();
 
@@ -68,14 +71,14 @@ function onloadConstantsSuccess(sender, args) {
     }
     else {
         $.when(setFunctionbasedDept(department))
-        .done(function (data) {
-               bindAssetClassification();
-               GetGlobalApprovalMatrix(listItemId);
-        })
-        .fail(function (sender, args) {
-           alert('Failed');
-        });  
-   //  GetGlobalApprovalMatrix(listItemId);
+            .done(function (data) {
+                bindAssetClassification();
+                GetGlobalApprovalMatrix(listItemId);
+            })
+            .fail(function (sender, args) {
+                alert('Failed');
+            });
+        //  GetGlobalApprovalMatrix(listItemId);
     }
     GetFormBusinessLogic(listItemId, activeSectionName, department);
 }
@@ -567,7 +570,7 @@ function GetItemTypeForListName(name) {
 function ConfirmationDailog(options) {
     $("#ConfirmDialog").remove();
     var confirmDlg = "<div class='modal fade bs-example-modal-sm' tabindex='-1' role='dialog' id='ConfirmDialog' aria-labelledby='mySmallModalLabel'><div class='modal-dialog modal-sm'><div class='modal-content'><div class='modal-header'>" +
-        "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button><h4 class='modal-title' id='ModalTitle'>Modal title</h4></div><div class='modal-body' id='ModalContent'>" +
+        "<button type='button' id='btnClosePopup' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button><h4 class='modal-title' id='ModalTitle'>Modal title</h4></div><div class='modal-body' id='ModalContent'>" +
         "</div><div class='modal-footer'><button type='button' id='btnYesPopup' isdialogclose='false' class='btn btn-default' data-dismiss='modal'>" +
         "Yes</button><button type='button' id='btnNoPopup' isdialogclose='false' class='btn btn-default' data-dismiss='modal'>No</button> </div></div></div></div>";
     $(confirmDlg).appendTo("body");
@@ -584,6 +587,22 @@ function ConfirmationDailog(options) {
             options.cancelCallback();
         }
     });
+    $("#ConfirmDialog #btnClosePopup").on("click", function () {
+        $("#" + btnID).removeAttr('disabled');
+        btnID = null;
+        if (typeof (options.cancelCallback) !== "undefined" && !IsNullOrUndefined(options.cancelCallback)) {
+            options.cancelCallback();
+        }
+    });
+    $(document).on('keydown', function (event) {
+        if (event.key == "Escape") {
+            $("#" + btnID).removeAttr('disabled');
+            btnID = null;
+            if (typeof (options.cancelCallback) !== "undefined" && !IsNullOrUndefined(options.cancelCallback)) {
+                options.cancelCallback();
+            }
+        }
+    });
     $("#ConfirmDialog #ModalTitle").text(options.title);
     $("#ConfirmDialog #ModalContent").text(options.message);
     $("#ConfirmDialog").modal('show').on('hidden.bs.modal', function () {
@@ -593,7 +612,7 @@ function ConfirmationDailog(options) {
     });
 }
 function ConfirmPopupYes(url, id, okCallback) {
-  //  $("#ConfirmDialog #btnYesPopup").attr('disabled', 'disabled');
+    //  $("#ConfirmDialog #btnYesPopup").attr('disabled', 'disabled');
     ShowWaitDialog();
     if (typeof (url) !== "undefined" && !IsNullOrUndefined(url)) {
         url = url;
@@ -657,7 +676,9 @@ function AlertModal(title, msg, isExit, callback) {
 }
 function Exit() {
     try {
-        parent.postMessage(CommonConstant.SPSITEURL, CommonConstant.SPSITEURL);
+        // parent.postMessage(CommonConstant.SPSITEURL, CommonConstant.SPSITEURL);
+        window.location.href = CommonConstant.SPSITEURL;
+
     }
     catch (e) {
         parent.postMessage($("#hdnSPHOSTURL").val(), $("#hdnSPHOST").val());
@@ -753,6 +774,9 @@ function ValidateForm(ele, saveCallBack) {
                     $(".error").addClass("valid");
                     $(".valid").removeClass("error");
                 }
+            }
+            else if (dataAction == "9") {
+                $(this).validate().settings.ignore = "*";
             }
             else if (dataAction == "23") {
                 $(this).validate().settings.ignore = "*";
@@ -1126,7 +1150,7 @@ function DisplayApplicationStatus(approverMatrix) {
             tr.append("<td width='20%'>" + approvers + "</td>");
             tr.append("<td width='10%'>" + Status + "</td>");
             tr.append("<td width='10%'>" + AssignDate + "</td>");
-          //  tr.append("<td width='10%'>" + DueDate + "</td>");
+            //  tr.append("<td width='10%'>" + DueDate + "</td>");
             tr.append("<td width='10%'>" + ApprovalDate + "</td>");
             tr.append("<td width='20%'>" + Comments + "</td>");
             $('#tblApplicationStatus').append(tr);
@@ -1229,7 +1253,7 @@ function SaveData(listname, listDataArray, sectionName, ele) {
                 contentType: 'application/json; charset=utf-8',
                 async: false,
                 sucesscallbackfunction: function (data) {
-                   
+
                     OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCaption);
                 },
                 error: function (data) {
@@ -1281,6 +1305,9 @@ function OnSuccessMainListSave(listname, isNewItem, data, sectionName, buttonCap
                 case "complete":
                     displayMessage = "Request has been Completed.";
                     break;
+                case "cancel":
+                    displayMessage = "Request has been Cancelled.";
+                    break;
                 case "save as draft":
                     displayMessage = "Request has been saved as Draft.";
                     break;
@@ -1328,6 +1355,9 @@ function CommonBusinessLogic(sectionName, itemID, listDataArray) {
     if (sectionName == SectionNames.INITIATORSECTION && actionPerformed == "NextApproval") {
         SaveCapitalAssetRequisitionNumber(itemID, listDataArray, actionPerformed);
     }
+    else if (sectionName == SectionNames.INITIATORSECTION && actionPerformed == "Cancel") {
+        SaveCapitalAssetRequisitionNumber(itemID, listDataArray, actionPerformed);
+    }
 }
 function addZero(i) {
     if (i < 10) {
@@ -1362,6 +1392,14 @@ function SaveActions(sectionName, itemID, actionPerformed) {
                 }
                 else {
                     formFieldValues['InitiatorAction'] = "Saved As Draft" + "," + "By" + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
+                }
+            }
+            else if (actionPerformed == "Cancel") {
+                if (currentUserDepartment != undefined && currentUserDepartment != null) {
+                    formFieldValues['InitiatorAction'] = "Cancelled" + "," + "By" + "," + currentUser.Title + "," + currentUserDepartment + "," + formatted;
+                }
+                else {
+                    formFieldValues['InitiatorAction'] = "Cancelled" + "," + "By" + "," + currentUser.Title + "," + formatted + "," + currentUserDepartment;
                 }
             }
             break;
@@ -1437,8 +1475,17 @@ function SaveActions(sectionName, itemID, actionPerformed) {
 function SaveCapitalAssetRequisitionNumber(itemID, listDataArray, actionPerformed) {
     var formFieldValues = [];
     var todayDate = new Date();
-    formFieldValues['CapitalAssetRequisitionNumber'] = listDataArray.CostCenter + '/' + todayDate.getFullYear() + ("0" + (todayDate.getMonth() + 1)).slice(-2) + '/' + itemID;
-    formFieldValues['Title'] = listDataArray.CostCenter + '/' + todayDate.getFullYear() + ("0" + (todayDate.getMonth() + 1)).slice(-2) + '/' + itemID;
+
+    if (actionPerformed == "Cancel") {
+        formFieldValues['CapitalAssetRequisitionNumber'] = "Cancelled";
+        formFieldValues['Title'] = "Cancelled";
+    }
+    else {
+        formFieldValues['Title'] = listDataArray.CostCenter + '/' + todayDate.getFullYear() + ("0" + (todayDate.getMonth() + 1)).slice(-2) + '/' + itemID;
+        formFieldValues['CapitalAssetRequisitionNumber'] = listDataArray.CostCenter + '/' + todayDate.getFullYear() + ("0" + (todayDate.getMonth() + 1)).slice(-2) + '/' + itemID;
+    }
+
+
     SaveFormFields(formFieldValues, itemID);
 }
 function OnSuccess(data) {
@@ -2044,11 +2091,11 @@ function GetEmailBody(templateName, itemID, mainListName, mailCustomValues, role
                 calldatatype: 'JSON',
                 async: false,
                 headers:
-                    {
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json; odata=verbose",
-                        "X-RequestDigest": gRequestDigestValue
-                    },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json; odata=verbose",
+                    "X-RequestDigest": gRequestDigestValue
+                },
                 sucesscallbackfunction: function (data) {
                     if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results) && data.d.results.length > 0) {
 
@@ -2253,11 +2300,11 @@ function GetDatafromList(itemID, mainListName, subject, matchesSubject, body, ma
                 calldatatype: 'JSON',
                 async: false,
                 headers:
-                    {
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json; odata=verbose",
-                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                    },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json; odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
                 sucesscallbackfunction: function (data) {
                     mainlistData = data.d;
                     if (!IsNullOrUndefined(mainlistData) && !IsNullOrUndefined(matchesSubject) && matchesSubject.length > 0) {
@@ -2429,11 +2476,11 @@ function GetSPGroupIDByName(grpName, handleData) {
                 calldatatype: 'JSON',
                 async: false,
                 headers:
-                    {
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json;odata=verbose",
-                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                    },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
                 sucesscallbackfunction: function (data) {
                     handleData(data.d.Id);
                 }
@@ -2452,13 +2499,13 @@ function updateRequestIDAttachmentList(attchmentID, itemID) {
         async: false,
         data: JSON.stringify(item),
         headers:
-            {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                "IF-MATCH": "*",
-                "X-HTTP-Method": "MERGE"
-            },
+        {
+            "Accept": "application/json;odata=verbose",
+            "Content-Type": "application/json;odata=verbose",
+            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+            "IF-MATCH": "*",
+            "X-HTTP-Method": "MERGE"
+        },
         success: function (data) { },
         error: function (data) { failure(data); }
     });

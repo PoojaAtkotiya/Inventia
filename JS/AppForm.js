@@ -89,7 +89,7 @@ function setCustomApprovers() {
 
                         if (app.Role.results.some(a => a == temp.Role) && app.UserSelection == true) {
                             //if (!IsNullOrUndefined(app.Location) && !IsStrNullOrEmpty(app.Location.results) && app.Location.results.length > 0 && app.Location.results.some(d => d.Title == location)) {
-                                if (!IsNullOrUndefined(app.Location)) {
+                            if (!IsNullOrUndefined(app.Location)) {
                                 if (!IsNullOrUndefinedApprover(app.UserNameId) && app.UserNameId.results.length > 0) {
                                     if (temp.ApproverId == null) {
                                         temp.ApproverId = app.UserNameId.results;
@@ -170,6 +170,7 @@ function FormBusinessLogic(activeSection) {
                 }
             }
         }
+
         if (activeSectionName == SectionNames.MANAGEMENTSECTION) {
             var actionStatus = $("#ActionStatus").val();
             if (actionStatus == ButtonActionStatus.NextApproval || actionStatus == ButtonActionStatus.Complete) {
@@ -212,10 +213,66 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
         $("#ImportedYes").prop("checked", true);
     }
     if (listItemId > 0) {
+
         $("#RaisedOnDisplay").html(new Date(mainListData.RaisedOn).format("dd/MM/yyyy"));
         $("#ProposedVendor").show();
         $("#proposedVendor").show();
+        var budgetValue = CheckIfRequestBudgeted(mainListData.AssetClassification, mainListData.Location);
+        if (budgetValue) {
 
+            $("#spanBudgetInfo").text("*Please note that this is a Budgeted CAPEX request");
+            $("#spanBudgetInfo").css("color", "black");
+            $("#lblBudgetedInfo").show();
+            SetBudgetValue();
+        }
+        else {
+            $("#spanBudgetInfo").text("*Please note that this is a Non-Budgeted CAPEX request");
+            $("#spanBudgetInfo").css("color", "red");
+            $("#lblBudgetedInfo").show();
+            $("#tblPurchaseBudget").hide();
+            $("#lblNonBudgetedInfoPurhcase").show();
+        }
+        if (mainListData.IsLegacyRequest == "TRUE") {
+            $("#tblMgmtBudget").hide();
+            $("#tblHODBudget").hide();
+            var currentUserId = _spPageContextInfo.userId;
+            var requesturl = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('ApproverMaster')/items?$select=Role,UserSelection,UserName/Id,UserName/Title&$expand=UserName/Id&$expand=UserName/Id&$filter= (Role eq 'Purchase' or Role eq 'Management') and (UserName/Id eq '" + currentUserId + "')";
+            $.ajax({
+                url: requesturl,
+                headers: {
+                    Accept: "application/json;odata=verbose"
+                },
+                async: false,
+                success: function (data) {
+                    var items = data.d.results;
+                    if (items.length == 0) {
+                        var errMessage = "Dear User, You are not Authorised To see this Request!!";
+                        AlertModal('Validation', errMessage, true);
+                    }
+
+                    // Data will have user object      
+                },
+                error: function (data) {
+                    console.log("An error occurred in HideLegacyRequestsLink. Please try again.");
+                }
+            });
+        }
+        if (mainListData.BudgetedValue == undefined) {
+            $("#BudgetedValueDisplay").html("&#8360; 0");
+            $("#MgmtBudgetedValueDisplay").html("&#8360; 0");
+        }
+        else {
+            $("#BudgetedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.BudgetedValue));
+            $("#MgmtBudgetedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.BudgetedValue));
+        }
+        if (mainListData.UtilizedValue == undefined) {
+            $("#UtilizedValueDisplay").html("&#8360; 0");
+            $("#MgmtUtilizedValueDisplay").html("&#8360; 0");
+        }
+        else {
+            $("#UtilizedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.UtilizedValue));
+            $("#MgmtUtilizedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.UtilizedValue));
+        }
         //Functions for Initiator HOD
         if (mainListData.PendingWith == "Initiator HOD") {
             setVendorDropDown();
@@ -232,8 +289,19 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
         }
         else { $('#UploadHODAttachment').hide(); }
 
-        if (mainListData.Status == "Draft") {
+        if (mainListData.Status == "Draft" && mainListData.AuthorId == currentUser.Id) {
+            //Commented below to Fix SPD-22
             BindInitiatorEditAttachmentFiles();
+            bindAssetClassification();
+            bindEditAssetName(mainListData.AssetClassification);
+        }
+        else if (mainListData.Status == "Draft" && mainListData.AuthorId != currentUser.Id) {
+            //Commented below to Fix SPD-22
+            var errMessage = "Dear User, This request is still in Draft Mode and you are not authorized to see it!!";
+            AlertModal('Validation', errMessage, true);
+        }
+        else if (mainListData.Status == "Draft") {
+            BindInitiatorAttachment();
             bindAssetClassification();
             bindEditAssetName(mainListData.AssetClassification);
         }
@@ -258,7 +326,7 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
             $("#CostCenterDisplay").show();
             $("#LocationDisplay").show();
             $('#UploadURSAttachment').hide();
-            $('#InitiatorSection_Comments').hide();
+            // $('#InitiatorSection_Comments').hide();
             $('#ImportedYesLabel').hide();
             $('#ImportedNoLabel').hide();
             $('#UploadSupportiveDocAttachment').hide();
@@ -283,6 +351,7 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
                 $('#btnAddVendor').show();
             }
             $('#AddVendor').hide();
+
         }
 
         if (mainListData.WorkflowStatus == "Approved" || mainListData.WorkflowStatus == "Rejected" || mainListData.PendingWith == Roles.FUNCTIONHEAD || mainListData.PendingWith == Roles.MANAGEMENT) {
@@ -299,8 +368,27 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
             $("#CurrentValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.CurrentValue));
             $("#TotalUtilizedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.TotalUtilizedValue));
             $("#BalanceDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.Balance));
-            $("#BudgetedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.BudgetedValue));
-            $("#UtilizedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.UtilizedValue));
+            $("#MgmtCurrentValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.CurrentValue));
+            $("#MgmtTotalUtilizedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.TotalUtilizedValue));
+            $("#MgmtBalanceDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.Balance));
+            if (mainListData.BudgetedValue == undefined) {
+                $("#BudgetedValueDisplay").html("&#8360; 0");
+                $("#MgmtBudgetedValueDisplay").html("&#8360; 0");
+            }
+            else {
+                $("#BudgetedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.BudgetedValue));
+                $("#MgmtBudgetedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.BudgetedValue));
+            }
+            if (mainListData.UtilizedValue == undefined) {
+                $("#UtilizedValueDisplay").html("&#8360; 0");
+                $("#MgmtUtilizedValueDisplay").html("&#8360; 0");
+            }
+            else {
+                $("#UtilizedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.UtilizedValue));
+                $("#MgmtUtilizedValueDisplay").html("&#8360; " + ReplaceNumberWithCommas(mainListData.UtilizedValue));
+            }
+
+
         }
     }
     HideWaitDialog();
@@ -625,11 +713,11 @@ function bindAssetName(assetclassification) {
                 calldatatype: 'JSON',
                 async: false,
                 headers:
-                    {
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json;odata=verbose",
-                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                    },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
                 sucesscallbackfunction: function (data) {
                     if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
                         var result = data.d.results;
@@ -657,11 +745,11 @@ function bindEditAssetName(assetclassification) {
                 calldatatype: 'JSON',
                 async: false,
                 headers:
-                    {
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json;odata=verbose",
-                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                    },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
                 sucesscallbackfunction: function (data) {
                     if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results)) {
                         var result = data.d.results;
@@ -791,11 +879,11 @@ function BindInitiatorEditAttachmentFiles() {
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 attachmentdata = data.d.results;
                 attachmentdata.forEach(element => {
@@ -865,11 +953,11 @@ function BindInitiatorAttachment() {
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 /*Pooja Atkotiya */
                 attachmentdata = data.d.results;
@@ -1178,11 +1266,11 @@ function BindPurchaseEditAttachmentFiles() {
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 /*Pooja Atkotiya */
                 attachmentdata = data.d.results;
@@ -1256,11 +1344,11 @@ function BindPurchaseAttachment() {
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 attachmentdata = data.d.results;
                 attachmentdata.forEach(element => {
@@ -1300,11 +1388,11 @@ function BindHODEditAttachmentFiles() {
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 /*Pooja Atkotiya */
                 attachmentdata = data.d.results;
@@ -1431,11 +1519,11 @@ function BindHODAttachment() {
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
 
                 attachmentdata = data.d.results;
@@ -1479,8 +1567,11 @@ function removeHODFile(itemId) {
                     }
                 });
                 if (index !== -1) fileCommonArray.splice(index, 1);
-                var htmlStr = "";
-                $('#HODContainer').html(htmlStr);
+                var element = "#li_" + itemId;
+                var ele = "Remove_" + itemId;
+                $(element).children().remove();
+                $(element).remove();
+                $(ele).remove();
                 HideWaitDialog();
             },
             error: function (err) {
@@ -1505,36 +1596,64 @@ function getListItems(siteurl, success, failure) {
 
 function SetBudgetValue() {
     var raisedDateYear;
-    var assetClassification = TrimComma(mainListData.AssetClassification).split("-");
+    var assetClassification;
     var d = new Date(mainListData.RaisedOn);
     var location = mainListData.Location;
     raisedDateYear = d.getFullYear();
+    var url;
+    if (mainListData.AssetClassification.includes("-")) {
+        assetClassification = TrimComma(mainListData.AssetClassification).split("-");
+        url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue,LocationName/Title&$expand=AssetClassification/AssetClassDescription,LocationName/Title&$filter=((AssetClassification/AssetClassDescription eq '" + encodeURIComponent(assetClassification[1]) + "') and (StartYear eq '" + raisedDateYear + "') and(LocationName/Title eq '" + encodeURIComponent(location) + "'))";
+    }
+    else {
+        assetClassification = TrimComma(mainListData.AssetClassification);
+        url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue,LocationName/Title&$expand=AssetClassification/AssetClassDescription,LocationName/Title&$filter=((AssetClassification/AssetClassDescription eq '" + encodeURIComponent(assetClassification) + "') and (StartYear eq '" + raisedDateYear + "') and(LocationName/Title eq '" + encodeURIComponent(location) + "'))";
+    }
     AjaxCall(
         {
             //url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTERLIST + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue,LocationName/Title&$expand=AssetClassification/AssetClassDescription,LocationName/Title&$filter=((AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "') and (StartYear eq '" + raisedDateYear + "'))",
-           //Syno QA URL
-           // url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTERLIST + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue,LocationName/Title&$expand=AssetClassification/AssetClassDescription,LocationName/Title&$filter=((AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "') and (StartYear eq '" + raisedDateYear + "') and(LocationName/Title eq '" + location + "'))",
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue,LocationName/Title&$expand=AssetClassification/AssetClassDescription,LocationName/Title&$filter=((AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "') and (StartYear eq '" + raisedDateYear + "') and(LocationName/Title eq '" + location + "'))",
+            //Syno QA URL
+            // url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTERLIST + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue,LocationName/Title&$expand=AssetClassification/AssetClassDescription,LocationName/Title&$filter=((AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "') and (StartYear eq '" + raisedDateYear + "') and(LocationName/Title eq '" + location + "'))",
+            url: url,
             httpmethod: 'GET',
             calldatatype: 'JSON',
             async: false,
             headers:
-                {
+            {
 
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
             sucesscallbackfunction: function (data) {
                 if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results) && data.d.results.length != 0) {
                     var budgetval = ReplaceNumberWithCommas(data.d.results[0].BudgetedValue);
                     var utilisedVal = ReplaceNumberWithCommas(data.d.results[0].UtilisedValue);
                     $("#BudgetedValue").val(data.d.results[0].BudgetedValue);
                     $("#UtilizedValue").val(data.d.results[0].UtilisedValue);
+                    var purchase_balance = data.d.results[0].BudgetedValue - data.d.results[0].UtilisedValue;
                     budgetval = "&#8360; " + budgetval;
                     utilisedVal = "&#8360; " + utilisedVal;
-                    $("#BudgetedValueDisplay").html(budgetval);
-                    $("#UtilizedValueDisplay").html(utilisedVal);
+                    if (budgetval == undefined) {
+                        $("#BudgetedValueDisplay").html("&#8360; 0");
+                    }
+                    else {
+                        $("#BudgetedValueDisplay").html(budgetval);
+                    }
+                    if (utilisedVal == undefined) {
+                        $("#UtilizedValueDisplay").html("&#8360; 0");
+                    }
+                    else {
+                        $("#UtilizedValueDisplay").html(utilisedVal);
+                    }
+
+
+
+                    $("#PurchaseBudgetedValueDisplay").html(budgetval);
+                    $("#PurchaseUtilizedValueDisplay").html(utilisedVal);
+
+                    $("#PurchaseBalanceDisplay").html("&#8360; " + ReplaceNumberWithCommas(purchase_balance));
+
                 }
             }
         });
@@ -1557,16 +1676,16 @@ function GetBudgetValue() {
             {
                 //url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTERLIST + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue,LocationName/Title&$expand=AssetClassification/AssetClassDescription,LocationName/Title&$filter=((AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "') and (StartYear eq '" + raisedDateYear + "'))",
                 //url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTERLIST + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue,LocationName/Title&$expand=AssetClassification/AssetClassDescription,LocationName/Title&$filter=((AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "') and (StartYear eq '" + raisedDateYear + "') and(LocationName/Title eq '" + location + "'))",
-                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue,LocationName/Title&$expand=AssetClassification/AssetClassDescription,LocationName/Title&$filter=((AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "') and (StartYear eq '" + raisedDateYear + "') and(LocationName/Title eq '" + location + "'))",
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue,LocationName/Title&$expand=AssetClassification/AssetClassDescription,LocationName/Title&$filter=((AssetClassification/AssetClassDescription eq '" + encodeURIComponent(assetClassification[1]) + "') and (StartYear eq '" + raisedDateYear + "') and(LocationName/Title eq '" + encodeURIComponent(location) + "'))",
                 httpmethod: 'GET',
                 calldatatype: 'JSON',
                 async: false,
                 headers:
-                    {
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json;odata=verbose",
-                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                    },
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
                 sucesscallbackfunction: function (data) {
                     if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results) && data.d.results.length != 0) {
                         budgetedValue[0] = data.d.results[0].BudgetedValue;
@@ -1576,6 +1695,52 @@ function GetBudgetValue() {
             });
     }
     return budgetedValue;
+}
+
+function CheckIfRequestBudgeted(assetClassification, location) {
+    var isBudgeted = false;
+    var ajaxUrl;
+    var raisedDateYear;
+
+    if (assetClassification != undefined && location != undefined) {
+        var d = new Date();
+        raisedDateYear = d.getFullYear();
+        if (assetClassification.includes("-")) {
+            assetClassification = TrimComma(assetClassification).split("-");
+            ajaxUrl = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue,LocationName/Title&$expand=AssetClassification/AssetClassDescription,LocationName/Title&$filter=((AssetClassification/AssetClassDescription eq '" + encodeURIComponent(assetClassification[1]) + "') and (StartYear eq '" + raisedDateYear + "') and(LocationName/Title eq '" + encodeURIComponent(location) + "'))";
+        }
+        else {
+            assetClassification = TrimComma(assetClassification);
+            ajaxUrl = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTER + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue,LocationName/Title&$expand=AssetClassification/AssetClassDescription,LocationName/Title&$filter=((AssetClassification/AssetClassDescription eq '" + encodeURIComponent(assetClassification) + "') and (StartYear eq '" + raisedDateYear + "') and(LocationName/Title eq '" + encodeURIComponent(location) + "'))";
+        }
+
+
+
+        AjaxCall(
+            {
+                //url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTERLIST + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue,LocationName/Title&$expand=AssetClassification/AssetClassDescription,LocationName/Title&$filter=((AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "') and (StartYear eq '" + raisedDateYear + "'))",
+                //url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.BUDGETMASTERLIST + "')/Items?$select=ID,AssetClassification/AssetClassDescription,BudgetedValue,UtilisedValue,LocationName/Title&$expand=AssetClassification/AssetClassDescription,LocationName/Title&$filter=((AssetClassification/AssetClassDescription eq '" + assetClassification[1] + "') and (StartYear eq '" + raisedDateYear + "') and(LocationName/Title eq '" + location + "'))",
+                url: ajaxUrl,
+                httpmethod: 'GET',
+                calldatatype: 'JSON',
+                async: false,
+                headers:
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+                sucesscallbackfunction: function (data) {
+                    if (!IsNullOrUndefined(data) && !IsNullOrUndefined(data.d) && !IsNullOrUndefined(data.d.results) && data.d.results.length != 0) {
+                        if (data.d.results.length > 0) {
+                            isBudgeted = true;
+                        }
+
+                    }
+                }
+            });
+    }
+    return isBudgeted;
 }
 
 function SetCurrentValue() {
@@ -1613,7 +1778,7 @@ function UpdateBudget(Id) {
     var assetClassification = TrimComma(mainListData.AssetClassification).split("-");
     var utilizedValue = $('#TotalUtilizedValue').val();
     if (utilizedValue != undefined) {
-       // var listName = ListNames.BUDGETMASTERLIST;
+        // var listName = ListNames.BUDGETMASTERLIST;
         var listName = ListNames.BUDGETMASTER;
         var itemType = GetItemTypeForListName(listName);
         var item = {
@@ -1628,13 +1793,13 @@ function UpdateBudget(Id) {
             async: false,
             data: JSON.stringify(item),
             headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                    "IF-MATCH": "*",
-                    "X-HTTP-Method": "MERGE"
-                },
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                "IF-MATCH": "*",
+                "X-HTTP-Method": "MERGE"
+            },
             success: function (data) {
             },
             error: function (data) {
@@ -1658,11 +1823,11 @@ function ValidateSize(file) {
     return isValid;
 }
 
-var _validFileExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png", ".doc", ".docx",".pdf",".ppt",".xls",".xlsx",".txt",".pptx",".tiff"];    
+var _validFileExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png", ".doc", ".docx", ".pdf", ".ppt", ".xls", ".xlsx", ".txt", ".pptx", ".tiff"];
 function ValidateSingleInput(oInput) {
     if (oInput.type == "file") {
         var sFileName = oInput.value;
-         if (sFileName.length > 0) {
+        if (sFileName.length > 0) {
             var blnValid = false;
             for (var j = 0; j < _validFileExtensions.length; j++) {
                 var sCurExtension = _validFileExtensions[j];
@@ -1671,7 +1836,7 @@ function ValidateSingleInput(oInput) {
                     break;
                 }
             }
-             
+
             if (!blnValid) {
                 AlertModal('Error', "Invalid extension of file");
                 oInput.value = "";
