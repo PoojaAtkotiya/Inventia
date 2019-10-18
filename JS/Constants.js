@@ -97,7 +97,8 @@ const ApproverStatus = {
     COMPLETED: "Completed",
     SENDBACK: "Send Back",
     SENDFORWARD: "Send Forward",
-    NOTREQUIRED: "Not Required"
+    NOTREQUIRED: "Not Required",
+    REJECTED : "Rejected"
 }
 Object.freeze(ApproverStatus);
 

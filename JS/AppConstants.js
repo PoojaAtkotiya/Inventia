@@ -58,6 +58,7 @@ const ListNames = {
     MAINLIST: "CapexRequisition",
     ACTIVITYLOGLIST: "ActivityLog",
     APPROVALMATRIXLIST: "ApprovalMatrix",
+    CLOSEDREQAPPMATRIX :"ClosedReqApprovalMatrix",
     APPROVERMASTERLIST: "ApproverMaster",
     GLOBALAPPROVALMATRIXLIST: "ApprovalMatrix",
     BUTTONLIST: "Buttons",

@@ -38,26 +38,35 @@ function GetGlobalApprovalMatrix(id) {
 }
 
 /*Himil Jani*/
-function GetLocalApprovalMatrixData(id, mainListName) {
-    AjaxCall(
-        {
-            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.APPROVALMATRIXLIST + "')/Items?$select=*,Approver/Title&$expand=Approver&$filter=RequestID eq '" + id + "'&$orderby= Levels asc",
-            httpmethod: 'GET',
-            calldatatype: 'JSON',
-            async: false,
-            headers:
+function GetLocalApprovalMatrixData(id, mainListName, wfStatus) {
+    var url = "";
+    /* Get Local Approval Matrix data based on Workflow Status of request*/
+    if (IsStrNullOrEmpty(wfStatus) && wfStatus == ApproverStatus.APPROVED || wfStatus == ApproverStatus.REJECTED) {
+        url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.CLOSEDREQAPPMATRIX + "')/Items?$select=*,Approver/Title&$expand=Approver&$filter=RequestIDId eq '" + id + "'&$orderby= Levels asc";
+    }
+    else {
+        url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.APPROVALMATRIXLIST + "')/Items?$select=*,Approver/Title&$expand=Approver&$filter=RequestIDId eq '" + id + "'&$orderby= Levels asc";
+    }
+    if (!IsStrNullOrEmpty(url))
+        AjaxCall(
             {
-                "Accept": "application/json;odata=verbose",
-                "Content-Type": "application/json;odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val()
-            },
-            sucesscallbackfunction: function (data) {
-                /*Pooja Atkotiya */
-                localApprovalMatrixdata = data.d.results;
-                SetSectionWiseRoles(id);
-                SetApprovalMatrix(id, mainListName);
-            }
-        });
+                url: url,
+                httpmethod: 'GET',
+                calldatatype: 'JSON',
+                async: false,
+                headers:
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+                sucesscallbackfunction: function (data) {
+                    /*Pooja Atkotiya */
+                    localApprovalMatrixdata = data.d.results;
+                    SetSectionWiseRoles(id);
+                    SetApprovalMatrix(id, mainListName);
+                }
+            });
 }
 
 /*Pooja Atkotiya */
@@ -280,12 +289,12 @@ function SetApproversInApprovalMatrix(id) {
     var initFunction = $('#Function')[0].innerText;
 
     if (initiatorDept == undefined || initiatorDept == null || initiatorDept == "") { initiatorDept = department; }
-   // var isCreator = CheckIfIsGroupMember("Creator");
+    // var isCreator = CheckIfIsGroupMember("Creator");
     // setFunctionbasedDept(department);
-  //  if (isCreator == false) {
-   //     var errMessage = "Dear Initiator, you cannot create request as your Role is not defined as Creator.It would be ideal if you contact your Admin for same.";
+    //  if (isCreator == false) {
+    //     var errMessage = "Dear Initiator, you cannot create request as your Role is not defined as Creator.It would be ideal if you contact your Admin for same.";
     //    AlertModal('Validation', errMessage, true);
-   // }
+    // }
     if (IsStrNullOrEmpty(initiatorDept) && !IsStrNullOrEmpty(currentUserRole) && currentUserRole == Roles.CREATOR) {
         var errMessage = "Dear Initiator, you cannot create request as your Department is not defined.It would be ideal if you contact your Admin for same.";
         AlertModal('Validation', errMessage, true);
