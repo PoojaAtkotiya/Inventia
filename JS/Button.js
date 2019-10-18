@@ -74,5 +74,5 @@ function GetButtonsByRole(id, currentUserRole, formStatus) {
             document.getElementById("btn2").style.backgroundColor = '#f30a18';
         }
      });
-    // HideWaitDialog();
+     HideWaitDialog();
 }

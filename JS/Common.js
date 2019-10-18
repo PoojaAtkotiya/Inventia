@@ -81,6 +81,7 @@ function onloadConstantsSuccess(sender, args) {
         //  GetGlobalApprovalMatrix(listItemId);
     }
     GetFormBusinessLogic(listItemId, activeSectionName, department);
+    
 }
 function GetUserDepartment() {
     $.ajax({

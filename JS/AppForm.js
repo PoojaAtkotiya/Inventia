@@ -391,7 +391,7 @@ function GetFormBusinessLogic(listItemId, activeSectionName, department) {
 
         }
     }
-    HideWaitDialog();
+    
 }
 function displayAction() {
     if (mainListData.InitiatorAction !== undefined && mainListData.InitiatorAction != "") {
