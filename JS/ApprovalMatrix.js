@@ -41,10 +41,12 @@ function GetGlobalApprovalMatrix(id) {
 function GetLocalApprovalMatrixData(id, mainListName, wfStatus) {
     var url = "";
     /* Get Local Approval Matrix data based on Workflow Status of request*/
-    if (IsStrNullOrEmpty(wfStatus) && wfStatus == ApproverStatus.APPROVED || wfStatus == ApproverStatus.REJECTED) {
+    if (!IsStrNullOrEmpty(wfStatus) && (wfStatus == ApproverStatus.APPROVED || wfStatus == ApproverStatus.REJECTED)) {
+        //Get from Closed Approval Matrix
         url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.CLOSEDREQAPPMATRIX + "')/Items?$select=*,Approver/Title&$expand=Approver&$filter=RequestIDId eq '" + id + "'&$orderby= Levels asc";
     }
     else {
+        //Get from Approval Matrix
         url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.APPROVALMATRIXLIST + "')/Items?$select=*,Approver/Title&$expand=Approver&$filter=RequestIDId eq '" + id + "'&$orderby= Levels asc";
     }
     if (!IsStrNullOrEmpty(url))

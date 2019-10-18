@@ -70,9 +70,7 @@ function onGetSetFormDataSuccess(data) {
             }
         });
     }
-    debugger
     GetLocalApprovalMatrixData(listItemId, mainListName , mainListData.WorkflowStatus);
-
     GetActivityLog(ListNames.ACTIVITYLOGLIST, listItemId, activitylogTableId);
 }
 function setCustomApprovers() {
